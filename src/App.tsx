@@ -23,16 +23,14 @@ const App: React.FC = () => {
 
   return (
     <React.StrictMode>
-      <BrowserRouter>
-        <Routes>
-          {/* <Route path="/" element={<Layout />}> */}
-          <Route index element={<SignUpScreen />} />
-          <Route path="login" element={<LoginScreen />} />
-          {/* <Route path="contact" element={<Contact />} />*/}
-        </Routes>
-      </BrowserRouter>
-
-      {/* <HeroSection></HeroSection> */}
+        <BrowserRouter>
+          <Routes>
+            {/* <Route path="/" element={<Layout />}> */}
+            <Route index element={<SignUpScreen />} />
+            <Route path="login" element={<LoginScreen />} />
+            {/* <Route path="contact" element={<Contact />} />*/}
+          </Routes>
+        </BrowserRouter>
     </React.StrictMode>
   );
 };

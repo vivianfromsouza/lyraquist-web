@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { redirectToSpotifyAuthorize } from "../utils/spotifyAuth";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -9,21 +10,30 @@ const LoginScreen: React.FC = () => {
   const handleLyraquistLogIn = (event: { preventDefault: () => void }) => {
     event.preventDefault(); // Prevents default form submission
 
-    // Handle form data here
-    console.log("Form submitted!" + email + " :" + password);
+    if (email && password) {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          console.log(errorMessage);
+          if (error.message.toString().includes("invalid")) {
+            toast(
+              "Could not sign-in. Incorrect credentials. Please re-check your email address and/or password and try again."
+            );
 
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user)
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage)
-      });
+            //alert.
+            // Alert.alert(
+            //   "Could not sign-in",
+            //   "Incorrect credentials. Please re-check your email address and/or password and try again."
+            // );
+          }
+        });
+    }
   };
 
   //   const logIn = () => {
@@ -197,6 +207,7 @@ const LoginScreen: React.FC = () => {
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 onClick={handleLyraquistLogIn}
               >
+                <ToastContainer />
                 Login
               </button>
             </form>
