@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { redirectToSpotifyAuthorize } from "../utils/spotifyAuth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -10,6 +11,19 @@ const LoginScreen: React.FC = () => {
 
     // Handle form data here
     console.log("Form submitted!" + email + " :" + password);
+
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user)
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage)
+      });
   };
 
   //   const logIn = () => {
