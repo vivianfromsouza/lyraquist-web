@@ -27,12 +27,6 @@ const LoginScreen: React.FC = () => {
             toast(
               "Could not sign-in. Incorrect credentials. Please re-check your email address and/or password and try again."
             );
-
-            //alert.
-            // Alert.alert(
-            //   "Could not sign-in",
-            //   "Incorrect credentials. Please re-check your email address and/or password and try again."
-            // );
           }
         });
     }
@@ -123,34 +117,6 @@ const LoginScreen: React.FC = () => {
   //     };
 
   useEffect(() => {
-    // const { setIsLoggedIn } = route.params;
-    // let isLogInSuccessful = false;
-    // const mySpotifyInfo = useSpotifyContext();
-    // const discovery = {
-    //   authorizationEndpoint: "https://accounts.spotify.com/authorize",
-    //   tokenEndpoint: "https://accounts.spotify.com/api/token",
-    // };
-    // const [request, response, promptAsync] = useAuthRequest(
-    //   {
-    //     clientId: mySpotifyInfo.CLIENT_ID,
-    //     scopes: [
-    //       "user-read-email",
-    //       "playlist-modify-public",
-    //       "user-read-private",
-    //       "user-library-read",
-    //       "user-library-modify",
-    //       "playlist-read-private",
-    //       "streaming",
-    //       "app-remote-control",
-    //     ],
-    //     // To follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
-    //     // this must be set to false
-    //     usePKCE: false,
-    //     redirectUri: makeRedirectUri({ native: mySpotifyInfo.REDIRECT_URL }),
-    //   },
-    //   discovery
-    // );
-    // // logs user in and navigates to their dashboard
   }, []);
 
   return (

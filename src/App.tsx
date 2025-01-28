@@ -2,10 +2,11 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpScreen from "./components/SignUpScreen";
 import LoginScreen from "./components/LoginScreen";
+import SpotifyAuthScreen from "./components/SpotifyAuthScreen";
+import HomeScreen from "./components/HomeScreen";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
-import SpotifyAuthScreen from "./components/SpotifyAuthScreen";
 
 
 const App: React.FC = () => {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
             <Route index element={<SignUpScreen />} />
             <Route path="login" element={<LoginScreen />} />
             <Route path="spotifyAuth" element={<SpotifyAuthScreen />} />
+            <Route path="home" element={<HomeScreen />} />
             {/* <Route path="contact" element={<Contact />} />*/}
           </Routes>
         </BrowserRouter>
