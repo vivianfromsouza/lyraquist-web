@@ -5,6 +5,7 @@ import LoginScreen from "./components/LoginScreen";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import SpotifyAuthScreen from "./components/SpotifyAuthScreen";
 
 
 const App: React.FC = () => {
@@ -28,6 +29,7 @@ const App: React.FC = () => {
             {/* <Route path="/" element={<Layout />}> */}
             <Route index element={<SignUpScreen />} />
             <Route path="login" element={<LoginScreen />} />
+            <Route path="spotifyAuth" element={<SpotifyAuthScreen />} />
             {/* <Route path="contact" element={<Contact />} />*/}
           </Routes>
         </BrowserRouter>

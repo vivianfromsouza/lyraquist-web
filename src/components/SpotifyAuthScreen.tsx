@@ -2,42 +2,8 @@ import { useEffect, useState } from "react";
 import { redirectToSpotifyAuthorize } from "../utils/spotifyAuth";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
-const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
-
-  const handleLyraquistLogIn = (event: { preventDefault: () => void }) => {
-    event.preventDefault(); // Prevents default form submission
-
-    if (email && password) {
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          navigate("/spotifyAuth");
-        })
-        .catch((error) => {
-          const errorMessage = error.message;
-          console.log(errorMessage);
-          if (error.message.toString().includes("invalid")) {
-            toast(
-              "Could not sign-in. Incorrect credentials. Please re-check your email address and/or password and try again."
-            );
-
-            //alert.
-            // Alert.alert(
-            //   "Could not sign-in",
-            //   "Incorrect credentials. Please re-check your email address and/or password and try again."
-            // );
-          }
-        });
-    }
-  };
-
+const SpotifyAuthScreen: React.FC = () => {
   //   const logIn = () => {
   //       console.log("LOGGIN BUTTON");
   //       if (email && password) {
@@ -159,7 +125,7 @@ const LoginScreen: React.FC = () => {
       <section className="z-10 relative h-screen flex flex-col justify-center items-center">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
           <h1 className="mb-8 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
-            Login
+            Connect to Spotify
           </h1>
 
           <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center">
@@ -169,50 +135,6 @@ const LoginScreen: React.FC = () => {
             >
               Login with Spotify
             </button>
-
-            <form className="max-w-sm mx-auto">
-              <div className="mb-5">
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder=""
-                  required
-                />
-              </div>
-              <div className="mb-5">
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={handleLyraquistLogIn}
-              >
-                <ToastContainer />
-                Login
-              </button>
-            </form>
           </div>
         </div>
       </section>
@@ -220,4 +142,4 @@ const LoginScreen: React.FC = () => {
   );
 };
 
-export default LoginScreen;
+export default SpotifyAuthScreen;
