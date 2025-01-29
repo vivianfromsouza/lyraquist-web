@@ -1,9 +1,13 @@
+import axios from "axios";
 import {
   clientId,
   redirectUri,
   authorizationEndpoint,
   scope,
-} from "../constants/constants";
+  tokenEndpoint,
+} from "../constants/SpotifyConstants";
+import UserReaderWriter from "../services/UserReaderWriter";
+
 
 // Function to redirect to Spotify authorization page
 export const redirectToSpotifyAuthorize = async () => {
@@ -26,6 +30,66 @@ export const redirectToSpotifyAuthorize = async () => {
   authUrl.search = new URLSearchParams(params).toString();
   // Redirect to Spotify authorization page
   window.location.href = authUrl.toString();
+};
+
+export const getSpotifyAuthCode = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get("code");
+
+  if (code != null) {
+    localStorage.setItem("auth_code", code);
+    await UserReaderWriter.writeUserAuthCode(code );
+  }
+  return code;
+};
+
+export const constructAccessUrl = () => {
+  // Generate code verifier and challenge
+  const codeVerifier = localStorage.getItem("code_verifier");
+  const authCode = localStorage.getItem("auth_code");
+
+  if (authCode != null && codeVerifier != null) {
+    const accessUrl = new URL(tokenEndpoint);
+    const params = {
+      grant_type: "authorization_code",
+      code: authCode,
+      scope: scope,
+      redirect_uri: redirectUri,
+      client_id: clientId,
+      code_verifier: codeVerifier,
+    };
+
+    accessUrl.search = new URLSearchParams(params).toString();
+    return accessUrl.toString();
+  }
+  return "";
+};
+
+export const getSpotifyAccessCode = async () => {
+  // const currentUser = localStorage.getItem("currentUser");
+  let access_token = "";
+  axios({
+    method: "post",
+    url: constructAccessUrl(),
+    headers: {
+      Accept: "*/*",
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    data: {}
+  })
+    .then((response) => {
+      console.log("RETRIEVING...");
+      console.log(response.data);
+      UserReaderWriter.writeUserAccessCode(response.data.access_token);
+      UserReaderWriter.writeUserRefreshToken(response.data.refresh_token);
+
+    })
+    .catch((err) => {
+      console.log("ERROR:" + err)
+      return ""
+    });
+
+  return access_token;
 };
 
 // Function to generate code verifier

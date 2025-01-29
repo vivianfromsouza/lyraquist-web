@@ -1,30 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpScreen from "./components/SignUpScreen";
 import LoginScreen from "./components/LoginScreen";
 import SpotifyAuthScreen from "./components/SpotifyAuthScreen";
 import HomeScreen from "./components/HomeScreen";
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-import { getAuth } from "firebase/auth";
-
-
+import PlaybackScreen from "./components/PlaybackScreen";
+import { FirebaseProvider } from "./services/firebase/FirebaseContext";
 const App: React.FC = () => {
-  const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_DOMAIN,
-    databaseURL: import.meta.env.VITE_FIREBASE_URL,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-  };
-
-  const app = initializeApp(firebaseConfig);
-
   return (
     <React.StrictMode>
+      <FirebaseProvider>
         <BrowserRouter>
           <Routes>
             {/* <Route path="/" element={<Layout />}> */}
@@ -32,9 +17,19 @@ const App: React.FC = () => {
             <Route path="login" element={<LoginScreen />} />
             <Route path="spotifyAuth" element={<SpotifyAuthScreen />} />
             <Route path="home" element={<HomeScreen />} />
-            {/* <Route path="contact" element={<Contact />} />*/}
+            <Route
+              path="playback"
+              element={
+                <PlaybackScreen
+                  token={
+                    "BQCB_YTOhfG7kW1KYqLXmZP4JR1r7piFDjOGmoi2ugILbZMoP-0mGJL2P1JcahTX6F0BllUkUeoZZK52oGMYT5T2iH8AutqE-jkfpLZa6av8mjb79qlKlNBjOwyucxpFfGwfPEXRQ2i0SdXfbUx1PllcvjI9CpoS_fmaBnboRgPWiPx5y3mgSfjVEHXQe6GqG87hHpm5GJfRgXJ99cbVLw-fk71SJSnLr6ED9Z7zqiUVr8YncOzqEHBqtPeh3FSuhuupMrn-xFzzsdFSUlxfFXCHUqDFUUziflRiNakWdT1e4G2y-5PfXdmR1lyW8sDymRvN_dwx7lTZ"
+                  }
+                />
+              }
+            />
           </Routes>
         </BrowserRouter>
+      </FirebaseProvider>
     </React.StrictMode>
   );
 };

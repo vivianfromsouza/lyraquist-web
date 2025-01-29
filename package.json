@@ -11,15 +11,18 @@
   },
   "dependencies": {
     "@blaumaus/react-alert": "^7.0.7",
+    "@supabase/supabase-js": "^2.48.1",
     "@tailwindcss/vite": "^4.0.0",
     "alpinejs": "^3.14.8",
+    "axios": "^1.7.9",
     "firebase": "^11.2.0",
     "react": "^18.3.1",
     "react-alert-template-mui": "^1.0.7",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.2",
     "react-toastify": "^11.0.3",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
