@@ -9,7 +9,8 @@ const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleLyraquistLogIn = (event: { preventDefault: () => void }) => {
+
+  const handleLyraquistLogIn = async (event: { preventDefault: () => void }) => {
     event.preventDefault(); // Prevents default form submission
 
     if (email && password) {
@@ -17,7 +18,8 @@ const LoginScreen: React.FC = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
-          const user = userCredential.user;
+          const user = userCredential.user.uid;
+          localStorage.setItem("current_user", user)
           navigate("/spotifyAuth");
         })
         .catch((error) => {
@@ -30,6 +32,7 @@ const LoginScreen: React.FC = () => {
           }
         });
     }
+
   };
 
   //   const logIn = () => {
@@ -116,8 +119,7 @@ const LoginScreen: React.FC = () => {
   //       }
   //     };
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
