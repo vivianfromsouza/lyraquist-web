@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { getSpotifyAccessCode, getSpotifyAuthCode } from "../utils/spotifyAuth";
+import { getSpotifyAccessCode, getSpotifyAuthCode } from "../services/spotifyAuth";
 import { useNavigate } from "react-router-dom";
 import UserReaderWriter from "../services/UserReaderWriter";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";

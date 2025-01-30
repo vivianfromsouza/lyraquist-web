@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { redirectToSpotifyAuthorize } from "../utils/spotifyAuth";
+import { redirectToSpotifyAuthorize } from "../services/spotifyAuth";
 
 const SpotifyAuthScreen: React.FC = () => {
 

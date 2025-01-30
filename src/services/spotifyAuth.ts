@@ -1,3 +1,4 @@
+// Worked on by: Vivian D'Souza
 import axios from "axios";
 import {
   clientId,
@@ -6,7 +7,7 @@ import {
   scope,
   tokenEndpoint,
 } from "../constants/SpotifyConstants";
-import UserReaderWriter from "../services/UserReaderWriter";
+import UserReaderWriter from "./UserReaderWriter";
 
 
 // Function to redirect to Spotify authorization page
@@ -66,8 +67,6 @@ export const constructAccessUrl = () => {
 };
 
 export const getSpotifyAccessCode = async () => {
-  // const currentUser = localStorage.getItem("currentUser");
-  let access_token = "";
   axios({
     method: "post",
     url: constructAccessUrl(),
@@ -89,7 +88,7 @@ export const getSpotifyAccessCode = async () => {
       return ""
     });
 
-  return access_token;
+  return "";
 };
 
 // Function to generate code verifier

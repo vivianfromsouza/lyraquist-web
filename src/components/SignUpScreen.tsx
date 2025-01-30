@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { redirectToSpotifyAuthorize } from "../utils/spotifyAuth";
+import { redirectToSpotifyAuthorize } from "../services/spotifyAuth";
 import Alpine, { Alpine as AlpineType } from "alpinejs";
 import { useNavigate } from "react-router-dom";
 
