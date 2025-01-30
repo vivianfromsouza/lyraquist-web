@@ -4,19 +4,19 @@ import { getSpotifyAccessCode, getSpotifyAuthCode } from "../utils/spotifyAuth";
 import { useNavigate } from "react-router-dom";
 import UserReaderWriter from "../services/UserReaderWriter";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
-import { useFirebase } from "../services/firebase/FirebaseContext"
+import { useFirebase } from "../services/firebase/FirebaseContext";
 
 const HomeScreen: React.FC = () => {
   const [authCode, setAuthCode] = useState<string | null>("");
   const [accessCode, setAccessCode] = useState<string | null>("");
   const [username, setUsername] = useState<string>("");
-  const { currentUser } = useFirebase()
+  const { currentUser } = useFirebase();
 
   const navigate = useNavigate();
   const auth = getAuth(LocalFirebaseClient);
   const user = auth.currentUser?.uid;
   const codeVerifier = localStorage.getItem("code_verifier");
-  console.log("MYUSER:" + currentUser)
+  console.log("MYUSER:" + currentUser);
 
   async function getAuthCode() {
     const authCode = await getSpotifyAuthCode();
@@ -35,8 +35,6 @@ const HomeScreen: React.FC = () => {
   }
 
   useEffect(() => {
-    
-
     getAuthCode();
     getAccessCode();
     getUsername();
@@ -95,6 +93,15 @@ const HomeScreen: React.FC = () => {
         className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
       >
         Go To Playback
+      </button>
+
+      <button
+        onClick={() => {
+          navigate("/about");
+        }}
+        className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
+      >
+        About
       </button>
     </>
   );
