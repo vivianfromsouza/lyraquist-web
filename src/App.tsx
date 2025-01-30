@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SignUpScreen from "./components/SignUpScreen";
-import LoginScreen from "./components/LoginScreen";
-import SpotifyAuthScreen from "./components/SpotifyAuthScreen";
-import HomeScreen from "./components/HomeScreen";
-import PlaybackScreen from "./components/PlaybackScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+import LoginScreen from "./screens/LoginScreen";
+import SpotifyAuthScreen from "./screens/SpotifyAuthScreen";
+import HomeScreen from "./screens/HomeScreen";
+import PlaybackScreen from "./screens/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
-import AboutScreen from "./components/AboutScreen";
+import AboutScreen from "./screens/AboutScreen";
 const App: React.FC = () => {
   // might need to set an observer on this to listen for changes
 
