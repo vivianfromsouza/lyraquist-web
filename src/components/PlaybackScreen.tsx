@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import UserReaderWriter from "../services/UserReaderWriter";
+import axios from "axios";
 
 const track = {
   name: "",
@@ -8,13 +10,40 @@ const track = {
   artists: [{ name: "" }],
 };
 
-function PlaybackScreen(props) {
+function PlaybackScreen() {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [player, setPlayer] = useState(undefined);
   const [current_track, setTrack] = useState(track);
+  const [device_id, setDeviceId] = useState("");
+  const accessToken = UserReaderWriter.getUserAccessCode();
 
+
+  async function playAnySong() {
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id, // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          uris: ["spotify:track:0odIT9B9BvOCnXfS0e4lB5"]
+        }
+      })
+        .then(async (res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  }
+
+  // this is running x2....
   useEffect(() => {
+    // getSpotifyAccessCode()
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -22,10 +51,11 @@ function PlaybackScreen(props) {
     document.body.appendChild(script);
 
     window.onSpotifyWebPlaybackSDKReady = () => {
+      console.log(accessToken)
       const player = new window.Spotify.Player({
         name: "Web Playback SDK",
         getOAuthToken: (cb) => {
-          cb(props.token);
+          cb(accessToken);
         },
         volume: 0.5,
       });
@@ -34,6 +64,7 @@ function PlaybackScreen(props) {
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
+        setDeviceId(device_id)
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -53,8 +84,9 @@ function PlaybackScreen(props) {
         });
       });
 
-      player.connect();
+      // console.log(accessToken);
 
+      player.connect();
     };
   }, []);
 
@@ -113,6 +145,15 @@ function PlaybackScreen(props) {
                 }}
               >
                 &gt;&gt;
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  playAnySong()
+                }}
+              >
+               PLAY ANY SONG
               </button>
             </div>
           </div>

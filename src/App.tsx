@@ -6,9 +6,12 @@ import SpotifyAuthScreen from "./components/SpotifyAuthScreen";
 import HomeScreen from "./components/HomeScreen";
 import PlaybackScreen from "./components/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
+import UserReaderWriter from "./services/UserReaderWriter";
 const App: React.FC = () => {
+  // might need to set an observer on this to listen for changes
+
+
   return (
-    <React.StrictMode>
       <FirebaseProvider>
         <BrowserRouter>
           <Routes>
@@ -21,16 +24,15 @@ const App: React.FC = () => {
               path="playback"
               element={
                 <PlaybackScreen
-                  token={
-                    "BQCB_YTOhfG7kW1KYqLXmZP4JR1r7piFDjOGmoi2ugILbZMoP-0mGJL2P1JcahTX6F0BllUkUeoZZK52oGMYT5T2iH8AutqE-jkfpLZa6av8mjb79qlKlNBjOwyucxpFfGwfPEXRQ2i0SdXfbUx1PllcvjI9CpoS_fmaBnboRgPWiPx5y3mgSfjVEHXQe6GqG87hHpm5GJfRgXJ99cbVLw-fk71SJSnLr6ED9Z7zqiUVr8YncOzqEHBqtPeh3FSuhuupMrn-xFzzsdFSUlxfFXCHUqDFUUziflRiNakWdT1e4G2y-5PfXdmR1lyW8sDymRvN_dwx7lTZ"
-                  }
+                  // token={
+                  //   getSpotifyAccessCode()
+                  // }
                 />
               }
             />
           </Routes>
         </BrowserRouter>
       </FirebaseProvider>
-    </React.StrictMode>
   );
 };
 
