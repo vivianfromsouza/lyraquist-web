@@ -118,3 +118,5 @@ const base64urlencode = (arrayBuffer: ArrayBuffer) => {
   });
   return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 };
+
+export default base64urlencode;

@@ -138,12 +138,6 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     getAuthCode();
     getAccessCode();
-    // getUsername();
-    // getLanguages();
-    // getHistory();
-    // getPlaylists();
-    // getSongs();
-    // getWorkbooks();
 
     try {
       const handleUserInserts = (payload) => {

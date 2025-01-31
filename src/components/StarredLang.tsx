@@ -1,10 +1,11 @@
 import { Text, View, Pressable } from "react-native";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { StarFilled } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const StarredLang = ({ value }) => {
   //TODO: FIX NAVIGATION HERE
-  // const navigation = useNavigation<any>();
+  const navigate = useNavigate();
 
   function deleteLang() {
     LanguageReaderWriter.deleteLangauge(value);
@@ -12,7 +13,7 @@ const StarredLang = ({ value }) => {
 
   return (
     <View>
-      <Pressable onPress={() => console.log("lang")}>
+      <Pressable onPress={() => navigate("/"+ value.name)}>
         {/* <Pressable onPress={() => navigation.navigate(value.name, {})}> */}
         <View
           style={{

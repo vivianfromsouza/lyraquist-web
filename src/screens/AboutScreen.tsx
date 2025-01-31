@@ -7,11 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
-  //   Image,
 } from "react-native";
-// import { Ionicons } from "@expo/vector-icons";
-// import { StatusBar } from "expo-status-bar";
-// import { MaterialIcons } from "@expo/vector-icons";
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AboutScreen() {
   return (

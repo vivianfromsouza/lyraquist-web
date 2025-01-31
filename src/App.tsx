@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpScreen from "./screens/SignUpScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -7,29 +7,24 @@ import HomeScreen from "./screens/HomeScreen";
 import PlaybackScreen from "./screens/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
 import AboutScreen from "./screens/AboutScreen";
-const App: React.FC = () => {
-  // might need to set an observer on this to listen for changes
+import FrenchScreen from "./screens/FrenchScreen";
+import GermanScreen from "./screens/GermanScreen";
+import SpanishScreen from "./screens/SpanishScreen";
 
+const App: React.FC = () => {
   return (
     <FirebaseProvider>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<Layout />}> */}
           <Route index element={<SignUpScreen />} />
           <Route path="login" element={<LoginScreen />} />
           <Route path="spotifyAuth" element={<SpotifyAuthScreen />} />
           <Route path="home" element={<HomeScreen />} />
-          <Route
-            path="playback"
-            element={
-              <PlaybackScreen
-              // token={
-              //   getSpotifyAccessCode()
-              // }
-              />
-            }
-          />
+          <Route path="playback" element={<PlaybackScreen />} />
           <Route path="about" element={<AboutScreen />} />
+          <Route path="French" element={<FrenchScreen />} />
+          <Route path="German" element={<GermanScreen />} />
+          <Route path="Spanish" element={<SpanishScreen />} />
         </Routes>
       </BrowserRouter>
     </FirebaseProvider>
