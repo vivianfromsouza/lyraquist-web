@@ -16,7 +16,6 @@ import {
 import { ArrowBackOutline, SearchOutline } from "react-ionicons";
 import DisplayPlaylistService from "../services/DisplayPlaylist";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
-
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
 

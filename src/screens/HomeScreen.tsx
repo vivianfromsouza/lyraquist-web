@@ -352,8 +352,7 @@ const HomeScreen: React.FC = () => {
                     marginLeft: 4,
                     alignItems: "center",
                   }}
-                  // TODO: IMPLEMENT SEARCH HERE
-                  // onPress={() => navigation.navigate("SearchLanguage", {})}
+                  onPress={() => navigate("/searchLanguages", {})}
                 >
                   <Text
                     style={{

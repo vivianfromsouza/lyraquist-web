@@ -10,6 +10,7 @@ import AboutScreen from "./screens/AboutScreen";
 import FrenchScreen from "./screens/FrenchScreen";
 import GermanScreen from "./screens/GermanScreen";
 import SpanishScreen from "./screens/SpanishScreen";
+import SearchLanguageScreen from "./screens/SearchLanguageScreen";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
           <Route path="French" element={<FrenchScreen />} />
           <Route path="German" element={<GermanScreen />} />
           <Route path="Spanish" element={<SpanishScreen />} />
+          <Route path="searchLanguages" element={<SearchLanguageScreen />} />
         </Routes>
       </BrowserRouter>
     </FirebaseProvider>
