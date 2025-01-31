@@ -25,6 +25,7 @@ import HistoryReaderWriter from "../services/HistoryReaderWriter";
 import { PlayItem } from "../models/Types";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import PlaylistCard from "../components/Playlist";
+import RecordReaderWriter from "../services/RecordReaderWriter";
 
 var counter = 0;
 const fontScale = PixelRatio.getFontScale();
@@ -38,6 +39,7 @@ const HomeScreen: React.FC = () => {
   const [starredLanguages, setStarredLanguages] = useState<any[] | null>([]);
   const [history, setHistory] = useState<any[] | null>([]);
   const [savedPlaylists, setSavedPlaylists] = useState<any[] | null>([]);
+  const [savedSongs, setSavedSongs] = useState<any[] | null>([]);
   const { currentUser } = useFirebase();
 
   const navigate = useNavigate();
@@ -95,6 +97,26 @@ const HomeScreen: React.FC = () => {
     isLoading(false);
   }
 
+  async function getSongs() {
+    isLoading(true);
+    await RecordReaderWriter.getMySongs().then((songs) => {
+      const savedSongs: PlayItem[] = songs.map((song) => ({
+        artist: song.songs["artist"],
+        spotifyURL: "spotify:track:" + song.songs["spotify_url"],
+        imageURL: song.songs["image_url"],
+        name: song.songs["name"],
+        album: song.songs["album"],
+        duration: song.songs["duration"],
+        songID: song.songs["song_id"],
+        isLiked: song.songs["is_liked"],
+        recordID: song.songs["record_id"],
+      }));
+      setSavedSongs(savedSongs);
+    });
+    counter += 1;
+    isLoading(false);
+  }
+
   useEffect(() => {
     getAuthCode();
     getAccessCode();
@@ -102,6 +124,7 @@ const HomeScreen: React.FC = () => {
     getLanguages();
     getHistory();
     getPlaylists();
+    getSongs();
   }, [authCode, codeVerifier, username]);
 
   return (
@@ -298,6 +321,38 @@ const HomeScreen: React.FC = () => {
             </View>
           )}
         </View>
+
+        <View style={styles.savedSect}>
+            <Text style={styles.header}>Saved Songs</Text>
+            <ScrollView horizontal>
+            {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+            {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
+              {savedSongs!.length != 0 &&
+                savedSongs!.map((item, index) => (
+                  <SongCard
+                    item={item}
+                    key={index}
+                  />
+                ))}
+            </ScrollView>
+            {savedSongs!.length == 0 && (
+              <View style={{}}>
+                <Text
+                  style={{
+                    fontSize: getFontSize(17),
+                    textAlign: "center",
+                    width: "90%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    color: "gray",
+                  }}
+                >
+                  No Saved Songs Yet...
+                </Text>
+              </View>
+            )}
+          </View>
+
       </ScrollView>
       {/* <div className="bg-green w-full h-96 absolute top-0 left-0 z-0 bg-hero"></div>
       <section className="z-10 relative h-screen flex flex-col justify-center items-center">
