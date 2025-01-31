@@ -20,7 +20,7 @@ const LoginScreen: React.FC = () => {
           // Signed in
           const user = userCredential.user.uid;
           localStorage.setItem("current_user", user)
-          navigate("/spotifyAuth");
+          navigate("/SpotifyAuth");
         })
         .catch((error) => {
           const errorMessage = error.message;

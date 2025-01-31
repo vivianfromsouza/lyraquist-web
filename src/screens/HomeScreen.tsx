@@ -298,7 +298,7 @@ const HomeScreen: React.FC = () => {
               <View style={{ justifyContent: "flex-end" }}>
                 <Pressable
                   // TODO: IMPLEMENT SEARCH HEREs
-                  // onPress={() => navigation.navigate("Search", {})}
+                  onPress={() => navigate("/Search", {})}
                   accessibilityLabel="search"
                 >
                   {/* <FontAwesome
@@ -540,7 +540,7 @@ const HomeScreen: React.FC = () => {
 
         <button
           onClick={() => {
-            navigate("/playback");
+            navigate("/Play");
           }}
           className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
         >
@@ -549,7 +549,7 @@ const HomeScreen: React.FC = () => {
 
         <button
           onClick={() => {
-            navigate("/about");
+            navigate("/About");
           }}
           className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
         >

@@ -11,6 +11,7 @@ import FrenchScreen from "./screens/FrenchScreen";
 import GermanScreen from "./screens/GermanScreen";
 import SpanishScreen from "./screens/SpanishScreen";
 import SearchLanguageScreen from "./screens/SearchLanguageScreen";
+import SearchScreen from "./screens/SearchScreen";
 
 const App: React.FC = () => {
   return (
@@ -18,15 +19,17 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route index element={<SignUpScreen />} />
-          <Route path="login" element={<LoginScreen />} />
-          <Route path="spotifyAuth" element={<SpotifyAuthScreen />} />
-          <Route path="home" element={<HomeScreen />} />
-          <Route path="playback" element={<PlaybackScreen />} />
-          <Route path="about" element={<AboutScreen />} />
+          <Route path="Login" element={<LoginScreen />} />
+          <Route path="SpotifyAuth" element={<SpotifyAuthScreen />} />
+          <Route path="Home" element={<HomeScreen />} />
+          <Route path="Play" element={<PlaybackScreen />} />
+          <Route path="About" element={<AboutScreen />} />
           <Route path="French" element={<FrenchScreen />} />
           <Route path="German" element={<GermanScreen />} />
           <Route path="Spanish" element={<SpanishScreen />} />
-          <Route path="searchLanguages" element={<SearchLanguageScreen />} />
+          <Route path="SearchLanguages" element={<SearchLanguageScreen />} />
+          <Route path="Search" element={<SearchScreen />} />
+
         </Routes>
       </BrowserRouter>
     </FirebaseProvider>

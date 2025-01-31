@@ -30,7 +30,7 @@ const SignUpScreen: React.FC = () => {
           <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center">
             <button
               onClick={() => {
-                navigate("/login");
+                navigate("/Login");
               }}
               className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
             >
