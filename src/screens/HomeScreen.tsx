@@ -8,15 +8,23 @@ import {
 } from "../services/spotifyAuth";
 import { useNavigate } from "react-router-dom";
 import StarredLang from "../components/StarredLang";
-import { SearchOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import UserReaderWriter from "../services/UserReaderWriter";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
-import { Pressable, ScrollView, View, PixelRatio, Text } from "react-native-web";
+import {
+  Pressable,
+  ScrollView,
+  View,
+  PixelRatio,
+  Text,
+} from "react-native-web";
 import SongCard from "../components/Song";
 import HistoryReaderWriter from "../services/HistoryReaderWriter";
 import { PlayItem } from "../models/Types";
+import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
+import PlaylistCard from "../components/Playlist";
 
 var counter = 0;
 const fontScale = PixelRatio.getFontScale();
@@ -29,6 +37,7 @@ const HomeScreen: React.FC = () => {
   const [loading, isLoading] = useState(true);
   const [starredLanguages, setStarredLanguages] = useState<any[] | null>([]);
   const [history, setHistory] = useState<any[] | null>([]);
+  const [savedPlaylists, setSavedPlaylists] = useState<any[] | null>([]);
   const { currentUser } = useFirebase();
 
   const navigate = useNavigate();
@@ -61,7 +70,7 @@ const HomeScreen: React.FC = () => {
 
   async function getHistory() {
     isLoading(true);
-    await HistoryReaderWriter.getUserHistory().then((history : any) => {
+    await HistoryReaderWriter.getUserHistory().then((history: any) => {
       const historySongs: PlayItem[] = history.map((song) => ({
         artist: song.songs["artist"],
         spotifyURL: "spotify:track:" + song.songs["spotify_url"],
@@ -77,12 +86,22 @@ const HomeScreen: React.FC = () => {
     counter += 1;
   }
 
+  function getPlaylists() {
+    isLoading(true);
+    PlaylistReaderWriter.getMyPlaylists().then((playlists) => {
+      setSavedPlaylists(playlists);
+    });
+    counter += 1;
+    isLoading(false);
+  }
+
   useEffect(() => {
     getAuthCode();
     getAccessCode();
     getUsername();
     getLanguages();
     getHistory();
+    getPlaylists();
   }, [authCode, codeVerifier, username]);
 
   return (
@@ -147,7 +166,7 @@ const HomeScreen: React.FC = () => {
             </View>
             <View style={{ justifyContent: "flex-end" }}>
               <Pressable
-              // TODO: IMPLEMENT SEARCH HEREs
+                // TODO: IMPLEMENT SEARCH HEREs
                 // onPress={() => navigation.navigate("Search", {})}
                 accessibilityLabel="search"
               >
@@ -221,37 +240,64 @@ const HomeScreen: React.FC = () => {
         </View>
 
         <View style={styles.historySect}>
-            <Text style={styles.header}>Tune Back In</Text>
+          <Text style={styles.header}>Tune Back In</Text>
+          {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+          {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
+          {console.log(history)}
+          <ScrollView horizontal>
+            {history!.length != 0 &&
+              history!.map((item: any, index: any) => (
+                <SongCard item={item} key={index} />
+              ))}
+          </ScrollView>
+          {history!.length == 0 && (
+            <View style={{}}>
+              <Text
+                style={{
+                  fontSize: getFontSize(17),
+                  textAlign: "center",
+                  width: "90%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  color: "gray",
+                }}
+              >
+                No History Yet... Start Listening Now!
+              </Text>
+            </View>
+          )}
+        </View>
+
+        <View style={styles.savedSect}>
+          <Text style={styles.header}>My Playlists</Text>
+          <ScrollView horizontal>
             {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
             {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
-            {console.log(history)}
-            <ScrollView horizontal>
-              {history!.length != 0 &&
-                history!.map((item: any, index: any) => (
-                  <SongCard
-                    item={item}
-                    key={index}
-                  />
-                ))}
-            </ScrollView>
-            {history!.length == 0 && (
-              <View style={{}}>
-                <Text
-                  style={{
-                    fontSize: getFontSize(17),
-                    textAlign: "center",
-                    width: "90%",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    color: "gray",
-                  }}
-                >
-                  No History Yet... Start Listening Now!
-                </Text>
-              </View>
-            )}
-          </View>
-
+            {savedPlaylists!.length != 0 &&
+              savedPlaylists!.map((item, index) => (
+                <PlaylistCard
+                  item={item}
+                  key={index}
+                />
+              ))}
+          </ScrollView>
+          {savedPlaylists!.length == 0 && (
+            <View>
+              <Text
+                style={{
+                  fontSize: getFontSize(17),
+                  textAlign: "center",
+                  width: "90%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  color: "gray",
+                }}
+              >
+                No Playlists Yet...
+              </Text>
+            </View>
+          )}
+        </View>
       </ScrollView>
       {/* <div className="bg-green w-full h-96 absolute top-0 left-0 z-0 bg-hero"></div>
       <section className="z-10 relative h-screen flex flex-col justify-center items-center">
@@ -315,8 +361,7 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-const styles = 
-{
+const styles = {
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
@@ -369,5 +414,5 @@ const styles =
     textAlign: "left" as "left", // Ensure textAlign is one of the allowed values
     marginBottom: 10,
   },
-}
+};
 export default HomeScreen;
