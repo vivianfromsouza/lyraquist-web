@@ -14,6 +14,9 @@ import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { Pressable, ScrollView, View, PixelRatio, Text } from "react-native-web";
+import SongCard from "../components/Song";
+import HistoryReaderWriter from "../services/HistoryReaderWriter";
+import { PlayItem } from "../models/Types";
 
 var counter = 0;
 const fontScale = PixelRatio.getFontScale();
@@ -25,6 +28,7 @@ const HomeScreen: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [loading, isLoading] = useState(true);
   const [starredLanguages, setStarredLanguages] = useState<any[] | null>([]);
+  const [history, setHistory] = useState<any[] | null>([]);
   const { currentUser } = useFirebase();
 
   const navigate = useNavigate();
@@ -36,13 +40,11 @@ const HomeScreen: React.FC = () => {
   async function getAuthCode() {
     const authCode = await getSpotifyAuthCode();
     setAuthCode(authCode);
-    // console.log(authCode);
   }
 
   async function getAccessCode() {
     const accessCode = await getSpotifyAccessCode();
     setAccessCode(accessCode);
-    // console.log(authCode);
   }
 
   function getUsername() {
@@ -50,12 +52,29 @@ const HomeScreen: React.FC = () => {
   }
 
   function getLanguages() {
-    // isLoading(true);
+    isLoading(true);
     LanguageReaderWriter.getLanguages().then((languages) =>
       setStarredLanguages(languages)
     );
-    // console.log(starredLanguages)
-    // counter += 1;
+    counter += 1;
+  }
+
+  async function getHistory() {
+    isLoading(true);
+    await HistoryReaderWriter.getUserHistory().then((history : any) => {
+      const historySongs: PlayItem[] = history.map((song) => ({
+        artist: song.songs["artist"],
+        spotifyURL: "spotify:track:" + song.songs["spotify_url"],
+        imageURL: song.songs["image_url"],
+        name: song.songs["name"],
+        album: song.songs["album"],
+        duration: song.songs["duration"],
+        songID: song.songs["song_id"] ? song.songs["song_id"] : "null",
+      }));
+      setHistory(historySongs);
+    });
+
+    counter += 1;
   }
 
   useEffect(() => {
@@ -63,6 +82,7 @@ const HomeScreen: React.FC = () => {
     getAccessCode();
     getUsername();
     getLanguages();
+    getHistory();
   }, [authCode, codeVerifier, username]);
 
   return (
@@ -199,6 +219,39 @@ const HomeScreen: React.FC = () => {
             </View>
           </View>
         </View>
+
+        <View style={styles.historySect}>
+            <Text style={styles.header}>Tune Back In</Text>
+            {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+            {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
+            {console.log(history)}
+            <ScrollView horizontal>
+              {history!.length != 0 &&
+                history!.map((item: any, index: any) => (
+                  <SongCard
+                    item={item}
+                    key={index}
+                  />
+                ))}
+            </ScrollView>
+            {history!.length == 0 && (
+              <View style={{}}>
+                <Text
+                  style={{
+                    fontSize: getFontSize(17),
+                    textAlign: "center",
+                    width: "90%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    color: "gray",
+                  }}
+                >
+                  No History Yet... Start Listening Now!
+                </Text>
+              </View>
+            )}
+          </View>
+
       </ScrollView>
       {/* <div className="bg-green w-full h-96 absolute top-0 left-0 z-0 bg-hero"></div>
       <section className="z-10 relative h-screen flex flex-col justify-center items-center">
@@ -298,7 +351,7 @@ const styles =
     paddingLeft: 20,
     paddingTop: 20,
     fontSize: getFontSize(25),
-    fontWeight: "bold",
+    fontWeight: "bold" as "bold",
     color: "#303248",
     marginBottom: 10,
   },
