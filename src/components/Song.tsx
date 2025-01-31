@@ -1,5 +1,4 @@
 import { Text, View, Image, Pressable } from "react-native";
-// import { useNavigation } from "@react-navigation/native";
 
 // need to make a JSON
 

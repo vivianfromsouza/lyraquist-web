@@ -19,6 +19,8 @@ import {
   View,
   PixelRatio,
   Text,
+  StatusBar,
+  ActivityIndicator,
 } from "react-native-web";
 import SongCard from "../components/Song";
 import HistoryReaderWriter from "../services/HistoryReaderWriter";
@@ -26,6 +28,10 @@ import { PlayItem } from "../models/Types";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import PlaylistCard from "../components/Playlist";
 import RecordReaderWriter from "../services/RecordReaderWriter";
+import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import Workbook from "../components/Workbook";
+import LocalSupabaseClient from "../services/LocalSupabaseClient";
 
 var counter = 0;
 const fontScale = PixelRatio.getFontScale();
@@ -40,6 +46,9 @@ const HomeScreen: React.FC = () => {
   const [history, setHistory] = useState<any[] | null>([]);
   const [savedPlaylists, setSavedPlaylists] = useState<any[] | null>([]);
   const [savedSongs, setSavedSongs] = useState<any[] | null>([]);
+  const [workbooksList, setWorkbooksList] = useState<any[] | null>([]);
+  const [loadingScreen, setLoadingScreen] = useState(false); // only one that you set it to false initially
+
   const { currentUser } = useFirebase();
 
   const navigate = useNavigate();
@@ -60,6 +69,7 @@ const HomeScreen: React.FC = () => {
 
   function getUsername() {
     UserReaderWriter.getUserName().then((name) => setUsername(name));
+    setLoadingScreen(true);
   }
 
   function getLanguages() {
@@ -117,222 +127,322 @@ const HomeScreen: React.FC = () => {
     isLoading(false);
   }
 
+  function getWorkbooks() {
+    isLoading(true);
+    WorkbookReaderWriter.getWorkbooks().then((workbooks) =>
+      setWorkbooksList(workbooks)
+    );
+    isLoading(false);
+  }
+
   useEffect(() => {
     getAuthCode();
     getAccessCode();
-    getUsername();
-    getLanguages();
-    getHistory();
-    getPlaylists();
-    getSongs();
+    // getUsername();
+    // getLanguages();
+    // getHistory();
+    // getPlaylists();
+    // getSongs();
+    // getWorkbooks();
+
+    try {
+      const handleUserInserts = (payload) => {
+        getUsername();
+        console.log(payload);
+      };
+
+      getUsername();
+
+      LocalSupabaseClient.channel("users")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "users" },
+          handleUserInserts
+        )
+        .subscribe();
+
+      const handleHistoryInserts = (payload) => {
+        console.log(payload);
+        getHistory();
+      };
+
+      getHistory();
+
+      LocalSupabaseClient.channel("history")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "history" },
+          handleHistoryInserts
+        )
+        .subscribe((status) => console.log("H:" + status));
+
+      const handleLanguageInserts = (payload) => {
+        getLanguages();
+      };
+
+      getLanguages();
+
+      LocalSupabaseClient.channel("languages").on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "languages" },
+        handleLanguageInserts
+      );
+
+      const handleWorkbookInserts = (payload) => {
+        getWorkbooks();
+      };
+
+      getWorkbooks();
+
+      LocalSupabaseClient.channel("workbooks")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "workbooks" },
+          handleWorkbookInserts
+        )
+        .subscribe();
+
+      const handlePlaylistInserts = (payload) => {
+        getPlaylists();
+      };
+
+      getPlaylists();
+
+      LocalSupabaseClient.channel("playlists")
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "playlists" },
+          handlePlaylistInserts
+        )
+        .subscribe((status) => console.log("P:" + status));
+
+      // whenever a song is added or deleted, the home screen will update with new set of songs
+      const handleRecordInserts = (payload) => {
+        getSongs();
+      };
+
+      getSongs();
+
+      LocalSupabaseClient.channel("records")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "records" },
+          handleRecordInserts
+        )
+        .subscribe((status) => console.log(status));
+
+      UserReaderWriter.getCurrentTrackDetails().then((track) => {
+        console.log("CURR TRACK:");
+        console.log(track);
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }, [authCode, codeVerifier, username]);
 
-  return (
-    <>
-      <ScrollView style={styles.container}>
-        <View style={styles.introSect}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 20,
-              marginTop: 15,
-            }}
-          >
-            <View>
-              <View style={{ flexDirection: "row" }}>
+  if (loadingScreen) {
+    return (
+      <>
+        <ScrollView style={styles.container}>
+          <View style={styles.introSect}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginRight: 20,
+                marginTop: 15,
+              }}
+            >
+              <View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text
+                    style={{
+                      paddingLeft: 20,
+                      paddingTop: 40,
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      color: "#e8e1db",
+                    }}
+                    accessibilityLabel="welcome"
+                  >
+                    Hello
+                  </Text>
+                  <Text
+                    style={{
+                      paddingLeft: 10,
+                      paddingTop: 40,
+                      fontSize: getFontSize(30),
+                      fontWeight: "bold",
+                      color: "#edc526",
+                    }}
+                    accessibilityLabel="username"
+                  >
+                    {username}
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 1,
+                      paddingTop: 40,
+                      fontSize: getFontSize(30),
+                      fontWeight: "bold",
+                      color: "#e8e1db",
+                    }}
+                  >
+                    !
+                  </Text>
+                </View>
                 <Text
                   style={{
                     paddingLeft: 20,
-                    paddingTop: 40,
-                    fontSize: 30,
-                    fontWeight: "bold",
-                    color: "#e8e1db",
-                  }}
-                  accessibilityLabel="welcome"
-                >
-                  Hello
-                </Text>
-                <Text
-                  style={{
-                    paddingLeft: 10,
-                    paddingTop: 40,
-                    fontSize: getFontSize(30),
-                    fontWeight: "bold",
-                    color: "#edc526",
-                  }}
-                  accessibilityLabel="username"
-                >
-                  {username}
-                </Text>
-                <Text
-                  style={{
-                    marginLeft: 1,
-                    paddingTop: 40,
-                    fontSize: getFontSize(30),
-                    fontWeight: "bold",
+                    fontSize: getFontSize(18),
                     color: "#e8e1db",
                   }}
                 >
-                  !
+                  Let's start learning!
                 </Text>
               </View>
-              <Text
-                style={{
-                  paddingLeft: 20,
-                  fontSize: getFontSize(18),
-                  color: "#e8e1db",
-                }}
-              >
-                Let's start learning!
-              </Text>
-            </View>
-            <View style={{ justifyContent: "flex-end" }}>
-              <Pressable
-                // TODO: IMPLEMENT SEARCH HEREs
-                // onPress={() => navigation.navigate("Search", {})}
-                accessibilityLabel="search"
-              >
-                {/* <FontAwesome
+              <View style={{ justifyContent: "flex-end" }}>
+                <Pressable
+                  // TODO: IMPLEMENT SEARCH HEREs
+                  // onPress={() => navigation.navigate("Search", {})}
+                  accessibilityLabel="search"
+                >
+                  {/* <FontAwesome
                   name="search"
                   size={35}
                   color="#e8e1db"
                   style={{ marginBottom: 15 }}
                 /> */}
-                <SearchOutlined />
-              </Pressable>
+                  <SearchOutlined />
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.starredLanguagesSect}>
-          <Text
-            style={{
-              paddingLeft: 20,
-              paddingTop: 20,
-              fontSize: getFontSize(25),
-              fontWeight: "bold",
-              color: "#303248",
-            }}
-          >
-            Starred Languages
-          </Text>
-          <Text style={styles.noteText}>
-            Star languages on their specific language pages for quick access
-            here!
-          </Text>
+          <View style={styles.starredLanguagesSect}>
+            <Text
+              style={{
+                paddingLeft: 20,
+                paddingTop: 20,
+                fontSize: getFontSize(25),
+                fontWeight: "bold",
+                color: "#303248",
+              }}
+            >
+              Starred Languages
+            </Text>
+            <Text style={styles.noteText}>
+              Star languages on their specific language pages for quick access
+              here!
+            </Text>
 
-          <View
-            style={{
-              marginLeft: 20,
-              marginRight: 20,
-              borderRadius: 10,
-              backgroundColor: "#e8e1db",
-              shadowColor: "#171717",
-              elevation: 8,
-            }}
-          >
-            <View style={{ marginLeft: 10, marginBottom: 12, marginRight: 10 }}>
-              {starredLanguages!.map((value, index) => (
-                <StarredLang value={value} key={index} />
-              ))}
-              <Pressable
-                style={{
-                  flexDirection: "row",
-                  marginTop: 8,
-                  marginLeft: 4,
-                  alignItems: "center",
-                }}
-                // TODO: IMPLEMENT SEARCH HERE
-                // onPress={() => navigation.navigate("SearchLanguage", {})}
+            <View
+              style={{
+                marginLeft: 20,
+                marginRight: 20,
+                borderRadius: 10,
+                backgroundColor: "#e8e1db",
+                shadowColor: "#171717",
+                elevation: 8,
+              }}
+            >
+              <View
+                style={{ marginLeft: 10, marginBottom: 12, marginRight: 10 }}
               >
+                {starredLanguages!.map((value, index) => (
+                  <StarredLang value={value} key={index} />
+                ))}
+                <Pressable
+                  style={{
+                    flexDirection: "row",
+                    marginTop: 8,
+                    marginLeft: 4,
+                    alignItems: "center",
+                  }}
+                  // TODO: IMPLEMENT SEARCH HERE
+                  // onPress={() => navigation.navigate("SearchLanguage", {})}
+                >
+                  <Text
+                    style={{
+                      fontSize: getFontSize(20),
+                      fontFamily: "Karla",
+                      marginRight: 10,
+                      color: "#2D3047",
+                    }}
+                  >
+                    Explore more Languages!
+                  </Text>
+                  {/* <AntDesign name="arrowright" size={22} color="#FF4A1C" /> */}
+                  <ArrowRightOutlined />
+                </Pressable>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.historySect}>
+            <Text style={styles.header}>Tune Back In</Text>
+            {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+            {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
+            {console.log(history)}
+            <ScrollView horizontal>
+              {history!.length != 0 &&
+                history!.map((item: any, index: any) => (
+                  <SongCard item={item} key={index} />
+                ))}
+            </ScrollView>
+            {history!.length == 0 && (
+              <View style={{}}>
                 <Text
                   style={{
-                    fontSize: getFontSize(20),
-                    fontFamily: "Karla",
-                    marginRight: 10,
-                    color: "#2D3047",
+                    fontSize: getFontSize(17),
+                    textAlign: "center",
+                    width: "90%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    color: "gray",
                   }}
                 >
-                  Explore more Languages!
+                  No History Yet... Start Listening Now!
                 </Text>
-                {/* <AntDesign name="arrowright" size={22} color="#FF4A1C" /> */}
-                <ArrowRightOutlined />
-              </Pressable>
-            </View>
+              </View>
+            )}
           </View>
-        </View>
 
-        <View style={styles.historySect}>
-          <Text style={styles.header}>Tune Back In</Text>
-          {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
-          {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
-          {console.log(history)}
-          <ScrollView horizontal>
-            {history!.length != 0 &&
-              history!.map((item: any, index: any) => (
-                <SongCard item={item} key={index} />
-              ))}
-          </ScrollView>
-          {history!.length == 0 && (
-            <View style={{}}>
-              <Text
-                style={{
-                  fontSize: getFontSize(17),
-                  textAlign: "center",
-                  width: "90%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  color: "gray",
-                }}
-              >
-                No History Yet... Start Listening Now!
-              </Text>
-            </View>
-          )}
-        </View>
+          <View style={styles.savedSect}>
+            <Text style={styles.header}>My Playlists</Text>
+            <ScrollView horizontal>
+              {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+              {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
+              {savedPlaylists!.length != 0 &&
+                savedPlaylists!.map((item, index) => (
+                  <PlaylistCard item={item} key={index} />
+                ))}
+            </ScrollView>
+            {savedPlaylists!.length == 0 && (
+              <View>
+                <Text
+                  style={{
+                    fontSize: getFontSize(17),
+                    textAlign: "center",
+                    width: "90%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    color: "gray",
+                  }}
+                >
+                  No Playlists Yet...
+                </Text>
+              </View>
+            )}
+          </View>
 
-        <View style={styles.savedSect}>
-          <Text style={styles.header}>My Playlists</Text>
-          <ScrollView horizontal>
-            {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
-            {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
-            {savedPlaylists!.length != 0 &&
-              savedPlaylists!.map((item, index) => (
-                <PlaylistCard
-                  item={item}
-                  key={index}
-                />
-              ))}
-          </ScrollView>
-          {savedPlaylists!.length == 0 && (
-            <View>
-              <Text
-                style={{
-                  fontSize: getFontSize(17),
-                  textAlign: "center",
-                  width: "90%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  color: "gray",
-                }}
-              >
-                No Playlists Yet...
-              </Text>
-            </View>
-          )}
-        </View>
-
-        <View style={styles.savedSect}>
+          <View style={styles.savedSect}>
             <Text style={styles.header}>Saved Songs</Text>
             <ScrollView horizontal>
-            {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
-            {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
+              {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+              {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {savedSongs!.length != 0 &&
                 savedSongs!.map((item, index) => (
-                  <SongCard
-                    item={item}
-                    key={index}
-                  />
+                  <SongCard item={item} key={index} />
                 ))}
             </ScrollView>
             {savedSongs!.length == 0 && (
@@ -353,67 +463,114 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-      </ScrollView>
-      {/* <div className="bg-green w-full h-96 absolute top-0 left-0 z-0 bg-hero"></div>
-      <section className="z-10 relative h-screen flex flex-col justify-center items-center">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-          <h1 className="mb-8 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
-            Welcome, {username}!
-          </h1>
-        </div>
-      </section>
+          <View style={styles.workbookSect}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginRight: 20,
+              }}
+            >
+              <Text
+                style={{
+                  paddingLeft: 20,
+                  paddingTop: 20,
+                  fontSize: getFontSize(25),
+                  fontWeight: "bold",
+                  color: "#303248",
+                  marginBottom: 10,
+                }}
+              >
+                Workbooks
+              </Text>
+              <Pressable
+                // TODO: FIX NAVIGATION HERE
+                // onPress={() => navigation.navigate("NewWorkbook", {})}
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 20,
+                  alignItems: "center",
+                  paddingTop: 15,
+                }}
+              >
+                {/* <AntDesign
+                name="pluscircleo"
+                size={19}
+                color="#303248"
+                style={{ marginRight: 5 }}
+              /> */}
+                <PlusCircleOutlined />
+                <Text
+                  style={{
+                    fontSize: getFontSize(15),
+                    color: "#303248",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Add New Workbook
+                </Text>
+              </Pressable>
+            </View>
+            <Text style={styles.noteText}>
+              Save words in workbooks for quick access here!
+            </Text>
+            <ScrollView horizontal>
+              {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+              {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
+              {workbooksList!.length != 0 &&
+                workbooksList!.map((item, index) => (
+                  <Workbook item={item} key={index} />
+                ))}
+            </ScrollView>
+            {workbooksList!.length == 0 && (
+              <View style={{}}>
+                <Text
+                  style={{
+                    fontSize: getFontSize(17),
+                    textAlign: "center",
+                    width: "90%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    color: "gray",
+                    paddingTop: 10,
+                  }}
+                >
+                  No Current Workbooks
+                </Text>
+              </View>
+            )}
+          </View>
+          <Text>{"\n\n\n\n"}</Text>
+          <StatusBar />
+        </ScrollView>
 
-      <section className="z-10 relative h-screen flex flex-col justify-center items-center">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-          <h2 className="mb-8 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
-            Starred Languages
-          </h2>
-        </div>
-      </section>
+        <button
+          onClick={() => {
+            navigate("/playback");
+          }}
+          className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
+        >
+          Go To Playback
+        </button>
 
-      <section className="z-10 relative h-screen flex flex-col justify-center items-center">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-          <h2 className="mb-8 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
-            Tune back in
-          </h2>
-        </div>
-      </section>
-
-      <section className="z-10 relative h-screen flex flex-col justify-center items-center">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-          <h2 className="mb-8 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
-            My Playlists
-          </h2>
-        </div>
-      </section>
-
-      <section className="z-10 relative h-screen flex flex-col justify-center items-center">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-          <h2 className="mb-8 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
-            Saved Songs
-          </h2>
-        </div>
-      </section> */}
-
-      <button
-        onClick={() => {
-          navigate("/playback");
-        }}
-        className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
-      >
-        Go To Playback
-      </button>
-
-      <button
-        onClick={() => {
-          navigate("/about");
-        }}
-        className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
-      >
-        About
-      </button>
-    </>
-  );
+        <button
+          onClick={() => {
+            navigate("/about");
+          }}
+          className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
+        >
+          About
+        </button>
+      </>
+    );
+  } else {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color="#303248" />
+      </View>
+    );
+  }
 };
 
 const styles = {
@@ -457,8 +614,8 @@ const styles = {
   },
   loading: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "center" as "center",
+    alignItems: "center" as "center",
     backgroundColor: "#e8e1db",
   },
   noteText: {
