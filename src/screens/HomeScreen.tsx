@@ -297,7 +297,6 @@ const HomeScreen: React.FC = () => {
               </View>
               <View style={{ justifyContent: "flex-end" }}>
                 <Pressable
-                  // TODO: IMPLEMENT SEARCH HEREs
                   onPress={() => navigate("/Search", {})}
                   accessibilityLabel="search"
                 >
@@ -479,7 +478,7 @@ const HomeScreen: React.FC = () => {
               </Text>
               <Pressable
                 // TODO: FIX NAVIGATION HERE
-                // onPress={() => navigation.navigate("NewWorkbook", {})}
+                onPress={() => navigate("/NewWorkbook", {})}
                 style={{
                   flexDirection: "row",
                   marginLeft: 20,
