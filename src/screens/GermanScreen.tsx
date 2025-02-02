@@ -144,9 +144,9 @@ export default function GermanScreen() {
   };
 
   // Function to handle navigation to trending German
-  const handleTrendingGerman = () => {
-    navigate("TrendingGerman");
-  };
+  // const handleTrendingGerman = () => {
+  //   navigate("TrendingGerman");
+  // };
 
   // Rendering the screen based on loading state
   if (!loadingScreen) {
@@ -189,12 +189,12 @@ export default function GermanScreen() {
           </Text>
 
           {/* Trending German Button */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={handleTrendingGerman}
             style={styles.languageButton}
           >
             <Text style={styles.buttonText}>Trending in German</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Display German */}
           <View

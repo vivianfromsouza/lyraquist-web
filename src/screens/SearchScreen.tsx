@@ -75,9 +75,9 @@ export default function SearchScreen() {
   }, [searchTerm]);
 
   // Function to navigate to trending screen
-  const goToTrending = () => {
-    navigate("/Trending");
-  };
+  // const goToTrending = () => {
+  //   navigate("/Trending");
+  // };
 
   // Function to render each search result item
   const renderSearchResultItem = ({ item }) => (
@@ -134,14 +134,14 @@ export default function SearchScreen() {
             <Text style={styles.buttonText}>Search by Language</Text>
           </TouchableOpacity>
           {/* Button to navigate to trending screen */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={goToTrending}
             style={styles.languageButton}
             accessibilityLabel="trending"
             accessible={true}
           >
             <Text style={styles.buttonText}>Globally Trending</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         {isLoading && <Text style={{ paddingLeft: 10 }}>Searching...</Text>}
         {/* Render search results */}

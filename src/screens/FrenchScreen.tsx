@@ -144,9 +144,9 @@ export default function FrenchScreen() {
   };
 
   // Function to handle navigation to trending French
-  const handleTrendingFrench = () => {
-    navigate("TrendingFrench");
-  };
+  // const handleTrendingFrench = () => {
+  //   navigate("TrendingFrench");
+  // };
 
   // Rendering the screen based on loading state
   if (!loadingScreen) {
@@ -188,13 +188,13 @@ export default function FrenchScreen() {
             for a song not on this page, use the general search tab.
           </Text>
 
-          {/* Trending French Button */}
+          {/* Trending French Button
           <TouchableOpacity
             onPress={handleTrendingFrench}
             style={styles.languageButton}
           >
             <Text style={styles.buttonText}>Trending in French</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Display French */}
           <View

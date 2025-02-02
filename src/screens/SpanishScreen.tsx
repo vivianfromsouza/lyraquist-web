@@ -145,9 +145,9 @@ export default function SpanishScreen() {
   };
 
   // Function to handle navigation to trending Spanish
-  const handleTrendingSpanish = () => {
-    navigate("TrendingSpanish");
-  };
+  // const handleTrendingSpanish = () => {
+  //   navigate("TrendingSpanish");
+  // };
 
   // Rendering the screen based on loading state
   if (!loadingScreen) {
@@ -190,12 +190,12 @@ export default function SpanishScreen() {
           </Text>
 
           {/* Trending Spanish Button */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={handleTrendingSpanish}
             style={styles.languageButton}
           >
             <Text style={styles.buttonText}>Trending in Spanish</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Display Spanish */}
           <View
