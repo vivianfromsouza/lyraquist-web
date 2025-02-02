@@ -4,7 +4,6 @@ import { StarFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 const StarredLang = ({ value }) => {
-  //TODO: FIX NAVIGATION HERE
   const navigate = useNavigate();
 
   function deleteLang() {
@@ -14,7 +13,6 @@ const StarredLang = ({ value }) => {
   return (
     <View>
       <Pressable onPress={() => navigate("/"+ value.name)}>
-        {/* <Pressable onPress={() => navigation.navigate(value.name, {})}> */}
         <View
           style={{
             flexDirection: "row",

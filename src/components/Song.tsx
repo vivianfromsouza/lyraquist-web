@@ -1,17 +1,17 @@
 import { Text, View, Image, Pressable } from "react-native";
+import { useNavigate } from "react-router-dom";
 
 // need to make a JSON
 
 const SongCard = ({ item }) => {
   // TODO: FIX NAVIGATION
-  // const navigation = useNavigation<any>(); //allow for the song to be clickable
+  const navigate = useNavigate();
+
   return (
     <View style={{ marginLeft: 4 }}>
       <Pressable
-        // onPress={() => navigation.navigate("Play", { item: item })}
-        onPress={() => console.log("Go to Play")}
+        onPress={() => navigate("/Play", { state: item })}
         style={{ margin: 10 }}
-        
       >
         <View
           style={{ backgroundColor: "white", elevation: 8, borderRadius: 5 }}
