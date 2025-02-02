@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const Workbook = ({ item }) => {
   const colors = ["#5bc8a6", "#edc526", "#ff4a2a", "#303248"];
   const [colorNum, setColorNum] = useState(0);
   const [workbookColor, setWorkbookColor] = useState("");
+  const navigate = useNavigate();
 
   // TODO: TRY TO VARY COLOR??
   function genNextColor(): string {
@@ -19,16 +21,13 @@ const Workbook = ({ item }) => {
     return colors[colorNum];
   }
 
-  // TODO: FIX NAVIGATION
-  // const navigation = useNavigation<any>(); //allows workbook in homescreen to be clickable
   return (
     <Pressable
-      // onPress={() =>
-      //   navigation.navigate("WorkbookInfo", {
-      //     //navigate to WorkbookInfoScreen
-      //     item: item,
-      //   })
-      // }
+      onPress={() =>
+        navigate("/WorkbookInfo", {
+          state: item,
+        })
+      }
       style={{ margin: 10 }}
     >
       <View style={{ elevation: 8 }}>

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 // need to make a JSON
 
 const SongCard = ({ item }) => {
-  // TODO: FIX NAVIGATION
   const navigate = useNavigate();
 
   return (

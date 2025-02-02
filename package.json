@@ -22,6 +22,7 @@
     "@tailwindcss/vite": "^4.0.0",
     "alpinejs": "^3.14.8",
     "axios": "^1.7.9",
+    "feather-icons-react": "^0.7.1",
     "firebase": "^11.2.0",
     "react": "^18.3.1",
     "react-alert-template-mui": "^1.0.7",
