@@ -477,7 +477,6 @@ const HomeScreen: React.FC = () => {
                 Workbooks
               </Text>
               <Pressable
-                // TODO: FIX NAVIGATION HERE
                 onPress={() => navigate("/NewWorkbook", {})}
                 style={{
                   flexDirection: "row",

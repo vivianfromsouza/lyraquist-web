@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Pressable, Dimensions } from "react-native";
-import { useRoute } from "@react-navigation/native";
 import { ArrowUndo } from "react-ionicons";
-
 import Flashcard from "../components/Flashcard";
-import Carousel from "react-native-reanimated-carousel";
+// import Carousel from "react-native-reanimated-carousel";
 import WordReaderWriter from "../services/WordReaderWriter";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // const windowWidth = Dimensions.get("window").width;
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-function FlashcardScreen({ navigation, word }) {
+function FlashcardScreen() {
+  const navigate = useNavigate();
   const location = useLocation();
   const bookItem = location.state;
   const [renWordList, setRenWordList] = useState<any[] | null>([]);
@@ -51,13 +50,13 @@ function FlashcardScreen({ navigation, word }) {
           marginTop: 70,
         }}
         onPress={() => {
-          navigation.goBack();
+          navigate(-1);
         }}
       >
         {/* <Ionicons style={{}} name="arrow-undo" size={40} color="#303248" /> */}
         <ArrowUndo />
       </Pressable>
-      <Carousel
+      {/* <Carousel
         loop={false}
         width={500}
         height={1000}
@@ -70,7 +69,7 @@ function FlashcardScreen({ navigation, word }) {
             <Flashcard word={renWordList![index]}></Flashcard>
           </>
         )}
-      ></Carousel>
+      ></Carousel> */}
     </View>
   );
 }

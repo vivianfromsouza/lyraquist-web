@@ -1,8 +1,6 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { useNavigate } from "react-router-dom";
 
-// need to make a JSON
-
 const SongCard = ({ item }) => {
   const navigate = useNavigate();
 

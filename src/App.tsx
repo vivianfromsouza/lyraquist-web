@@ -15,7 +15,8 @@ import SearchScreen from "./screens/SearchScreen";
 import NewWorkbookScreen from "./screens/NewWorkbookScreen";
 import WorkbookInfoScreen from "./screens/WorkbookInfoScreen";
 import NewWordScreen from "./screens/NewWordScreen";
-import Flashcard from "./components/Flashcard";
+import FlashcardScreen from "./screens/FlashcardsScreen";
+import PlaylistInfoScreen from "./screens/PlaylistInfoScreen";
 
 const App: React.FC = () => {
   return (
@@ -37,7 +38,7 @@ const App: React.FC = () => {
           <Route path="WorkbookInfo" element={<WorkbookInfoScreen />} />
           <Route path="NewWord" element={<NewWordScreen />} />
           <Route path="Flashcards" element={<FlashcardScreen />} />
-
+          <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
         </Routes>
       </BrowserRouter>
     </FirebaseProvider>

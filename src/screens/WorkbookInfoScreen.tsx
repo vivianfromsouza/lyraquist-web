@@ -428,7 +428,7 @@ function WorkbookInfoScreen() {
           }}
         >
           <Pressable
-            onPress={() => navigation.goBack()}
+            onPress={() => navigate(-1)}
             style={{ marginLeft: 20 }}
           >
             {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
