@@ -141,10 +141,7 @@ function WorkbookInfoScreen() {
               justifyContent: "space-between",
             }}
           >
-            <Pressable
-              onPress={() => navigate(-1)}
-              style={{ marginLeft: 20 }}
-            >
+            <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
               {/* <Ionicons
                 style={{ marginTop: 60 }}
                 name="arrow-back"
@@ -377,7 +374,9 @@ function WorkbookInfoScreen() {
           >
             <Pressable
               onPress={() =>
-               navigate("/NewWord", { state : {name: name, book_id: bookUID} })
+                navigate("/NewWord", {
+                  state: { name: name, book_id: bookUID },
+                })
               }
               style={{
                 flexDirection: "row",
@@ -403,8 +402,7 @@ function WorkbookInfoScreen() {
             <Pressable
               onPress={() =>
                 navigate("/Flashcards", {
-                  name: name,
-                  book_id: bookUID,
+                  state: { name: name, book_id: bookUID },
                 })
               }
               style={styles.button}
