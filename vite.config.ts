@@ -38,7 +38,7 @@ const development = process.env.NODE_ENV === "development";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "https://vivianfromsouza.github.io/lyraquist-web/",
+  base: "/vivianfromsouza/",
   clearScreen: true,
   plugins: [react(), tailwindcss(), reactNativeWeb()],
   define: {

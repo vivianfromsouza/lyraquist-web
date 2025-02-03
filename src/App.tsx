@@ -21,7 +21,7 @@ import PlaylistInfoScreen from "./screens/PlaylistInfoScreen";
 const App: React.FC = () => {
   return (
     <FirebaseProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/vivianfromsouza/">
         <Routes>
           <Route index element={<SignUpScreen />} />
           <Route path="Login" element={<LoginScreen />} />
