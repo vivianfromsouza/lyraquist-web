@@ -1,6 +1,4 @@
 // Worked on by: Siri Avula
-
-import React from "react";
 import {
   View,
   Text,
@@ -10,11 +8,17 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import { Ionicons} from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
+import { ImageSourcePropType } from "react-native";
+import blueLogo from "../assets/blue_small.png";
+import { ArrowBackOutline } from "react-ionicons";
+import { useNavigate } from "react-router-dom";
+// TODO: StatusBar doesn't exist in ReactJS, finder alternative
+// import { StatusBar } from "expo-status-bar";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AboutTermsConditions({ navigation }) {
+export default function AboutTermsConditions() {
+  const navigate = useNavigate();
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -30,17 +34,18 @@ export default function AboutTermsConditions({ navigation }) {
           >
             <Pressable
               style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigate(-1)}
             >
-              <Ionicons
+              {/* <Ionicons
                 style={{}}
                 name="arrow-back"
                 size={40}
                 color="#303248"
-              />
+              /> */}
+              <ArrowBackOutline />
             </Pressable>
             <Image
-              source={require("../assets/blue_small.png")}
+              source={blueLogo as ImageSourcePropType}
               style={{
                 height: 60,
                 alignSelf: "center",
@@ -70,7 +75,7 @@ export default function AboutTermsConditions({ navigation }) {
 
         <Text>{"\n\n\n"}</Text>
 
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

@@ -1,6 +1,4 @@
 // Worked on by: Siri Avula
-
-import React from "react";
 import {
   View,
   Text,
@@ -10,10 +8,20 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
+import { ArrowBackOutline } from "react-ionicons";
+import { ImageSourcePropType } from "react-native";
+import blueLogo from "../assets/blue_small.png";
+import largeLogo from "../assets/Full_Logo.png";
+import { useNavigate } from "react-router-dom";
+
+// TODO: StatusBar doesn't exist in ReactJS, finder alternative
+// import { StatusBar } from "expo-status-bar";
+
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AboutUsScreen({ navigation }) {
+
+export default function AboutUsScreen() {
+  const navigate = useNavigate();
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -29,17 +37,18 @@ export default function AboutUsScreen({ navigation }) {
           >
             <Pressable
               style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigate(-1)}
             >
-              <Ionicons
+              {/* <Ionicons
                 style={{}}
                 name="arrow-back"
                 size={40}
                 color="#303248"
-              />
+              /> */}
+              <ArrowBackOutline />
             </Pressable>
             <Image
-              source={require("../assets/blue_small.png")}
+              source={blueLogo as ImageSourcePropType}
               style={{
                 height: 60,
                 alignSelf: "center",
@@ -56,7 +65,7 @@ export default function AboutUsScreen({ navigation }) {
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Image
             style={styles.circle}
-            source={require("../assets/Full_Logo.png")}
+            source={largeLogo as ImageSourcePropType}
           />
           <Text style={{ marginTop: 18, fontSize: 20, fontWeight: "bold" }}>
             Welcome to Lyraquist!
@@ -91,7 +100,7 @@ export default function AboutUsScreen({ navigation }) {
 
         <Text>{"\n\n\n"}</Text>
 
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

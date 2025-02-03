@@ -8,13 +8,17 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import FeedbackReaderWriter from "../services/FeedbackReaderWriter";
-import React from "react";
+import { ImageSourcePropType } from "react-native";
+import blueLogo from "../assets/blue_small.png";
+import { ArrowBackOutline } from "react-ionicons";
+import { useNavigate } from "react-router-dom";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function FeedbackScreen({ route, navigation }) {
+export default function FeedbackScreen() {
+  const navigate = useNavigate();
+
   const [feedback, setFeedback] = useState<string>();
 
   async function submitFeedback(text) {
@@ -75,17 +79,18 @@ export default function FeedbackScreen({ route, navigation }) {
           >
             <Pressable
               style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigate(-1)}
             >
-              <Ionicons
+              {/* <Ionicons
                 style={{}}
                 name="arrow-back"
                 size={40}
                 color="#303248"
-              />
+              /> */}
+              <ArrowBackOutline />
             </Pressable>
             <Image
-              source={require("../assets/blue_small.png")}
+              source={blueLogo as ImageSourcePropType}
               style={{
                 height: 60,
                 alignSelf: "center",

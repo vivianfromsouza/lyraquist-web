@@ -1,5 +1,5 @@
 // Worked on by: Vivian D'Souza
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,30 +11,36 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import UserReaderWriter from "../services/UserReaderWriter";
-import auth from "@react-native-firebase/auth";
-import db from "@react-native-firebase/database";
-import { StatusBar } from "expo-status-bar";
-import { Dropdown } from "react-native-element-dropdown";
-import LocalSupabaseClient from "../services/LocalSupabaseClient";
+// import auth from "@react-native-firebase/auth";
+import { getAuth } from "firebase/auth";
+
+// import { StatusBar } from "expo-status-bar";
+// import { Dropdown } from "react-native-element-dropdown";
+import { ArrowBackOutline } from "react-ionicons";
+import { ImageSourcePropType } from "react-native";
+import redLogo from "../assets/red_small.png";
+import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
+import { useNavigate } from "react-router-dom";
+// TODO: IMPORT NEW STATUSBAR
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AccountSettings({ route, navigation }) {
+export default function AccountSettings({ route }) {
   const { setIsLoggedIn } = route.params;
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [preferredLanguage, setPreferredLanguage] = useState<string>();
-  const [isFocus, setIsFocus] = useState(false);
   const [prefLang, setPrefLang] = useState<string>();
+  const auth = getAuth(LocalFirebaseClient);
+  const navigate = useNavigate();
 
-  const [languageItems, setLanguageItems] = useState([
-    { label: "English", language: "English" },
-    { label: "Spanish", language: "Spanish" },
-    { label: "French", language: "French" },
-    { label: "German", language: "German" },
-  ]);
+  // const [languageItems, setLanguageItems] = useState([
+  //   { label: "English", language: "English" },
+  //   { label: "Spanish", language: "Spanish" },
+  //   { label: "French", language: "French" },
+  //   { label: "German", language: "German" },
+  // ]);
 
   useEffect(() => {
     try {
@@ -64,8 +70,8 @@ export default function AccountSettings({ route, navigation }) {
   }, []);
 
   function signOut() {
-    if (auth().currentUser) {
-      auth().signOut();
+    if (auth.currentUser) {
+      auth.signOut();
       setIsLoggedIn(false);
     }
   }
@@ -83,13 +89,13 @@ export default function AccountSettings({ route, navigation }) {
   // calls UserReaderWriter to write password change to DB
   async function changePassword() {
     // if password is too short
-    if (password.trim().length < 6) {
+    if (password!.trim().length < 6) {
       Alert.alert(
         "Password is too short.",
         "Password must be at least 6 characters long."
       );
     } else if (password == confirmPassword) {
-      await UserReaderWriter.writeUserPassword(password.trim()).then(
+      await UserReaderWriter.writeUserPassword(password!.trim()).then(
         (result) => {
           if (result) {
             Alert.alert(
@@ -161,17 +167,19 @@ export default function AccountSettings({ route, navigation }) {
           >
             <Pressable
               style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigate(-1)}
             >
-              <Ionicons
+              {/* <Ionicons
                 style={{}}
                 name="arrow-back"
                 size={40}
                 color="#e8e1db"
-              />
+              /> */}
+
+              <ArrowBackOutline />
             </Pressable>
             <Image
-              source={require("../assets/red_small.png")}
+              source={redLogo as ImageSourcePropType}
               style={{
                 height: 60,
                 alignSelf: "center",
@@ -337,7 +345,8 @@ export default function AccountSettings({ route, navigation }) {
               <View style={styles.divider} />
             </View>
 
-            <Dropdown
+            {/* TODO: ADD A DROPDOWN FOR REACTJS */}
+            {/* <Dropdown
               style={[styles.dropdown, isFocus && { borderColor: "green" }]}
               containerStyle={{ zIndex: 60, top: -100 }}
               placeholderStyle={styles.placeholderStyle}
@@ -352,7 +361,7 @@ export default function AccountSettings({ route, navigation }) {
               onChange={(preferredLanguage) => {
                 setPreferredLanguage(preferredLanguage.language);
               }}
-            />
+            /> */}
           </View>
           <Pressable
             style={{
@@ -415,7 +424,7 @@ export default function AccountSettings({ route, navigation }) {
           </Pressable>
         </View>
         <Text>{"\n\n\n\n\n"}</Text>
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

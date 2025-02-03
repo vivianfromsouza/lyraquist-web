@@ -1,5 +1,4 @@
 // Worked on by: Siri Avula
-import React from "react";
 import {
   View,
   Text,
