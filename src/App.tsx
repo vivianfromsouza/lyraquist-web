@@ -17,6 +17,11 @@ import WorkbookInfoScreen from "./screens/WorkbookInfoScreen";
 import NewWordScreen from "./screens/NewWordScreen";
 // import FlashcardScreen from "./screens/FlashcardsScreen";
 import PlaylistInfoScreen from "./screens/PlaylistInfoScreen";
+import AboutUsScreen from "./screens/AboutUsScreen";
+import FeedbackScreen from "./screens/FeedbackScreen";
+import AboutPrivacy from "./screens/AboutPrivacyScreen";
+import AboutThirdPartyScreen from "./screens/AboutThirdPartyScreen";
+import AboutTermsConditionsScreen from "./screens/AboutTermsConditionsScreen";
 
 const App: React.FC = () => {
   return (
@@ -29,7 +34,11 @@ const App: React.FC = () => {
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/play" element={<PlaybackScreen />} />
           <Route path="/about" element={<AboutScreen />} />
-
+          <Route path="/about/welcome" element={<AboutUsScreen />} />
+          <Route path="/about/privacy" element={<AboutPrivacy />} />
+          <Route path="/about/terms" element={<AboutTermsConditionsScreen />} />
+          <Route path="/about/third-party" element={<AboutThirdPartyScreen />} />
+          <Route path="/about/feedback" element={<FeedbackScreen />} />
           <Route path="/language/french" element={<FrenchScreen />} />
           <Route path="/language/german" element={<GermanScreen />} />
           <Route path="/language/spanish" element={<SpanishScreen />} />

@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 // import { StatusBar } from "expo-status-bar";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AboutTermsConditions() {
+export default function AboutTermsConditionsScreen() {
   const navigate = useNavigate();
 
   return (

@@ -51,7 +51,7 @@ function NewWorkbookScreen() {
           newWorkbookName.trim(),
           description
         );
-        navigate("//Home");
+        navigate("/home");
         Alert.alert("Workbook Added!");
       }
     }

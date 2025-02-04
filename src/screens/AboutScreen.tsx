@@ -12,10 +12,13 @@ import {
 // import { StatusBar } from "expo-status-bar";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { ArrowBackOutline } from "react-ionicons";
-import { ImageSourcePropType } from 'react-native';
-import blueLogo from '../assets/blue_small.png';
+import { ImageSourcePropType } from "react-native";
+import blueLogo from "../assets/blue_small.png";
+import { useNavigate } from "react-router-dom";
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AboutScreen({ navigation }) {
+export default function AboutScreen() {
+  const navigate = useNavigate();
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -31,7 +34,7 @@ export default function AboutScreen({ navigation }) {
           >
             <Pressable
               style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigate(-1)}
             >
               {/* <Ionicons
                 style={{}}
@@ -63,7 +66,7 @@ export default function AboutScreen({ navigation }) {
             justifyContent: "space-between",
             marginTop: 25,
           }}
-          onPress={() => navigation.navigate("About us")}
+          onPress={() => navigate("/about/welcome")}
         >
           <Text
             style={{
@@ -101,7 +104,7 @@ export default function AboutScreen({ navigation }) {
             justifyContent: "space-between",
             marginTop: 25,
           }}
-          onPress={() => navigation.navigate("Privacy Policy")}
+          onPress={() => navigate("/about/privacy")}
         >
           <Text
             style={{
@@ -139,7 +142,7 @@ export default function AboutScreen({ navigation }) {
             justifyContent: "space-between",
             marginTop: 25,
           }}
-          onPress={() => navigation.navigate("Terms")}
+          onPress={() => navigate("/about/terms")}
         >
           <Text
             style={{
@@ -177,7 +180,7 @@ export default function AboutScreen({ navigation }) {
             justifyContent: "space-between",
             marginTop: 25,
           }}
-          onPress={() => navigation.navigate("Third Party")}
+          onPress={() =>navigate("/about/third-party")}
         >
           <Text
             style={{
@@ -215,7 +218,7 @@ export default function AboutScreen({ navigation }) {
             marginTop: 25,
             justifyContent: "space-between",
           }}
-          onPress={() => navigation.navigate("Feedback")}
+          onPress={() => navigate("/about/feedback")}
         >
           <Text
             style={{

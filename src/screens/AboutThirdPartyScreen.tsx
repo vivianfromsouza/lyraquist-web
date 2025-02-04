@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 
-export default function AboutTermsConditions() {
+export default function AboutThirdPartyScreen() {
   const navigate = useNavigate();
 
   return (

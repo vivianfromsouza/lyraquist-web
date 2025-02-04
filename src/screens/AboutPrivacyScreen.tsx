@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from 'react-native';
 import blueLogo from '../assets/blue_small.png';
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AboutScreen() {
+export default function AboutPrivacyScreen() {
   const navigate = useNavigate();
 
   return (
