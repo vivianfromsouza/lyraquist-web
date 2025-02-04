@@ -481,7 +481,7 @@ const HomeScreen: React.FC = () => {
                 Workbooks
               </Text>
               <Pressable
-                onPress={() => navigate("/NewWorkbook", {})}
+                onPress={() => navigate("/workbook/NewWorkbook", {})}
                 style={{
                   flexDirection: "row",
                   marginLeft: 20,
@@ -551,7 +551,7 @@ const HomeScreen: React.FC = () => {
 
         <button
           onClick={() => {
-            navigate("/About");
+            navigate("/about");
           }}
           className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
         >

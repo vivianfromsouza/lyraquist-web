@@ -12,7 +12,7 @@ const StarredLang = ({ value }) => {
 
   return (
     <View>
-      <Pressable onPress={() => navigate("/"+ value.name)}>
+      <Pressable onPress={() => navigate("/language/"+ value.name.toLowerCase())}>
         <View
           style={{
             flexDirection: "row",

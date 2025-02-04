@@ -21,22 +21,23 @@ import PlaylistInfoScreen from "./screens/PlaylistInfoScreen";
 const App: React.FC = () => {
   return (
     <FirebaseProvider>
-      <BrowserRouter basename="/vivianfromsouza/">
+      <BrowserRouter basename="/deploy_react_app_github_pages_vercel/">
         <Routes>
           <Route index element={<SignUpScreen />} />
           <Route path="Login" element={<LoginScreen />} />
           <Route path="SpotifyAuth" element={<SpotifyAuthScreen />} />
-          <Route path="Home" element={<HomeScreen />} />
-          <Route path="Play" element={<PlaybackScreen />} />
-          <Route path="About" element={<AboutScreen />} />
-          <Route path="French" element={<FrenchScreen />} />
-          <Route path="German" element={<GermanScreen />} />
-          <Route path="Spanish" element={<SpanishScreen />} />
+          <Route path="/home" element={<HomeScreen />} />
+          <Route path="/play" element={<PlaybackScreen />} />
+          <Route path="/about" element={<AboutScreen />} />
+
+          <Route path="/language/french" element={<FrenchScreen />} />
+          <Route path="/language/german" element={<GermanScreen />} />
+          <Route path="/language/spanish" element={<SpanishScreen />} />
           <Route path="SearchLanguages" element={<SearchLanguageScreen />} />
           <Route path="Search" element={<SearchScreen />} />
-          <Route path="NewWorkbook" element={<NewWorkbookScreen />} />
-          <Route path="WorkbookInfo" element={<WorkbookInfoScreen />} />
-          <Route path="NewWord" element={<NewWordScreen />} />
+          <Route path="/workbook/newWorkbook" element={<NewWorkbookScreen />} />
+          <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
+          <Route path="/workbook/newWord" element={<NewWordScreen />} />
           {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
           <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
         </Routes>

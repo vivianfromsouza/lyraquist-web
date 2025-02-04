@@ -374,7 +374,7 @@ function WorkbookInfoScreen() {
           >
             <Pressable
               onPress={() =>
-                navigate("/NewWord", {
+                navigate("/workbook/newWord", {
                   state: { name: name, book_id: bookUID },
                 })
               }

@@ -86,7 +86,7 @@ function NewWorkbookScreen() {
             );
           });
 
-          navigate("/Home");
+          navigate("/home");
           Alert.alert("Workbook created successfully!");
         } else {
           Alert.alert(

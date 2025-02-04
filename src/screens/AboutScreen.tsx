@@ -6,9 +6,16 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
+  Image,
 } from "react-native";
+// TODO: STATUSBAR
+// import { StatusBar } from "expo-status-bar";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { ArrowBackOutline } from "react-ionicons";
+import { ImageSourcePropType } from 'react-native';
+import blueLogo from '../assets/blue_small.png';
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AboutScreen() {
+export default function AboutScreen({ navigation }) {
   return (
     <>
       <ScrollView style={styles.container}>
@@ -22,9 +29,226 @@ export default function AboutScreen() {
               marginRight: 20,
             }}
           >
-            <Pressable><Text>Press me!</Text></Pressable>
+            <Pressable
+              style={{ alignSelf: "center", flex: 1 }}
+              onPress={() => navigation.goBack()}
+            >
+              {/* <Ionicons
+                style={{}}
+                name="arrow-back"
+                size={40}
+                color="#303248"
+              /> */}
+              <ArrowBackOutline />
+            </Pressable>
+            <Image
+              source={blueLogo as ImageSourcePropType}
+              style={{
+                height: 60,
+                alignSelf: "center",
+                flex: 1,
+                resizeMode: "contain",
+                marginBottom: 7,
+              }}
+            />
+            <View style={{ flex: 1 }}></View>
           </View>
+          <Text style={styles.title}>About Lyraquist</Text>
         </View>
+
+        <Pressable
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 25,
+          }}
+          onPress={() => navigation.navigate("About us")}
+        >
+          <Text
+            style={{
+              paddingLeft: 40,
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#303248",
+            }}
+          >
+            About us{" "}
+          </Text>
+          {/* <MaterialIcons
+            style={{ alignSelf: "flex-end", paddingRight: 25 }}
+            name="keyboard-arrow-right"
+            size={40}
+            color="#303248"
+          /> */}
+          <KeyboardArrowRightIcon />
+        </Pressable>
+
+        <View
+          style={{
+            borderBottomColor: "gray",
+            borderBottomWidth: 0.5,
+            marginTop: 25,
+            width: "90%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
+        <Pressable
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 25,
+          }}
+          onPress={() => navigation.navigate("Privacy Policy")}
+        >
+          <Text
+            style={{
+              paddingLeft: 40,
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#303248",
+            }}
+          >
+            Privacy Policy{" "}
+          </Text>
+          {/* <MaterialIcons
+            style={{ alignSelf: "flex-end", paddingRight: 25 }}
+            name="keyboard-arrow-right"
+            size={40}
+            color="#303248"
+          /> */}
+          <KeyboardArrowRightIcon />
+        </Pressable>
+        <View
+          style={{
+            borderBottomColor: "gray",
+            borderBottomWidth: 0.5,
+            marginTop: 25,
+            width: "90%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
+
+        <Pressable
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 25,
+          }}
+          onPress={() => navigation.navigate("Terms")}
+        >
+          <Text
+            style={{
+              paddingLeft: 40,
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#303248",
+            }}
+          >
+            Terms & Conditions{" "}
+          </Text>
+          {/* <MaterialIcons
+            style={{ alignSelf: "flex-end", paddingRight: 25 }}
+            name="keyboard-arrow-right"
+            size={40}
+            color="#303248"
+          /> */}
+          <KeyboardArrowRightIcon />
+        </Pressable>
+
+        <View
+          style={{
+            borderBottomColor: "gray",
+            borderBottomWidth: 0.5,
+            marginTop: 25,
+            width: "90%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
+        <Pressable
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 25,
+          }}
+          onPress={() => navigation.navigate("Third Party")}
+        >
+          <Text
+            style={{
+              paddingLeft: 40,
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#303248",
+            }}
+          >
+            Third-Party Software
+          </Text>
+          {/* <MaterialIcons
+            style={{ alignSelf: "flex-end", paddingRight: 25 }}
+            name="keyboard-arrow-right"
+            size={40}
+            color="#303248"
+          /> */}
+          <KeyboardArrowRightIcon />
+        </Pressable>
+        <View
+          style={{
+            borderBottomColor: "gray",
+            borderBottomWidth: 0.5,
+            marginTop: 25,
+            width: "90%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
+
+        <Pressable
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 25,
+            justifyContent: "space-between",
+          }}
+          onPress={() => navigation.navigate("Feedback")}
+        >
+          <Text
+            style={{
+              paddingLeft: 40,
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#303248",
+            }}
+          >
+            Send us Feedback
+          </Text>
+          {/* <MaterialIcons
+            style={{ alignSelf: "flex-end", paddingRight: 25 }}
+            name="keyboard-arrow-right"
+            size={40}
+            color="#303248"
+          /> */}
+          <KeyboardArrowRightIcon />
+        </Pressable>
+        <View
+          style={{
+            borderBottomColor: "gray",
+            borderBottomWidth: 0.5,
+            marginTop: 25,
+            width: "90%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
+
+        <Text>{"\n\n\n"}</Text>
+
+        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

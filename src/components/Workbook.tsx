@@ -23,7 +23,7 @@ const Workbook = ({ item }) => {
   return (
     <Pressable
       onPress={() =>
-        navigate("/WorkbookInfo", {
+        navigate("/workbook/info", {
           state: item,
         })
       }
