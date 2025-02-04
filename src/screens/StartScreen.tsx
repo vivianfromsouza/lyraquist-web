@@ -9,10 +9,10 @@ import {
   PixelRatio,
   Image,
 } from "react-native";
-import { ImageSourcePropType } from 'react-native';
-import fullLogo from '../assets/Full_Logo.png';
-import worldLogo from '../assets/world_logo.png';
-
+import { ImageSourcePropType } from "react-native";
+import fullLogo from "../assets/Full_Logo.png";
+import worldLogo from "../assets/world_logo.png";
+import { useNavigate } from "react-router-dom";
 
 //setting up pixelRatio, font scale is based off device size
 const fontScale = PixelRatio.getFontScale();
@@ -20,8 +20,10 @@ const getFontSize = (size) => size / fontScale;
 
 // This is the first screen we see when we run our application.
 
-export default function StartScreen({ navigation }) {
+export default function StartScreen() {
   // // to persist user login across app restarts
+  const navigate = useNavigate();
+
   const spinValue = new Animated.Value(0);
 
   Animated.loop(
@@ -53,10 +55,7 @@ export default function StartScreen({ navigation }) {
               Spotify Premium is needed to create an account
             </Text>
           </View>
-          <Pressable
-            onPress={() => navigation.navigate("Signup", {})}
-            style={styles.signUp}
-          >
+          <Pressable onPress={() => navigate("/signUp")} style={styles.signUp}>
             <Text
               accessible={true}
               accessibilityLabel="signup"
@@ -74,7 +73,7 @@ export default function StartScreen({ navigation }) {
           <Pressable
             style={styles.logIn}
             accessibilityLabel="loginClick"
-            onPress={() => navigation.navigate("Login", {})}
+            onPress={() => navigate("/login")}
           >
             <Text
               accessible={true}
@@ -99,6 +98,70 @@ export default function StartScreen({ navigation }) {
       </View>
     </View>
   );
+  //   <View style={styles.container}>
+  //     <View>
+  //       <View style={styles.info}>
+  //         <Image
+  //           style={styles.circle}
+  //           source={fullLogo as ImageSourcePropType}
+  //         />
+  //         <Text
+  //           accessible={true}
+  //           accessibilityLabel="title"
+  //           style={styles.title}
+  //         >
+  //           LYRAQUIST
+  //         </Text>
+  //         <View style={{ flexDirection: "row", alignItems: "center" }}>
+  //           <Text style={styles.warning}>
+  //             Spotify Premium is needed to create an account
+  //           </Text>
+  //         </View>
+  //         <Pressable
+  //           onPress={() => navigation.navigate("Signup", {})}
+  //           style={styles.signUp}
+  //         >
+  //           <Text
+  //             accessible={true}
+  //             accessibilityLabel="signup"
+  //             style={{
+  //               margin: 10,
+  //               fontSize: 18,
+  //               fontWeight: "400",
+  //               marginHorizontal: 70,
+  //               color: "#e8e1db",
+  //             }}
+  //           >
+  //             Sign Up
+  //           </Text>
+  //         </Pressable>
+  //         <Pressable
+  //           style={styles.logIn}
+  //           accessibilityLabel="loginClick"
+  //           onPress={() => navigation.navigate("Login", {})}
+  //         >
+  //           <Text
+  //             accessible={true}
+  //             accessibilityLabel="login"
+  //             style={{
+  //               margin: 10,
+  //               fontSize: 18,
+  //               fontWeight: "400",
+  //               marginHorizontal: 77,
+  //               color: "#e8e1db",
+  //             }}
+  //           >
+  //             Log In
+  //           </Text>
+  //         </Pressable>
+  //       </View>
+  //       <Image
+  //         style={styles.bigCircle}
+  //         source={worldLogo as ImageSourcePropType}
+  //       />
+  //       {/* <StatusBar style="auto" /> */}
+  //     </View>
+  //   </View>
 }
 
 const styles = StyleSheet.create({

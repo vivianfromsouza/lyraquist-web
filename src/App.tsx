@@ -26,15 +26,17 @@ import PrivacyScreen from "./screens/PrivacySocials";
 import AccountSettings from "./screens/AccountSettings";
 import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import StartScreen from "./screens/StartScreen";
 
 const App: React.FC = () => {
   return (
     <FirebaseProvider>
       <BrowserRouter>
         <Routes>
-          <Route index element={<SignUpScreen />} />
-          <Route path="Login" element={<LoginScreen />} />
-          <Route path="SpotifyAuth" element={<SpotifyAuthScreen />} />
+          <Route index element={<StartScreen />} />
+          <Route path="/signUp" element={<SignUpScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/spotifyAuth" element={<SpotifyAuthScreen />} />
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/play" element={<PlaybackScreen />} />
           <Route path="/privacy" element={<PrivacyScreen />} />
