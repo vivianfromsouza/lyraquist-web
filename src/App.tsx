@@ -30,7 +30,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 const App: React.FC = () => {
   return (
     <FirebaseProvider>
-      <BrowserRouter basename="/deploy_react_app_github_pages_vercel/">
+      <BrowserRouter>
         <Routes>
           <Route index element={<SignUpScreen />} />
           <Route path="Login" element={<LoginScreen />} />

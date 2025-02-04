@@ -37,7 +37,7 @@ import LocalSupabaseClient from "../services/LocalSupabaseClient";
 let counter = 0;
 // TODO: FIx font sizing here
 // const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / 100;
+const getFontSize = (size) => size;
 
 const HomeScreen: React.FC = () => {
   const [authCode, setAuthCode] = useState<string | null>("");
@@ -83,7 +83,7 @@ const HomeScreen: React.FC = () => {
   }
 
   async function getHistory() {
-    isLoading(!loading);
+    isLoading(true);
     console.log(user);
     console.log(accessCode);
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
@@ -142,7 +142,6 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     getAuthCode();
     getAccessCode();
-
     try {
       const handleUserInserts = (payload) => {
         getUsername();
