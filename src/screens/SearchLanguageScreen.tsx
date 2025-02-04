@@ -19,7 +19,7 @@ export default function SearchLanguage() {
   // State variables
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   // use this link for country flags: https://flags.fmcdn.net/
-  const [languages, setLanguages] = useState([
+  const [languages] = useState([
     // State for list of languages
     {
       id: 1,

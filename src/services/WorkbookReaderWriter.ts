@@ -24,13 +24,14 @@ const WorkbookReaderWriter = {
       name: newWorkbookName,
       user_id: currentUser,
     });
-
+    console.log(error)
     return newBookUID;
   },
 
   async deleteWorkbook(bookUID: string) {
     const response = await LocalSupabaseClient.from("workbooks").delete().eq("book_id", bookUID);
     const wordsResponse = await LocalSupabaseClient.from("words").delete().eq("book_id", bookUID);
+    console.log(wordsResponse)
     return response;
   },
 };

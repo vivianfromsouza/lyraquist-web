@@ -22,7 +22,7 @@ const RecordReaderWriter = {
     return data;
   },
 
-  async addSongToRecords(songID : string, playID : string) {
+  async addSongToRecords(songID: string, playID: string) {
     const { error } = await LocalSupabaseClient.from("records").insert({
       record_id: uuidv4(),
       user_id: currentUser,
@@ -33,7 +33,7 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async getAllPlaylistSongs(playlistID : string) {
+  async getAllPlaylistSongs(playlistID: string) {
     const { data, error } = await LocalSupabaseClient.from("records")
       .select(
         `
@@ -48,10 +48,12 @@ const RecordReaderWriter = {
       .eq("user_id", currentUser)
       .order("song_id", { ascending: true });
 
+    console.log(error);
+
     return data;
   },
 
-  async deleteSongFromRecords(songID : string) {
+  async deleteSongFromRecords(songID: string) {
     const { error } = await LocalSupabaseClient.from("records")
       .delete()
       .eq("song_id", songID)
@@ -59,14 +61,14 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async deleteSongFromPlaylist(recordID : string) {
+  async deleteSongFromPlaylist(recordID: string) {
     const { error } = await LocalSupabaseClient.from("records")
       .delete()
       .eq("record_id", recordID);
     return error;
   },
 
-  async likeSong(songID : string) {
+  async likeSong(songID: string) {
     const { error } = await LocalSupabaseClient.from("records")
       .update({ is_liked: true })
       .eq("song_id", songID)
@@ -74,7 +76,7 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async unlikeSong(songID : string) {
+  async unlikeSong(songID: string) {
     console.log(songID);
     const { error } = await LocalSupabaseClient.from("records")
       .update({ is_liked: false })
@@ -83,38 +85,44 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async isSongInPlaylist(songID : string, playlistID : string) {
+  async isSongInPlaylist(songID: string, playlistID: string) {
     const { count, status, error } = await LocalSupabaseClient.from("records")
       .select("*", { count: "exact", head: true })
       .eq("song_id", songID)
       .eq("playlist_id", playlistID)
       .eq("user_id", currentUser);
+    console.log(error);
+    console.log(status);
 
-    if (count > 0) {
+    if (count! > 0) {
       return true;
     }
     return false;
   },
 
-  async isSongInRecords(songID : string) {
+  async isSongInRecords(songID: string) {
     const { count, status, error } = await LocalSupabaseClient.from("records")
       .select("*", { count: "exact", head: true })
       .eq("song_id", songID)
       .eq("user_id", currentUser);
 
-      if (count > 0) {
+    console.log(error);
+    console.log(status);
+
+    if (count! > 0) {
       return true;
     }
     return false;
   },
 
-  async getLike(songID : string) {
+  async getLike(songID: string) {
     const { data, error } = await LocalSupabaseClient.from("records")
       .select("is_liked")
       .eq("song_id", songID)
       .eq("user_id", currentUser)
       .limit(1)
-      .single()
+      .single();
+    console.log(error);
     return data;
   },
 };

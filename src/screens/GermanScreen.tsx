@@ -14,7 +14,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { ArrowBackOutline, SearchOutline } from "react-ionicons";
-import DisplayPlaylistService from "../services/DisplayPlaylist";
+// import DisplayPlaylistService from "../services/DisplayPlaylist";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
@@ -32,16 +32,17 @@ export default function GermanScreen() {
   const [saved, setSaved] = useState(false); // State for saved language
   const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
-  const albumId = "4c1pA2jjZhOT65c4PDP9tI"; // ID of the playlist
+  // const albumId = "4c1pA2jjZhOT65c4PDP9tI"; // ID of the playlist
   const navigate = useNavigate();
 
   // Function to handle search
   const handleSearch = async (text) => {
     try {
-      setIsLoading(true);
+      setIsLoading(!isLoading);
       setSearchTerm(text);
       // Fetch playlist data
-      const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
+      // const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
+      const playlistData = [];
       // Filter and format search results
 
       const formattedData = playlistData

@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Worked on by: Vivian D'Souza
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Alert } from "react-native";
 import axios from "axios";
 import UserReaderWriter from "./UserReaderWriter";
@@ -9,7 +9,7 @@ import RecordReaderWriter from "./RecordReaderWriter";
 
 // This service handles CRUD operations to Firebase for any song a user adds to their playlists
 const SongReaderWriter = {
-  async getSongDetails(track_id : string): Promise<object> {
+  async getSongDetails(track_id: string): Promise<object> {
     const getSong = function () {
       return new Promise<any[]>((resolve) => {
         UserReaderWriter.getUserAccessCode().then((accessCode) => {
@@ -46,11 +46,13 @@ const SongReaderWriter = {
       album: newSong.track.album.name,
       spotify_url: newSong.track.id,
     });
+    console.log(error);
+
     return song_id;
   },
 
   async addSongToDBFromPlayItem(newSong) {
-    console.log(newSong)
+    console.log(newSong);
     const song_id = uuidv4();
     const { error } = await LocalSupabaseClient.from("songs").insert({
       song_id: song_id,
@@ -61,10 +63,12 @@ const SongReaderWriter = {
       album: newSong.album,
       spotify_url: newSong.spotifyURL.split(":")[2],
     });
+    console.log(error);
+
     return song_id;
   },
 
-  async deleteSongFromDB(songUID : string) {
+  async deleteSongFromDB(songUID: string) {
     const response = await LocalSupabaseClient.from("songs")
       .delete()
       .eq("song_id", songUID);
@@ -72,30 +76,31 @@ const SongReaderWriter = {
     return response;
   },
 
-  async isSongInDB(spotifyURL : string) {
+  async isSongInDB(spotifyURL: string) {
     const { count, error } = await LocalSupabaseClient.from("songs")
       .select("*", { count: "exact", head: true })
       .eq("spotify_url", spotifyURL);
 
-    if (count > 0) {
+    if (count! > 0) {
       return true;
     }
 
     return false;
+    console.log(error);
   },
 
-  async getSongIDByURL(spotifyURL : string) {
+  async getSongIDByURL(spotifyURL: string) {
     const { data } = await LocalSupabaseClient.from("songs")
       .select("song_id")
       .eq("spotify_url", spotifyURL)
       .limit(1)
       .single()
       .throwOnError();
-      console.log(data)
+    console.log(data);
     return data;
   },
 
-  async getSongURL(songID : string) {
+  async getSongURL(songID: string) {
     const { data } = await LocalSupabaseClient.from("songs")
       .select("spotify_url")
       .eq("song_id", songID)

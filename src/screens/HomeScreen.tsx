@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/prefer-as-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAuth } from "firebase/auth";
@@ -17,7 +18,7 @@ import {
   Pressable,
   ScrollView,
   View,
-  PixelRatio,
+  // PixelRatio,
   Text,
   StatusBar,
   ActivityIndicator,
@@ -33,9 +34,10 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 
-var counter = 0;
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / fontScale;
+let counter = 0;
+// TODO: FIx font sizing here
+// const fontScale = PixelRatio.getFontScale();
+const getFontSize = (size) => size / 100;
 
 const HomeScreen: React.FC = () => {
   const [authCode, setAuthCode] = useState<string | null>("");
@@ -81,7 +83,9 @@ const HomeScreen: React.FC = () => {
   }
 
   async function getHistory() {
-    isLoading(true);
+    isLoading(!loading);
+    console.log(user)
+    console.log(accessCode)
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
       const historySongs: PlayItem[] = history.map((song) => ({
         artist: song.songs["artist"],
@@ -170,60 +174,60 @@ const HomeScreen: React.FC = () => {
         )
         .subscribe((status) => console.log("H:" + status));
 
-      const handleLanguageInserts = (payload) => {
-        getLanguages();
-      };
+      // const handleLanguageInserts = (payload) => {
+      //   getLanguages();
+      // };
 
       getLanguages();
 
-      LocalSupabaseClient.channel("languages").on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "languages" },
-        handleLanguageInserts
-      );
+      // LocalSupabaseClient.channel("languages").on(
+      //   "postgres_changes",
+      //   { event: "*", schema: "public", table: "languages" },
+      //   handleLanguageInserts
+      // );
 
-      const handleWorkbookInserts = (payload) => {
-        getWorkbooks();
-      };
+      // const handleWorkbookInserts = (payload) => {
+      //   getWorkbooks();
+      // };
 
       getWorkbooks();
 
-      LocalSupabaseClient.channel("workbooks")
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table: "workbooks" },
-          handleWorkbookInserts
-        )
-        .subscribe();
+      // LocalSupabaseClient.channel("workbooks")
+      //   .on(
+      //     "postgres_changes",
+      //     { event: "*", schema: "public", table: "workbooks" },
+      //     handleWorkbookInserts
+      //   )
+      //   .subscribe();
 
-      const handlePlaylistInserts = (payload) => {
-        getPlaylists();
-      };
+      // const handlePlaylistInserts = (payload) => {
+      //   getPlaylists();
+      // };
 
       getPlaylists();
 
-      LocalSupabaseClient.channel("playlists")
-        .on(
-          "postgres_changes",
-          { event: "INSERT", schema: "public", table: "playlists" },
-          handlePlaylistInserts
-        )
-        .subscribe((status) => console.log("P:" + status));
+      // LocalSupabaseClient.channel("playlists")
+      //   .on(
+      //     "postgres_changes",
+      //     { event: "INSERT", schema: "public", table: "playlists" },
+      //     handlePlaylistInserts
+      //   )
+      //   .subscribe((status) => console.log("P:" + status));
 
       // whenever a song is added or deleted, the home screen will update with new set of songs
-      const handleRecordInserts = (payload) => {
-        getSongs();
-      };
+      // const handleRecordInserts = (payload) => {
+      //   getSongs();
+      // };
 
       getSongs();
 
-      LocalSupabaseClient.channel("records")
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table: "records" },
-          handleRecordInserts
-        )
-        .subscribe((status) => console.log(status));
+      // LocalSupabaseClient.channel("records")
+      //   .on(
+      //     "postgres_changes",
+      //     { event: "*", schema: "public", table: "records" },
+      //     handleRecordInserts
+      //   )
+      //   .subscribe((status) => console.log(status));
 
       UserReaderWriter.getCurrentTrackDetails().then((track) => {
         console.log("CURR TRACK:");

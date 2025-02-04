@@ -1,7 +1,7 @@
 // Worked on by: Vivian D'Souza
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import { v4 as uuidv4 } from "uuid";
+
+//TODO: UPDATE PASSWORD/EMAIL FOR NEW AUTH
 
 const currentUser = localStorage.getItem("current_user");
 
@@ -26,6 +26,7 @@ const UserReaderWriter = {
       time_token_taken: "",
       spotify_user: "",
     });
+    console.log(error);
 
     return false;
   },
@@ -122,31 +123,33 @@ const UserReaderWriter = {
   // TODO: FIX THIS WITH NEW AUTH OBJECT
   async writeUserEmail(newEmail: string) {
     // TODO: VERIFY UPDATE NOW FOR SUPABASE
-    auth().currentUser.verifyBeforeUpdateEmail(newEmail);
-    const { error } = await LocalSupabaseClient.from("users")
-      .update({ email: newEmail })
-      .eq("user_id", currentUser);
-    return error;
+    // auth().currentUser.verifyBeforeUpdateEmail(newEmail);
+    // const { error } = await LocalSupabaseClient.from("users")
+    //   .update({ email: newEmail })
+    //   .eq("user_id", currentUser);
+    // return error;
+    console.log(newEmail);
   },
 
   // TODO: FIX THIS WITH NEW AUTH OBJECT
   async writeUserPassword(newPassword: string) {
-    auth()
-      .currentUser.updatePassword(newPassword)
-      .then(async () => {
-        // Password updated successfully
-        const { error } = await LocalSupabaseClient.from("users")
-          .update({ password: newPassword })
-          .eq("user_id", currentUser);
-        console.log("Password updated!");
-        return true;
-      })
-      .catch((error : string) => {
-        // An error happened.
-        console.error(error);
-        return false;
-      });
-    return true;
+    // auth()
+    //   .currentUser.updatePassword(newPassword)
+    //   .then(async () => {
+    //     // Password updated successfully
+    //     const { error } = await LocalSupabaseClient.from("users")
+    //       .update({ password: newPassword })
+    //       .eq("user_id", currentUser);
+    //     console.log("Password updated!");
+    //     return true;
+    //   })
+    //   .catch((error : string) => {
+    //     // An error happened.
+    //     console.error(error);
+    //     return false;
+    //   });
+    // return true;
+    console.log(newPassword);
   },
 
   async getPreferredLanguage() {
@@ -201,7 +204,9 @@ const UserReaderWriter = {
     const { data, error } = await LocalSupabaseClient.from("users")
       .select("spotify_user")
       .eq("user_id", currentUser);
-    return data["spotify_user"];
+    console.log(error);
+
+    return data!["spotify_user"];
   },
 
   async writeSpotifyUserId(spotifyUser: string) {

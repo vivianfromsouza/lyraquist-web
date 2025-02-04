@@ -1,6 +1,4 @@
 import { StyleSheet, Text, Pressable} from 'react-native';
-import React from 'react'
-
 
 const WordItem = ({item}) => {
     return (

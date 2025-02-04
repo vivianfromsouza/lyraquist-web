@@ -1,6 +1,5 @@
 // Worked on by: Tanvi Singh, Vivian D'Souza
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
 import UserReaderWriter from "./UserReaderWriter";
 import SongReaderWriter from "./SongReaderWriter";
@@ -9,6 +8,8 @@ import RecordReaderWriter from "./RecordReaderWriter";
 const SpotifyPlaylist = {
   // obtains all of a user's playlists as an array
   getUserPlaylists(userId: string): Promise<object> {
+    console.log(userId)
+
     // Define function to get the song from Spotify API
     const getPlaylists = function () {
       return new Promise<object[]>((resolve) => {
@@ -82,7 +83,7 @@ const SpotifyPlaylist = {
             }
 
           } else {
-            const newSongID = SongReaderWriter.addSongToDBFromSpotifyTrack(tracks[i]);
+            const newSongID = await SongReaderWriter.addSongToDBFromSpotifyTrack(tracks[i]);
             RecordReaderWriter.addSongToRecords(newSongID, playUID);
           }
         }

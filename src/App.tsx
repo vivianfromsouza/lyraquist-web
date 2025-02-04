@@ -15,7 +15,7 @@ import SearchScreen from "./screens/SearchScreen";
 import NewWorkbookScreen from "./screens/NewWorkbookScreen";
 import WorkbookInfoScreen from "./screens/WorkbookInfoScreen";
 import NewWordScreen from "./screens/NewWordScreen";
-import FlashcardScreen from "./screens/FlashcardsScreen";
+// import FlashcardScreen from "./screens/FlashcardsScreen";
 import PlaylistInfoScreen from "./screens/PlaylistInfoScreen";
 
 const App: React.FC = () => {
@@ -37,7 +37,7 @@ const App: React.FC = () => {
           <Route path="NewWorkbook" element={<NewWorkbookScreen />} />
           <Route path="WorkbookInfo" element={<WorkbookInfoScreen />} />
           <Route path="NewWord" element={<NewWordScreen />} />
-          <Route path="Flashcards" element={<FlashcardScreen />} />
+          {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
           <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
         </Routes>
       </BrowserRouter>

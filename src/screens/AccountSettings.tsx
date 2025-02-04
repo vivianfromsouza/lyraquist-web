@@ -30,7 +30,7 @@ export default function AccountSettings({ route }) {
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [preferredLanguage, setPreferredLanguage] = useState<string>();
+  const [preferredLanguage] = useState<string>();
   const [prefLang, setPrefLang] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
@@ -44,10 +44,10 @@ export default function AccountSettings({ route }) {
 
   useEffect(() => {
     try {
-      const handleUserInserts = (payload) => {
-        console.log("Change received!", payload);
-        getPrefLang();
-      };
+      // const handleUserInserts = (payload) => {
+      //   console.log("Change received!", payload);
+      //   getPrefLang();
+      // };
 
       getPrefLang();
 
@@ -97,7 +97,7 @@ export default function AccountSettings({ route }) {
     } else if (password == confirmPassword) {
       await UserReaderWriter.writeUserPassword(password!.trim()).then(
         (result) => {
-          if (result) {
+          if (result != null) {
             Alert.alert(
               "Password changed successfully!",
               "You will now need to sign-in again with your new password"

@@ -3,16 +3,16 @@
 import HistoryReaderWriter from "./HistoryReaderWriter";
 
 // currently playing song ID
-var currSong = "default value";
+let currSong = "default value";
 // is the music playback active
-var isPlaying = false;
+let isPlaying = false;
 // last played song ID
-var lastSong = "";
+let lastSong = "";
 
-var progress = 0;
-var position = 0;
-var isFirstStart = true;
-var duration = 0;
+let progress = 0;
+let position = 0;
+let isFirstStart = true;
+let duration = 0;
 
 // setAppStartValues();
 const GlobalPlayer = {

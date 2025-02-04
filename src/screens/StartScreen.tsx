@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import {
   Animated,
   Easing,
@@ -9,6 +9,10 @@ import {
   PixelRatio,
   Image,
 } from "react-native";
+import { ImageSourcePropType } from 'react-native';
+import fullLogo from '../assets/Full_Logo.png';
+import worldLogo from '../assets/world_logo.png';
+
 
 //setting up pixelRatio, font scale is based off device size
 const fontScale = PixelRatio.getFontScale();
@@ -35,7 +39,7 @@ export default function StartScreen({ navigation }) {
         <View style={styles.info}>
           <Image
             style={styles.circle}
-            source={require("../assets/Full_Logo.png")}
+            source={fullLogo as ImageSourcePropType}
           />
           <Text
             accessible={true}
@@ -89,9 +93,9 @@ export default function StartScreen({ navigation }) {
         </View>
         <Image
           style={styles.bigCircle}
-          source={require("../assets/world_logo.png")}
+          source={worldLogo as ImageSourcePropType}
         />
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </View>
     </View>
   );

@@ -14,7 +14,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { ArrowBackOutline, SearchOutline } from "react-ionicons";
-import DisplayPlaylistService from "../services/DisplayPlaylist";
+// import DisplayPlaylistService from "../services/DisplayPlaylist";
+// TODO: REIMPLEMENT DISPLAYPLAYLISTSERVICE
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
@@ -32,16 +33,17 @@ export default function FrenchScreen() {
   const [saved, setSaved] = useState(false); // State for saved language
   const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
-  const albumId = "1KEn8Fvf4KZOfs32Lxjqbx"; // ID of the playlist
+  // const albumId = "1KEn8Fvf4KZOfs32Lxjqbx"; // ID of the playlist
   const navigate = useNavigate();
 
   // Function to handle search
   const handleSearch = async (text) => {
     try {
-      setIsLoading(true);
+      setIsLoading(!isLoading);
       setSearchTerm(text);
       // Fetch playlist data
-      const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
+      // const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
+      const playlistData = []
       // Filter and format search results
 
       const formattedData = playlistData
@@ -76,7 +78,7 @@ export default function FrenchScreen() {
   useEffect(() => {
     checkStar(); // Check if French language is starred
     handleSearch(""); // Initial search with empty string
-  }, []);
+  });
 
   // Function to render each search result item
   const renderSearchResultItem = ({ item }) => (

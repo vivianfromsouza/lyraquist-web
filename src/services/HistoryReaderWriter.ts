@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // Worked on by: Vivian D'Souza
 
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
@@ -18,10 +17,11 @@ const HistoryReaderWriter = {
       )
       .eq("user_id", currentUser)
       .order("num", { ascending: false });
+    console.log(error);
     return data;
   },
 
-  async addUserHistory(spotifyURL: string, songID: string) {
+  async addUserHistory(songID: string) {
     // check if that song is in the list of current entries for that user
 
     // check if there are even 10 entries for that user
@@ -36,9 +36,10 @@ const HistoryReaderWriter = {
       .select("*", { count: "exact", head: true })
       .eq("song_id", songID)
       .eq("user_id", currentUser);
+    console.log(error);
 
     // song in list already
-    if (count > 0) {
+    if (count! > 0) {
       const { data, count } = await LocalSupabaseClient.from("history")
         .select("*", {
           count: "exact",
@@ -46,31 +47,39 @@ const HistoryReaderWriter = {
         })
         .eq("user_id", currentUser);
 
+      console.log(data);
+
       const numOfEntries = count;
 
-      if (numOfEntries >= 10) {
+      if (numOfEntries! >= 10) {
         const { data, error } = await LocalSupabaseClient.from("history")
           .update({ num: 10 })
           .eq("song_id", songID)
           .eq("user_id", currentUser);
+        console.log(data);
 
         if (error == null) {
           const { data, error } = await LocalSupabaseClient.rpc("decrement", {
             x: 1,
             user_id: currentUser,
           });
+          console.log(data);
+          console.log(error);
         }
       } else {
         const { data, error } = await LocalSupabaseClient.from("history")
-          .update({ num: count + 1 })
+          .update({ num: count! + 1 })
           .eq("song_id", songID)
           .eq("user_id", currentUser);
+        console.log(data);
 
         if (error == null) {
           const { data, error } = await LocalSupabaseClient.rpc("decrement", {
             x: 1,
             user_id: currentUser,
           });
+          console.log(data);
+          console.log(error);
         }
       }
     } else {
@@ -81,11 +90,12 @@ const HistoryReaderWriter = {
           head: true,
         })
         .eq("user_id", currentUser);
+      console.log(data);
 
       const numOfEntries = count;
 
       //list is full
-      if (numOfEntries >= 10) {
+      if (numOfEntries! >= 10) {
         const { error } = await LocalSupabaseClient.from("history")
           .delete()
           .eq("user_id", currentUser)
@@ -96,31 +106,36 @@ const HistoryReaderWriter = {
             x: 1,
             user_id: currentUser,
           });
+          console.log(data);
+          console.log(error);
         }
 
-        this.insertHistory(songID, spotifyURL, 1);
+        this.insertHistory(songID, 1);
       } else {
         // list is not full
-        this.insertHistory(songID, spotifyURL, numOfEntries + 1);
+        this.insertHistory(songID, numOfEntries! + 1);
       }
     }
   },
 
-  async insertHistory(songID : string, spotifyURL : string, numOfEntries : string) {
+  async insertHistory(songID: string, numOfEntries: number) {
     const { error } = await LocalSupabaseClient.from("history").insert({
       history_id: uuidv4(),
       user_id: currentUser,
       song_id: songID,
       num: numOfEntries,
     });
+
+    console.log(error);
   },
 
-  async isSongInHistory(songID : string) {
+  async isSongInHistory(songID: string) {
     const { count, error } = await LocalSupabaseClient.from("history")
       .select("*", { count: "exact", head: true })
       .eq("song_id", songID);
 
-    if (count > 0) {
+    console.log(error);
+    if (count! > 0) {
       return true;
     }
 
@@ -139,8 +154,9 @@ const HistoryReaderWriter = {
       .single();
 
     console.log(data);
+    console.log(error);
 
-    const url = SongReaderWriter.getSongURL(data["song_id"]);
+    const url = SongReaderWriter.getSongURL(data!["song_id"]);
     return url;
   },
 };

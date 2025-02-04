@@ -1,6 +1,4 @@
 // Worked on by: Siri Avula
-
-import React from "react";
 import {
   View,
   Text,
@@ -9,9 +7,13 @@ import {
   Dimensions,
   Pressable,
   Image,
+  ImageSourcePropType,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
+import { ArrowBackOutline } from "react-ionicons";
+import blueLogo from '../assets/blue_small.png';
+
+// TODO: FIX STATUS BAR
+// import { StatusBar } from "expo-status-bar";
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AboutScreen({ navigation }) {
   return (
@@ -31,15 +33,16 @@ export default function AboutScreen({ navigation }) {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigation.goBack()}
             >
-              <Ionicons
+              {/* <Ionicons
                 style={{}}
                 name="arrow-back"
                 size={40}
                 color="#303248"
-              />
+              /> */}
+              <ArrowBackOutline />
             </Pressable>
             <Image
-              source={require("../assets/blue_small.png")}
+              source={blueLogo as ImageSourcePropType}
               style={{
                 height: 60,
                 alignSelf: "center",
@@ -67,7 +70,7 @@ export default function AboutScreen({ navigation }) {
         </Text>
         <Text>{"\n\n\n\n"}</Text>
 
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

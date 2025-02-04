@@ -41,9 +41,9 @@ function PlaylistInfoScreen() {
   useEffect(() => {
     try {
       // whenever a playlist is added or deleted, the home screen will update with new set of playlist
-      const handleRecordInserts = (payload) => {
-        getAllSongsFromPlaylist(playUID);
-      };
+      // const handleRecordInserts = (payload) => {
+      //   getAllSongsFromPlaylist(playUID);
+      // };
 
       // downloadSongsFromSpotify(spotifyURL);
       getAllSongsFromPlaylist(playUID);

@@ -1,5 +1,5 @@
 // Worked on by: Vivian D'Souza
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,16 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
+import { ArrowBackOutline } from "react-ionicons";
+
+import SimpleLineIcon from "react-simple-line-icons";
 import UserReaderWriter from "../services/UserReaderWriter";
-import auth from "@react-native-firebase/auth";
-import { StatusBar } from "expo-status-bar";
-import db from "@react-native-firebase/database";
-import LocalSupabaseClient from "../services/LocalSupabaseClient";
+import { getAuth } from "firebase/auth";
+import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
+import { ImageSourcePropType } from "react-native";
+import yellowLogo from "../assets/yellow_small.png";
+// TODO: FIx status bar
+// import { StatusBar } from "expo-status-bar";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function SettingsScreen({ route, navigation }) {
@@ -26,10 +30,14 @@ export default function SettingsScreen({ route, navigation }) {
   const [email, setEmail] = useState<string>();
   const [newEmail, setNewEmail] = useState<string>("");
 
+  const auth = getAuth(LocalFirebaseClient);
+
+  // TODO: Manage new sign out
+
   function signOut() {
-    if (auth().currentUser) {
+    if (auth.currentUser) {
       setIsLoggedIn(false);
-      auth().signOut();
+      auth.signOut();
     }
   }
 
@@ -64,10 +72,10 @@ export default function SettingsScreen({ route, navigation }) {
 
   useEffect(() => {
     try {
-      const handleUserInserts = (payload) => {
-        getUserName();
-        getEmail();
-      };
+      // const handleUserInserts = (payload) => {
+      //   getUserName();
+      //   getEmail();
+      // };
 
       getUserName();
       getEmail();
@@ -80,7 +88,6 @@ export default function SettingsScreen({ route, navigation }) {
       //     handleUserInserts
       //   )
       //   .subscribe();
-
     } catch (err) {
       console.log(err);
     }
@@ -116,15 +123,16 @@ export default function SettingsScreen({ route, navigation }) {
               accessibilityLabel="backToSettings"
               accessible={true}
             >
-              <Ionicons
+              {/* <Ionicons
                 style={{}}
                 name="arrow-back"
                 size={40}
                 color="#e8e1db"
-              />
+              /> */}
+              <ArrowBackOutline />
             </Pressable>
             <Image
-              source={require("../assets/yellow_small.png")}
+              source={yellowLogo as ImageSourcePropType}
               style={{
                 height: 60,
                 alignSelf: "center",
@@ -140,12 +148,13 @@ export default function SettingsScreen({ route, navigation }) {
 
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <View style={styles.circle} />
-          <SimpleLineIcons
+          {/* <SimpleLineIcons
             style={{ position: "absolute", marginTop: 12 }}
             name="user"
             size={80}
             color="#303248"
-          />
+          /> */}
+          <SimpleLineIcon name="minus" />
         </View>
 
         <Text
@@ -310,7 +319,7 @@ export default function SettingsScreen({ route, navigation }) {
             Change Email
           </Text>
         </Pressable>
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
         <Text>{"\n\n\n\n\n"}</Text>
       </ScrollView>
     </>

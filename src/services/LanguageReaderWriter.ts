@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // Worked on by: Vivian D'Souza
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
@@ -10,10 +9,12 @@ const LanguageReaderWriter = {
       .select()
       .eq("user_id", currentUser);
 
+    console.log(error);
+
     return data;
   },
 
-  async addLanguages(language : string) {
+  async addLanguages(language: string) {
     const { error } = await LocalSupabaseClient.from("languages").insert({
       language_id: uuidv4(),
       name: language,
@@ -22,7 +23,7 @@ const LanguageReaderWriter = {
     return error;
   },
 
-  async deleteLangauge(language : string) {
+  async deleteLangauge(language: string) {
     const response = await LocalSupabaseClient.from("languages")
       .delete()
       .eq("user_id", currentUser)
@@ -30,13 +31,15 @@ const LanguageReaderWriter = {
     return response;
   },
 
-  async isLanguageStarred(language : string) {
+  async isLanguageStarred(language: string) {
     const { count, status, error } = await LocalSupabaseClient.from("languages")
       .select("*", { count: "exact", head: true })
       .eq("name", language)
       .eq("user_id", currentUser);
 
-    if (count > 0) {
+    console.log(status);
+    console.log(error);
+    if (count! > 0) {
       return true;
     }
     return false;

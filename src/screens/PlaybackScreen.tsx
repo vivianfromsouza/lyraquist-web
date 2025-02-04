@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import { useState, useEffect } from "react";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -6,13 +7,21 @@ import { useLocation } from "react-router-dom";
 function PlaybackScreen() {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
-  const [player, setPlayer] = useState(undefined);
+  const [player, setPlayer] = useState(
+    new window.Spotify.Player({
+      name: "Web Playback SDK",
+      getOAuthToken: (cb) => {
+        cb(accessToken);
+      },
+      volume: 0.5,
+    })
+  );
   const [device_id, setDeviceId] = useState("");
   const accessToken = UserReaderWriter.getUserAccessCode();
 
   const location = useLocation();
   const playItem = location.state;
-  const [currentURL, setCurrentURL] = useState(playItem.spotifyURL);
+  const [currentURL] = useState(playItem.spotifyURL);
 
   const track = {
     name: playItem.name,
@@ -81,7 +90,7 @@ function PlaybackScreen() {
 
       player.addListener("player_state_changed", (state) => {
         console.log("song changed");
-        setTrack(track)
+        setTrack(track);
         if (!state) {
           return;
         }
