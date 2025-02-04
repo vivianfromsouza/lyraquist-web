@@ -38,7 +38,7 @@ const development = process.env.NODE_ENV === "development";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/vivianfromsouza/",
+  base: process.env.VITE_BASE_PATH || "/deploy_react_app_github_pages_vercel",
   clearScreen: true,
   plugins: [react(), tailwindcss(), reactNativeWeb()],
   define: {
@@ -70,5 +70,3 @@ export default defineConfig({
     },
   },
 });
-
-
