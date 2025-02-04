@@ -84,8 +84,8 @@ const HomeScreen: React.FC = () => {
 
   async function getHistory() {
     isLoading(!loading);
-    console.log(user)
-    console.log(accessCode)
+    console.log(user);
+    console.log(accessCode);
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
       const historySongs: PlayItem[] = history.map((song) => ({
         artist: song.songs["artist"],
@@ -551,11 +551,11 @@ const HomeScreen: React.FC = () => {
 
         <button
           onClick={() => {
-            navigate("/about");
+            navigate("/settings", { state: "isLoggedIn" });
           }}
           className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
         >
-          About
+          Settings
         </button>
       </>
     );

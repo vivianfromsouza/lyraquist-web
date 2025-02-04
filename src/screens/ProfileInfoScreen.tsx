@@ -19,12 +19,15 @@ import { getAuth } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
+import { useLocation, useNavigate } from "react-router-dom";
 // TODO: FIx status bar
 // import { StatusBar } from "expo-status-bar";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function SettingsScreen({ route, navigation }) {
-  const { setIsLoggedIn } = route.params;
+export default function ProfileInfoScreen() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>("");
   const [newName, setNewName] = useState<string>("");
   const [email, setEmail] = useState<string>();
@@ -119,7 +122,7 @@ export default function SettingsScreen({ route, navigation }) {
           >
             <Pressable
               style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigate(-1)}
               accessibilityLabel="backToSettings"
               accessible={true}
             >

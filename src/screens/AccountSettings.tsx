@@ -21,12 +21,13 @@ import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // TODO: IMPORT NEW STATUSBAR
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AccountSettings({ route }) {
-  const { setIsLoggedIn } = route.params;
+export default function AccountSettings() {
+  const location = useLocation();
+  const { setIsLoggedIn } = location.state
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
@@ -34,6 +35,7 @@ export default function AccountSettings({ route }) {
   const [prefLang, setPrefLang] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
+
 
   // const [languageItems, setLanguageItems] = useState([
   //   { label: "English", language: "English" },

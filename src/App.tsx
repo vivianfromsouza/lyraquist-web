@@ -23,6 +23,9 @@ import AboutPrivacy from "./screens/AboutPrivacyScreen";
 import AboutThirdPartyScreen from "./screens/AboutThirdPartyScreen";
 import AboutTermsConditionsScreen from "./screens/AboutTermsConditionsScreen";
 import PrivacyScreen from "./screens/PrivacySocials";
+import AccountSettings from "./screens/AccountSettings";
+import ProfileInfoScreen from "./screens/ProfileInfoScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 
 const App: React.FC = () => {
   return (
@@ -41,6 +44,9 @@ const App: React.FC = () => {
           <Route path="/about/terms" element={<AboutTermsConditionsScreen />} />
           <Route path="/about/third-party" element={<AboutThirdPartyScreen />} />
           <Route path="/about/feedback" element={<FeedbackScreen />} />
+          <Route path="/account/" element={<AccountSettings />} />
+          <Route path="/settings/" element={<SettingsScreen />} />
+          <Route path="/settings/profile" element={<ProfileInfoScreen />} />
           <Route path="/language/french" element={<FrenchScreen />} />
           <Route path="/language/german" element={<GermanScreen />} />
           <Route path="/language/spanish" element={<SpanishScreen />} />
