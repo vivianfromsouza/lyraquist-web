@@ -22,6 +22,7 @@ import FeedbackScreen from "./screens/FeedbackScreen";
 import AboutPrivacy from "./screens/AboutPrivacyScreen";
 import AboutThirdPartyScreen from "./screens/AboutThirdPartyScreen";
 import AboutTermsConditionsScreen from "./screens/AboutTermsConditionsScreen";
+import PrivacyScreen from "./screens/PrivacySocials";
 
 const App: React.FC = () => {
   return (
@@ -33,6 +34,7 @@ const App: React.FC = () => {
           <Route path="SpotifyAuth" element={<SpotifyAuthScreen />} />
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/play" element={<PlaybackScreen />} />
+          <Route path="/privacy" element={<PrivacyScreen />} />
           <Route path="/about" element={<AboutScreen />} />
           <Route path="/about/welcome" element={<AboutUsScreen />} />
           <Route path="/about/privacy" element={<AboutPrivacy />} />

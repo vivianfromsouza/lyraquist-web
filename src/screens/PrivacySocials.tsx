@@ -10,12 +10,15 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
-import blueLogo from '../assets/blue_small.png';
+import blueLogo from "../assets/blue_small.png";
+import { useNavigate } from "react-router-dom";
 
 // TODO: FIX STATUS BAR
 // import { StatusBar } from "expo-status-bar";
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
-export default function AboutScreen({ navigation }) {
+export default function PrivacyScreen() {
+  const navigate = useNavigate();
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -31,7 +34,7 @@ export default function AboutScreen({ navigation }) {
           >
             <Pressable
               style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigate(-1)}
             >
               {/* <Ionicons
                 style={{}}
