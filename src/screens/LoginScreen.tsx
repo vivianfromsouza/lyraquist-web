@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { redirectToSpotifyAuthorize } from "../services/spotifyAuth";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +7,6 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-
 
   const handleLyraquistLogIn = async (event: { preventDefault: () => void }) => {
     event.preventDefault(); // Prevents default form submission
@@ -32,7 +30,6 @@ const LoginScreen: React.FC = () => {
           }
         });
     }
-
   };
 
   //   const logIn = () => {

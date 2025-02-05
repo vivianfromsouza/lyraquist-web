@@ -13,12 +13,22 @@ import { ImageSourcePropType } from "react-native";
 import fullLogo from "../assets/Full_Logo.png";
 import worldLogo from "../assets/world_logo.png";
 import { useNavigate } from "react-router-dom";
+import Alpine, { Alpine as AlpineType } from "alpinejs";
 
 //setting up pixelRatio, font scale is based off device size
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
 // This is the first screen we see when we run our application.
+
+declare global {
+  // eslint-disable-next-line no-var
+  var Alpine: AlpineType;
+}
+
+window.Alpine = Alpine;
+
+Alpine.start();
 
 export default function StartScreen() {
   // // to persist user login across app restarts
