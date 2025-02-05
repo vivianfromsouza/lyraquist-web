@@ -561,7 +561,7 @@ export default function SignUpScreen() {
             className="w-full md:w-14rem"
           />
         </View>
-        {/* BIRTHDAY */}
+        {/* BIRTHDAY TODO: THIS DOESNT SHOW UP PROPERLY IN UI DURING INPUT*/}
         <View style={{ marginHorizontal: 20 }}>
           <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
             Birth Date
