@@ -140,100 +140,102 @@ const HomeScreen: React.FC = () => {
   }
 
   useEffect(() => {
-    getAuthCode();
-    getAccessCode();
-    try {
-      const handleUserInserts = (payload) => {
+    if (currentUser) {
+      getAuthCode();
+      getAccessCode();
+      try {
+        const handleUserInserts = (payload) => {
+          getUsername();
+          console.log(payload);
+        };
+
         getUsername();
-        console.log(payload);
-      };
 
-      getUsername();
+        LocalSupabaseClient.channel("users")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "users" },
+            handleUserInserts
+          )
+          .subscribe();
 
-      LocalSupabaseClient.channel("users")
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table: "users" },
-          handleUserInserts
-        )
-        .subscribe();
+        const handleHistoryInserts = (payload) => {
+          console.log(payload);
+          getHistory();
+        };
 
-      const handleHistoryInserts = (payload) => {
-        console.log(payload);
         getHistory();
-      };
 
-      getHistory();
+        LocalSupabaseClient.channel("history")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "history" },
+            handleHistoryInserts
+          )
+          .subscribe((status) => console.log("H:" + status));
 
-      LocalSupabaseClient.channel("history")
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table: "history" },
-          handleHistoryInserts
-        )
-        .subscribe((status) => console.log("H:" + status));
+        // const handleLanguageInserts = (payload) => {
+        //   getLanguages();
+        // };
 
-      // const handleLanguageInserts = (payload) => {
-      //   getLanguages();
-      // };
+        getLanguages();
 
-      getLanguages();
+        // LocalSupabaseClient.channel("languages").on(
+        //   "postgres_changes",
+        //   { event: "*", schema: "public", table: "languages" },
+        //   handleLanguageInserts
+        // );
 
-      // LocalSupabaseClient.channel("languages").on(
-      //   "postgres_changes",
-      //   { event: "*", schema: "public", table: "languages" },
-      //   handleLanguageInserts
-      // );
+        // const handleWorkbookInserts = (payload) => {
+        //   getWorkbooks();
+        // };
 
-      // const handleWorkbookInserts = (payload) => {
-      //   getWorkbooks();
-      // };
+        getWorkbooks();
 
-      getWorkbooks();
+        // LocalSupabaseClient.channel("workbooks")
+        //   .on(
+        //     "postgres_changes",
+        //     { event: "*", schema: "public", table: "workbooks" },
+        //     handleWorkbookInserts
+        //   )
+        //   .subscribe();
 
-      // LocalSupabaseClient.channel("workbooks")
-      //   .on(
-      //     "postgres_changes",
-      //     { event: "*", schema: "public", table: "workbooks" },
-      //     handleWorkbookInserts
-      //   )
-      //   .subscribe();
+        // const handlePlaylistInserts = (payload) => {
+        //   getPlaylists();
+        // };
 
-      // const handlePlaylistInserts = (payload) => {
-      //   getPlaylists();
-      // };
+        getPlaylists();
 
-      getPlaylists();
+        // LocalSupabaseClient.channel("playlists")
+        //   .on(
+        //     "postgres_changes",
+        //     { event: "INSERT", schema: "public", table: "playlists" },
+        //     handlePlaylistInserts
+        //   )
+        //   .subscribe((status) => console.log("P:" + status));
 
-      // LocalSupabaseClient.channel("playlists")
-      //   .on(
-      //     "postgres_changes",
-      //     { event: "INSERT", schema: "public", table: "playlists" },
-      //     handlePlaylistInserts
-      //   )
-      //   .subscribe((status) => console.log("P:" + status));
+        // whenever a song is added or deleted, the home screen will update with new set of songs
+        // const handleRecordInserts = (payload) => {
+        //   getSongs();
+        // };
 
-      // whenever a song is added or deleted, the home screen will update with new set of songs
-      // const handleRecordInserts = (payload) => {
-      //   getSongs();
-      // };
+        getSongs();
 
-      getSongs();
+        // LocalSupabaseClient.channel("records")
+        //   .on(
+        //     "postgres_changes",
+        //     { event: "*", schema: "public", table: "records" },
+        //     handleRecordInserts
+        //   )
+        //   .subscribe((status) => console.log(status));
 
-      // LocalSupabaseClient.channel("records")
-      //   .on(
-      //     "postgres_changes",
-      //     { event: "*", schema: "public", table: "records" },
-      //     handleRecordInserts
-      //   )
-      //   .subscribe((status) => console.log(status));
-
-      UserReaderWriter.getCurrentTrackDetails().then((track) => {
-        console.log("CURR TRACK:");
-        console.log(track);
-      });
-    } catch (err) {
-      console.log(err);
+        UserReaderWriter.getCurrentTrackDetails().then((track) => {
+          console.log("CURR TRACK:");
+          console.log(track);
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }, [authCode, codeVerifier, username]);
 

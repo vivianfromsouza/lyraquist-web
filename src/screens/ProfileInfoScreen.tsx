@@ -15,7 +15,7 @@ import { ArrowBackOutline } from "react-ionicons";
 
 import SimpleLineIcon from "react-simple-line-icons";
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
@@ -35,13 +35,14 @@ export default function ProfileInfoScreen() {
 
   const auth = getAuth(LocalFirebaseClient);
 
-  // TODO: Manage new sign out
-
-  function signOut() {
-    if (auth.currentUser) {
-      setIsLoggedIn(false);
-      auth.signOut();
-    }
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
+        console.log("SIGNED OUT");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   // calls UserReaderWriter to write username change to DB
@@ -63,7 +64,7 @@ export default function ProfileInfoScreen() {
           "Email changed successfully!",
           "A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
         );
-        signOut();
+        handleSignOut();
       });
     } else {
       Alert.alert(

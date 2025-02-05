@@ -14,7 +14,7 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import SimpleLineIcon from "react-simple-line-icons";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
@@ -31,11 +31,14 @@ export default function SettingsScreen() {
   const currentUser = auth.currentUser?.uid;
 
   // signs user out
-  function signOut() {
-    if (currentUser) {
-      setIsLoggedIn(false);
-      auth.signOut();
-    }
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
+        console.log("SIGNED OUT");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   // gets current values for user name
@@ -98,7 +101,9 @@ export default function SettingsScreen() {
           </View>
           {/* THE PROFILE INFORMATION SECTION */}
           <Pressable
-            onPress={() => navigate("/settings/profile", {state: "isLoggedIn"})}
+            onPress={() =>
+              navigate("/settings/profile", { state: "isLoggedIn" })
+            }
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -151,7 +156,7 @@ export default function SettingsScreen() {
           />
           {/* THE ACCOUNT SETTINGS SECTION */}
           <Pressable
-            onPress={() => navigate("/account", {state: "isLoggedIn"})}
+            onPress={() => navigate("/account", { state: "isLoggedIn" })}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -269,7 +274,7 @@ export default function SettingsScreen() {
             }}
           />
           {/* LOG OUT BUTTON */}
-          <Pressable onPress={signOut} style={{ padding: 20 }}>
+          <Pressable onPress={handleSignOut} style={{ padding: 20 }}>
             <Text
               style={styles.logOut}
               accessibilityLabel="logOut"

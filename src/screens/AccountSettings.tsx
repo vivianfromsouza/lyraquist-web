@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 // import auth from "@react-native-firebase/auth";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 // import { StatusBar } from "expo-status-bar";
 // import { Dropdown } from "react-native-element-dropdown";
@@ -71,12 +71,16 @@ export default function AccountSettings() {
     }
   }, []);
 
-  function signOut() {
-    if (auth.currentUser) {
-      auth.signOut();
-      setIsLoggedIn(false);
+    // signs user out
+    function handleSignOut() {
+      signOut(auth)
+        .then(() => {
+          console.log("SIGNED OUT");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  }
 
   function getPrefLang() {
     UserReaderWriter.getPreferredLanguage().then((lang) => {
@@ -107,7 +111,7 @@ export default function AccountSettings() {
           }
         }
       );
-      signOut();
+      handleSignOut();
     } else {
       Alert.alert("Passwords don't match.", "Please try again.");
     }
