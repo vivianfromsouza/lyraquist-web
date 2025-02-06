@@ -27,6 +27,7 @@ import AccountSettings from "./screens/AccountSettings";
 import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
+import FlashcardScreen from "./screens/FlashcardsScreen";
 
 const App: React.FC = () => {
   return (
@@ -54,6 +55,7 @@ const App: React.FC = () => {
           <Route path="/language/spanish" element={<SpanishScreen />} />
           <Route path="SearchLanguages" element={<SearchLanguageScreen />} />
           <Route path="Search" element={<SearchScreen />} />
+          <Route path="/workbook/flashcards" element={<FlashcardScreen />} />
           <Route path="/workbook/newWorkbook" element={<NewWorkbookScreen />} />
           <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
           <Route path="/workbook/newWord" element={<NewWordScreen />} />

@@ -1,6 +1,11 @@
+// Worked on by Vivian D'Souza
+// Built based on this link: https://nabendu82.medium.com/build-a-flashcard-quiz-with-react-c1cb96e3a1e8
+import { useState } from "react";
 import {
   View,
-  // StyleSheet,
+  Text,
+  Pressable,
+  StyleSheet,
   // Dimensions,
 } from "react-native";
 
@@ -53,63 +58,88 @@ import {
 //   );
 // };
 
-const Flashcard = () => {
-//   const rotate = useSharedValue(0);
-//   const frontAnimatedStyles = useAnimatedStyle(() => {
-//     const rotateValue = interpolate(rotate.value, [0, 1], [0, 180]);
-//     return {
-//       transform: [
-//         {
-//           rotateY: withTiming(`${rotateValue}deg`, { duration: 1000 }),
-//         },
-//       ],
-//     };
-//   });
-//   const backAnimatedStyles = useAnimatedStyle(() => {
-//     const rotateValue = interpolate(rotate.value, [0, 1], [180, 360]);
-//     return {
-//       transform: [
-//         {
-//           rotateY: withTiming(`${rotateValue}deg`, { duration: 1000 }),
-//         },
-//       ],
-//     };
-//   });
+const Flashcard = ({ wordItem }) => {
+  const [flip, setFlip] = useState(false);
+
+  //   const rotate = useSharedValue(0);
+  //   const frontAnimatedStyles = useAnimatedStyle(() => {
+  //     const rotateValue = interpolate(rotate.value, [0, 1], [0, 180]);
+  //     return {
+  //       transform: [
+  //         {
+  //           rotateY: withTiming(`${rotateValue}deg`, { duration: 1000 }),
+  //         },
+  //       ],
+  //     };
+  //   });
+  //   const backAnimatedStyles = useAnimatedStyle(() => {
+  //     const rotateValue = interpolate(rotate.value, [0, 1], [180, 360]);
+  //     return {
+  //       transform: [
+  //         {
+  //           rotateY: withTiming(`${rotateValue}deg`, { duration: 1000 }),
+  //         },
+  //       ],
+  //     };
+  //   });
   return (
-    <View></View>
-//     <View style={styles.container}>
-//       <Animated.View style={[styles.frontcard, frontAnimatedStyles]}>
-//         <CardFront rotate={rotate} word={props.word["word"]} fromSong={props.word["from_song"]} />
-//       </Animated.View>
-//       <Animated.View style={[styles.backCard, backAnimatedStyles]}>
-//         <CardBack rotate={rotate} word={props.word["translation"]} />
-//       </Animated.View>
-//     </View>
+    <Pressable
+      onPress={() => {
+        setFlip(!flip);
+      }}
+    >
+      <View style={flip ? styles.frontCard : styles.backCard}>
+        <Text style={styles.word}>
+          {flip ? wordItem.word : wordItem.definition}
+        </Text>
+        <Text style={styles.wordContext}>{wordItem.language}</Text>
+        <Text style={styles.wordContext}> {wordItem.partOfSpeech}</Text>
+      </View>
+    </Pressable>
   );
 };
 
-// const styles = StyleSheet.create({
-//   container: {
-//     // flex: 1,
-    
-//     backgroundColor: "#e8e1db",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   frontcard: {
-//     position: "absolute",
-//     backfaceVisibility: "hidden",
-//   },
-//   backCard: {
-//     backfaceVisibility: "hidden",
-//   },
-//   button: {
-//     paddingHorizontal: 25,
-//     paddingVertical: 15,
-//     backgroundColor: "#8ecae6",
-//     borderRadius: 5,
-//   },
-// });
+const styles = StyleSheet.create({
+  frontCard: {
+    padding: 10,
+    backgroundColor: "#5bc8a6",
+    margin: 100,
+    height: 400,
+    transformStyle: "preserve-3d",
+    transitionDuration: "0.5s",
+    transform: "scale(-1, 1)",
+  },
+  backCard: {
+    padding: 10,
+    backgroundColor: "#303248",
+    margin: 100,
+    height: 400,
+    transform: "rotateY(-180deg)",
+    transformStyle: "preserve-3d",
+    transitionDuration: "0.5s",
+  },
+  word: {
+    color: "white",
+    fontSize: 40,
+    textAlign: "center",
+    alignItems: "center",
+    marginTop: 150,
+    transform: "scale(-1, 1)",
+  },
+  wordContext: {
+    color: "white",
+    fontSize: 15,
+    textAlign: "center",
+    alignItems: "center",
+    transform: "scale(-1, 1)",
+  },
+  button: {
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+    backgroundColor: "#8ecae6",
+    borderRadius: 5,
+  },
+});
 
 // const frontStyles = StyleSheet.create({
 //   container: {

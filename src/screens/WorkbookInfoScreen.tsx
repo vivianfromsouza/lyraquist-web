@@ -401,7 +401,7 @@ function WorkbookInfoScreen() {
 
             <Pressable
               onPress={() =>
-                navigate("/Flashcards", {
+                navigate("/workbook/flashcards", {
                   state: { name: name, book_id: bookUID },
                 })
               }
