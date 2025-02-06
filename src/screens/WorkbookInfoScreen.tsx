@@ -173,7 +173,7 @@ function WorkbookInfoScreen() {
                   color="#ff4a2a"
                   style={{ paddingTop: 20 }}
                 /> */}
-                <FeatherIcon icon="x-circle" />;
+                <FeatherIcon icon="x-circle" />
               </Pressable>
             </View>
           </View>
@@ -332,7 +332,7 @@ function WorkbookInfoScreen() {
                         }}
                       >
                         {/* <Feather name="x-circle" size={25} color="#ff4a2a" /> */}
-                        <FeatherIcon icon="x-circle" />;
+                        <FeatherIcon icon="x-circle" />
                       </Pressable>
                     </View>
                   </View>
@@ -344,7 +344,7 @@ function WorkbookInfoScreen() {
                     }}
                   />
                 </>
-              );
+              )
             }}
           />
 
@@ -414,7 +414,7 @@ function WorkbookInfoScreen() {
           </View>
         </View>
       </>
-    );
+    )
   } else {
     return (
       <View>
@@ -450,7 +450,7 @@ function WorkbookInfoScreen() {
                 color="#ff4a2a"
                 style={{ paddingTop: 20 }}
               /> */}
-              <FeatherIcon icon="x-circle" />;
+              <FeatherIcon icon="x-circle" />
             </Pressable>
           </View>
         </View>
@@ -471,7 +471,7 @@ function WorkbookInfoScreen() {
           <ActivityIndicator size="large" color="#303248" />
         </View>
       </View>
-    );
+    )
   }
 }
 

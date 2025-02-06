@@ -1,26 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Pressable, Dimensions, StyleSheet } from "react-native";
 import Flashcard from "../components/Flashcard";
-import { useNavigate } from "react-router-dom";
-import { ArrowUndo, Flash } from "react-ionicons";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ArrowUndo,  } from "react-ionicons";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-// import { View, StyleSheet, Pressable, Dimensions } from "react-native";
-// import { ArrowUndo } from "react-ionicons";
-// import Flashcard from "../components/Flashcard";
-// // import Carousel from "react-native-reanimated-carousel";
-// import WordReaderWriter from "../services/WordReaderWriter";
-// import LocalSupabaseClient from "../services/LocalSupabaseClient";
-// import { useLocation, useNavigate } from "react-router-dom";
+import WordReaderWriter from "../services/WordReaderWriter";
+import LocalSupabaseClient from "../services/LocalSupabaseClient";
 
 // // const windowWidth = Dimensions.get("window").width;
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 function FlashcardScreen() {
+  // these are for the carousel's dimensions
   const responsive = {
     desktop: {
-      breakpoint: { max: 3000, min: 1024 },
+      breakpoint: { max: 2000, min: 1024 },
       items: 3,
       slidesToSlide: 3, // optional, default to 1.
     },
@@ -63,47 +60,39 @@ function FlashcardScreen() {
     },
   ];
 
-  const [cards, setCards] = useState(SAMPLE_CARDS);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const bookItem = location.state;
+    const [flashcardList, setFlashcardList] = useState<any[]>([]);
+    const bookUID = bookItem.book_id;
 
-  const navigate = useNavigate();
-  //   const location = useLocation();
-  //   const bookItem = location.state;
-  //   const [renWordList, setRenWordList] = useState<any[] | null>([]);
-  //   const bookUID = bookItem.book_id;
-  //   const [loadingScreen, isLoadingScreen] = useState(true);
+    useEffect(() => {
+      const handleWorkbookInserts = (payload) => {
+        getAllWordsFromWorkbook(bookUID); //get workbooks associated with the user
+      };
 
-  //   useEffect(() => {
-  //     const handleWorkbookInserts = (payload) => {
-  //       getAllWordsFromWorkbook(bookUID); //get workbooks associated with the user
-  //     };
+      getAllWordsFromWorkbook(bookUID); //get workbooks associated with the user
 
-  //     getAllWordsFromWorkbook(bookUID); //get workbooks associated with the user
+      LocalSupabaseClient.channel("words")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "words" },
+          handleWorkbookInserts
+        )
+        .subscribe();
+    }, [bookUID]);
 
-  //     LocalSupabaseClient.channel("words")
-  //       .on(
-  //         "postgres_changes",
-  //         { event: "*", schema: "public", table: "words" },
-  //         handleWorkbookInserts
-  //       )
-  //       .subscribe();
-  //     isLoadingScreen(false);
-  //   }, [bookUID]);
-
-  //   async function getAllWordsFromWorkbook(bookUID) {
-  //     await WordReaderWriter.getAllWordsFromWorkbook(bookUID).then((myWords) => {
-  //       setRenWordList(myWords);
-  //     });
-  //   }
+    async function getAllWordsFromWorkbook(bookUID) {
+      await WordReaderWriter.getAllWordsFromWorkbook(bookUID).then((myWords) => {
+        setFlashcardList(myWords);
+      });
+    }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Pressable
-        style={{
-          marginLeft: -340,
-          marginTop: 70,
-        }}
         onPress={() => {
-          // navigate(-1);
+          navigate(-1);
         }}
       >
         {/* <Ionicons style={{}} name="arrow-undo" size={40} color="#303248" /> */}
@@ -119,7 +108,7 @@ function FlashcardScreen() {
         infinite={false}
         keyBoardControl={true}
       >
-        {SAMPLE_CARDS.map((flashcard) => {
+        {flashcardList!.map((flashcard) => {
           return <Flashcard wordItem={flashcard}></Flashcard>;
         })}
       </Carousel>
@@ -130,7 +119,7 @@ function FlashcardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: "#e8e1db",
     height: SCREEN_HEIGHT,
   },
