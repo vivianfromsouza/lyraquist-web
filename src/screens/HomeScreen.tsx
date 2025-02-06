@@ -18,9 +18,7 @@ import {
   Pressable,
   ScrollView,
   View,
-  // PixelRatio,
   Text,
-  StatusBar,
   ActivityIndicator,
 } from "react-native-web";
 import SongCard from "../components/Song";
@@ -538,7 +536,6 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
           <Text>{"\n\n\n\n"}</Text>
-          <StatusBar />
         </ScrollView>
 
         <button

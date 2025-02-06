@@ -14,16 +14,12 @@ import {
 import UserReaderWriter from "../services/UserReaderWriter";
 // import auth from "@react-native-firebase/auth";
 import { getAuth, signOut } from "firebase/auth";
-
-// import { StatusBar } from "expo-status-bar";
-// import { Dropdown } from "react-native-element-dropdown";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
-// TODO: IMPORT NEW STATUSBAR
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
@@ -416,7 +412,6 @@ export default function AccountSettings() {
           </Pressable>
         </View>
         <Text>{"\n\n\n\n\n"}</Text>
-        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

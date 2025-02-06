@@ -13,8 +13,6 @@ import { ArrowBackOutline } from "react-ionicons";
 import blueLogo from "../assets/blue_small.png";
 import { useNavigate } from "react-router-dom";
 
-// TODO: FIX STATUS BAR
-// import { StatusBar } from "expo-status-bar";
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function PrivacyScreen() {
   const navigate = useNavigate();
@@ -73,7 +71,6 @@ export default function PrivacyScreen() {
         </Text>
         <Text>{"\n\n\n\n"}</Text>
 
-        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

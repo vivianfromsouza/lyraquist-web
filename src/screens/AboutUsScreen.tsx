@@ -14,9 +14,6 @@ import blueLogo from "../assets/blue_small.png";
 import largeLogo from "../assets/Full_Logo.png";
 import { useNavigate } from "react-router-dom";
 
-// TODO: StatusBar doesn't exist in ReactJS, finder alternative
-// import { StatusBar } from "expo-status-bar";
-
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 
 export default function AboutUsScreen() {
@@ -100,7 +97,6 @@ export default function AboutUsScreen() {
 
         <Text>{"\n\n\n"}</Text>
 
-        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

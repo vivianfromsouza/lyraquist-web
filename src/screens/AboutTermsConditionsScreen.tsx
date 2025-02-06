@@ -12,8 +12,6 @@ import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
-// TODO: StatusBar doesn't exist in ReactJS, finder alternative
-// import { StatusBar } from "expo-status-bar";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AboutTermsConditionsScreen() {
@@ -75,7 +73,6 @@ export default function AboutTermsConditionsScreen() {
 
         <Text>{"\n\n\n"}</Text>
 
-        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

@@ -8,8 +8,6 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-// TODO: StatusBar
-// import { StatusBar } from "expo-status-bar";
 import UserReaderWriter from "../services/UserReaderWriter";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
@@ -283,7 +281,6 @@ export default function SettingsScreen() {
               Log out
             </Text>
           </Pressable>
-          {/* <StatusBar style="auto" /> */}
         </View>
       </ScrollView>
     </>

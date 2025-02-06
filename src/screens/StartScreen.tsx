@@ -1,4 +1,3 @@
-// import { StatusBar } from "expo-status-bar";
 import {
   Animated,
   Easing,
@@ -104,74 +103,9 @@ export default function StartScreen() {
           style={styles.bigCircle}
           source={worldLogo as ImageSourcePropType}
         />
-        {/* <StatusBar style="auto" /> */}
       </View>
     </View>
   );
-  //   <View style={styles.container}>
-  //     <View>
-  //       <View style={styles.info}>
-  //         <Image
-  //           style={styles.circle}
-  //           source={fullLogo as ImageSourcePropType}
-  //         />
-  //         <Text
-  //           accessible={true}
-  //           accessibilityLabel="title"
-  //           style={styles.title}
-  //         >
-  //           LYRAQUIST
-  //         </Text>
-  //         <View style={{ flexDirection: "row", alignItems: "center" }}>
-  //           <Text style={styles.warning}>
-  //             Spotify Premium is needed to create an account
-  //           </Text>
-  //         </View>
-  //         <Pressable
-  //           onPress={() => navigation.navigate("Signup", {})}
-  //           style={styles.signUp}
-  //         >
-  //           <Text
-  //             accessible={true}
-  //             accessibilityLabel="signup"
-  //             style={{
-  //               margin: 10,
-  //               fontSize: 18,
-  //               fontWeight: "400",
-  //               marginHorizontal: 70,
-  //               color: "#e8e1db",
-  //             }}
-  //           >
-  //             Sign Up
-  //           </Text>
-  //         </Pressable>
-  //         <Pressable
-  //           style={styles.logIn}
-  //           accessibilityLabel="loginClick"
-  //           onPress={() => navigation.navigate("Login", {})}
-  //         >
-  //           <Text
-  //             accessible={true}
-  //             accessibilityLabel="login"
-  //             style={{
-  //               margin: 10,
-  //               fontSize: 18,
-  //               fontWeight: "400",
-  //               marginHorizontal: 77,
-  //               color: "#e8e1db",
-  //             }}
-  //           >
-  //             Log In
-  //           </Text>
-  //         </Pressable>
-  //       </View>
-  //       <Image
-  //         style={styles.bigCircle}
-  //         source={worldLogo as ImageSourcePropType}
-  //       />
-  //       {/* <StatusBar style="auto" /> */}
-  //     </View>
-  //   </View>
 }
 
 const styles = StyleSheet.create({

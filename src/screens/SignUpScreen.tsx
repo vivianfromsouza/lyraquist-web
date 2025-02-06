@@ -1,5 +1,4 @@
 // Worked on by: Vivian D'Souza
-// import { StatusBar } from "expo-status-bar";
 import {
   ScrollView,
   Dimensions,
@@ -696,7 +695,6 @@ export default function SignUpScreen() {
             Sign Up
           </Text>
         </Pressable> */}
-        {/* <StatusBar style="auto" /> */}
       </ScrollView>
       <button
         type="submit"

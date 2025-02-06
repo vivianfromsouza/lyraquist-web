@@ -251,7 +251,6 @@ const LoginScreen: React.FC = () => {
             <Text> Log In </Text>
           </Pressable> */}
         </View>
-        {/* <StatusBar style="auto" /> */}
       </View>
       <button
         type="submit"

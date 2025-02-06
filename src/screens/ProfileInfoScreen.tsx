@@ -20,8 +20,6 @@ import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
 import { useLocation, useNavigate } from "react-router-dom";
-// TODO: FIx status bar
-// import { StatusBar } from "expo-status-bar";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ProfileInfoScreen() {
@@ -323,7 +321,6 @@ export default function ProfileInfoScreen() {
             Change Email
           </Text>
         </Pressable>
-        {/* <StatusBar style="auto" /> */}
         <Text>{"\n\n\n\n\n"}</Text>
       </ScrollView>
     </>

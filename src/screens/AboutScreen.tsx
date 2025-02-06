@@ -8,8 +8,6 @@ import {
   Pressable,
   Image,
 } from "react-native";
-// TODO: STATUSBAR
-// import { StatusBar } from "expo-status-bar";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
@@ -250,8 +248,6 @@ export default function AboutScreen() {
         />
 
         <Text>{"\n\n\n"}</Text>
-
-        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );

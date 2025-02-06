@@ -10,8 +10,6 @@ import {
 } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
-// TODO: StatusBar doesn't exist in ReactJS, finder alternative
-// import { StatusBar } from "expo-status-bar";
 import { ImageSourcePropType } from 'react-native';
 import blueLogo from '../assets/blue_small.png';
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
@@ -100,9 +98,6 @@ export default function AboutPrivacyScreen() {
         </Text>
 
         <Text></Text>
-
-        {/* TODO: REPLACE THIS? */}
-        {/* <StatusBar style="auto" /> */}
       </ScrollView>
     </>
   );
