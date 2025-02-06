@@ -22,27 +22,21 @@ import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Dropdown } from "primereact/dropdown";
 // TODO: IMPORT NEW STATUSBAR
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
   const location = useLocation();
-  const { setIsLoggedIn } = location.state
+  const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [preferredLanguage] = useState<string>();
+  const [preferredLanguage, setPreferredLanguage] = useState<string>();
   const [prefLang, setPrefLang] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
-
-
-  // const [languageItems, setLanguageItems] = useState([
-  //   { label: "English", language: "English" },
-  //   { label: "Spanish", language: "Spanish" },
-  //   { label: "French", language: "French" },
-  //   { label: "German", language: "German" },
-  // ]);
+  const languages = ["English", "Spanish", "French", "German"];
 
   useEffect(() => {
     try {
@@ -71,16 +65,16 @@ export default function AccountSettings() {
     }
   }, []);
 
-    // signs user out
-    function handleSignOut() {
-      signOut(auth)
-        .then(() => {
-          console.log("SIGNED OUT");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+  // signs user out
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
+        console.log("SIGNED OUT");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   function getPrefLang() {
     UserReaderWriter.getPreferredLanguage().then((lang) => {
@@ -352,22 +346,14 @@ export default function AccountSettings() {
             </View>
 
             {/* TODO: ADD A DROPDOWN FOR REACTJS */}
-            {/* <Dropdown
-              style={[styles.dropdown, isFocus && { borderColor: "green" }]}
-              containerStyle={{ zIndex: 60, top: -100 }}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={languageItems}
-              maxHeight={1000}
-              labelField="label"
-              valueField="language"
-              placeholder="Select Preferred Langauge"
-              onChange={(preferredLanguage) => {
-                setPreferredLanguage(preferredLanguage.language);
-              }}
-            /> */}
+            <Dropdown
+              value={preferredLanguage}
+              onChange={(e) => setPreferredLanguage(e.value)}
+              options={languages}
+              optionLabel="name"
+              placeholder="Select a language"
+              className="w-full md:w-14rem"
+            />
           </View>
           <Pressable
             style={{
