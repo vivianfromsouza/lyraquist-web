@@ -20,6 +20,7 @@ import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
+import { toast } from "react-toastify";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
@@ -65,6 +66,7 @@ export default function AccountSettings() {
   function handleSignOut() {
     signOut(auth)
       .then(() => {
+        navigate("/login");
         console.log("SIGNED OUT");
       })
       .catch((error) => {
@@ -86,24 +88,22 @@ export default function AccountSettings() {
   async function changePassword() {
     // if password is too short
     if (password!.trim().length < 6) {
-      Alert.alert(
-        "Password is too short.",
-        "Password must be at least 6 characters long."
+      toast(
+        "Password is too short. Password must be at least 6 characters long."
       );
     } else if (password == confirmPassword) {
       await UserReaderWriter.writeUserPassword(password!.trim()).then(
         (result) => {
-          if (result != null) {
-            Alert.alert(
-              "Password changed successfully!",
-              "You will now need to sign-in again with your new password"
+          if (result) {
+            toast(
+              "Password changed successfully! You will now need to sign-in again with your new password."
             );
           }
         }
       );
       handleSignOut();
     } else {
-      Alert.alert("Passwords don't match.", "Please try again.");
+      toast("Passwords don't match. Please try again.");
     }
   }
 
@@ -341,7 +341,6 @@ export default function AccountSettings() {
               <View style={styles.divider} />
             </View>
 
-            {/* TODO: ADD A DROPDOWN FOR REACTJS */}
             <Dropdown
               value={preferredLanguage}
               onChange={(e) => setPreferredLanguage(e.value)}

@@ -1,9 +1,12 @@
 // Worked on by: Vivian D'Souza
+import { getAuth, updatePassword } from "firebase/auth";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
+import LocalFirebaseClient from "./firebase/LocalFirebaseClient";
 
 //TODO: UPDATE PASSWORD/EMAIL FOR NEW AUTH
 
 const currentUser = localStorage.getItem("current_user");
+const auth = getAuth(LocalFirebaseClient);
 
 const UserReaderWriter = {
   async createProfile(
@@ -133,23 +136,22 @@ const UserReaderWriter = {
 
   // TODO: FIX THIS WITH NEW AUTH OBJECT
   async writeUserPassword(newPassword: string) {
-    // auth()
-    //   .currentUser.updatePassword(newPassword)
-    //   .then(async () => {
-    //     // Password updated successfully
-    //     const { error } = await LocalSupabaseClient.from("users")
-    //       .update({ password: newPassword })
-    //       .eq("user_id", currentUser);
-    //     console.log("Password updated!");
-    //     return true;
-    //   })
-    //   .catch((error : string) => {
-    //     // An error happened.
-    //     console.error(error);
-    //     return false;
-    //   });
-    // return true;
-    console.log(newPassword);
+    console.log(auth.currentUser);
+    updatePassword(auth.currentUser!, newPassword)
+      .then(async () => {
+        // Password updated successfully
+        const { error } = await LocalSupabaseClient.from("users")
+          .update({ password: newPassword })
+          .eq("user_id", currentUser);
+        console.log("Password updated!");
+        return true;
+      })
+      .catch((error: string) => {
+        // An error happened.
+        console.error(error);
+        return false;
+      });
+    return true;
   },
 
   async getPreferredLanguage() {

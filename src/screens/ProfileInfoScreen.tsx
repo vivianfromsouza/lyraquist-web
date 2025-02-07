@@ -36,6 +36,7 @@ export default function ProfileInfoScreen() {
   function handleSignOut() {
     signOut(auth)
       .then(() => {
+        navigate("/login")
         console.log("SIGNED OUT");
       })
       .catch((error) => {

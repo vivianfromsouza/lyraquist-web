@@ -33,6 +33,7 @@ export default function SettingsScreen() {
     signOut(auth)
       .then(() => {
         console.log("SIGNED OUT");
+        navigate("/login")
       })
       .catch((error) => {
         console.log(error);
