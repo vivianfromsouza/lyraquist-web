@@ -8,7 +8,7 @@ import {
   tokenEndpoint,
 } from "../constants/SpotifyConstants";
 import UserReaderWriter from "./UserReaderWriter";
-
+import { toast } from "react-toastify";
 
 // Function to redirect to Spotify authorization page
 export const redirectToSpotifyAuthorize = async () => {
@@ -34,12 +34,14 @@ export const redirectToSpotifyAuthorize = async () => {
 };
 
 export const getSpotifyAuthCode = async () => {
+  console.log("AUTHORIZATION:" + localStorage.getItem("code_verifier"));
+
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
 
   if (code != null) {
     localStorage.setItem("auth_code", code);
-    await UserReaderWriter.writeUserAuthCode(code );
+    await UserReaderWriter.writeUserAuthCode(code);
   }
   return code;
 };
@@ -74,18 +76,17 @@ export const getSpotifyAccessCode = async () => {
       Accept: "*/*",
       "Content-type": "application/x-www-form-urlencoded",
     },
-    data: {}
+    data: {},
   })
     .then((response) => {
       console.log("RETRIEVING...");
       console.log(response.data);
       UserReaderWriter.writeUserAccessCode(response.data.access_token);
       UserReaderWriter.writeUserRefreshToken(response.data.refresh_token);
-
     })
     .catch((err) => {
-      console.log("ERROR:" + err)
-      return ""
+      console.log("ERROR:" + err);
+      return "";
     });
 
   return "";
@@ -117,6 +118,60 @@ const base64urlencode = (arrayBuffer: ArrayBuffer) => {
     str += String.fromCharCode(byte);
   });
   return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+};
+
+const refresh = async (refreshToken: string) => {
+  await axios({
+    url: getRefreshURL(refreshToken),
+    method: "POST",
+    headers: {
+      Accept: "*/*",
+      "Content-type": "application/x-www-form-urlencoded",    },
+    data: {},
+  })
+    // Handle the response from backend here
+    .then((res) => {
+      UserReaderWriter.writeUserAccessCode(res.data.access_token);
+      UserReaderWriter.writeUserRefreshToken(res.data.refresh_token);
+      UserReaderWriter.writeUserTimeTokenTaken(new Date().toISOString());
+    })
+
+    // Catch errors if any
+    .catch((err) => {
+      if (err.response.status == 503) {
+        toast(
+          "There was a server side issue. \nSpotify services may be down or the server cannot handle the request load. Please refrain from pressing buttons repeatedly in quick sucession."
+        );
+      } else {
+        toast("Error! refresh did not work" + err.message);
+      }
+      console.log(err.status);
+    });
+};
+
+// builds the refresh URL meant for the Spotify API request to refresh a user's access token
+export const getRefreshURL = (refreshToken): string => {
+  return (
+    "https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=" +
+    refreshToken +
+    "&client_id=" +
+    clientId
+  );
+};
+
+export const checkRefreshNeeded = async (currTime: Date): Promise<string> => {
+  await UserReaderWriter.getUserTimeTokenTaken().then((timeTokenTaken) => {
+    const expiry = new Date(timeTokenTaken);
+    expiry.setHours(expiry.getHours() + 1);
+
+    // if current time is past expiry, trigger refresh
+    if (currTime > expiry) {
+      localStorage.setItem("needs_refresh", "true");
+    } else {
+      localStorage.setItem("needs_refresh", "false");
+    }
+  });
+  return localStorage.getItem("needs_refresh")!;
 };
 
 export default base64urlencode;
