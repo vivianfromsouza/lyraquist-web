@@ -1,9 +1,11 @@
 // Worked on by: Vivian D'Souza
-import { getAuth, updatePassword } from "firebase/auth";
+import {
+  getAuth,
+  updatePassword,
+  verifyBeforeUpdateEmail,
+} from "firebase/auth";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import LocalFirebaseClient from "./firebase/LocalFirebaseClient";
-
-//TODO: UPDATE PASSWORD/EMAIL FOR NEW AUTH
 
 const currentUser = localStorage.getItem("current_user");
 const auth = getAuth(LocalFirebaseClient);
@@ -126,17 +128,23 @@ const UserReaderWriter = {
   // TODO: FIX THIS WITH NEW AUTH OBJECT
   async writeUserEmail(newEmail: string) {
     // TODO: VERIFY UPDATE NOW FOR SUPABASE
-    // auth().currentUser.verifyBeforeUpdateEmail(newEmail);
-    // const { error } = await LocalSupabaseClient.from("users")
-    //   .update({ email: newEmail })
-    //   .eq("user_id", currentUser);
-    // return error;
-    console.log(newEmail);
+    verifyBeforeUpdateEmail(auth.currentUser!, newEmail)
+      .then(async () => {
+        const { error } = await LocalSupabaseClient.from("users")
+          .update({ email: newEmail })
+          .eq("user_id", currentUser);
+        console.log("email sent");
+        return true;
+      })
+      .catch((error: string) => {
+        console.log(error);
+        return false;
+      });
+
+    return true;
   },
 
-  // TODO: FIX THIS WITH NEW AUTH OBJECT
   async writeUserPassword(newPassword: string) {
-    console.log(auth.currentUser);
     updatePassword(auth.currentUser!, newPassword)
       .then(async () => {
         // Password updated successfully

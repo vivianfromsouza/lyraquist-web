@@ -20,6 +20,7 @@ import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ProfileInfoScreen() {
@@ -36,7 +37,7 @@ export default function ProfileInfoScreen() {
   function handleSignOut() {
     signOut(auth)
       .then(() => {
-        navigate("/login")
+        navigate("/login");
         console.log("SIGNED OUT");
       })
       .catch((error) => {
@@ -58,17 +59,18 @@ export default function ProfileInfoScreen() {
   // calls UserReaderWriter to write email change to DB
   async function changeEmail() {
     if (newEmail.includes("@")) {
-      await UserReaderWriter.writeUserEmail(newEmail.trim()).then(() => {
-        Alert.alert(
-          "Email changed successfully!",
-          "A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
-        );
-        handleSignOut();
+      await UserReaderWriter.writeUserEmail(newEmail.trim()).then((result) => {
+        if (result) {
+          toast(
+            "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
+          );
+          handleSignOut();
+          console.log("email changed!")
+        }
       });
     } else {
-      Alert.alert(
-        "Invalid email address",
-        "Please check the email field and try again."
+      toast(
+        "Invalid email address. Please check the email field and try again."
       );
     }
   }
