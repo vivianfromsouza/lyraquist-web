@@ -29,11 +29,15 @@ import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
 
 const App: React.FC = () => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
   return (
     <FirebaseProvider>
       <BrowserRouter>
         <Routes>
-          <Route index element={<StartScreen />} />
+          <Route
+            index
+            element={isLoggedIn == "false" ? <StartScreen /> : <HomeScreen />}
+          />
           <Route path="/signUp" element={<SignUpScreen />} />
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/spotifyAuth" element={<SpotifyAuthScreen />} />
@@ -44,7 +48,10 @@ const App: React.FC = () => {
           <Route path="/about/welcome" element={<AboutUsScreen />} />
           <Route path="/about/privacy" element={<AboutPrivacy />} />
           <Route path="/about/terms" element={<AboutTermsConditionsScreen />} />
-          <Route path="/about/third-party" element={<AboutThirdPartyScreen />} />
+          <Route
+            path="/about/third-party"
+            element={<AboutThirdPartyScreen />}
+          />
           <Route path="/about/feedback" element={<FeedbackScreen />} />
           <Route path="/account/" element={<AccountSettings />} />
           <Route path="/settings/" element={<SettingsScreen />} />

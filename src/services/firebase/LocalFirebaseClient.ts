@@ -15,8 +15,7 @@ const firebaseConfig = {
 const LocalFirebaseClient = initializeApp(firebaseConfig);
 
 const auth = getAuth(LocalFirebaseClient);
-// const userCredential = "";
-const userCredential = auth.currentUser;
+// const userCredential = auth.currentUser;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -25,9 +24,11 @@ onAuthStateChanged(auth, (user) => {
     const uid = user.uid;
     console.log("THIS IS MY USER:" + uid);
     console.log("CREDENTIAL" + user);
+    localStorage.setItem("isLoggedIn", "true");
 
     // ...
   } else {
+    localStorage.setItem("isLoggedIn", "false");
     console.log("USER GOODBYE");
     // User is signed out
     // ...

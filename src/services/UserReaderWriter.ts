@@ -125,9 +125,7 @@ const UserReaderWriter = {
     return data["email"];
   },
 
-  // TODO: FIX THIS WITH NEW AUTH OBJECT
   async writeUserEmail(newEmail: string) {
-    // TODO: VERIFY UPDATE NOW FOR SUPABASE
     verifyBeforeUpdateEmail(auth.currentUser!, newEmail)
       .then(async () => {
         const { error } = await LocalSupabaseClient.from("users")
