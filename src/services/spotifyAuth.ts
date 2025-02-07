@@ -120,7 +120,7 @@ const base64urlencode = (arrayBuffer: ArrayBuffer) => {
   return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 };
 
-const refresh = async (refreshToken: string) => {
+export const refresh = async (refreshToken: string) => {
   await axios({
     url: getRefreshURL(refreshToken),
     method: "POST",

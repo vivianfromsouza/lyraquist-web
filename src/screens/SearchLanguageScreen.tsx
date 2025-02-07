@@ -41,7 +41,7 @@ export default function SearchLanguage() {
   const navigate = useNavigate();
 
   const handleLanguageClick = (languageName: RouteName) => {
-    navigate(("/" + languageName) as never);
+    navigate(("/language/" + languageName.toLowerCase()) as never);
   };
 
   const renderLanguageItem = (language: {

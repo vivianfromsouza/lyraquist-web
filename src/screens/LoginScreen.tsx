@@ -48,6 +48,7 @@ const LoginScreen: React.FC = () => {
     }
   };
 
+  // TODO: FIX THIS
   //   const logIn = () => {
   //       console.log("LOGGIN BUTTON");
   //       if (email && password) {

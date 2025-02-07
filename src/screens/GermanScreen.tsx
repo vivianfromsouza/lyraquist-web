@@ -18,6 +18,7 @@ import { ArrowBackOutline, SearchOutline } from "react-ionicons";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
+import DisplayPlaylistService from "../services/DisplayPlaylist";
 
 // Destructuring to get SCREEN_HEIGHT from Dimensions
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -32,7 +33,7 @@ export default function GermanScreen() {
   const [saved, setSaved] = useState(false); // State for saved language
   const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
-  // const albumId = "4c1pA2jjZhOT65c4PDP9tI"; // ID of the playlist
+  const albumId = "6zLZxgKlwFf3C755i2Phmx"; // ID of the playlist
   const navigate = useNavigate();
 
   // Function to handle search
@@ -40,9 +41,7 @@ export default function GermanScreen() {
     try {
       setIsLoading(!isLoading);
       setSearchTerm(text);
-      // Fetch playlist data
-      // const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
-      const playlistData = [];
+      const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
       // Filter and format search results
 
       const formattedData = playlistData

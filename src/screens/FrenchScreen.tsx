@@ -19,6 +19,7 @@ import { ArrowBackOutline, SearchOutline } from "react-ionicons";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
+import DisplayPlaylistService from "../services/DisplayPlaylist";
 
 // Destructuring to get SCREEN_HEIGHT from Dimensions
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -33,7 +34,7 @@ export default function FrenchScreen() {
   const [saved, setSaved] = useState(false); // State for saved language
   const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
-  // const albumId = "1KEn8Fvf4KZOfs32Lxjqbx"; // ID of the playlist
+  const albumId = "66JJFBtXNd77jLE7Cm6rGo"; // ID of the playlist
   const navigate = useNavigate();
 
   // Function to handle search
@@ -42,8 +43,7 @@ export default function FrenchScreen() {
       setIsLoading(!isLoading);
       setSearchTerm(text);
       // Fetch playlist data
-      // const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
-      const playlistData = []
+      const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
       // Filter and format search results
 
       const formattedData = playlistData
@@ -73,12 +73,12 @@ export default function FrenchScreen() {
       setIsLoading(false);
     }
   };
-
+  
   // Effect hook to run once on component mount
   useEffect(() => {
     checkStar(); // Check if French language is starred
     handleSearch(""); // Initial search with empty string
-  });
+  }, []);
 
   // Function to render each search result item
   const renderSearchResultItem = ({ item }) => (

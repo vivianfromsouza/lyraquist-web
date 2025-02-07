@@ -20,6 +20,7 @@ import { StarFilled, StarOutlined } from "@ant-design/icons";
 
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
+import DisplayPlaylistService from "../services/DisplayPlaylist";
 
 // Destructuring to get SCREEN_HEIGHT from Dimensions
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -34,7 +35,7 @@ export default function SpanishScreen() {
   const [saved, setSaved] = useState(false); // State for saved language
   const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
-  // const albumId = "4c1pA2jjZhOT65c4PDP9tI"; // ID of the playlist
+  const albumId = "1aUgRQqdbCliLVgktVY1yG";
   const navigate = useNavigate();
 
   // Function to handle search
@@ -42,10 +43,7 @@ export default function SpanishScreen() {
     try {
       setIsLoading(!isLoading);
       setSearchTerm(text);
-      // Fetch playlist data
-      // const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
-      const playlistData = []
-      // Filter and format search results
+      const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
 
       const formattedData = playlistData
         .filter(

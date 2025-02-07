@@ -15,7 +15,6 @@ import SearchScreen from "./screens/SearchScreen";
 import NewWorkbookScreen from "./screens/NewWorkbookScreen";
 import WorkbookInfoScreen from "./screens/WorkbookInfoScreen";
 import NewWordScreen from "./screens/NewWordScreen";
-// import FlashcardScreen from "./screens/FlashcardsScreen";
 import PlaylistInfoScreen from "./screens/PlaylistInfoScreen";
 import AboutUsScreen from "./screens/AboutUsScreen";
 import FeedbackScreen from "./screens/FeedbackScreen";
