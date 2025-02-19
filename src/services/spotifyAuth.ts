@@ -6,6 +6,7 @@ import {
   authorizationEndpoint,
   scope,
   tokenEndpoint,
+  refreshEndpoint,
 } from "../constants/SpotifyConstants";
 import UserReaderWriter from "./UserReaderWriter";
 import { toast } from "react-toastify";
@@ -126,7 +127,8 @@ export const refresh = async (refreshToken: string) => {
     method: "POST",
     headers: {
       Accept: "*/*",
-      "Content-type": "application/x-www-form-urlencoded",    },
+      "Content-type": "application/x-www-form-urlencoded",
+    },
     data: {},
   })
     // Handle the response from backend here
@@ -151,12 +153,21 @@ export const refresh = async (refreshToken: string) => {
 
 // builds the refresh URL meant for the Spotify API request to refresh a user's access token
 export const getRefreshURL = (refreshToken): string => {
-  return (
-    "https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=" +
-    refreshToken +
-    "&client_id=" +
-    clientId
-  );
+  const refreshURL = new URL(refreshEndpoint);
+  const params = {
+    refresh_token: refreshToken,
+    client_id: clientId,
+  };
+
+  refreshURL.search = new URLSearchParams(params).toString();
+  return refreshURL.toString();
+
+  // return (
+  //   "https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=" +
+  //   refreshToken +
+  //   "&client_id=" +
+  //   clientId
+  // );
 };
 
 export const checkRefreshNeeded = async (currTime: Date): Promise<string> => {
