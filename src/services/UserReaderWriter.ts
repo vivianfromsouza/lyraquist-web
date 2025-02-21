@@ -131,6 +131,7 @@ const UserReaderWriter = {
         const { error } = await LocalSupabaseClient.from("users")
           .update({ email: newEmail })
           .eq("user_id", currentUser);
+        console.log(error);
         console.log("email sent");
         return true;
       })
@@ -150,6 +151,8 @@ const UserReaderWriter = {
           .update({ password: newPassword })
           .eq("user_id", currentUser);
         console.log("Password updated!");
+        console.log(error);
+
         return true;
       })
       .catch((error: string) => {

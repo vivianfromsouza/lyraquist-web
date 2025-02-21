@@ -56,6 +56,7 @@ const HomeScreen: React.FC = () => {
   const user = auth.currentUser?.uid;
   const codeVerifier = localStorage.getItem("code_verifier");
   console.log("MYUSER:" + currentUser);
+  console.log(loading);
 
   async function getAuthCode() {
     const authCode = await getSpotifyAuthCode();
