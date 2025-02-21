@@ -33,32 +33,32 @@ function FlashcardScreen() {
     },
   };
 
-  const SAMPLE_CARDS = [
-    {
-      word: "hola",
-      definition: "hello",
-      partOfSpeech: "greeting",
-      language: "spanish",
-    },
-    {
-      word: "bonjour",
-      definition: "hello",
-      partOfSpeech: "greeting",
-      language: "french",
-    },
-    {
-      word: "Hallo",
-      definition: "hello",
-      partOfSpeech: "greeting",
-      language: "german",
-    },
-    {
-      word: "hello",
-      definition: "hello",
-      partOfSpeech: "greeting",
-      language: "english",
-    },
-  ];
+  // const SAMPLE_CARDS = [
+  //   {
+  //     word: "hola",
+  //     definition: "hello",
+  //     partOfSpeech: "greeting",
+  //     language: "spanish",
+  //   },
+  //   {
+  //     word: "bonjour",
+  //     definition: "hello",
+  //     partOfSpeech: "greeting",
+  //     language: "french",
+  //   },
+  //   {
+  //     word: "Hallo",
+  //     definition: "hello",
+  //     partOfSpeech: "greeting",
+  //     language: "german",
+  //   },
+  //   {
+  //     word: "hello",
+  //     definition: "hello",
+  //     partOfSpeech: "greeting",
+  //     language: "english",
+  //   },
+  // ];
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -67,7 +67,7 @@ function FlashcardScreen() {
     const bookUID = bookItem.book_id;
 
     useEffect(() => {
-      const handleWorkbookInserts = (payload) => {
+      const handleWorkbookInserts = () => {
         getAllWordsFromWorkbook(bookUID); //get workbooks associated with the user
       };
 

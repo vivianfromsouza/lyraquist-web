@@ -19,14 +19,14 @@ import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ProfileInfoScreen() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { setIsLoggedIn } = location.state;
+  // const location = useLocation();
+  // const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>("");
   const [newName, setNewName] = useState<string>("");
   const [email, setEmail] = useState<string>();

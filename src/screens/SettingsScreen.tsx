@@ -10,30 +10,29 @@ import {
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import SimpleLineIcon from "react-simple-line-icons";
 import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function SettingsScreen() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { setIsLoggedIn } = location.state;
+  // const location = useLocation();
+  // const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
-  const currentUser = auth.currentUser?.uid;
+  // const currentUser = auth.currentUser?.uid;
 
   // signs user out
   function handleSignOut() {
     signOut(auth)
       .then(() => {
         console.log("SIGNED OUT");
-        navigate("/login")
+        navigate("/login");
       })
       .catch((error) => {
         console.log(error);
@@ -53,10 +52,10 @@ export default function SettingsScreen() {
   useEffect(() => {
     // reflects changes to user name
 
-    const handleUserInserts = (payload) => {
-      setCurrUserName(); // get current user values, use to reflect changes
-      setCurrUserEmail(); // get current user values, use to reflect changes
-    };
+    // const handleUserInserts = () => {
+    //   setCurrUserName(); // get current user values, use to reflect changes
+    //   setCurrUserEmail(); // get current user values, use to reflect changes
+    // };
 
     setCurrUserName(); // get current user values, use to reflect changes
     setCurrUserEmail(); // get current user values, use to reflect changes
@@ -132,6 +131,7 @@ export default function SettingsScreen() {
                 accessible={true}
               >
                 {name}
+                {email}
               </Text>
               <Text style={{ color: "gray" }}>View Profile Information</Text>
             </View>

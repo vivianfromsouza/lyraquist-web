@@ -40,7 +40,7 @@ const windowWidth = Dimensions.get("window").width; //screen flexibility on devi
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
-  const auth = getAuth();
+  // const auth = getAuth();
 
   const [name, setName] = useState<string | undefined>("");
   const [email, setEmail] = useState<string>("");
@@ -629,7 +629,7 @@ export default function SignUpScreen() {
               <input
                 aria-label="Date"
                 type="date"
-                value={birthDate}
+                value={birthDate.toString()}
                 onChange={handleDateChange}
               />
               <View style={{ marginLeft: 220 }}>
