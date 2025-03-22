@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 
-function PlaybackScreen() {
+const Player = () => {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   // const [player, setPlayer] = useState(
@@ -21,14 +20,9 @@ function PlaybackScreen() {
   const accessToken = UserReaderWriter.getUserAccessCode();
 
   const location = useLocation();
-  // const playItem = location.state;
-  const playItem = {
-    name: "Everyway That I Can - Aytekin Kurt, Murat Uncuoğlu Remix",
-    spotifyURL: "https://i.scdn.co/image/ab67616d0000b27387d19f64a67b70c87510dcca",
-    imageURL: "Sertab",
-    artist: "Sertab",
-  };
+  const [playItem, setPlayItem] = useState(location.state || "0lUSd7TCG8srh6HpIAEIWL");
 
+  // const playItem = location.state;
   const [currentURL] = useState(playItem.spotifyURL);
 
   const track = {
@@ -42,7 +36,7 @@ function PlaybackScreen() {
 
   const [current_track, setTrack] = useState(track);
 
-  console.log("CURRENT TRACK:" + current_track);
+  console.log(current_track);
 
   async function playAnySong() {
     UserReaderWriter.getUserAccessCode().then((accessCode) => {
@@ -188,6 +182,6 @@ function PlaybackScreen() {
       </>
     );
   }
-}
+};
 
-export default PlaybackScreen;
+export default Player;

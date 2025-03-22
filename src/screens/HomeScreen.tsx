@@ -31,6 +31,7 @@ import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
+import Player from "../components/Player";
 
 let counter = 0;
 // TODO: FIx font sizing here
@@ -536,6 +537,8 @@ const HomeScreen: React.FC = () => {
               </View>
             )}
           </View>
+
+          <Player></Player>
           <Text>{"\n\n\n\n"}</Text>
         </ScrollView>
 
