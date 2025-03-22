@@ -4,7 +4,7 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 
 const Player = () => {
-  const [is_paused, setPaused] = useState(false);
+  const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   // const [player, setPlayer] = useState(
   //   new window.Spotify.Player({
@@ -16,7 +16,7 @@ const Player = () => {
   //   })
   // );
   const [player, setPlayer] = useState(null);
-  const [device_id, setDeviceId] = useState("");
+  const [device_id, setDeviceId] = useState("abc");
   const accessToken = UserReaderWriter.getUserAccessCode();
 
   const location = useLocation();
@@ -64,6 +64,30 @@ const Player = () => {
     });
   }
 
+  async function transferPlayback(device_id: string) {
+    console.log("TRANSFERRING PLAYBACK")
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          device_ids: [device_id],
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+    
+  }
+
   async function getCurrentTrack() {
     await UserReaderWriter.getCurrentTrackDetails().then((track) => {
       if (track != null) {
@@ -85,7 +109,7 @@ const Player = () => {
 
   // this is running x2....
   useEffect(() => {
-    getCurrentTrack();
+    // getCurrentTrack();
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -107,6 +131,10 @@ const Player = () => {
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
         setDeviceId(device_id);
+        transferPlayback(device_id);
+        player.getCurrentState().then((state) => {
+          !state ? setActive(false) : setActive(true);
+        });
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -134,20 +162,20 @@ const Player = () => {
     };
   }, []);
 
-  // if (!is_active) {
-  // return (
-  //   <>
-  //     <div className="container">
-  //       <div className="main-wrapper">
-  //         <b>
-  //           {" "}
-  //           Instance not active. Transfer your playback using your Spotify app{" "}
-  //         </b>
-  //       </div>
-  //     </div>
-  //   </>
-  // );
-  // } else {
+  if (!is_active) {
+  return (
+    <>
+      <div className="container">
+        <div className="main-wrapper">
+          <b>
+            {" "}
+            Instance not active. Transfer your playback using your Spotify app{" "}
+          </b>
+        </div>
+      </div>
+    </>
+  );
+  } else {
   return (
     <>
       <div className="container">
@@ -204,7 +232,7 @@ const Player = () => {
       </div>
     </>
   );
-  // }
+  }
 };
 
 export default Player;
