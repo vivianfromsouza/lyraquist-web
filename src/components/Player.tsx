@@ -76,6 +76,7 @@ const Player = () => {
         },
         data: {
           device_ids: [device_id],
+          play: false // keeps it off if it's paused
         },
       })
         .then(async (res) => {
