@@ -6,15 +6,9 @@ import axios from "axios";
 const Player = () => {
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
-  // const [player, setPlayer] = useState(
-  //   new window.Spotify.Player({
-  //     name: "Web Playback SDK",
-  //     getOAuthToken: (cb) => {
-  //       cb(accessToken);
-  //     },
-  //     volume: 0.5,
-  //   })
-  // );
+  const [currentTime, setCurrentTime] = useState("0:00");
+  const [totalTime, setTotalTime] = useState("0:00");
+
   const [player, setPlayer] = useState(null);
   const [device_id, setDeviceId] = useState("abc");
 
@@ -114,7 +108,7 @@ const Player = () => {
     });
   }
 
-  async function calculateDurationInSecs(duration_ms) {
+  function calculateDurationInSecs(duration_ms) {
     const seconds = Math.floor(duration_ms / 1000); // in seconds
 
     const minutes = Math.floor(seconds / 60); // in minutes
@@ -169,6 +163,11 @@ const Player = () => {
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
+          setTotalTime(
+            calculateDurationInSecs(
+              state.track_window.current_track.duration_ms
+            )
+          );
 
           player.getCurrentState().then((state) => {
             !state ? setActive(false) : setActive(true);
@@ -214,9 +213,9 @@ const Player = () => {
                 {current_track.artists[0].name}
               </div>
 
-              <div className="now-playing__artist">
-                {current_track.duration_ms}
-              </div>
+              <div className="now-playing__artist">{currentTime}</div>
+
+              <div className="now-playing__artist">{totalTime}</div>
 
               <button
                 className="btn-spotify"
