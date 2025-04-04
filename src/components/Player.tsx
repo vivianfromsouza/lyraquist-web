@@ -31,6 +31,7 @@ const Player = () => {
   // const playItem = location.state;
   const [currentURL] = useState("");
 
+  // this has to match template coming in from spotify's api
   const track = {
     name: "trackName",
     spotifyURL: "trackURL",
@@ -39,7 +40,7 @@ const Player = () => {
       images: [{ url: "trackImage" }],
     },
     artists: [{ name: "trackArtist" }],
-    duration: "trackDuration",
+    duration_ms: 0,
   };
 
   const [current_track, setCurrentTrack] = useState(track);
@@ -113,136 +114,151 @@ const Player = () => {
     });
   }
 
-    // this is running x2....
-    useEffect(() => {
-      if (isLoggedIn) {
-        const script = document.createElement("script");
-        script.src = "https://sdk.scdn.co/spotify-player.js";
-        script.async = true;
+  async function calculateDurationInSecs(duration_ms) {
+    const seconds = Math.floor(duration_ms / 1000); // in seconds
 
-        document.body.appendChild(script);
+    const minutes = Math.floor(seconds / 60); // in minutes
+    const seconds_left = seconds % 60; // in seconds left
 
-        window.onSpotifyWebPlaybackSDKReady = () => {
-          console.log(accessToken);
-          const player = new window.Spotify.Player({
-            name: "Web Playback SDK",
-            getOAuthToken: (cb) => {
-              cb(accessToken);
-            },
-            volume: 0.5,
-          });
+    const duration = minutes + ":" + seconds_left;
 
-          setPlayer(player);
-
-          player.addListener("ready", async ({ device_id }) => {
-            console.log("Ready with Device ID", device_id);
-            setDeviceId(device_id);
-            await transferPlayback(device_id);
-            player.getCurrentState().then((state) => {
-              !state ? setActive(false) : setActive(true);
-            });
-          });
-
-          player.addListener("not_ready", ({ device_id }) => {
-            console.log("Device ID has gone offline", device_id);
-          });
-
-          player.addListener("player_state_changed", (state) => {
-            console.log("song changed");
-            // setTrack(track);
-            if (!state) {
-              return;
-            }
-
-            setCurrentTrack(state.track_window.current_track);
-            setPaused(state.paused);
-
-            player.getCurrentState().then((state) => {
-              !state ? setActive(false) : setActive(true);
-            });
-          });
-
-          console.log(accessToken);
-
-          player.connect();
-        };
-      } else {
-        pausePlayback();
-      }
-    }, [isLoggedIn]);
-
-    if (!is_active) {
-      return (
-        <>
-          <div className="container">
-            <div className="main-wrapper">
-              <b>
-                {" "}
-                Instance not active. Transfer your playback using your Spotify
-                app{" "}
-              </b>
-            </div>
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div className="container">
-            <div className="main-wrapper">
-              <img
-                src={current_track.album.images[0].url}
-                className="now-playing__cover"
-                alt=""
-              />
-
-              <div className="now-playing__side">
-                <div className="now-playing__name">{current_track.name}</div>
-                <div className="now-playing__artist">
-                  {current_track.artists[0].name}
-                </div>
-
-                <button
-                  className="btn-spotify"
-                  onClick={() => {
-                    player.previousTrack();
-                  }}
-                >
-                  &lt;&lt;
-                </button>
-
-                <button
-                  className="btn-spotify"
-                  onClick={() => {
-                    player.togglePlay();
-                  }}
-                >
-                  {is_paused ? "PLAY" : "PAUSE"}
-                </button>
-
-                <button
-                  className="btn-spotify"
-                  onClick={() => {
-                    player.nextTrack();
-                  }}
-                >
-                  &gt;&gt;
-                </button>
-
-                <button
-                  className="btn-spotify"
-                  onClick={() => {
-                    playAnySong();
-                  }}
-                >
-                  PLAY ANY SONG
-                </button>
-              </div>
-            </div>
-          </div>
-        </>
-      );
-    }
+    return duration;
   }
+  // this is running x2....
+  useEffect(() => {
+    if (isLoggedIn) {
+      const script = document.createElement("script");
+      script.src = "https://sdk.scdn.co/spotify-player.js";
+      script.async = true;
+
+      document.body.appendChild(script);
+
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        console.log(accessToken);
+        const player = new window.Spotify.Player({
+          name: "Web Playback SDK",
+          getOAuthToken: (cb) => {
+            cb(accessToken);
+          },
+          volume: 0.5,
+        });
+
+        setPlayer(player);
+
+        player.addListener("ready", async ({ device_id }) => {
+          console.log("Ready with Device ID", device_id);
+          setDeviceId(device_id);
+          await transferPlayback(device_id);
+          player.getCurrentState().then((state) => {
+            !state ? setActive(false) : setActive(true);
+          });
+        });
+
+        player.addListener("not_ready", ({ device_id }) => {
+          console.log("Device ID has gone offline", device_id);
+        });
+
+        player.addListener("player_state_changed", (state) => {
+          console.log("song changed");
+          console.log(state.track_window.current_track);
+
+          // setTrack(track);
+          if (!state) {
+            return;
+          }
+
+          setCurrentTrack(state.track_window.current_track);
+          setPaused(state.paused);
+
+          player.getCurrentState().then((state) => {
+            !state ? setActive(false) : setActive(true);
+          });
+        });
+
+        console.log(accessToken);
+
+        player.connect();
+      };
+    } else {
+      pausePlayback();
+    }
+  }, [isLoggedIn]);
+
+  if (!is_active) {
+    return (
+      <>
+        <div className="container">
+          <div className="main-wrapper">
+            <b>
+              {" "}
+              Instance not active. Transfer your playback using your Spotify app{" "}
+            </b>
+          </div>
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="container">
+          <div className="main-wrapper">
+            <img
+              src={current_track.album.images[0].url}
+              className="now-playing__cover"
+              alt=""
+            />
+
+            <div className="now-playing__side">
+              <div className="now-playing__name">{current_track.name}</div>
+              <div className="now-playing__artist">
+                {current_track.artists[0].name}
+              </div>
+
+              <div className="now-playing__artist">
+                {current_track.duration_ms}
+              </div>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  player.previousTrack();
+                }}
+              >
+                &lt;&lt;
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  player.togglePlay();
+                }}
+              >
+                {is_paused ? "PLAY" : "PAUSE"}
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  player.nextTrack();
+                }}
+              >
+                &gt;&gt;
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  playAnySong();
+                }}
+              >
+                PLAY ANY SONG
+              </button>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+};
 
 export default Player;

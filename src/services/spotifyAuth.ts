@@ -122,6 +122,8 @@ const base64urlencode = (arrayBuffer: ArrayBuffer) => {
 };
 
 export const refresh = async (refreshToken: string) => {
+  console.log(getRefreshURL(refreshToken));
+
   await axios({
     url: getRefreshURL(refreshToken),
     method: "POST",
@@ -154,20 +156,16 @@ export const refresh = async (refreshToken: string) => {
 // builds the refresh URL meant for the Spotify API request to refresh a user's access token
 export const getRefreshURL = (refreshToken): string => {
   const refreshURL = new URL(refreshEndpoint);
+
   const params = {
+    grant_type: "refresh_token",
     refresh_token: refreshToken,
     client_id: clientId,
   };
 
   refreshURL.search = new URLSearchParams(params).toString();
-  return refreshURL.toString();
 
-  // return (
-  //   "https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=" +
-  //   refreshToken +
-  //   "&client_id=" +
-  //   clientId
-  // );
+  return refreshURL.toString();
 };
 
 export const checkRefreshNeeded = async (currTime: Date): Promise<string> => {
