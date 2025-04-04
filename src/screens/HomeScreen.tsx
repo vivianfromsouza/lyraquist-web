@@ -544,15 +544,6 @@ const HomeScreen: React.FC = () => {
 
         <button
           onClick={() => {
-            navigate("/Play");
-          }}
-          className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
-        >
-          Go To Playback
-        </button>
-
-        <button
-          onClick={() => {
             navigate("/settings", { state: "isLoggedIn" });
           }}
           className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
