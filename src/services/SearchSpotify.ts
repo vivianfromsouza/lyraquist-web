@@ -20,7 +20,7 @@ const SearchSpotify = {
         UserReaderWriter.getUserAccessCode().then((accessCode) => {
           // Makes request to Spotify API for song search
           axios({
-            url: "https://api.spotify.com/v1/search?q=" + title + "&type=track", // Remove "&limit=1"
+            url: "https://api.spotify.com/v1/search?q=" + title + "&type=track&limit=50", // Remove "&limit=1"
             method: "GET",
             headers: {
               authorization: "Bearer " + accessCode,
@@ -28,6 +28,12 @@ const SearchSpotify = {
           })
             .then(async (res) => {
               const data = await res.data;
+
+              // const safeTracks = data.tracks.filter((track) => track["id"] == ""); 
+
+              // console.log("SAFE TRACKS", safeTracks);
+
+              // resolve(safeTracks.items || []); // Ensure 'items' is defined or provide an empty array
               resolve(data.tracks.items || []); // Ensure 'items' is defined or provide an empty array
             })
             .catch((err) => {

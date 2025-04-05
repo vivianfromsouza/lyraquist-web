@@ -53,13 +53,16 @@ export default function SearchScreen() {
           name: item.name,
           album: item.album.name,
           duration: item.duration_ms,
+          explicit: item.explicit,
         }));
 
         // spotify_url: item.id,
         // title: item.name,
         // duration: item.duration_ms,
 
-        setSearchResults(formattedData); // Set formatted search results
+        const filteredData = formattedData.filter((item) => item.explicit == false); // Filter out items with null imageURL
+
+        setSearchResults(filteredData); // Set formatted search results
       } else {
         setSearchResults([]); // If no results, clear search results
       }

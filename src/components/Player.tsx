@@ -110,12 +110,8 @@ const Player = () => {
 
   function calculateDurationInSecs(duration_ms) {
     const seconds = parseInt(Math.floor(duration_ms / 1000).toFixed(2));
-    console.log(seconds);
     const minutes = Math.floor(seconds / 60); // in minutes
-    console.log(minutes);
-
     const seconds_left = seconds % 60; // in seconds left
-    console.log(seconds_left);
 
     if (seconds_left < 10) {
       return minutes + ":0" + seconds_left;
@@ -125,6 +121,9 @@ const Player = () => {
   }
   // this is running x2....
   useEffect(() => {
+    let count = 1;
+
+
     if (isLoggedIn) {
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -168,6 +167,10 @@ const Player = () => {
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
+          
+
+         
+
           setTotalTime(
             calculateDurationInSecs(
               state.track_window.current_track.duration_ms
@@ -176,8 +179,7 @@ const Player = () => {
 
           player.getCurrentState().then((state) => {
             !state ? setActive(false) : setActive(true);
-            console.log("POSITIN: +" + state.position);
-            setCurrentTime(calculateDurationInSecs(state.position));
+            // setCurrentTime(calculateDurationInSecs(calculateDurationInSecs(100)));
           });
         });
 
