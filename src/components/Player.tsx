@@ -1,5 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import {
+  View,
+ ActivityIndicator,
+ StyleSheet
+} from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 
@@ -123,7 +128,6 @@ const Player = () => {
   useEffect(() => {
     let count = 1;
 
-
     if (isLoggedIn) {
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -167,9 +171,6 @@ const Player = () => {
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
-          
-
-         
 
           setTotalTime(
             calculateDurationInSecs(
@@ -195,10 +196,14 @@ const Player = () => {
       <>
         <div className="container">
           <div className="main-wrapper">
-            <b>
+            {/* <b>
               {" "}
               Instance not active. Transfer your playback using your Spotify app{" "}
-            </b>
+            </b> */}
+
+            <View style={styles.loading}>
+              <ActivityIndicator size="large" color="#303248" />
+            </View>
           </div>
         </div>
       </>
@@ -266,5 +271,14 @@ const Player = () => {
     );
   }
 };
+
+const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e8e1db",
+  },
+});
 
 export default Player;
