@@ -44,7 +44,6 @@ export default function SpanishScreen() {
       setIsLoading(!isLoading);
       setSearchTerm(text);
       const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
-
       const formattedData = playlistData
         .filter(
           (item: any) =>
@@ -64,6 +63,8 @@ export default function SpanishScreen() {
           album: item.track.album.name,
           duration: item.track.duration_ms,
         }));
+        console.log(formattedData[0])
+
       setSearchResults(formattedData);
       isLoadingScreen(false); // Done loading screen
     } catch (error) {
@@ -81,6 +82,7 @@ export default function SpanishScreen() {
 
   // Function to render each search result item
   const renderSearchResultItem = ({ item }) => (
+    console.log(item),
     <TouchableOpacity
       onPress={() => navigate("Play", { state: item })}
       style={{
