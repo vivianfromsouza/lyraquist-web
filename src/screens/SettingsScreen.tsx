@@ -34,7 +34,7 @@ export default function SettingsScreen() {
       .then(() => {
         console.log("SIGNED OUT");
         navigate("/login");
-        localStorage.setItem("isLoggedIn", "false");
+        // localStorage.setItem("isLoggedIn", "false");
       })
       .catch((error) => {
         console.log(error);
