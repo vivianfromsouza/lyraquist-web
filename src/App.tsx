@@ -41,6 +41,9 @@ const PrivateRoutes = () => {
 };
 
 const App: React.FC = () => {
+  const isLoggedIn = window.localStorage.getItem("isLoggedIn");
+
+ 
   return (
     <FirebaseProvider>
       <BrowserRouter>

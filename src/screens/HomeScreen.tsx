@@ -31,7 +31,6 @@ import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import Player from "../components/Player";
 
 let counter = 0;
 // TODO: FIx font sizing here
@@ -138,6 +137,14 @@ const HomeScreen: React.FC = () => {
     );
     isLoading(false);
   }
+
+   window.addEventListener("storage", () => {
+      // When local storage changes, dump the list to
+      // the console.
+      const value = window.localStorage.getItem("isLoggedIn");
+      console.log("LOGIN CHANGED")
+      console.log(value ? JSON.parse(value) : null);
+    });
 
   useEffect(() => {
     if (currentUser) {
