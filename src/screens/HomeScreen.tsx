@@ -538,7 +538,6 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <Player></Player>
           <Text>{"\n\n\n\n"}</Text>
         </ScrollView>
 

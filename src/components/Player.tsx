@@ -20,7 +20,7 @@ const Player = () => {
   const accessToken = UserReaderWriter.getUserAccessCode();
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-  const location = useLocation();
+  // const location = useLocation();
   // const playItem = {
   //   name: "Everyway That I Can - Aytekin Kurt, Murat Uncuoğlu Remix",
   //   spotifyURL: "https://i.scdn.co/image/ab67616d0000b27387d19f64a67b70c87510dcca",
@@ -126,8 +126,6 @@ const Player = () => {
   }
   // this is running x2....
   useEffect(() => {
-    let count = 1;
-
     if (isLoggedIn) {
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -146,6 +144,25 @@ const Player = () => {
         });
 
         setPlayer(player);
+
+        player.on('initialization_error', ({ message }) => {
+          console.error('Failed to initialize', message);
+        });
+
+        player.on('authentication_error', ({ message }) => {
+          console.error('Failed to authenticate', message);
+        });
+
+        
+        player.on('account_error', ({ message }) => {
+          console.error('Failed to validate Spotify account', message);
+        });
+
+        
+        player.on('playback_error', ({ message }) => {
+          console.error('Failed to perform playback', message);
+        });
+        
 
         player.addListener("ready", async ({ device_id }) => {
           console.log("Ready with Device ID", device_id);
