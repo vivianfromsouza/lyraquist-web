@@ -31,7 +31,7 @@ onAuthStateChanged(auth, (user) => {
     localStorage.setItem("isLoggedIn", "false");
     console.log("USER GOODBYE");
     // User is signed out
-    // ...
+    console.log("STATUS:" + localStorage.getItem("isLoggedIn"));
   }
 });
 
