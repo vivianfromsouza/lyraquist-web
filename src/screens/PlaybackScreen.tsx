@@ -7,37 +7,24 @@ import { useLocation } from "react-router-dom";
 function PlaybackScreen() {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
-  // const [player, setPlayer] = useState(
-  //   new window.Spotify.Player({
-  //     name: "Web Playback SDK",
-  //     getOAuthToken: (cb) => {
-  //       cb(accessToken);
-  //     },
-  //     volume: 0.5,
-  //   })
-  // );
+  const location = useLocation();
+  const playbackItem = location.state;
   const [player, setPlayer] = useState(null);
   const [device_id, setDeviceId] = useState("");
   const accessToken = UserReaderWriter.getUserAccessCode();
 
-  const location = useLocation();
-  // const playItem = location.state;
-  const playItem = {
-    name: "Everyway That I Can - Aytekin Kurt, Murat Uncuoğlu Remix",
-    spotifyURL: "https://i.scdn.co/image/ab67616d0000b27387d19f64a67b70c87510dcca",
-    imageURL: "Sertab",
-    artist: "Sertab",
-  };
-
-  const [currentURL] = useState(playItem.spotifyURL);
+  const [currentURL] = useState(playbackItem.spotifyURL);
 
   const track = {
-    name: playItem.name,
-    spotifyURL: playItem.spotifyURL,
+    name: playbackItem.name,
+    spotifyURL: playbackItem.spotifyURL,
+    // add album name to this
     album: {
-      images: [{ url: playItem.imageURL }],
+      name: playbackItem.albumName,
+      images: [{ url: playbackItem.imageURL }],
     },
-    artists: [{ name: playItem.artist }],
+    artists: [{ name: playbackItem.artist }],
+    duration_ms: playbackItem.duration_ms,
   };
 
   const [current_track, setTrack] = useState(track);
@@ -66,9 +53,58 @@ function PlaybackScreen() {
     });
   }
 
+  async function transferPlayback(device_id: string) {
+    console.log("TRANSFERRING PLAYBACK");
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          device_ids: [device_id],
+          play: false, // keeps it off if it's paused
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  }
+
+  async function startPlayback() {
+    //https://api.spotify.com/v1/me/player/play
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          device_ids: [device_id],
+          uris: [currentURL], // keeps it off if it's paused
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  }
+
   // this is running x2....
   useEffect(() => {
     // getSpotifyAccessCode()
+    localStorage.setItem("showPlayer", "false");
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -87,9 +123,10 @@ function PlaybackScreen() {
 
       setPlayer(player);
 
-      player.addListener("ready", ({ device_id }) => {
+      player.addListener("ready", async ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
         setDeviceId(device_id);
+        await transferPlayback(device_id);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -103,7 +140,9 @@ function PlaybackScreen() {
           return;
         }
 
-        setTrack(state.track_window.current_track);
+        // setTrack(state.track_window.current_track);
+        // setTrack(track);
+
         setPaused(state.paused);
 
         player.getCurrentState().then((state) => {
@@ -159,7 +198,7 @@ function PlaybackScreen() {
               <button
                 className="btn-spotify"
                 onClick={() => {
-                  player.togglePlay();
+                  startPlayback();
                 }}
               >
                 {is_paused ? "PLAY" : "PAUSE"}

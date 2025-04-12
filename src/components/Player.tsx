@@ -38,7 +38,8 @@ const Player = () => {
     UserReaderWriter.getUserAccessCode().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
-        url: "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
+        url:
+          "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
         method: "PUT",
         headers: {
           authorization: "Bearer " + accessCode,
@@ -165,14 +166,13 @@ const Player = () => {
           console.log("Device ID has gone offline", device_id);
         });
 
-        player.addListener("player_state_changed", (state) => {
-          console.log("song changed");
-          console.log(state.track_window.current_track);
-
-          // setTrack(track);
+        player.addListener("player_state_changed", ({ state }) => {
           if (!state) {
             return;
           }
+
+          console.log("song changed");
+          console.log(state.track_window.current_track);
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
@@ -194,12 +194,12 @@ const Player = () => {
       };
     } else {
       console.log("NOT LOGGED IN");
-      setActive(false);
+      // setActive(false);
       pausePlayback();
     }
   }, [isLoggedIn]);
 
-  if (localStorage.getItem("isLoggedIn") == "false") {
+  if (localStorage.getItem("showPlayer") == "false") {
     return <> </>;
   } else if (!is_active) {
     return (

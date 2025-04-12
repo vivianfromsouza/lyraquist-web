@@ -42,7 +42,6 @@ const PrivateRoutes = () => {
 
 const App: React.FC = () => {
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-
  
   return (
     <FirebaseProvider>
@@ -94,7 +93,9 @@ const App: React.FC = () => {
         </Routes>
       </BrowserRouter>
 
-      {localStorage.getItem("isLoggedIn") == "true" ? <Player /> : <></>}
+      {/* {localStorage.getItem("isLoggedIn") == "true" ? <Player /> : <></>} */}
+      {localStorage.getItem("showPlayer") == "true" ? <Player /> : <></>}
+
     </FirebaseProvider>
   );
 };

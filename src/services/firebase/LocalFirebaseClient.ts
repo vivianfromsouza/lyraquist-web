@@ -25,13 +25,16 @@ onAuthStateChanged(auth, (user) => {
     console.log("THIS IS MY USER:" + uid);
     console.log("CREDENTIAL" + user);
     localStorage.setItem("isLoggedIn", "true");
-
+    localStorage.setItem("showPlayer", "true");
     // ...
   } else {
     localStorage.setItem("isLoggedIn", "false");
+    localStorage.setItem("showPlayer", "false");
     console.log("USER GOODBYE");
     // User is signed out
     console.log("STATUS:" + localStorage.getItem("isLoggedIn"));
+    console.log("STATUS:" + localStorage.getItem("showPlayer"));
+
   }
 });
 
