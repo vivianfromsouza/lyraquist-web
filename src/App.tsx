@@ -27,6 +27,7 @@ import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
+import Player from "./components/Player";
 
 const App: React.FC = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -69,6 +70,7 @@ const App: React.FC = () => {
           <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
         </Routes>
       </BrowserRouter>
+      <Player></Player>
     </FirebaseProvider>
   );
 };
