@@ -7,6 +7,8 @@ import axios from "axios";
 const Player = () => {
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
+  const [isShuffled, setIsShuffled] = useState(false);
+
   const [currentTime, setCurrentTime] = useState("0:00");
   const [totalTime, setTotalTime] = useState("0:00");
 
@@ -16,14 +18,6 @@ const Player = () => {
   const accessToken = UserReaderWriter.getUserAccessCode();
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-  // const location = useLocation();
-  // const playItem = {
-  //   name: "Everyway That I Can - Aytekin Kurt, Murat Uncuoğlu Remix",
-  //   spotifyURL: "https://i.scdn.co/image/ab67616d0000b27387d19f64a67b70c87510dcca",
-  //   imageURL: "https://i.scdn.co/image/ab67616d0000b27387d19f64a67b70c87510dcca",
-  //   artist: "Sertab",
-  // };
-  // const playItem = location.state;
   const [currentURL] = useState("");
 
   // this has to match template coming in from spotify's api
@@ -40,17 +34,18 @@ const Player = () => {
 
   const [current_track, setCurrentTrack] = useState(track);
 
-  async function playAnySong() {
+  async function toggleShuffle() {
     UserReaderWriter.getUserAccessCode().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
-        url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id, // Remove "&limit=1"
+        url: "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
         method: "PUT",
         headers: {
           authorization: "Bearer " + accessCode,
         },
         data: {
-          uris: [currentURL],
+          state: !isShuffled,
+          device_ids: [device_id],
         },
       })
         .then(async (res) => {
@@ -181,6 +176,7 @@ const Player = () => {
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
+          setIsShuffled(state.shuffle_state);
 
           setTotalTime(
             calculateDurationInSecs(
@@ -273,10 +269,10 @@ const Player = () => {
               <button
                 className="btn-spotify"
                 onClick={() => {
-                  playAnySong();
+                  toggleShuffle();
                 }}
               >
-                PLAY ANY SONG
+                Toggle Shuffle
               </button>
             </div>
           </div>
