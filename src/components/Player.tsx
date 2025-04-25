@@ -126,7 +126,7 @@ const Player = () => {
   }
   // this is running x2....
   useEffect(() => {
-    if (isLoggedIn) {
+    if (localStorage.getItem("isLoggedIn") == "true") {
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
       script.async = true;
@@ -204,9 +204,10 @@ const Player = () => {
         player.connect();
       };
     } else {
+      setActive(false);
       pausePlayback();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, localStorage.getItem("isLoggedIn")]);
 
   if (!is_active) {
     return (
