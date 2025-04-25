@@ -229,10 +229,10 @@ const HomeScreen: React.FC = () => {
         //   )
         //   .subscribe((status) => console.log(status));
 
-        UserReaderWriter.getCurrentTrackDetails().then((track) => {
-          console.log("CURR TRACK:");
-          console.log(track);
-        });
+        // UserReaderWriter.getCurrentTrackDetails().then((track) => {
+        //   console.log("CURR TRACK:");
+        //   console.log(track);
+        // });
       } catch (err) {
         console.log(err);
       }

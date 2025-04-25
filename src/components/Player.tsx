@@ -4,7 +4,7 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 
 const Player = () => {
-  const [is_paused, setPaused] = useState(false);
+  const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   // const [player, setPlayer] = useState(
   //   new window.Spotify.Player({
@@ -16,27 +16,34 @@ const Player = () => {
   //   })
   // );
   const [player, setPlayer] = useState(null);
-  const [device_id, setDeviceId] = useState("");
+  const [device_id, setDeviceId] = useState("abc");
+
   const accessToken = UserReaderWriter.getUserAccessCode();
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
 
   const location = useLocation();
-  const [playItem, setPlayItem] = useState(location.state || "0lUSd7TCG8srh6HpIAEIWL");
-
+  // const playItem = {
+  //   name: "Everyway That I Can - Aytekin Kurt, Murat Uncuoğlu Remix",
+  //   spotifyURL: "https://i.scdn.co/image/ab67616d0000b27387d19f64a67b70c87510dcca",
+  //   imageURL: "https://i.scdn.co/image/ab67616d0000b27387d19f64a67b70c87510dcca",
+  //   artist: "Sertab",
+  // };
   // const playItem = location.state;
-  const [currentURL] = useState(playItem.spotifyURL);
+  const [currentURL] = useState("");
 
+  // this has to match template coming in from spotify's api
   const track = {
-    name: playItem.name,
-    spotifyURL: playItem.spotifyURL,
+    name: "trackName",
+    spotifyURL: "trackURL",
     album: {
-      images: [{ url: playItem.imageURL }],
+      name: "trackAlbum",
+      images: [{ url: "trackImage" }],
     },
-    artists: [{ name: playItem.artist }],
+    artists: [{ name: "trackArtist" }],
+    duration_ms: 0,
   };
 
-  const [current_track, setTrack] = useState(track);
-
-  console.log(current_track);
+  const [current_track, setCurrentTrack] = useState(track);
 
   async function playAnySong() {
     UserReaderWriter.getUserAccessCode().then((accessCode) => {
@@ -60,56 +67,122 @@ const Player = () => {
     });
   }
 
+  async function transferPlayback(device_id: string) {
+    console.log("TRANSFERRING PLAYBACK");
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          device_ids: [device_id],
+          play: false, // keeps it off if it's paused
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  }
+
+  async function pausePlayback() {
+    console.log("ENDING PLAYBACK");
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player/pause", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          device_ids: [device_id],
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  }
+
+  async function calculateDurationInSecs(duration_ms) {
+    const seconds = Math.floor(duration_ms / 1000); // in seconds
+
+    const minutes = Math.floor(seconds / 60); // in minutes
+    const seconds_left = seconds % 60; // in seconds left
+
+    const duration = minutes + ":" + seconds_left;
+
+    return duration;
+  }
   // this is running x2....
   useEffect(() => {
-    // getSpotifyAccessCode()
-    const script = document.createElement("script");
-    script.src = "https://sdk.scdn.co/spotify-player.js";
-    script.async = true;
+    if (isLoggedIn) {
+      const script = document.createElement("script");
+      script.src = "https://sdk.scdn.co/spotify-player.js";
+      script.async = true;
 
-    document.body.appendChild(script);
+      document.body.appendChild(script);
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      console.log(accessToken);
-      const player = new window.Spotify.Player({
-        name: "Web Playback SDK",
-        getOAuthToken: (cb) => {
-          cb(accessToken);
-        },
-        volume: 0.5,
-      });
-
-      setPlayer(player);
-
-      player.addListener("ready", ({ device_id }) => {
-        console.log("Ready with Device ID", device_id);
-        setDeviceId(device_id);
-      });
-
-      player.addListener("not_ready", ({ device_id }) => {
-        console.log("Device ID has gone offline", device_id);
-      });
-
-      player.addListener("player_state_changed", (state) => {
-        console.log("song changed");
-        setTrack(track);
-        if (!state) {
-          return;
-        }
-
-        setTrack(state.track_window.current_track);
-        setPaused(state.paused);
-
-        player.getCurrentState().then((state) => {
-          !state ? setActive(false) : setActive(true);
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        console.log(accessToken);
+        const player = new window.Spotify.Player({
+          name: "Web Playback SDK",
+          getOAuthToken: (cb) => {
+            cb(accessToken);
+          },
+          volume: 0.5,
         });
-      });
 
-      console.log(accessToken);
+        setPlayer(player);
 
-      player.connect();
-    };
-  }, []);
+        player.addListener("ready", async ({ device_id }) => {
+          console.log("Ready with Device ID", device_id);
+          setDeviceId(device_id);
+          await transferPlayback(device_id);
+          player.getCurrentState().then((state) => {
+            !state ? setActive(false) : setActive(true);
+          });
+        });
+
+        player.addListener("not_ready", ({ device_id }) => {
+          console.log("Device ID has gone offline", device_id);
+        });
+
+        player.addListener("player_state_changed", (state) => {
+          console.log("song changed");
+          console.log(state.track_window.current_track);
+
+          // setTrack(track);
+          if (!state) {
+            return;
+          }
+
+          setCurrentTrack(state.track_window.current_track);
+          setPaused(state.paused);
+
+          player.getCurrentState().then((state) => {
+            !state ? setActive(false) : setActive(true);
+          });
+        });
+
+        console.log(accessToken);
+
+        player.connect();
+      };
+    } else {
+      pausePlayback();
+    }
+  }, [isLoggedIn]);
 
   if (!is_active) {
     return (
@@ -139,6 +212,10 @@ const Player = () => {
               <div className="now-playing__name">{current_track.name}</div>
               <div className="now-playing__artist">
                 {current_track.artists[0].name}
+              </div>
+
+              <div className="now-playing__artist">
+                {current_track.duration_ms}
               </div>
 
               <button
