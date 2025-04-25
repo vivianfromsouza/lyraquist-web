@@ -6,15 +6,9 @@ import axios from "axios";
 const Player = () => {
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
-  // const [player, setPlayer] = useState(
-  //   new window.Spotify.Player({
-  //     name: "Web Playback SDK",
-  //     getOAuthToken: (cb) => {
-  //       cb(accessToken);
-  //     },
-  //     volume: 0.5,
-  //   })
-  // );
+  const [currentTime, setCurrentTime] = useState("0:00");
+  const [totalTime, setTotalTime] = useState("0:00");
+
   const [player, setPlayer] = useState(null);
   const [device_id, setDeviceId] = useState("abc");
 
@@ -114,15 +108,20 @@ const Player = () => {
     });
   }
 
-  async function calculateDurationInSecs(duration_ms) {
-    const seconds = Math.floor(duration_ms / 1000); // in seconds
-
+  function calculateDurationInSecs(duration_ms) {
+    const seconds = parseInt(Math.floor(duration_ms / 1000).toFixed(2));
+    console.log(seconds);
     const minutes = Math.floor(seconds / 60); // in minutes
+    console.log(minutes);
+
     const seconds_left = seconds % 60; // in seconds left
+    console.log(seconds_left);
 
-    const duration = minutes + ":" + seconds_left;
-
-    return duration;
+    if (seconds_left < 10) {
+      return minutes + ":0" + seconds_left;
+    } else {
+      return minutes + ":" + seconds_left;
+    }
   }
   // this is running x2....
   useEffect(() => {
@@ -169,13 +168,18 @@ const Player = () => {
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
+          setTotalTime(
+            calculateDurationInSecs(
+              state.track_window.current_track.duration_ms
+            )
+          );
 
           player.getCurrentState().then((state) => {
             !state ? setActive(false) : setActive(true);
+            console.log("POSITIN: +" + state.position);
+            setCurrentTime(calculateDurationInSecs(state.position));
           });
         });
-
-        console.log(accessToken);
 
         player.connect();
       };
@@ -214,9 +218,9 @@ const Player = () => {
                 {current_track.artists[0].name}
               </div>
 
-              <div className="now-playing__artist">
-                {current_track.duration_ms}
-              </div>
+              <div className="now-playing__artist">{currentTime}</div>
+
+              <div className="now-playing__artist">{totalTime}</div>
 
               <button
                 className="btn-spotify"
