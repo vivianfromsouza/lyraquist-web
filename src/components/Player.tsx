@@ -1,10 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  View,
- ActivityIndicator,
- StyleSheet
-} from "react-native";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 
@@ -145,24 +141,21 @@ const Player = () => {
 
         setPlayer(player);
 
-        player.on('initialization_error', ({ message }) => {
-          console.error('Failed to initialize', message);
+        player.on("initialization_error", ({ message }) => {
+          console.error("Failed to initialize", message);
         });
 
-        player.on('authentication_error', ({ message }) => {
-          console.error('Failed to authenticate', message);
+        player.on("authentication_error", ({ message }) => {
+          console.error("Failed to authenticate", message);
         });
 
-        
-        player.on('account_error', ({ message }) => {
-          console.error('Failed to validate Spotify account', message);
+        player.on("account_error", ({ message }) => {
+          console.error("Failed to validate Spotify account", message);
         });
 
-        
-        player.on('playback_error', ({ message }) => {
-          console.error('Failed to perform playback', message);
+        player.on("playback_error", ({ message }) => {
+          console.error("Failed to perform playback", message);
         });
-        
 
         player.addListener("ready", async ({ device_id }) => {
           console.log("Ready with Device ID", device_id);
@@ -204,12 +197,15 @@ const Player = () => {
         player.connect();
       };
     } else {
+      console.log("NOT LOGGED IN");
       setActive(false);
       pausePlayback();
     }
-  }, [isLoggedIn, localStorage.getItem("isLoggedIn")]);
+  }, [isLoggedIn]);
 
-  if (!is_active) {
+  if (localStorage.getItem("isLoggedIn") == "false") {
+    return <> </>;
+  } else if (!is_active) {
     return (
       <>
         <div className="container">

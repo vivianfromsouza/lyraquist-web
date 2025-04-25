@@ -35,13 +35,15 @@ import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
 import Player from "./components/Player";
 
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-
 const PrivateRoutes = () => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
   return isLoggedIn == "true" ? <Outlet /> : <Navigate to="/login" />;
 };
 
 const App: React.FC = () => {
+  const isLoggedIn = window.localStorage.getItem("isLoggedIn");
+
+ 
   return (
     <FirebaseProvider>
       <BrowserRouter>

@@ -31,7 +31,6 @@ import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import Player from "../components/Player";
 
 let counter = 0;
 // TODO: FIx font sizing here
@@ -138,6 +137,14 @@ const HomeScreen: React.FC = () => {
     );
     isLoading(false);
   }
+
+   window.addEventListener("storage", () => {
+      // When local storage changes, dump the list to
+      // the console.
+      const value = window.localStorage.getItem("isLoggedIn");
+      console.log("LOGIN CHANGED")
+      console.log(value ? JSON.parse(value) : null);
+    });
 
   useEffect(() => {
     if (currentUser) {
@@ -540,15 +547,6 @@ const HomeScreen: React.FC = () => {
 
           <Text>{"\n\n\n\n"}</Text>
         </ScrollView>
-
-        <button
-          onClick={() => {
-            navigate("/Play");
-          }}
-          className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
-        >
-          Go To Playback
-        </button>
 
         <button
           onClick={() => {
