@@ -16,6 +16,7 @@ import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
+import axios from "axios";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function SettingsScreen() {
@@ -33,10 +34,28 @@ export default function SettingsScreen() {
       .then(() => {
         console.log("SIGNED OUT");
         navigate("/login");
+        localStorage.setItem("isLoggedIn", "false");
       })
       .catch((error) => {
         console.log(error);
       });
+
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player/pause", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
   }
 
   // gets current values for user name
