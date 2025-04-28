@@ -5,6 +5,7 @@ import axios from "axios";
 
 interface PlayerContextType {
   playSong: (songId: string) => void;
+  playPlaylist: (playlistId: string) => void;
   pausePlayback: () => void;
   toggleShuffle: () => void;
   isPaused: boolean;
@@ -48,6 +49,31 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
+  const playPlaylist = (playlistId: string) => {
+    // Call the playSong function from Player.tsx
+    console.log("Playing playlist with ID:", playlistId);
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          device_ids: [localStorage.getItem("device_id")], // use local storage for now?
+          context_uri: playlistId, // keeps it off if it's paused
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  };
+
   const pausePlayback = () => {
     console.log("Pausing playback");
     // Add logic to pause playback
@@ -62,6 +88,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     <PlayerContext.Provider
       value={{
         playSong,
+        playPlaylist,
         pausePlayback,
         toggleShuffle,
         isPaused,

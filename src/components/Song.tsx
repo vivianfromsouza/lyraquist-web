@@ -1,11 +1,9 @@
 import { Text, View, Image, Pressable } from "react-native";
-import { useNavigate } from "react-router-dom";
-import Player from "./Player";
 import { usePlayer } from "../context/PlayerContext";
 
 
 const SongCard = ({ item }) => {
-  const { playSong, pausePlayback, toggleShuffle, isPaused, currentTrack } = usePlayer();
+  const { playSong } = usePlayer();
 
   return (
     <View style={{ marginLeft: 4 }}>

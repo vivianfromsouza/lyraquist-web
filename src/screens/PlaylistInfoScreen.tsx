@@ -22,6 +22,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PlayCircleFilled } from "@ant-design/icons";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { usePlayer } from "../context/PlayerContext";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -33,10 +34,11 @@ function PlaylistInfoScreen() {
   const [renSongList, setRenSongList] = useState<PlayItem[]>([]);
   const name = playlistItem.name;
   const playUID = playlistItem.playlist_id;
-  const spotifyURL = playlistItem.spotify_url;
+  const spotifyURL = "spotify:playlist:" + playlistItem.spotify_url;
   const description = playlistItem.description;
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingScreen, isLoadingScreen] = useState(true);
+  const { playPlaylist } = usePlayer();
 
   useEffect(() => {
     try {
@@ -150,10 +152,7 @@ function PlaylistInfoScreen() {
               borderBottomRightRadius: 15,
             }}
           >
-            <Pressable
-              onPress={() => navigate(-1)}
-              style={{ marginLeft: 20 }}
-            >
+            <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
               {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
               <ArrowBackOutline />
             </Pressable>
@@ -183,16 +182,7 @@ function PlaylistInfoScreen() {
               </Text>
 
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Pressable
-                  onPress={() =>
-                    navigate("Play", {
-                      state: {
-                        item: renSongList[0],
-                        playlist: { spotifyURL, name },
-                      },
-                    })
-                  }
-                >
+                <Pressable onPress={() => playPlaylist(spotifyURL)}>
                   <PlayCircleFilled />
                 </Pressable>
 
@@ -460,10 +450,7 @@ function PlaylistInfoScreen() {
             borderBottomRightRadius: 15,
           }}
         >
-          <Pressable
-            onPress={() => navigate(-1)}
-            style={{ marginLeft: 20 }}
-          >
+          <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
             {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
             <ArrowBackOutline />
           </Pressable>
