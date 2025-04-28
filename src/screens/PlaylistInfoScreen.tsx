@@ -38,7 +38,7 @@ function PlaylistInfoScreen() {
   const description = playlistItem.description;
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingScreen, isLoadingScreen] = useState(true);
-  const { playPlaylist } = usePlayer();
+  const { playPlaylist, playSong } = usePlayer();
 
   useEffect(() => {
     try {
@@ -292,13 +292,7 @@ function PlaylistInfoScreen() {
             renderItem={({ item }) => {
               return (
                 <>
-                  <Pressable
-                    onPress={() =>
-                      navigate("Play", {
-                        state: item,
-                      })
-                    }
-                  >
+                  <Pressable onPress={() => playSong(item.spotifyURL)}>
                     <View
                       style={{
                         flexDirection: "row",
