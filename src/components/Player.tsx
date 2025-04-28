@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
@@ -104,6 +103,29 @@ const Player = () => {
     });
   }
 
+  async function playSong(songId: string) {
+    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          device_ids: [device_id],
+          uris: [songId], // keeps it off if it's paused
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  }
+
   function calculateDurationInSecs(duration_ms) {
     const seconds = parseInt(Math.floor(duration_ms / 1000).toFixed(2));
     const minutes = Math.floor(seconds / 60); // in minutes
@@ -155,6 +177,7 @@ const Player = () => {
         player.addListener("ready", async ({ device_id }) => {
           console.log("Ready with Device ID", device_id);
           setDeviceId(device_id);
+          localStorage.setItem("device_id", device_id);
           await transferPlayback(device_id);
           player.getCurrentState().then((state) => {
             !state ? setActive(false) : setActive(true);

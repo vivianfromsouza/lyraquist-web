@@ -33,7 +33,7 @@ import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
-import Player from "./components/Player";
+import { PlayerProvider } from "./context/PlayerContext";
 
 const PrivateRoutes = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -43,59 +43,66 @@ const PrivateRoutes = () => {
 const App: React.FC = () => {
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
 
- 
   return (
-    <FirebaseProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            {/* Do I need home here as well? */}
-            <Route path="/home" element={<HomeScreen />} />
-            <Route path="/play" element={<PlaybackScreen />} />
-            <Route path="/privacy" element={<PrivacyScreen />} />
-            <Route path="/about" element={<AboutScreen />} />
-            <Route path="/about/welcome" element={<AboutUsScreen />} />
-            <Route path="/about/privacy" element={<AboutPrivacy />} />
-            <Route
-              path="/about/terms"
-              element={<AboutTermsConditionsScreen />}
-            />
-            <Route
-              path="/about/third-party"
-              element={<AboutThirdPartyScreen />}
-            />
-            <Route path="/about/feedback" element={<FeedbackScreen />} />
-            <Route path="/account/" element={<AccountSettings />} />
-            <Route path="/settings/" element={<SettingsScreen />} />
-            <Route path="/settings/profile" element={<ProfileInfoScreen />} />
-            <Route path="/language/french" element={<FrenchScreen />} />
-            <Route path="/language/german" element={<GermanScreen />} />
-            <Route path="/language/spanish" element={<SpanishScreen />} />
-            <Route path="SearchLanguages" element={<SearchLanguageScreen />} />
-            <Route path="Search" element={<SearchScreen />} />
-            <Route path="/workbook/flashcards" element={<FlashcardScreen />} />
-            <Route
-              path="/workbook/newWorkbook"
-              element={<NewWorkbookScreen />}
-            />
-            <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
-            <Route path="/workbook/newWord" element={<NewWordScreen />} />
-            {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
-            <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
-          </Route>
+    <PlayerProvider>
+      <FirebaseProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PrivateRoutes />}>
+              {/* Do I need home here as well? */}
+              <Route path="/home" element={<HomeScreen />} />
+              <Route path="/play" element={<PlaybackScreen />} />
+              <Route path="/privacy" element={<PrivacyScreen />} />
+              <Route path="/about" element={<AboutScreen />} />
+              <Route path="/about/welcome" element={<AboutUsScreen />} />
+              <Route path="/about/privacy" element={<AboutPrivacy />} />
+              <Route
+                path="/about/terms"
+                element={<AboutTermsConditionsScreen />}
+              />
+              <Route
+                path="/about/third-party"
+                element={<AboutThirdPartyScreen />}
+              />
+              <Route path="/about/feedback" element={<FeedbackScreen />} />
+              <Route path="/account/" element={<AccountSettings />} />
+              <Route path="/settings/" element={<SettingsScreen />} />
+              <Route path="/settings/profile" element={<ProfileInfoScreen />} />
+              <Route path="/language/french" element={<FrenchScreen />} />
+              <Route path="/language/german" element={<GermanScreen />} />
+              <Route path="/language/spanish" element={<SpanishScreen />} />
+              <Route
+                path="SearchLanguages"
+                element={<SearchLanguageScreen />}
+              />
+              <Route path="Search" element={<SearchScreen />} />
+              <Route
+                path="/workbook/flashcards"
+                element={<FlashcardScreen />}
+              />
+              <Route
+                path="/workbook/newWorkbook"
+                element={<NewWorkbookScreen />}
+              />
+              <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
+              <Route path="/workbook/newWord" element={<NewWordScreen />} />
+              {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
+              <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
+            </Route>
 
-          <Route
-            index
-            element={isLoggedIn == "false" ? <StartScreen /> : <HomeScreen />}
-          />
-          <Route path="/signUp" element={<SignUpScreen />} />
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/spotifyAuth" element={<SpotifyAuthScreen />} />
-        </Routes>
-      </BrowserRouter>
+            <Route
+              index
+              element={isLoggedIn == "false" ? <StartScreen /> : <HomeScreen />}
+            />
+            <Route path="/signUp" element={<SignUpScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/spotifyAuth" element={<SpotifyAuthScreen />} />
+          </Routes>
+        </BrowserRouter>
 
-      {localStorage.getItem("isLoggedIn") == "true" ? <Player /> : <></>}
-    </FirebaseProvider>
+        {/* {localStorage.getItem("isLoggedIn") == "true" ? <Player /> : <></>} */}
+      </FirebaseProvider>
+    </PlayerProvider>
   );
 };
 

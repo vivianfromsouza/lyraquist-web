@@ -1,13 +1,17 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { useNavigate } from "react-router-dom";
+import Player from "./Player";
+import { usePlayer } from "../context/PlayerContext";
+
 
 const SongCard = ({ item }) => {
-  const navigate = useNavigate();
+  const { playSong, pausePlayback, toggleShuffle, isPaused, currentTrack } = usePlayer();
 
   return (
     <View style={{ marginLeft: 4 }}>
       <Pressable
-        onPress={() => navigate("/play", { state: item })}
+        onPress={() => playSong(item.spotifyURL)}
+        // onPress={() => navigate("/play", { state: item })}
         style={{ margin: 10 }}
       >
         <View
