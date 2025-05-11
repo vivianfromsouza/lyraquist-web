@@ -6,9 +6,12 @@ import {
 } from "firebase/auth";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import LocalFirebaseClient from "./firebase/LocalFirebaseClient";
+import { getDatabase, ref, set } from "firebase/database";
 
 const currentUser = localStorage.getItem("current_user");
 const auth = getAuth(LocalFirebaseClient);
+const db = getDatabase();
+const newTableRef = ref(db, "tokens");
 
 const UserReaderWriter = {
   async createProfile(
@@ -241,6 +244,20 @@ const UserReaderWriter = {
       .delete()
       .eq("user_id", currentUser);
     return response;
+  },
+
+  async makeTable() {
+    set(newTableRef, {
+      field1: "value1",
+      field2: "value2",
+      field3: "value3",
+    })
+      .then(() => {
+        console.log("New table created successfully!");
+      })
+      .catch((error) => {
+        console.error("Error creating table:", error);
+      });
   },
 };
 export default UserReaderWriter;

@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
+import { getSpotifyAccessCode, getSpotifyAuthCode } from "../services/spotifyAuth";
+import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
 const Player = () => {
+  const [authCode, setAuthCode] = useState<string | null>("");
+  const [accessCode, setAccessCode] = useState<string | null>("");
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   const [isShuffled, setIsShuffled] = useState(false);
@@ -14,7 +18,6 @@ const Player = () => {
   const [player, setPlayer] = useState(null);
   const [device_id, setDeviceId] = useState("abc");
 
-  const accessToken = UserReaderWriter.getUserAccessCode();
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
   const [currentURL] = useState("");
@@ -33,11 +36,22 @@ const Player = () => {
 
   const [current_track, setCurrentTrack] = useState(track);
 
+  async function getAccessCode() {
+    const accessCode = await getSpotifyAccessCode();
+    setAccessCode(accessCode);
+  }
+
+  async function getAuthCode() {
+    const authCode = await getSpotifyAuthCode();
+    setAuthCode(authCode);
+  }
+
   async function toggleShuffle() {
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
-        url: "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
+        url:
+          "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
         method: "PUT",
         headers: {
           authorization: "Bearer " + accessCode,
@@ -58,7 +72,7 @@ const Player = () => {
 
   async function transferPlayback(device_id: string) {
     console.log("TRANSFERRING PLAYBACK");
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+    await TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player", // Remove "&limit=1"
@@ -82,7 +96,7 @@ const Player = () => {
 
   async function pausePlayback() {
     console.log("ENDING PLAYBACK");
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/pause", // Remove "&limit=1"
@@ -104,7 +118,7 @@ const Player = () => {
   }
 
   async function playSong(songId: string) {
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
@@ -140,14 +154,20 @@ const Player = () => {
   // this is running x2....
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") == "true") {
+      getAuthCode();
+      getAccessCode();
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
       script.async = true;
 
       document.body.appendChild(script);
 
-      window.onSpotifyWebPlaybackSDKReady = () => {
-        console.log(accessToken);
+      window.onSpotifyWebPlaybackSDKReady = async () => {
+        const accessToken = await TokenReaderWriter.getAccessToken();
+        // const accessToken = localStorage.getItem("access_code");
+
+        console.log("INNER ACCESS:" + accessToken);
+
         const player = new window.Spotify.Player({
           name: "Web Playback SDK",
           getOAuthToken: (cb) => {
