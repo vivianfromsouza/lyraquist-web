@@ -3,6 +3,7 @@
 import axios from "axios";
 import { refresh, checkRefreshNeeded } from "../services/spotifyAuth";
 import UserReaderWriter from "./UserReaderWriter";
+import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 const DisplayPlaylistService = {
   async getPlaylist(playlistId: string): Promise<object[]> {
@@ -12,7 +13,7 @@ const DisplayPlaylistService = {
     }
 
     const getPlaylistData = async () => {
-      const accessCode = await UserReaderWriter.getUserAccessCode();
+      const accessCode = await TokenReaderWriter.getAccessToken();
       try {
         const response = await axios.get(
           `https://api.spotify.com/v1/playlists/${playlistId}`,

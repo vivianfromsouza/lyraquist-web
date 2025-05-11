@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import axios from "axios";
+import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function SettingsScreen() {
@@ -40,7 +41,7 @@ export default function SettingsScreen() {
         console.log(error);
       });
 
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+      TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/pause", // Remove "&limit=1"

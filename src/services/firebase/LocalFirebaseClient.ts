@@ -15,7 +15,7 @@ const firebaseConfig = {
 const LocalFirebaseClient = initializeApp(firebaseConfig);
 
 const auth = getAuth(LocalFirebaseClient);
-// const userCredential = auth.currentUser;
+const userCredential = auth.currentUser;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -25,6 +25,8 @@ onAuthStateChanged(auth, (user) => {
     console.log("THIS IS MY USER:" + uid);
     console.log("CREDENTIAL" + user);
     localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userId", uid);
+
 
     // ...
   } else {

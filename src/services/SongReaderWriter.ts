@@ -2,17 +2,17 @@
 // Worked on by: Vivian D'Souza
 import { Alert } from "react-native";
 import axios from "axios";
-import UserReaderWriter from "./UserReaderWriter";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
 import RecordReaderWriter from "./RecordReaderWriter";
+import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 // This service handles CRUD operations to Firebase for any song a user adds to their playlists
 const SongReaderWriter = {
   async getSongDetails(track_id: string): Promise<object> {
     const getSong = function () {
       return new Promise<any[]>((resolve) => {
-        UserReaderWriter.getUserAccessCode().then((accessCode) => {
+        TokenReaderWriter.getAccessToken().then((accessCode) => {
           axios
             .get("https://api.spotify.com/v1/tracks/" + track_id, {
               headers: {

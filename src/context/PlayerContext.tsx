@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import Player from "../components/Player";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
+import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
 interface PlayerContextType {
   playSong: (songId: string) => void;
@@ -27,7 +28,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const playSong = (songId: string) => {
     // Call the playSong function from Player.tsx
     console.log("Playing song with ID:", songId);
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+   TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
@@ -52,7 +53,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const playPlaylist = (playlistId: string) => {
     // Call the playSong function from Player.tsx
     console.log("Playing playlist with ID:", playlistId);
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"

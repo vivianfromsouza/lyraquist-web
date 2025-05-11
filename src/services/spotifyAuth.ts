@@ -8,8 +8,9 @@ import {
   tokenEndpoint,
   refreshEndpoint,
 } from "../constants/SpotifyConstants";
-import UserReaderWriter from "./UserReaderWriter";
 import { toast } from "react-toastify";
+import TokenReaderWriter from "./firebase/TokenReaderWriter";
+import { getAuth } from "firebase/auth";
 
 // Function to redirect to Spotify authorization page
 export const redirectToSpotifyAuthorize = async () => {
@@ -35,25 +36,25 @@ export const redirectToSpotifyAuthorize = async () => {
 };
 
 export const getSpotifyAuthCode = async () => {
-  console.log("AUTHORIZATION:" + localStorage.getItem("code_verifier"));
-
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
 
   if (code != null) {
-    localStorage.setItem("auth_code", code);
-    await UserReaderWriter.writeUserAuthCode(code);
+    await TokenReaderWriter.writeAuthToken(code);
+    //localStorage.setItem("auth_code", code);
+    //await UserReaderWriter.writeUserAuthCode(code);
   }
   return code;
 };
 
-export const constructAccessUrl = () => {
+export const constructAccessUrl = async () => {
   // Generate code verifier and challenge
   const codeVerifier = localStorage.getItem("code_verifier");
-  const authCode = localStorage.getItem("auth_code");
+  const authCode = await TokenReaderWriter.getAuthToken();
+  //const authCode = localStorage.getItem("auth_code");
+  const accessUrl = new URL(tokenEndpoint);
 
   if (authCode != null && codeVerifier != null) {
-    const accessUrl = new URL(tokenEndpoint);
     const params = {
       grant_type: "authorization_code",
       code: authCode,
@@ -66,31 +67,37 @@ export const constructAccessUrl = () => {
     accessUrl.search = new URLSearchParams(params).toString();
     return accessUrl.toString();
   }
-  return "";
+
+  return accessUrl.toString();
 };
 
 export const getSpotifyAccessCode = async () => {
+  let accessCode = "";
+  const accessURL = await constructAccessUrl();
+
   axios({
     method: "post",
-    url: constructAccessUrl(),
+    url: accessURL,
     headers: {
       Accept: "*/*",
       "Content-type": "application/x-www-form-urlencoded",
     },
     data: {},
   })
-    .then((response) => {
+    .then(async (response) => {
       console.log("RETRIEVING...");
-      console.log(response.data);
-      UserReaderWriter.writeUserAccessCode(response.data.access_token);
-      UserReaderWriter.writeUserRefreshToken(response.data.refresh_token);
+      console.log(response.data.access_token);
+      accessCode = response.data.access_token;
+
+      await TokenReaderWriter.writeAccessToken(accessCode);
+      await TokenReaderWriter.writeRefreshToken(response.data.refresh_token);
+      await TokenReaderWriter.writeTimeTokenTaken(new Date().toISOString());
     })
     .catch((err) => {
       console.log("ERROR:" + err);
-      return "";
     });
 
-  return "";
+  return accessCode;
 };
 
 // Function to generate code verifier
@@ -133,9 +140,9 @@ export const refresh = async (refreshToken: string) => {
   })
     // Handle the response from backend here
     .then((res) => {
-      UserReaderWriter.writeUserAccessCode(res.data.access_token);
-      UserReaderWriter.writeUserRefreshToken(res.data.refresh_token);
-      UserReaderWriter.writeUserTimeTokenTaken(new Date().toISOString());
+      TokenReaderWriter.writeAccessToken(res.data.access_token);
+      TokenReaderWriter.writeRefreshToken(res.data.refresh_token);
+      TokenReaderWriter.writeTimeTokenTaken(new Date().toISOString());
     })
 
     // Catch errors if any
@@ -171,7 +178,7 @@ export const getRefreshURL = (refreshToken): string => {
 };
 
 export const checkRefreshNeeded = async (currTime: Date): Promise<string> => {
-  await UserReaderWriter.getUserTimeTokenTaken().then((timeTokenTaken) => {
+  await TokenReaderWriter.getTimeTokenTaken().then((timeTokenTaken) => {
     const expiry = new Date(timeTokenTaken);
     expiry.setHours(expiry.getHours() + 1);
 
