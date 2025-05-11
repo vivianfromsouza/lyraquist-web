@@ -6,7 +6,7 @@ import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
 interface PlayerContextType {
   playSong: (songId: string) => void;
-  playPlaylist: (playlistId: string) => void;
+  playPlaylist: (playlistId: string, offset: string) => void;
   pausePlayback: () => void;
   toggleShuffle: () => void;
   isPaused: boolean;
@@ -50,7 +50,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const playPlaylist = (playlistId: string) => {
+  const playPlaylist = (playlistId: string, offset : string = "") => {
     // Call the playSong function from Player.tsx
     console.log("Playing playlist with ID:", playlistId);
     TokenReaderWriter.getAccessToken().then((accessCode) => {
@@ -64,6 +64,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         data: {
           device_ids: [localStorage.getItem("device_id")], // use local storage for now?
           context_uri: playlistId, // keeps it off if it's paused
+          offset: {uri: offset}
         },
       })
         .then(async (res) => {

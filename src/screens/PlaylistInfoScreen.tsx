@@ -38,25 +38,13 @@ function PlaylistInfoScreen() {
   const description = playlistItem.description;
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingScreen, isLoadingScreen] = useState(true);
-  const { playPlaylist, playSong } = usePlayer();
+  const { playPlaylist } = usePlayer();
 
   useEffect(() => {
     try {
       // whenever a playlist is added or deleted, the home screen will update with new set of playlist
-      // const handleRecordInserts = (payload) => {
-      //   getAllSongsFromPlaylist(playUID);
-      // };
-
-      // downloadSongsFromSpotify(spotifyURL);
       getAllSongsFromPlaylist(playUID);
 
-      // LocalSupabaseClient.channel("records")
-      //   .on(
-      //     "postgres_changes",
-      //     { event: "*", schema: "public", table: "records" },
-      //     handleRecordInserts
-      //   )
-      //   .subscribe();
       isLoadingScreen(false);
     } catch (err) {
       console.log(err);
@@ -289,10 +277,10 @@ function PlaylistInfoScreen() {
             accessibilityLabel="songs"
             accessible={true}
             numColumns={1}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
                 <>
-                  <Pressable onPress={() => playSong(item.spotifyURL)}>
+                  <Pressable onPress={() => playPlaylist(spotifyURL, item.spotifyURL)}>
                     <View
                       style={{
                         flexDirection: "row",
