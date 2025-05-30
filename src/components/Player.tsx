@@ -7,6 +7,7 @@ import {
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import LyricsToScreen from "../screens/LyricsToScreen";
+import TranslateScreen from "../screens/TranslateScreen";
 
 const Player = () => {
   const [authCode, setAuthCode] = useState<string | null>("");
@@ -24,6 +25,8 @@ const Player = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
+    const [isTranslationOpen, setIsTranslationOpen] = useState(false);
+
 
   const [currentURL] = useState("");
 
@@ -64,6 +67,22 @@ const Player = () => {
     handleLyricsClose();
    } else {
     handleLyricsOpen();
+   }
+  }
+
+    const handleTranslationClose = () => {
+    setIsTranslationOpen(false);
+  };
+
+  const handleTranslationOpen = () => {
+    setIsTranslationOpen(true);
+  };
+
+  async function openTranslation() {
+   if (isTranslationOpen) {
+    handleTranslationClose();
+   } else {
+    handleTranslationOpen();
    }
   }
 
@@ -325,8 +344,22 @@ const Player = () => {
                 Open Lyrics
               </button>
 
+              
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  openTranslation();
+                }}
+              >
+                Open Translation
+              </button>
+
               {isLyricsOpen && (
                 <LyricsToScreen currentTrack={track}></LyricsToScreen>
+              )}
+
+              {isTranslationOpen && (
+                <TranslateScreen currentTrack={track}></TranslateScreen>
               )}
             </div>
           </div>
