@@ -27,7 +27,6 @@ const Player = () => {
 
   const [currentURL] = useState("");
 
-
   // this has to match template coming in from spotify's api
   const track = {
     name: "trackName",
@@ -52,21 +51,20 @@ const Player = () => {
     setAuthCode(authCode);
   }
 
-  
-    const handleLyricsClose = () => {
-        setIsLyricsOpen(false);
-    };
+  const handleLyricsClose = () => {
+    setIsLyricsOpen(false);
+  };
 
-    const handleLyricsOpen = () => {
-        setIsLyricsOpen(true);
-    };
+  const handleLyricsOpen = () => {
+    setIsLyricsOpen(true);
+  };
 
   async function openLyrics() {
-    return (
-      <>
-        <View>LYRICS</View>
-      </>
-    );
+   if (isLyricsOpen) {
+    handleLyricsClose();
+   } else {
+    handleLyricsOpen();
+   }
   }
 
   async function toggleShuffle() {
@@ -129,29 +127,6 @@ const Player = () => {
         },
         data: {
           device_ids: [device_id],
-        },
-      })
-        .then(async (res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          return err;
-        });
-    });
-  }
-
-  async function playSong(songId: string) {
-    TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
-      axios({
-        url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
-        method: "PUT",
-        headers: {
-          authorization: "Bearer " + accessCode,
-        },
-        data: {
-          device_ids: [device_id],
-          uris: [songId], // keeps it off if it's paused
         },
       })
         .then(async (res) => {
@@ -350,7 +325,9 @@ const Player = () => {
                 Open Lyrics
               </button>
 
-              <LyricsToScreen currentTrack={track}></LyricsToScreen>
+              {isLyricsOpen && (
+                <LyricsToScreen currentTrack={track}></LyricsToScreen>
+              )}
             </div>
           </div>
         </div>
