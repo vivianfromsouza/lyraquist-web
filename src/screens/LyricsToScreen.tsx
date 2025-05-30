@@ -28,6 +28,7 @@ import WordReaderWriter from "../services/WordReaderWriter";
 import { getAuth } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+import LyricsService from "../services/LyricsService";
 
 //setting up pixelRatio so the font sizing scale is based off device size
 const fontScale = PixelRatio.getFontScale();
@@ -66,6 +67,7 @@ export default function LyricsToScreen({ currentTrack }) {
 
   //hold list of words in lyrics and location of line breaks - the index of the word with the \n (for formatting)
   let lyricsObject = { lyricsList: [], linelocations: [] };
+  const [lyrics, setLyrics] = useState("");
 
   // this header is to show display for clicking the song instructions
   const [header, setHeader] = useState(true);
@@ -108,6 +110,15 @@ export default function LyricsToScreen({ currentTrack }) {
     }, 1000);
   }
 
+  async function getLyrics() {
+    const lyricsResponse = await LyricsService.getLyrics(playlistItem);
+    setLyrics(lyricsResponse);
+    // await LyricsService.getLyrics(playlistItem).then((lyricString) => {
+    //   console.log(lyricString + " from LyricsService");
+    //   setLyrics(lyricString);
+    // });
+  }
+
   //for dictation functionality - NEED TO UPDATE
   const speak = () => {
     // Speech.speak(speechWord, {
@@ -130,6 +141,8 @@ export default function LyricsToScreen({ currentTrack }) {
   // parsing data from JSON response and put it in a string
   useEffect(() => {
     getUserPrefLang();
+    getLyrics();
+
     if (prefLang != "") {
       //   fetch(lyricsAPI)
       //     .then((response) => response.json())
@@ -181,22 +194,27 @@ export default function LyricsToScreen({ currentTrack }) {
   return (
     <View style={styles.container}>
       {/* contains lyrics below with each word as a pressable */}
+
       <ScrollView>
         {header && (
-          <Text
-            accessibilityLabel="copyright"
-            accessible={true}
-            style={styles.noteText}
-          >
-            *NOTE Translation functionality may vary by language.{"\n"}ES, FR,
-            and DE are supported
-            {"\n"}As lyrics are copyrighted material only 30% is provided. These
-            lyrics are NOT for commercial use
-          </Text>
+          <>
+            <Text
+              accessibilityLabel="copyright"
+              accessible={true}
+              style={styles.noteText}
+            >
+              *NOTE Translation functionality may vary by language.{"\n"}ES, FR,
+              and DE are supported
+              {"\n"}As lyrics are copyrighted material only 30% is provided.
+              These lyrics are NOT for commercial use
+            </Text>
+          </>
         )}
         {header && (
           <Text style={styles.UIInfo}>Click a word to see its meaning!</Text>
         )}
+        <Text>{lyrics}</Text>
+
         <View style={styles.lyricBlock}>
           {lyricsObject.lyricsList.map((prop: string) => {
             // if at a word index to add a newLine renders an additonal text element of "\n"

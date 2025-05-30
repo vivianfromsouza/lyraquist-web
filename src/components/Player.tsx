@@ -355,11 +355,11 @@ const Player = () => {
               </button>
 
               {isLyricsOpen && (
-                <LyricsToScreen currentTrack={track}></LyricsToScreen>
+                <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
               )}
 
               {isTranslationOpen && (
-                <TranslateScreen currentTrack={track}></TranslateScreen>
+                <TranslateScreen currentTrack={current_track}></TranslateScreen>
               )}
             </div>
           </div>
