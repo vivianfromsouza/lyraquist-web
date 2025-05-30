@@ -34,6 +34,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
 import { PlayerProvider } from "./context/PlayerContext";
+import LyricsToScreen from "./screens/LyricsToScreen";
 
 const PrivateRoutes = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -88,6 +89,7 @@ const App: React.FC = () => {
               <Route path="/workbook/newWord" element={<NewWordScreen />} />
               {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
               <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
+              <Route path ="/play/lyrics" element={<LyricsToScreen />} />
             </Route>
 
             <Route

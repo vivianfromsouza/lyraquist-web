@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
-import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
-import { getSpotifyAccessCode, getSpotifyAuthCode } from "../services/spotifyAuth";
+import {
+  getSpotifyAccessCode,
+  getSpotifyAuthCode,
+} from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
+import LyricsToScreen from "../screens/LyricsToScreen";
 
 const Player = () => {
   const [authCode, setAuthCode] = useState<string | null>("");
@@ -20,7 +23,10 @@ const Player = () => {
 
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
+  const [isLyricsOpen, setIsLyricsOpen] = useState(false);
+
   const [currentURL] = useState("");
+
 
   // this has to match template coming in from spotify's api
   const track = {
@@ -44,6 +50,23 @@ const Player = () => {
   async function getAuthCode() {
     const authCode = await getSpotifyAuthCode();
     setAuthCode(authCode);
+  }
+
+  
+    const handleLyricsClose = () => {
+        setIsLyricsOpen(false);
+    };
+
+    const handleLyricsOpen = () => {
+        setIsLyricsOpen(true);
+    };
+
+  async function openLyrics() {
+    return (
+      <>
+        <View>LYRICS</View>
+      </>
+    );
   }
 
   async function toggleShuffle() {
@@ -317,6 +340,17 @@ const Player = () => {
               >
                 Toggle Shuffle
               </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  openLyrics();
+                }}
+              >
+                Open Lyrics
+              </button>
+
+              <LyricsToScreen currentTrack={track}></LyricsToScreen>
             </div>
           </div>
         </div>
