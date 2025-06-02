@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
 import Player from "../components/Player";
-import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
@@ -8,7 +7,6 @@ interface PlayerContextType {
   playSong: (songId: string) => void;
   playPlaylist: (playlistId: string, offset: string) => void;
   pausePlayback: () => void;
-  toggleShuffle: () => void;
   isPaused: boolean;
   isActive: boolean;
   currentTrack: any;
@@ -81,9 +79,29 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     // Add logic to pause playback
   };
 
-  const toggleShuffle = () => {
+  const toggleShuffle = (isShuffled: boolean) => {
     console.log("Toggling shuffle");
-    // Add logic to toggle shuffle
+     TokenReaderWriter.getAccessToken().then((accessCode) => {
+      // Makes request to Spotify API for song search
+      axios({
+        url:
+          "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          state: !isShuffled,
+          device_ids: [localStorage.getItem("device_id")], // use local storage for now?
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
   };
 
   return (
@@ -92,7 +110,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         playSong,
         playPlaylist,
         pausePlayback,
-        toggleShuffle,
         isPaused,
         isActive,
         currentTrack,

@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useLocalStorage } from "usehooks-ts";
+
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -30,7 +32,7 @@ onAuthStateChanged(auth, (user) => {
 
     // ...
   } else {
-    localStorage.setItem("isLoggedIn", "false");
+    // localStorage.setItem("isLoggedIn", "false");
     console.log("USER GOODBYE");
     // User is signed out
     // ...

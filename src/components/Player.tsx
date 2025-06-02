@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
-import { getSpotifyAccessCode, getSpotifyAuthCode } from "../services/spotifyAuth";
+import {
+  getSpotifyAccessCode,
+  getSpotifyAuthCode,
+} from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
+import { useLocalStorage } from "usehooks-ts";
 
 const Player = () => {
   const [authCode, setAuthCode] = useState<string | null>("");
@@ -14,11 +18,16 @@ const Player = () => {
 
   const [currentTime, setCurrentTime] = useState("0:00");
   const [totalTime, setTotalTime] = useState("0:00");
+  const [volume, setVolume] = useState(0.0); // Default volume
 
   const [player, setPlayer] = useState(null);
   const [device_id, setDeviceId] = useState("abc");
 
   const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const [value, setValue] = useLocalStorage(
+    "isLoggedIn",
+    isLoggedIn || "false"
+  );
 
   const [currentURL] = useState("");
 
@@ -151,6 +160,25 @@ const Player = () => {
       return minutes + ":" + seconds_left;
     }
   }
+
+  async function volumeUp() {
+    if (volume < 100) {
+      player.setVolume(volume / 100 + 0.1).then(() => {
+        setVolume(volume + 10);
+        console.log("Volume updated! : " + volume);
+      });
+    }
+  }
+
+  async function volumeDown() {
+    if (volume > 0) {
+      player.setVolume(volume / 100 - 0.1).then(() => {
+        setVolume(volume - 10);
+        console.log("Volume updated! : " + volume);
+      });
+    }
+  }
+
   // this is running x2....
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") == "true") {
@@ -221,6 +249,10 @@ const Player = () => {
           setPaused(state.paused);
           setIsShuffled(state.shuffle_state);
 
+          player.getVolume().then((volume) => {
+            setVolume(Math.round(volume * 100));
+          });
+
           setTotalTime(
             calculateDurationInSecs(
               state.track_window.current_track.duration_ms
@@ -242,7 +274,7 @@ const Player = () => {
     }
   }, [isLoggedIn]);
 
-  if (localStorage.getItem("isLoggedIn") == "false") {
+  if (value === "false") {
     return <> </>;
   } else if (!is_active) {
     return (
@@ -317,6 +349,27 @@ const Player = () => {
               >
                 Toggle Shuffle
               </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  volumeUp();
+                }}
+              >
+                Volume Up
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  volumeDown();
+                }}
+              >
+                Volume Down
+              </button>
+
+              <h4>Current Volume: </h4>
+              {volume}
             </div>
           </div>
         </div>

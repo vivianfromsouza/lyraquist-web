@@ -33,6 +33,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
+import "react-datepicker/dist/react-datepicker.css";
 //setting up pixelRatio, font scale is based off device size
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -54,25 +55,8 @@ export default function SignUpScreen() {
   const languages = ["English", "Spanish", "French", "German"];
 
   const [preferredLanguage, setPreferredLanguage] = useState<string>();
-  const [birthDate, setBirthDate] = useState<Date>(new Date());
 
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
-
-  const handleDateChange = ({ target }) => {
-    console.log(target.value);
-    setBirthDate(new Date(target.value));
-
-    // const newDate = moment(target.value.timeStamp).format('YYYY-MM-DD');
-    // setValue(newDate);
-    //console.log(newDate); //always log "1970-01-01"
-  };
-
-  const currDate = new Date(Date.now());
-  const legalDate = new Date(
-    currDate.getFullYear() - 13,
-    currDate.getMonth(),
-    currDate.getDate()
-  );
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -83,13 +67,6 @@ export default function SignUpScreen() {
   };
 
   async function signUp() {
-    // resets birthDate time stamp to midnight to avoid day of birthday rejections
-
-    birthDate!.setHours(0);
-    birthDate!.setMinutes(0);
-    birthDate!.setSeconds(0);
-
-    // birthdate is older than legaldate, true
     if (
       name == null ||
       name.trim() == "" ||
@@ -108,10 +85,6 @@ export default function SignUpScreen() {
       // checks to see if terms and conditions were agreed to
       toast("Error: Please agree to Terms and Conditions.");
       // return false;
-    } else if (birthDate! > legalDate) {
-      toast(
-        "Couldn't create account. You must be 13 years or older to use Lyraquist."
-      );
     } else if (email != confirmEmail) {
       toast(
         "Couldn't create account. Email and confirm email field don't match. Please try again."
@@ -624,14 +597,7 @@ export default function SignUpScreen() {
       onCancel={() => {
         setOpen(false);
       }}
-    /> */}
-              {/* <DatePicker onChange={setBirthDate(birthDate)} value={birthDate} /> */}
-              <input
-                aria-label="Date"
-                type="date"
-                value={birthDate.toString()}
-                onChange={handleDateChange}
-              />
+    /> */}          
               <View style={{ marginLeft: 220 }}>
                 {/* <Entypo style={{}} name="select-arrows" size={24} color="gray" /> */}
                 <UnfoldLessOutlinedIcon />

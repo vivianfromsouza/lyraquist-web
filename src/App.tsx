@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -34,6 +34,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
 import { PlayerProvider } from "./context/PlayerContext";
+import { useLocalStorage } from 'usehooks-ts'
 
 const PrivateRoutes = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -42,6 +43,15 @@ const PrivateRoutes = () => {
 
 const App: React.FC = () => {
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
+  const [value, setValue] = useLocalStorage('isLoggedIn', isLoggedIn || "false");
+
+
+   useEffect(() => {
+    console.log("useLocalStorage value:", value);
+    // This effect will run after the component mounts and after every update.
+    // Simulate an async operation
+
+  }, [value]); 
 
   return (
     <PlayerProvider>
@@ -92,7 +102,7 @@ const App: React.FC = () => {
 
             <Route
               index
-              element={isLoggedIn == "false" ? <StartScreen /> : <HomeScreen />}
+              element={value === "false" ? <StartScreen /> : <HomeScreen />}
             />
             <Route path="/signUp" element={<SignUpScreen />} />
             <Route path="/login" element={<LoginScreen />} />

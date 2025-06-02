@@ -18,6 +18,7 @@ import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import axios from "axios";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
+import { useLocalStorage } from "usehooks-ts";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function SettingsScreen() {
@@ -28,20 +29,23 @@ export default function SettingsScreen() {
   const [email, setEmail] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   // const currentUser = auth.currentUser?.uid;
+  const [value, setValue] = useLocalStorage("isLoggedIn", "false");
 
   // signs user out
   function handleSignOut() {
     signOut(auth)
       .then(() => {
+        setValue("false");
+
         console.log("SIGNED OUT");
         navigate("/login");
-        // localStorage.setItem("isLoggedIn", "false");
+        localStorage.setItem("isLoggedIn", "false");
       })
       .catch((error) => {
         console.log(error);
       });
 
-      TokenReaderWriter.getAccessToken().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/pause", // Remove "&limit=1"

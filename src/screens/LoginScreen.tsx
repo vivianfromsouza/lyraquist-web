@@ -142,13 +142,12 @@ const LoginScreen: React.FC = () => {
       <View style={styles.container}>
         <Pressable
           style={{
-            position: "absolute",
             alignSelf: "flex-start",
             justifyContent: "flex-start",
             marginTop: 60,
             marginLeft: 20,
           }}
-          onPress={() => navigate(-1)}
+          onPress={() => navigate("/")}
         >
           {/* <Ionicons style={{}} name="arrow-back" size={42} color="#e8e1db" /> */}
           <ArrowBackOutline />
