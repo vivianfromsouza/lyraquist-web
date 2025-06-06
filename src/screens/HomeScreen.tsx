@@ -148,6 +148,8 @@ const HomeScreen: React.FC = () => {
 
   useEffect(() => {
     if (currentUser) {
+      getAuthCode();
+      getAccessCode();
       try {
         const handleUserInserts = (payload) => {
           getUsername();

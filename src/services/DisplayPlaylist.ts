@@ -8,7 +8,7 @@ import TokenReaderWriter from "./firebase/TokenReaderWriter";
 const DisplayPlaylistService = {
   async getPlaylist(playlistId: string): Promise<object[]> {
     if ((await checkRefreshNeeded(new Date())) == "true") {
-      const refreshToken = await UserReaderWriter.getUserRefreshToken();
+      const refreshToken = await TokenReaderWriter.getRefreshToken();
       await refresh(refreshToken);
     }
 

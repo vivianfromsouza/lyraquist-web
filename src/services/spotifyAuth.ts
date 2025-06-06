@@ -7,6 +7,7 @@ import {
   scope,
   tokenEndpoint,
   refreshEndpoint,
+  clientSecret,
 } from "../constants/SpotifyConstants";
 import { toast } from "react-toastify";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
@@ -95,6 +96,7 @@ export const getSpotifyAccessCode = async () => {
     })
     .catch((err) => {
       console.log("ERROR:" + err);
+      console.log("ERROR:" + err.message);
     });
 
   return accessCode;
@@ -135,6 +137,7 @@ export const refresh = async (refreshToken: string) => {
     headers: {
       Accept: "*/*",
       "Content-type": "application/x-www-form-urlencoded",
+      Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
     },
     data: {},
   })
@@ -162,6 +165,7 @@ export const refresh = async (refreshToken: string) => {
 export const getRefreshURL = (refreshToken): string => {
   const refreshURL = new URL(refreshEndpoint);
   const params = {
+    grant_type: "refresh_token",
     refresh_token: refreshToken,
     client_id: clientId,
   };

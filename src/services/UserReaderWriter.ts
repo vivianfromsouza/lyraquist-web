@@ -23,84 +23,16 @@ const UserReaderWriter = {
   ): Promise<boolean> {
     const { error } = await LocalSupabaseClient.from("users").insert({
       user_id: userId,
-      access_code: "",
-      auth_code: "",
       current_track: "1kCewNSs909Xj1naXr36X8",
       email: email,
       name: name,
       password: password,
       preferred_language: preferredLanguage,
-      refresh_token: "",
-      time_token_taken: "",
       spotify_user: "",
     });
     console.log(error);
 
     return false;
-  },
-
-  async writeUserAuthCode(authCode: string) {
-    const { error } = await LocalSupabaseClient.from("users")
-      .update({ auth_code: authCode })
-      .eq("user_id", currentUser);
-    return error;
-  },
-
-  async getUserAuthCode(): Promise<string> {
-    const { data } = await LocalSupabaseClient.from("users")
-      .select("auth_code")
-      .eq("user_id", currentUser)
-      .single()
-      .throwOnError();
-    return data["auth_code"];
-  },
-
-  async writeUserAccessCode(accessCode: string) {
-    const { error } = await LocalSupabaseClient.from("users")
-      .update({ access_code: accessCode })
-      .eq("user_id", currentUser);
-    return error;
-  },
-
-  async getUserAccessCode(): Promise<string> {
-    const { data } = await LocalSupabaseClient.from("users")
-      .select("access_code")
-      .eq("user_id", currentUser)
-      .single()
-      .throwOnError();
-    return data["access_code"];
-  },
-
-  async writeUserRefreshToken(refreshToken: string) {
-    const { error } = await LocalSupabaseClient.from("users")
-      .update({ refresh_token: refreshToken })
-      .eq("user_id", currentUser);
-    return error;
-  },
-
-  async getUserRefreshToken(): Promise<string> {
-    const { data } = await LocalSupabaseClient.from("users")
-      .select("refresh_token")
-      .eq("user_id", currentUser)
-      .single()
-      .throwOnError();
-    return data["refresh_token"];
-  },
-
-  async writeUserTimeTokenTaken(timeTokenTaken: string) {
-    const { error } = await LocalSupabaseClient.from("users")
-      .update({ time_token_taken: timeTokenTaken })
-      .eq("user_id", currentUser);
-    return error;
-  },
-
-  async getUserTimeTokenTaken(): Promise<string> {
-    const { data } = await LocalSupabaseClient.from("users")
-      .select("time_token_taken")
-      .eq("user_id", currentUser)
-      .single()
-      .throwOnError();
-    return data["time_token_taken"];
   },
 
   async getUserName() {

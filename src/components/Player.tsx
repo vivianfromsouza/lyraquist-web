@@ -3,8 +3,10 @@ import { View, ActivityIndicator, StyleSheet } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 import {
+  checkRefreshNeeded,
   getSpotifyAccessCode,
   getSpotifyAuthCode,
+  refresh,
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
@@ -181,9 +183,33 @@ const Player = () => {
 
   // this is running x2....
   useEffect(() => {
+    let accessToken = "";
+
     if (localStorage.getItem("isLoggedIn") == "true") {
-      getAuthCode();
-      getAccessCode();
+      checkRefreshNeeded(new Date())
+        .then(async (response) => {
+          if (response === "true") {
+            TokenReaderWriter.getRefreshToken().then(async (refreshToken) => {
+              console.log("Refreshing access token...");
+              await refresh(refreshToken);
+            });
+            TokenReaderWriter.getAccessToken().then((token) => {
+              accessToken = token;
+            });
+            // getAuthCode();
+            // getAccessCode();
+          } else {
+            // getAuthCode();
+            // getAccessCode();
+          }
+        })
+        .then(async () => {
+          console.log("TRYING TO SET PLAYER");
+          await getAuthCode();
+          await getAccessCode();
+          accessToken = await TokenReaderWriter.getAccessToken();
+        });
+
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
       script.async = true;
@@ -191,7 +217,6 @@ const Player = () => {
       document.body.appendChild(script);
 
       window.onSpotifyWebPlaybackSDKReady = async () => {
-        const accessToken = await TokenReaderWriter.getAccessToken();
         // const accessToken = localStorage.getItem("access_code");
 
         console.log("INNER ACCESS:" + accessToken);

@@ -3,12 +3,13 @@
 import axios from "axios";
 import UserReaderWriter from "./UserReaderWriter";
 import { refresh, checkRefreshNeeded } from "../services/spotifyAuth";
+import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 const SearchSpotify = {
   async searchForSong(title: string): Promise<any> {
     console.log("SEARCHING>.." + title);
     if ((await checkRefreshNeeded(new Date())) == "true") {
-      await UserReaderWriter.getUserRefreshToken().then((refreshToken) => {
+      await TokenReaderWriter.getRefreshToken().then((refreshToken) => {
         refresh(refreshToken);
         localStorage.setItem("needs_refresh", "false");
       });
@@ -17,7 +18,7 @@ const SearchSpotify = {
     const getSong = function () {
       return new Promise<object[]>((resolve) => {
         // Get user access code
-        UserReaderWriter.getUserAccessCode().then((accessCode) => {
+        TokenReaderWriter.getAccessToken().then((accessCode) => {
           // Makes request to Spotify API for song search
           axios({
             url: "https://api.spotify.com/v1/search?q=" + title + "&type=track&limit=50", // Remove "&limit=1"

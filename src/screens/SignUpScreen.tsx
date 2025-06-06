@@ -534,77 +534,9 @@ export default function SignUpScreen() {
           />
         </View>
         {/* BIRTHDAY TODO: THIS DOESNT SHOW UP PROPERLY IN UI DURING INPUT*/}
-        <View style={{ marginHorizontal: 20 }}>
-          <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
-            Birth Date
-          </Text>
-          <Text
-            style={{
-              fontSize: getFontSize(12),
-              color: "#ff4a2a",
-              marginBottom: 7,
-            }}
-          >
-            *Users must be at least 13 years old
-          </Text>
-          <View
-            style={{
-              borderWidth: 0.5,
-              borderRadius: 10,
-              borderColor: "gray",
-              marginBottom: 20,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                marginVertical: 5,
-                marginHorizontal: 10,
-                alignItems: "center",
-              }}
-            >
-              {/* <MaterialCommunityIcons
-      style={{ marginRight: 10 }}
-      name="cake-variant-outline"
-      size={24}
-      color="gray"
-    /> */}
-              <CakeOutlinedIcon />
-              <View
-                style={{
-                  height: "90%",
-                  width: 0.5,
-                  backgroundColor: "#AAAAAA",
-                  marginRight: 10,
-                }}
-              />
-              {/* <TextInput
-      placeholder={birthDate!.toLocaleDateString()}
-      onPressIn={() => setOpen(true)}
-      accessibilityLabel="date"
-      accessible={true}
-    /> */}
-              {/* <DatePicker
-      modal
-      theme="auto"
-      open={open}
-      mode={"date"}
-      date={birthDate}
-      onConfirm={(date) => {
-        setOpen(false);
-        setBirthDate(date);
-      }}
-      onCancel={() => {
-        setOpen(false);
-      }}
-    /> */}          
-              <View style={{ marginLeft: 220 }}>
-                {/* <Entypo style={{}} name="select-arrows" size={24} color="gray" /> */}
-                <UnfoldLessOutlinedIcon />
-              </View>
-            </View>
-          </View>
-        </View>
+        {/* <View style={{ marginHorizontal: 20 }}>
+          
+        </View> */}
         {/* ACCEPT TERMS & POLICIES */}
         <View
           style={{

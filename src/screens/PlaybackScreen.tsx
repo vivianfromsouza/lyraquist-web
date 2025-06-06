@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
 function PlaybackScreen() {
   const [is_paused, setPaused] = useState(false);
@@ -18,7 +19,7 @@ function PlaybackScreen() {
   // );
   const [player, setPlayer] = useState(null);
   const [device_id, setDeviceId] = useState("");
-  const accessToken = UserReaderWriter.getUserAccessCode();
+  const accessToken = TokenReaderWriter.getAccessToken();
 
   const location = useLocation();
   // const playItem = location.state;
@@ -45,7 +46,7 @@ function PlaybackScreen() {
   console.log("CURRENT TRACK:" + current_track);
 
   async function playAnySong() {
-    UserReaderWriter.getUserAccessCode().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id, // Remove "&limit=1"
