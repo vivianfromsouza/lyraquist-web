@@ -19,6 +19,7 @@ import redLogo from "../assets/red_small.png";
 import axios from "axios";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
+import { useFirebase } from "../services/firebase/FirebaseContext";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function SettingsScreen() {
@@ -29,21 +30,22 @@ export default function SettingsScreen() {
   const [email, setEmail] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   // const currentUser = auth.currentUser?.uid;
-  const [value, setValue] = useLocalStorage("isLoggedIn", "false");
-
+    const { handleSignOut } = useFirebase();
+  
   // signs user out
-  function handleSignOut() {
-    signOut(auth)
-      .then(() => {
-        setValue("false");
+  function logout() {
+    handleSignOut();
+    // signOut(auth)
+    //   .then(() => {
+    //     setValue("false");
 
-        console.log("SIGNED OUT");
-        navigate("/login");
-        localStorage.setItem("isLoggedIn", "false");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    //     console.log("SIGNED OUT");
+    //     navigate("/login");
+    //     localStorage.setItem("isLoggedIn", "false");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
     TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
@@ -297,7 +299,7 @@ export default function SettingsScreen() {
             }}
           />
           {/* LOG OUT BUTTON */}
-          <Pressable onPress={handleSignOut} style={{ padding: 20 }}>
+          <Pressable onPress={logout} style={{ padding: 20 }}>
             <Text
               style={styles.logOut}
               accessibilityLabel="logOut"

@@ -1,31 +1,42 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "./LocalFirebaseClient";
+import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "usehooks-ts";
 
-const initialValues = {
-  currentUser: "",
-  // getUser: "",
-  // login: "",
-  // signOut: "",
-};
-const FirebaseContext = createContext(initialValues);
-const auth = getAuth(LocalFirebaseClient);
-
-export function useFirebase() {
-  return useContext(FirebaseContext);
+interface FirebaseContextType {
+  currentUser: string | undefined;
+  handleSignOut: () => void;
 }
 
-export function FirebaseProvider({ children }) {
+const FirebaseContext = createContext<FirebaseContextType | undefined>(
+  undefined
+);
+const auth = getAuth(LocalFirebaseClient);
+
+export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [currentUser, setCurrentUser] = useState<string>();
   const [loading, setLoading] = useState(true);
+  const [value, setValue] = useLocalStorage("isLoggedIn", "false");
 
   // function login(email, password) {
   //   return signInWithEmailAndPassword(auth, email, password);
   // }
 
-  // function signOut() {
-  //   return auth.signOut();
-  // }
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
+        setValue("false");
+
+        console.log("SIGNED OUT");
+        localStorage.setItem("isLoggedIn", "false");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   //   function signUp(email, password) {
   //     return auth.createUserWithEmailAndPassword(email, password);
@@ -46,16 +57,17 @@ export function FirebaseProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const value = {
-    currentUser : currentUser || "",
-    // getUser,
-    // login,
-    // signOut,
-  };
-
   return (
-    <FirebaseContext.Provider value={value}>
+    <FirebaseContext.Provider value={{ currentUser, handleSignOut }}>
       {!loading && children}
     </FirebaseContext.Provider>
   );
-}
+};
+
+export const useFirebase = () => {
+  const context = useContext(FirebaseContext);
+  if (!context) {
+    throw new Error("usePlayer must be used within a PlayerProvider");
+  }
+  return context;
+};

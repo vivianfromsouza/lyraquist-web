@@ -13,26 +13,29 @@ import {
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 // import auth from "@react-native-firebase/auth";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updatePassword } from "firebase/auth";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { useFirebase } from "../services/firebase/FirebaseContext";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
   const location = useLocation();
   const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [preferredLanguage, setPreferredLanguage] = useState<string>();
-  const [prefLang, setPrefLang] = useState<string>();
+  const [currentLanguage, setCurrentLanguage] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
+  const { handleSignOut } = useFirebase();
+
   const languages = ["English", "Spanish", "French", "German"];
 
   useEffect(() => {
@@ -63,20 +66,21 @@ export default function AccountSettings() {
   }, []);
 
   // signs user out
-  function handleSignOut() {
-    signOut(auth)
-      .then(() => {
-        navigate("/login");
-        console.log("SIGNED OUT");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // function handleSignOut() {
+  //   signOut(auth)
+  //     .then(() => {
+  //       navigate("/login");
+  //       console.log("SIGNED OUT");
+  //       localStorage.setItem("isLoggedIn", "false");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   function getPrefLang() {
     UserReaderWriter.getPreferredLanguage().then((lang) => {
-      setPrefLang(lang);
+      setCurrentLanguage(lang);
     });
   }
 
@@ -92,16 +96,32 @@ export default function AccountSettings() {
         "Password is too short. Password must be at least 6 characters long."
       );
     } else if (password == confirmPassword) {
-      await UserReaderWriter.writeUserPassword(password!.trim()).then(
-        (result) => {
-          if (result) {
-            toast(
-              "Password changed successfully! You will now need to sign-in again with your new password."
-            );
-          }
-        }
-      );
-      handleSignOut();
+      updatePassword(auth.currentUser!, password)
+        .then(() => {
+          // Update successful.
+          toast(
+            "Password changed successfully! You will now need to sign-in again with your new password."
+          );
+          navigate("/login");
+
+          handleSignOut();
+        })
+        .catch((error) => {
+          // An error ocurred
+          // ...
+          toast("Could not change password. Need recent login. Please log out, sign in, and try again.");
+          console.log("Error changing password: ", error);
+        });
+
+      // await UserReaderWriter.writeUserPassword(password!.trim()).then(
+      //   (result) => {
+      //     if (result) {
+      //       toast(
+      //         "Password changed successfully! You will now need to sign-in again with your new password."
+      //       );
+      //     }
+      //   }
+      // );
     } else {
       toast("Passwords don't match. Please try again.");
     }
@@ -113,6 +133,7 @@ export default function AccountSettings() {
       /*DO NOTHING*/
     } else {
       await UserReaderWriter.setPreferredLanguage(preferredLanguage);
+      setCurrentLanguage(preferredLanguage);
       Alert.alert(
         "Success!",
         "Preferred Language successfully changed to " + preferredLanguage
@@ -287,6 +308,8 @@ export default function AccountSettings() {
             }}
             onPress={changePassword}
           >
+            <ToastContainer />
+
             <Text
               style={{
                 fontSize: 20,
@@ -331,10 +354,10 @@ export default function AccountSettings() {
               </Text>
               <Text
                 style={{ fontSize: 20, color: "#303248", fontWeight: "bold" }}
-                accessibilityLabel="prefLang"
+                accessibilityLabel="preferredLanguage"
                 accessible={true}
               >
-                {prefLang}
+                {currentLanguage}
               </Text>
             </View>
             <View style={styles.rows}>
@@ -359,7 +382,9 @@ export default function AccountSettings() {
               marginTop: 5,
               marginBottom: 30,
             }}
-            onPress={changePreferredLanguage}
+            onPress={() => {
+              changePreferredLanguage();
+            }}
           >
             <Text
               style={{

@@ -15,12 +15,13 @@ import { ArrowBackOutline } from "react-ionicons";
 
 import SimpleLineIcon from "react-simple-line-icons";
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateEmail } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useFirebase } from "../services/firebase/FirebaseContext";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ProfileInfoScreen() {
@@ -33,46 +34,59 @@ export default function ProfileInfoScreen() {
   const [newEmail, setNewEmail] = useState<string>("");
 
   const auth = getAuth(LocalFirebaseClient);
+  const { handleSignOut } = useFirebase();
 
-  function handleSignOut() {
-    signOut(auth)
-      .then(() => {
-        navigate("/login");
-        console.log("SIGNED OUT");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // function handleSignOut() {
+  //   signOut(auth)
+  //     .then(() => {
+  //       navigate("/login");
+  //       console.log("SIGNED OUT");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   // calls UserReaderWriter to write username change to DB
   async function changeUsername() {
     if (newName === undefined || newName.trim() == "") {
       /*DO NOTHING*/
     } else {
-      await UserReaderWriter.writeUserName(newName.trim()).then(() =>
-        Alert.alert("Username changed successfully!")
-      );
+      await UserReaderWriter.writeUserName(newName.trim()).then(() => {
+        setName(newName.trim());
+        Alert.alert("Username changed successfully!");
+      });
     }
   }
 
   // calls UserReaderWriter to write email change to DB
   async function changeEmail() {
     if (newEmail.includes("@")) {
-      await UserReaderWriter.writeUserEmail(newEmail.trim()).then((result) => {
-        if (result) {
-          toast(
+      updateEmail(auth.currentUser!, newEmail.trim())
+        .then(() => {
+         toast(
             "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
           );
+          navigate("/login");
           handleSignOut();
-          console.log("email changed!")
-        }
-      });
-    } else {
-      toast(
+        })
+        .catch((error) => {
+          // An error occurred
+          // ...
+          toast(
         "Invalid email address. Please check the email field and try again."
       );
-    }
+        });
+
+    //   await UserReaderWriter.writeUserEmail(newEmail.trim()).then((result) => {
+    //     if (result) {
+         
+    //       console.log("email changed!");
+    //     }
+    //   });
+    // } else {
+      
+    // }
   }
 
   useEffect(() => {
