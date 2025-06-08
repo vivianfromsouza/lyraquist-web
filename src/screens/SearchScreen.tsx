@@ -13,6 +13,7 @@ import {
 import { ArrowBackOutline, SearchOutline } from "react-ionicons";
 import SearchSpotify from "../services/SearchSpotify";
 import { useNavigate } from "react-router-dom";
+import SongCard from "../components/Song";
 
 // Define the type for the navigation object
 // type RootStackParamList = {
@@ -60,7 +61,9 @@ export default function SearchScreen() {
         // title: item.name,
         // duration: item.duration_ms,
 
-        const filteredData = formattedData.filter((item) => item.explicit == false); // Filter out items with null imageURL
+        const filteredData = formattedData.filter(
+          (item) => item.explicit == false
+        ); // Filter out items with null imageURL
 
         setSearchResults(filteredData); // Set formatted search results
       } else {
@@ -84,16 +87,18 @@ export default function SearchScreen() {
 
   // Function to render each search result item
   const renderSearchResultItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => navigate("Play", { state: item })}
-      style={styles.searchResultItem}
-    >
-      <View style={styles.albumContainer}>
-        <Image source={{ uri: item.imageURL }} style={styles.coverImage} />
-        <Text style={styles.title}>{item.name}</Text>
-        <Text style={styles.artist}>Artist: {item.artist}</Text>
-      </View>
-    </TouchableOpacity>
+    <SongCard item={item} />
+
+    // <TouchableOpacity
+    //   onPress={() => navigate("Play", { state: item })}
+    //   style={styles.searchResultItem}
+    // >
+    //   <View style={styles.albumContainer}>
+    //     <Image source={{ uri: item.imageURL }} style={styles.coverImage} />
+    //     <Text style={styles.title}>{item.name}</Text>
+    //     <Text style={styles.artist}>Artist: {item.artist}</Text>
+    //   </View>
+    // </TouchableOpacity>
   );
 
   return (

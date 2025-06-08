@@ -201,13 +201,13 @@ const Player = () => {
           } else {
             // getAuthCode();
             // getAccessCode();
+            accessToken = await TokenReaderWriter.getAccessToken();
           }
         })
         .then(async () => {
-          console.log("TRYING TO SET PLAYER");
-          await getAuthCode();
-          await getAccessCode();
-          accessToken = await TokenReaderWriter.getAccessToken();
+          // console.log("TRYING TO SET PLAYER");
+          // await getAuthCode();
+          // await getAccessCode();
         });
 
       const script = document.createElement("script");

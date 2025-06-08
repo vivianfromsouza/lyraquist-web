@@ -64,7 +64,7 @@ export default function ProfileInfoScreen() {
     if (newEmail.includes("@")) {
       updateEmail(auth.currentUser!, newEmail.trim())
         .then(() => {
-         toast(
+          toast(
             "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
           );
           navigate("/login");
@@ -73,20 +73,12 @@ export default function ProfileInfoScreen() {
         .catch((error) => {
           // An error occurred
           // ...
-          toast(
+        });
+    } else {
+      toast(
         "Invalid email address. Please check the email field and try again."
       );
-        });
-
-    //   await UserReaderWriter.writeUserEmail(newEmail.trim()).then((result) => {
-    //     if (result) {
-         
-    //       console.log("email changed!");
-    //     }
-    //   });
-    // } else {
-      
-    // }
+    }
   }
 
   useEffect(() => {

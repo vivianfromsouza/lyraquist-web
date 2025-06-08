@@ -21,6 +21,7 @@ import { StarFilled, StarOutlined } from "@ant-design/icons";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
 import DisplayPlaylistService from "../services/DisplayPlaylist";
+import SongCard from "../components/Song";
 
 // Destructuring to get SCREEN_HEIGHT from Dimensions
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -63,7 +64,7 @@ export default function SpanishScreen() {
           album: item.track.album.name,
           duration: item.track.duration_ms,
         }));
-        console.log(formattedData[0])
+      console.log(formattedData[0]);
 
       setSearchResults(formattedData);
       isLoadingScreen(false); // Done loading screen
@@ -82,31 +83,32 @@ export default function SpanishScreen() {
 
   // Function to render each search result item
   const renderSearchResultItem = ({ item }) => (
-    console.log(item),
-    <TouchableOpacity
-      onPress={() => navigate("Play", { state: item })}
-      style={{
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: 10,
-      }}
-    >
-      <View style={{ flex: 1 }}>
-        <Image
-          source={{ uri: item.imageURL }}
-          style={{ width: "100%", aspectRatio: 1 }}
-        />
-        <Text
-          numberOfLines={1}
-          style={{ fontWeight: "bold", fontSize: 14, color: "black" }}
-        >
-          {item.name}
-        </Text>
-        <Text style={{ color: "#989898" }}>Artist: {item.artist}</Text>
-      </View>
-    </TouchableOpacity>
+    <SongCard item={item} />
+
+    // <TouchableOpacity
+    //   onPress={() => navigate("Play", { state: item })}
+    //   style={{
+    //     flex: 1,
+    //     flexDirection: "row",
+    //     alignItems: "center",
+    //     justifyContent: "space-between",
+    //     padding: 10,
+    //   }}
+    // >
+    //   <View style={{ flex: 1 }}>
+    //     <Image
+    //       source={{ uri: item.imageURL }}
+    //       style={{ width: "100%", aspectRatio: 1 }}
+    //     />
+    //     <Text
+    //       numberOfLines={1}
+    //       style={{ fontWeight: "bold", fontSize: 14, color: "black" }}
+    //     >
+    //       {item.name}
+    //     </Text>
+    //     <Text style={{ color: "#989898" }}>Artist: {item.artist}</Text>
+    //   </View>
+    // </TouchableOpacity>
   );
 
   async function checkStar() {
