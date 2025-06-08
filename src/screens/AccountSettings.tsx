@@ -7,13 +7,12 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
-  Alert,
   TextInput,
   Image,
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 // import auth from "@react-native-firebase/auth";
-import { getAuth, signOut, updatePassword } from "firebase/auth";
+import { getAuth, updatePassword } from "firebase/auth";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
@@ -109,7 +108,9 @@ export default function AccountSettings() {
         .catch((error) => {
           // An error ocurred
           // ...
-          toast("Could not change password. Need recent login. Please log out, sign in, and try again.");
+          toast(
+            "Could not change password. Need recent login. Please log out, sign in, and try again."
+          );
           console.log("Error changing password: ", error);
         });
 
@@ -129,14 +130,12 @@ export default function AccountSettings() {
 
   // changes user's preferred language
   async function changePreferredLanguage() {
-    if (preferredLanguage == undefined) {
-      /*DO NOTHING*/
-    } else {
+    if (preferredLanguage != undefined && preferredLanguage != currentLanguage) {
       await UserReaderWriter.setPreferredLanguage(preferredLanguage);
       setCurrentLanguage(preferredLanguage);
-      Alert.alert(
-        "Success!",
-        "Preferred Language successfully changed to " + preferredLanguage
+      toast(
+        "Success! Preferred Language successfully changed to: " +
+          preferredLanguage
       );
     }
   }
@@ -150,22 +149,46 @@ export default function AccountSettings() {
   }
 
   // modal prompting user to confirm delete
-  const deleteAlert = () =>
-    Alert.alert(
-      name + ", Are you Sure?",
-      "Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "Delete my Account",
-          onPress: () => deleteAccount(),
-        },
-      ]
+  const deleteAlert = () => {
+    toast(
+      name +
+        ", Are you Sure? Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
+      { closeButton: deleteAlertButton }
     );
+    // Alert.alert(
+    //   name + ", Are you Sure?",
+    //   "Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
+    //   [
+    //     {
+    //       text: "Cancel",
+    //       onPress: () => console.log("Cancel Pressed"),
+    //       style: "cancel",
+    //     },
+    //     {
+    //       text: "Delete my Account",
+    //       onPress: () => deleteAccount(),
+    //     },
+    //   ]
+  };
+
+  const deleteAlertButton = () => {
+    return (
+      <>
+        <button
+          onClick={() => console.log("Cancel Pressed")}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={deleteAccount}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+        >
+          Delete
+        </button>
+      </>
+    );
+  };
 
   setCurrUserValues();
 
@@ -432,6 +455,8 @@ export default function AccountSettings() {
             }}
             onPress={deleteAlert}
           >
+            {/* <ToastContainer closeButton={deleteAlertButton} /> */}
+
             <Text style={styles.deleteAccount}>Delete My Account</Text>
           </Pressable>
         </View>

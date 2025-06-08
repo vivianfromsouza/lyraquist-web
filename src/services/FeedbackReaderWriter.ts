@@ -10,6 +10,7 @@ const FeedbackReaderWriter = {
       comment: text,
       user_id: currentUser,
     });
+    console.log(error)
     return error;
   },
 };

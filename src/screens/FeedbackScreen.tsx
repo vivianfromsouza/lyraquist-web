@@ -14,44 +14,45 @@ import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function FeedbackScreen() {
   const navigate = useNavigate();
 
-  const [feedback, setFeedback] = useState<string>();
+  const [feedback, setFeedback] = useState<string>("");
 
-  async function submitFeedback(text) {
-    await FeedbackReaderWriter.writeUserFeedback(text).then(() =>
-      Alert.alert(
-        "Feedback successfully submitted!",
-        "Thank for helping to make Lyraquist better!"
+  async function submitFeedback() {
+    await FeedbackReaderWriter.writeUserFeedback(feedback.trim()).then(() =>
+      toast(
+        "Feedback successfully submitted! Thank for helping to make Lyraquist better!"
       )
     );
     setFeedback("");
   }
 
-  const submitAlert = () => {
-    if (feedback === undefined || feedback.trim() == "") {
-      /*DO NOTHING*/
-    } else {
-      Alert.alert(
-        "Have you completed your feedback?",
-        "Submitting feedback stores account information for further communication.",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          {
-            text: "Submit Feedback",
-            onPress: () => submitFeedback(feedback),
-          },
-        ]
-      );
-    }
-  };
+  // const submitAlert = () => {
+  //   if (feedback === undefined || feedback.trim() == "") {
+  //     /*DO NOTHING*/
+  //   } else {
+  //     Alert.alert(
+  //       "Have you completed your feedback?",
+  //       "Submitting feedback stores account information for further communication.",
+  //       [
+  //         {
+  //           text: "Cancel",
+  //           onPress: () => console.log("Cancel Pressed"),
+  //           style: "cancel",
+  //         },
+  //         {
+  //           text: "Submit Feedback",
+  //           onPress: () => submitFeedback(feedback),
+  //         },
+  //       ]
+  //     );
+  //   }
+  // };
+
   return (
     <>
       <ScrollView
@@ -184,7 +185,7 @@ export default function FeedbackScreen() {
               />
             </View>
             <Pressable
-              onPress={submitAlert}
+              onPress={submitFeedback}
               style={{
                 backgroundColor: "#303248",
                 padding: 10,
@@ -202,6 +203,7 @@ export default function FeedbackScreen() {
               >
                 Submit Feedback
               </Text>
+              <ToastContainer />
             </Pressable>
           </View>
         </View>

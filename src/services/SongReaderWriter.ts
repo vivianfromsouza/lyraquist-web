@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Worked on by: Vivian D'Souza
-import { Alert } from "react-native";
 import axios from "axios";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
@@ -26,7 +25,6 @@ const SongReaderWriter = {
             .catch((err) => {
               console.log(err);
               console.log(err.response);
-              Alert.alert("Error!", "Failed to fetch track");
             });
         });
       });

@@ -15,12 +15,12 @@ import { ArrowBackOutline } from "react-ionicons";
 
 import SimpleLineIcon from "react-simple-line-icons";
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth, signOut, updateEmail } from "firebase/auth";
+import { getAuth, updateEmail } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
@@ -54,7 +54,7 @@ export default function ProfileInfoScreen() {
     } else {
       await UserReaderWriter.writeUserName(newName.trim()).then(() => {
         setName(newName.trim());
-        Alert.alert("Username changed successfully!");
+        toast("Username changed successfully!");
       });
     }
   }
@@ -134,6 +134,8 @@ export default function ProfileInfoScreen() {
               accessibilityLabel="backToSettings"
               accessible={true}
             >
+              <ToastContainer />
+
               {/* <Ionicons
                 style={{}}
                 name="arrow-back"
