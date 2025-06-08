@@ -61,7 +61,7 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async deleteSongFromPlaylist(recordID: string) {
+  async deleteSongFromPlaylist(recordID) {
     const { error } = await LocalSupabaseClient.from("records")
       .delete()
       .eq("record_id", recordID);

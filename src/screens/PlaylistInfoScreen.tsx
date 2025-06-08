@@ -23,6 +23,8 @@ import { PlayCircleFilled } from "@ant-design/icons";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { usePlayer } from "../context/PlayerContext";
+import { toast, ToastContainer } from "react-toastify";
+import LocalSupabaseClient from "../services/LocalSupabaseClient";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -43,7 +45,18 @@ function PlaylistInfoScreen() {
   useEffect(() => {
     try {
       // whenever a playlist is added or deleted, the home screen will update with new set of playlist
-      getAllSongsFromPlaylist(playUID);
+      const handleRecordInserts = (payload) => {
+        console.log(payload);
+        getAllSongsFromPlaylist(playUID);
+      };
+      
+      LocalSupabaseClient.channel("records")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "records" },
+          handleRecordInserts
+        )
+        .subscribe();
 
       isLoadingScreen(false);
     } catch (err) {
@@ -76,39 +89,57 @@ function PlaylistInfoScreen() {
     RecordReaderWriter.likeSong(songID);
   }
 
-  const deletePlaylistAlert = () =>
-    Alert.alert(
-      "Are you Sure?",
-      "Deleting this playlist will remove its data. It will not be retrievable once deleted.",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          onPress: () => deletePlaylist(),
-        },
-      ]
+  const deletePlaylistAlert = () => {
+    toast(
+      "Are you Sure? Deleting this playlist will remove its data. It will not be retrievable once deleted.",
+      { closeButton: deleteAlertButton }
     );
+  };
 
-  const deleteSongAlert = (recordID: string | undefined) =>
-    Alert.alert(
-      "Are you Sure?",
-      "This song will be removed from this playlist if deleted.",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          onPress: () => deleteSongFromPlaylist(recordID),
-        },
-      ]
+  const deleteAlertButton = () => {
+    return (
+      <>
+        <button
+          onClick={() => console.log("Cancel Pressed")}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={deletePlaylist}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+        >
+          Delete
+        </button>
+      </>
     );
+  };
+
+  const deleteSongAlert = (recordID: string | undefined) => {
+    toast(
+      "Are you Sure? This song will be removed from this playlist if deleted.",
+      { closeButton: deleteSongAlertButton(recordID) }
+    );
+  };
+
+  const deleteSongAlertButton = (recordID: string | undefined) => {
+    return (
+      <>
+        <button
+          onClick={() => console.log("Cancel Pressed")}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => deleteSongFromPlaylist(recordID)}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+        >
+          Delete
+        </button>
+      </>
+    );
+  };
 
   function deletePlaylist() {
     PlaylistReaderWriter.deletePlaylist(playUID);
@@ -117,6 +148,7 @@ function PlaylistInfoScreen() {
   }
 
   function deleteSongFromPlaylist(recordID) {
+    console.log("Deleting song with record ID:", recordID);
     RecordReaderWriter.deleteSongFromPlaylist(recordID);
   }
 
@@ -131,6 +163,8 @@ function PlaylistInfoScreen() {
     return (
       <>
         <View style={{ backgroundColor: "#e8e1db", flex: 1 }}>
+          <ToastContainer />
+
           <View
             style={{
               paddingTop: 50,
@@ -144,15 +178,9 @@ function PlaylistInfoScreen() {
               {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
               <ArrowBackOutline />
             </Pressable>
-            <Pressable onPress={deletePlaylistAlert}>
-              <FeatherIcon icon="x-circle" />;
-              {/* <FeatherIcon
-                name="x-circle"
-                size={30}
-                color="#ff4a2a"
-                style={{ paddingTop: 20, paddingLeft: 350, paddingBottom: 40 }}
-              /> */}
-            </Pressable>
+            {/* <Pressable onPress={deletePlaylistAlert}>
+              <FeatherIcon icon="x-circle" />
+            </Pressable> */}
             <View
               style={{
                 flexDirection: "row",
@@ -183,7 +211,7 @@ function PlaylistInfoScreen() {
                     accessible={true}
                     style={{ paddingLeft: 20, paddingTop: 20 }}
                   /> */}
-                  <FeatherIcon icon="x-circle" />;
+                  <FeatherIcon icon="x-circle" />
                 </Pressable>
               </View>
               {/* </Pressable> */}
@@ -280,7 +308,9 @@ function PlaylistInfoScreen() {
             renderItem={({ item, index }) => {
               return (
                 <>
-                  <Pressable onPress={() => playPlaylist(spotifyURL, item.spotifyURL)}>
+                  <Pressable
+                    onPress={() => playPlaylist(spotifyURL, item.spotifyURL)}
+                  >
                     <View
                       style={{
                         flexDirection: "row",
@@ -359,7 +389,7 @@ function PlaylistInfoScreen() {
                           }}
                         >
                           {/* <Feather name="x-circle" size={25} color="#ff4a2a" /> */}
-                          <FeatherIcon icon="x-circle" />;
+                          <FeatherIcon icon="x-circle" />
                         </Pressable>
                       </View>
                     </View>
@@ -452,7 +482,7 @@ function PlaylistInfoScreen() {
                 color="#ff4a2a"
                 style={{ paddingTop: 20 }}
               /> */}
-              <FeatherIcon icon="x-circle" />;
+              <FeatherIcon icon="x-circle" />
             </Pressable>
           </View>
         </View>

@@ -11,7 +11,7 @@ import {
 import UserReaderWriter from "../services/UserReaderWriter";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import SimpleLineIcon from "react-simple-line-icons";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
@@ -20,6 +20,7 @@ import axios from "axios";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
 import { useFirebase } from "../services/firebase/FirebaseContext";
+import { ArrowBackOutline } from "react-ionicons";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function SettingsScreen() {
@@ -30,8 +31,8 @@ export default function SettingsScreen() {
   const [email, setEmail] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   // const currentUser = auth.currentUser?.uid;
-    const { handleSignOut } = useFirebase();
-  
+  const { handleSignOut } = useFirebase();
+
   // signs user out
   function logout() {
     handleSignOut();
@@ -110,6 +111,18 @@ export default function SettingsScreen() {
                 marginRight: 20,
               }}
             >
+              <Pressable
+                onPress={() => navigate(-1)}
+              >
+                {/* <Ionicons
+                          style={{}}
+                          name="arrow-back"
+                          size={40}
+                          color="#e8e1db"
+                        /> */}
+
+                <ArrowBackOutline />
+              </Pressable>
               <Image
                 source={redLogo as ImageSourcePropType}
                 style={{
@@ -124,6 +137,7 @@ export default function SettingsScreen() {
             <Text style={styles.title}>Settings</Text>
           </View>
           {/* THE PROFILE INFORMATION SECTION */}
+
           <Pressable
             onPress={() =>
               navigate("/settings/profile", { state: "isLoggedIn" })

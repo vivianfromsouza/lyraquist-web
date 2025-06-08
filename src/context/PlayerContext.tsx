@@ -62,7 +62,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         data: {
           device_ids: [localStorage.getItem("device_id")], // use local storage for now?
           context_uri: playlistId, // keeps it off if it's paused
-          offset: {uri: offset}
+          offset: offset == "" ? {position: 0} : {uri: offset} 
         },
       })
         .then(async (res) => {

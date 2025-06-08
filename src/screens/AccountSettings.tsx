@@ -155,20 +155,6 @@ export default function AccountSettings() {
         ", Are you Sure? Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
       { closeButton: deleteAlertButton }
     );
-    // Alert.alert(
-    //   name + ", Are you Sure?",
-    //   "Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
-    //   [
-    //     {
-    //       text: "Cancel",
-    //       onPress: () => console.log("Cancel Pressed"),
-    //       style: "cancel",
-    //     },
-    //     {
-    //       text: "Delete my Account",
-    //       onPress: () => deleteAccount(),
-    //     },
-    //   ]
   };
 
   const deleteAlertButton = () => {
