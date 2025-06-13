@@ -32,7 +32,7 @@ export default function GermanScreen() {
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const [starred, setStarred] = useState(false); // State for starred language
   const [saved, setSaved] = useState(false); // State for saved language
-  const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
+  // const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
   const albumId = "6zLZxgKlwFf3C755i2Phmx"; // ID of the playlist
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function GermanScreen() {
   // Function to handle search
   const handleSearch = async (text) => {
     try {
-      setIsLoading(!isLoading);
+      // setIsLoading(!isLoading);
       setSearchTerm(text);
       const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
       // Filter and format search results
@@ -65,7 +65,7 @@ export default function GermanScreen() {
           duration: item.track.duration_ms,
         }));
       setSearchResults(formattedData);
-      isLoadingScreen(false); // Done loading screen
+      // isLoadingScreen(false); // Done loading screen
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
@@ -152,7 +152,7 @@ export default function GermanScreen() {
   // };
 
   // Rendering the screen based on loading state
-  if (!loadingScreen) {
+  if (!isLoading) {
     return (
       <>
         <View style={styles.container}>

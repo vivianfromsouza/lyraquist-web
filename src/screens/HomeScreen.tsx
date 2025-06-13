@@ -55,8 +55,6 @@ const HomeScreen: React.FC = () => {
   const auth = getAuth(LocalFirebaseClient);
   const user = auth.currentUser?.uid;
   const codeVerifier = localStorage.getItem("code_verifier");
-  console.log("MYUSER:" + currentUser);
-  console.log(loading);
 
   async function getAuthCode() {
     const authCode = await getSpotifyAuthCode();
@@ -83,7 +81,6 @@ const HomeScreen: React.FC = () => {
 
   async function getHistory() {
     isLoading(true);
-    console.log(user);
     console.log(accessCode);
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
       const historySongs: PlayItem[] = history.map((song) => ({
@@ -386,7 +383,6 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.header}>Tune Back In</Text>
             {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
             {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
-            {console.log(history)}
             <ScrollView horizontal>
               {history!.length != 0 &&
                 history!.map((item: any, index: any) => (

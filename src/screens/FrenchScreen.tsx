@@ -30,10 +30,10 @@ export default function FrenchScreen() {
   // State variables
   const [searchTerm, setSearchTerm] = useState(""); // Search term state
   const [searchResults, setSearchResults] = useState<any[] | null>([]); // Search results state
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(true); // Loading state
   const [starred, setStarred] = useState(false); // State for starred language
   const [saved, setSaved] = useState(false); // State for saved language
-  const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
+  // const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
   const albumId = "66JJFBtXNd77jLE7Cm6rGo"; // ID of the playlist
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ export default function FrenchScreen() {
   // Function to handle search
   const handleSearch = async (text) => {
     try {
-      setIsLoading(!isLoading);
       setSearchTerm(text);
       // Fetch playlist data
       const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
@@ -67,7 +66,8 @@ export default function FrenchScreen() {
           duration: item.track.duration_ms,
         }));
       setSearchResults(formattedData);
-      isLoadingScreen(false); // Done loading screen
+      // isLoadingScreen(false); // Done loading screen
+      // setIsLoading(false);
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
@@ -154,7 +154,7 @@ export default function FrenchScreen() {
   // };
 
   // Rendering the screen based on loading state
-  if (!loadingScreen) {
+  if (!isLoading) {
     return (
       <>
         <View style={styles.container}>

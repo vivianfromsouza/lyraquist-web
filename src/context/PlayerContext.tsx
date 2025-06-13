@@ -26,7 +26,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const playSong = (songId: string) => {
     // Call the playSong function from Player.tsx
     console.log("Playing song with ID:", songId);
-   TokenReaderWriter.getAccessToken().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
@@ -48,7 +48,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const playPlaylist = (playlistId: string, offset : string = "") => {
+  const playPlaylist = (playlistId: string, offset: string = "") => {
     // Call the playSong function from Player.tsx
     console.log("Playing playlist with ID:", playlistId);
     TokenReaderWriter.getAccessToken().then((accessCode) => {
@@ -62,7 +62,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         data: {
           device_ids: [localStorage.getItem("device_id")], // use local storage for now?
           context_uri: playlistId, // keeps it off if it's paused
-          offset: offset == "" ? {position: 0} : {uri: offset} 
+          offset: offset == "" ? { position: 0 } : { uri: offset },
         },
       })
         .then(async (res) => {
@@ -81,7 +81,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const toggleShuffle = (isShuffled: boolean) => {
     console.log("Toggling shuffle");
-     TokenReaderWriter.getAccessToken().then((accessCode) => {
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({
         url:

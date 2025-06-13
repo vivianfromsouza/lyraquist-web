@@ -28,13 +28,12 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 // Functional component for SpanishScreen
 export default function SpanishScreen() {
-  // State variables
   const [searchTerm, setSearchTerm] = useState(""); // Search term state
   const [searchResults, setSearchResults] = useState<any[] | null>([]); // Search results state
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(true); // Loading state
   const [starred, setStarred] = useState(false); // State for starred language
   const [saved, setSaved] = useState(false); // State for saved language
-  const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
+  // const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
 
   const albumId = "1aUgRQqdbCliLVgktVY1yG";
   const navigate = useNavigate();
@@ -42,9 +41,10 @@ export default function SpanishScreen() {
   // Function to handle search
   const handleSearch = async (text) => {
     try {
-      setIsLoading(!isLoading);
+      // setIsLoading(!isLoading);
       setSearchTerm(text);
       const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
+
       const formattedData = playlistData
         .filter(
           (item: any) =>
@@ -64,10 +64,9 @@ export default function SpanishScreen() {
           album: item.track.album.name,
           duration: item.track.duration_ms,
         }));
-      console.log(formattedData[0]);
 
       setSearchResults(formattedData);
-      isLoadingScreen(false); // Done loading screen
+      // isLoadingScreen(false); // Done loading screen
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
@@ -83,7 +82,7 @@ export default function SpanishScreen() {
 
   // Function to render each search result item
   const renderSearchResultItem = ({ item }) => (
-    <SongCard item={item} />
+    console.log("RENDERING ITEM: " + item.name), (<SongCard item={item} />)
 
     // <TouchableOpacity
     //   onPress={() => navigate("Play", { state: item })}
@@ -154,99 +153,98 @@ export default function SpanishScreen() {
   // };
 
   // Rendering the screen based on loading state
-  if (!loadingScreen) {
-    return (
-      <>
-        <View style={styles.container}>
-          {/* Blue section */}
-          <View style={styles.blueSection}>
-            {/* Back Button */}
-            <TouchableOpacity
-              onPress={() => navigate(-1)}
-              style={styles.backButton}
-            >
-              <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
-            </TouchableOpacity>
-
-            {/* Search Bar */}
-            <View style={styles.searchBar}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Search Spanish"
-                value={searchTerm}
-                onChangeText={handleSearch}
-              />
-              <SearchOutline color={"#00000"} height="250px" width="250px" />
-              {/* <Ionicons name="search" size={24} color="#989898" /> */}
-            </View>
-          </View>
-
-          <Text
-            style={{
-              marginLeft: 10,
-              marginTop: 10,
-              marginBottom: 10,
-              marginRight: 10,
-            }}
+  if (!isLoading) {
+  return (
+    <>
+      <View style={styles.container}>
+        {/* Blue section */}
+        <View style={styles.blueSection}>
+          {/* Back Button */}
+          <TouchableOpacity
+            onPress={() => navigate(-1)}
+            style={styles.backButton}
           >
-            These are Lyraquist's recommended Spanish songs. If you are looking
-            for a song not on this page, use the general search tab.
-          </Text>
+            <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
+          </TouchableOpacity>
 
-          {/* Trending Spanish Button */}
-          {/* <TouchableOpacity
+          {/* Search Bar */}
+          <View style={styles.searchBar}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search Spanish"
+              value={searchTerm}
+              onChangeText={handleSearch}
+            />
+            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            {/* <Ionicons name="search" size={24} color="#989898" /> */}
+          </View>
+        </View>
+
+        <Text
+          style={{
+            marginLeft: 10,
+            marginTop: 10,
+            marginBottom: 10,
+            marginRight: 10,
+          }}
+        >
+          These are Lyraquist's recommended Spanish songs. If you are looking
+          for a song not on this page, use the general search tab.
+        </Text>
+
+        {/* Trending Spanish Button */}
+        {/* <TouchableOpacity
             onPress={handleTrendingSpanish}
             style={styles.languageButton}
           >
             <Text style={styles.buttonText}>Trending in Spanish</Text>
           </TouchableOpacity> */}
 
-          {/* Display Spanish */}
+        {/* Display Spanish */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginLeft: 30,
+            marginRight: 30,
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ fontSize: 30, fontWeight: "bold", marginBottom: 10 }}>
+            Spanish
+          </Text>
+          <LikeButton />
+        </View>
+
+        {searchResults!.length == 0 && (
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginLeft: 30,
-              marginRight: 30,
-              marginTop: 15,
+              marginTop: 50,
+              alignItems: "center",
             }}
           >
             <Text
-              style={{ fontSize: 30, fontWeight: "bold", marginBottom: 10 }}
-            >
-              Spanish
-            </Text>
-            <LikeButton />
-          </View>
-
-          {searchResults!.length == 0 && (
-            <View
               style={{
-                marginTop: 50,
-                alignItems: "center",
+                fontSize: 15,
+                fontWeight: "bold",
               }}
             >
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontWeight: "bold",
-                }}
-              >
-                Sorry! No results for this search.
-              </Text>
-            </View>
-          )}
+              Sorry! No results for this search.
+            </Text>
+          </View>
+        )}
 
-          {/* FlatList to display search results */}
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item) => item.spotifyURL}
-            renderItem={renderSearchResultItem}
-            numColumns={2} // Displaying two columns
-          />
-        </View>
-      </>
-    );
+        {/* FlatList to display search results */}
+
+        <FlatList
+          data={searchResults}
+          keyExtractor={(item) => item.spotifyURL}
+          renderItem={renderSearchResultItem}
+          numColumns={2} // Displaying two columns
+        />
+      </View>
+    </>
+  );
   } else {
     // Loading screen
     return (

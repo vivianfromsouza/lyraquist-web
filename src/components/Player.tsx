@@ -167,7 +167,6 @@ const Player = () => {
     if (volume < 100) {
       player.setVolume(volume / 100 + 0.1).then(() => {
         setVolume(volume + 10);
-        console.log("Volume updated! : " + volume);
       });
     }
   }
@@ -176,7 +175,6 @@ const Player = () => {
     if (volume > 0) {
       player.setVolume(volume / 100 - 0.1).then(() => {
         setVolume(volume - 10);
-        console.log("Volume updated! : " + volume);
       });
     }
   }
@@ -196,11 +194,7 @@ const Player = () => {
             TokenReaderWriter.getAccessToken().then((token) => {
               accessToken = token;
             });
-            // getAuthCode();
-            // getAccessCode();
           } else {
-            // getAuthCode();
-            // getAccessCode();
             accessToken = await TokenReaderWriter.getAccessToken();
           }
         })
@@ -262,6 +256,18 @@ const Player = () => {
         });
 
         player.addListener("player_state_changed", (state) => {
+          checkRefreshNeeded(new Date()).then(async (response) => {
+            if (response === "true") {
+              TokenReaderWriter.getRefreshToken().then(async (refreshToken) => {
+                console.log("Refreshing access token while online...");
+                await refresh(refreshToken);
+              });
+              TokenReaderWriter.getAccessToken().then((token) => {
+                accessToken = token;
+              });
+            }
+          });
+
           console.log("song changed");
           console.log(state.track_window.current_track);
 
