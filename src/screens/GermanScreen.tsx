@@ -29,7 +29,7 @@ export default function GermanScreen() {
   // State variables
   const [searchTerm, setSearchTerm] = useState(""); // Search term state
   const [searchResults, setSearchResults] = useState<any[] | null>([]); // Search results state
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(true); // Loading state
   const [starred, setStarred] = useState(false); // State for starred language
   const [saved, setSaved] = useState(false); // State for saved language
   // const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen

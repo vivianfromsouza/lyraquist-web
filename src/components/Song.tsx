@@ -1,9 +1,11 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { usePlayer } from "../context/PlayerContext";
-
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const SongCard = ({ item }) => {
   const { playSong } = usePlayer();
+  const navigate = useNavigate();
 
   return (
     <View style={{ marginLeft: 4 }}>
@@ -44,6 +46,22 @@ const SongCard = ({ item }) => {
             {item?.artist}
           </Text>
         </View>
+      </Pressable>
+
+      <Pressable
+        onPress={() =>
+          navigate("playlist/addSong", {
+            state: { song_id: item.spotifyURL },
+          })
+        }
+        style={{
+          flexDirection: "row",
+          marginLeft: 20,
+          alignItems: "center",
+          paddingTop: 15,
+        }}
+      >
+        <PlusCircleOutlined />
       </Pressable>
     </View>
   );

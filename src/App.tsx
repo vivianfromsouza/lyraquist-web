@@ -33,8 +33,9 @@ import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
+import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
-import { useLocalStorage } from 'usehooks-ts'
+import { useLocalStorage } from "usehooks-ts";
 
 const PrivateRoutes = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -43,15 +44,16 @@ const PrivateRoutes = () => {
 
 const App: React.FC = () => {
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-  const [value, setValue] = useLocalStorage('isLoggedIn', isLoggedIn || "false");
+  const [value, setValue] = useLocalStorage(
+    "isLoggedIn",
+    isLoggedIn || "false"
+  );
 
-
-   useEffect(() => {
+  useEffect(() => {
     console.log("useLocalStorage value:", value);
     // This effect will run after the component mounts and after every update.
     // Simulate an async operation
-
-  }, [value]); 
+  }, [value]);
 
   return (
     <PlayerProvider>
@@ -97,7 +99,8 @@ const App: React.FC = () => {
               <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
               <Route path="/workbook/newWord" element={<NewWordScreen />} />
               {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
-              <Route path="PlaylistInfo" element={<PlaylistInfoScreen />} />
+              <Route path="/playlist" element={<PlaylistInfoScreen />} />
+              <Route path="/playlist/addSong" element={<AddSongToPlaylistScreen />} />
             </Route>
 
             <Route

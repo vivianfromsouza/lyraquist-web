@@ -6,7 +6,7 @@ const PlaylistCard = ({ item }) => {
   return (
     <View style={{ marginLeft: 4 }}>
       <Pressable
-        onPress={() => navigate("/PlaylistInfo", { state: item })} 
+        onPress={() => navigate("/playlist", { state: item })} 
         style={{ margin: 10 }}
       >
         <View
