@@ -17,6 +17,7 @@ import tailwindcss from "@tailwindcss/vite";
 import reactNativeWeb from "vite-plugin-react-native-web";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import mkcert from'vite-plugin-mkcert';
 // import { esbuildFlowPlugin } from "@bunchtogether/vite-plugin-flow";
 
 // https://tamagui.dev/docs/intro/installation
@@ -41,8 +42,12 @@ export default defineConfig({
   base: process.env.VITE_BASE_PATH,
   // use for vercel in-prod testing
   // base: process.env.VITE_BASE_PATH || "/deploy_react_app_github_pages_vercel",
+   server: {
+    host: '127.0.0.1',
+    port: 5173
+  },
   clearScreen: true,
-  plugins: [react(), tailwindcss(), reactNativeWeb()],
+  plugins: [react(), tailwindcss(), reactNativeWeb(), mkcert()],
   define: {
     // https://github.com/bevacqua/dragula/issues/602#issuecomment-1296313369
     global: "window",

@@ -53,18 +53,6 @@ const HomeScreen: React.FC = () => {
 
   const navigate = useNavigate();
   const auth = getAuth(LocalFirebaseClient);
-  const user = auth.currentUser?.uid;
-  const codeVerifier = localStorage.getItem("code_verifier");
-
-  async function getAuthCode() {
-    const authCode = await getSpotifyAuthCode();
-    setAuthCode(authCode);
-  }
-
-  async function getAccessCode() {
-    const accessCode = await getSpotifyAccessCode();
-    setAccessCode(accessCode);
-  }
 
   function getUsername() {
     UserReaderWriter.getUserName().then((name) => setUsername(name));
@@ -145,8 +133,10 @@ const HomeScreen: React.FC = () => {
 
   useEffect(() => {
     if (currentUser) {
-      getAuthCode();
-      getAccessCode();
+      console.log("COD VERIFIER:");
+      console.log(localStorage.getItem("code_verifier"));
+      // getAuthCode();
+      // getAccessCode();
       try {
         const handleUserInserts = (payload) => {
           getUsername();
@@ -241,7 +231,7 @@ const HomeScreen: React.FC = () => {
         console.log(err);
       }
     }
-  }, [authCode, codeVerifier, username]);
+  }, [username]);
 
   if (loadingScreen) {
     return (
