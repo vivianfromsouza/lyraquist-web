@@ -9,6 +9,7 @@ import {
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
+import { Seekbar } from "react-seekbar";
 
 const Player = () => {
   const [authCode, setAuthCode] = useState<string | null>("");
@@ -33,6 +34,16 @@ const Player = () => {
   const [currentURL] = useState("");
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [seekPosition, setSeekPosition] = useState(0);
+  const [seekDuration, setSeekDuration] = useState(0);
+
+  const handleSeek = (position) => {
+    setSeekPosition(position);
+    player.seek(position).then(() => {
+      console.log("Changed position!");
+    });
+  };
 
   // this has to match template coming in from spotify's api
   const track = {
@@ -292,6 +303,8 @@ const Player = () => {
             )
           );
 
+          setSeekDuration(state.track_window.current_track.duration_ms);
+
           player.getCurrentState().then((state) => {
             console.log(state.position);
             !state ? setActive(false) : setActive(true);
@@ -304,6 +317,7 @@ const Player = () => {
             // state.position is the current playback position in ms
             console.log("Current position (ms):", state.position);
             setCurrentTime(calculateDurationInSecs(state.position));
+            setSeekPosition(state.position);
 
             // You can update your state here if needed
           }
@@ -360,6 +374,12 @@ const Player = () => {
               <div className="now-playing__artist">{currentTime}</div>
 
               <div className="now-playing__artist">{totalTime}</div>
+
+              <Seekbar
+                position={seekPosition}
+                duration={seekDuration}
+                onSeek={handleSeek}
+              />
 
               <button
                 className="btn-spotify"
