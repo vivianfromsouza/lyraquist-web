@@ -34,6 +34,9 @@ export const redirectToSpotifyAuthorize = async () => {
   authUrl.search = new URLSearchParams(params).toString();
   // Redirect to Spotify authorization page
   window.location.href = authUrl.toString();
+  console.log(
+    "Redirecting to Spotify authorization page...:" + authUrl.toString()
+  );
 };
 
 export const getSpotifyAuthCode = async () => {
@@ -98,6 +101,7 @@ export const getSpotifyAccessCode = async () => {
       console.log("ERROR:" + err);
       console.log("ERROR:" + err.message);
     });
+  console.log("Obtaining access code:" + accessURL.toString());
 
   return accessCode;
 };

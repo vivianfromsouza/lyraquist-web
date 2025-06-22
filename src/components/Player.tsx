@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
-import UserReaderWriter from "../services/UserReaderWriter";
 import axios from "axios";
 import {
   checkRefreshNeeded,
@@ -32,6 +31,8 @@ const Player = () => {
   );
 
   const [currentURL] = useState("");
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // this has to match template coming in from spotify's api
   const track = {
@@ -219,6 +220,7 @@ const Player = () => {
           name: "Web Playback SDK",
           getOAuthToken: (cb) => {
             cb(accessToken);
+            console.log("AUTHING YET AGAIN");
           },
           volume: 0.5,
         });
@@ -291,12 +293,26 @@ const Player = () => {
           );
 
           player.getCurrentState().then((state) => {
+            console.log(state.position);
             !state ? setActive(false) : setActive(true);
-            // setCurrentTime(calculateDurationInSecs(calculateDurationInSecs(100)));
           });
         });
 
+        intervalRef.current = setInterval(async () => {
+          const state = await player.getCurrentState();
+          if (state) {
+            // state.position is the current playback position in ms
+            console.log("Current position (ms):", state.position);
+            setCurrentTime(calculateDurationInSecs(state.position));
+
+            // You can update your state here if needed
+          }
+        }, 1000); // Poll every second
+
         player.connect();
+        return () => {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+        };
       };
     } else {
       console.log("NOT LOGGED IN");
