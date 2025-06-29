@@ -30,6 +30,7 @@ const RecordReaderWriter = {
       song_id: songID,
       is_liked: false,
     });
+    console.log(error);
     return error;
   },
 

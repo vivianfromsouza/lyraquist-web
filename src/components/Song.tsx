@@ -50,7 +50,7 @@ const SongCard = ({ item }) => {
 
       <Pressable
         onPress={() =>
-          navigate("playlist/addSong", {
+          navigate("/playlist/addSong", {
             state: { song_id: item.spotifyURL },
           })
         }

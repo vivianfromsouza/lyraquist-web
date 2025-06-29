@@ -8,14 +8,16 @@ import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import { useEffect, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import RecordReaderWriter from "../services/RecordReaderWriter";
+import SongReaderWriter from "../services/SongReaderWriter";
 
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const songItem = location.state;
-  const songUID = songItem.song_id;
+  const songURL = songItem.song_id.split(":")[2];
 
-  const [selectedPlaylist, setSelectedPLaylist] = useState<string>("");
+  const [selectedPlaylist, setSelectedPlaylist] = useState<string>("");
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState<string>("");
   const [playlistItems, setPlaylistItems] = useState<any[]>([]);
 
   function getMyPlaylists() {
@@ -37,12 +39,13 @@ function AddSongToPlaylistScreen() {
   }
 
   async function addSong() {
-    await RecordReaderWriter.addSongToRecords(selectedPlaylist, songUID);
+    const songUID = await SongReaderWriter.getSongIDByURL(songURL);
+    await RecordReaderWriter.addSongToRecords(songUID.song_id, selectedPlaylistId);
   }
 
   useEffect(() => {
     getMyPlaylists();
-  }, []);
+  }, [selectedPlaylist, selectedPlaylistId]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,7 +79,7 @@ function AddSongToPlaylistScreen() {
         ></Text>
         <Dropdown
           value={selectedPlaylist}
-          onChange={(e) => setSelectedPLaylist(e.value.playlist_id)}
+          onChange={(e) =>  {setSelectedPlaylist(e.value); setSelectedPlaylistId(e.value.playlist_id); console.log(e.value); console.log(e.value.playlist_id);}}
           options={playlistItems}
           optionLabel="name"
           placeholder="Select a playlist"
