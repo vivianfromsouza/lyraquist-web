@@ -123,13 +123,19 @@ const HomeScreen: React.FC = () => {
     isLoading(false);
   }
 
-   window.addEventListener("storage", () => {
-      // When local storage changes, dump the list to
-      // the console.
-      const value = window.localStorage.getItem("isLoggedIn");
-      console.log("LOGIN CHANGED")
-      console.log(value ? JSON.parse(value) : null);
-    });
+  window.addEventListener("storage", () => {
+    // When local storage changes, dump the list to
+    // the console.
+    const value = window.localStorage.getItem("isLoggedIn");
+    console.log("LOGIN CHANGED");
+    console.log(value ? JSON.parse(value) : null);
+  });
+
+  // useEffect(() => {
+  //   console.log("once");
+  //   getSpotifyAuthCode();
+  //   getSpotifyAccessCode();
+  // }, []);
 
   useEffect(() => {
     if (currentUser) {

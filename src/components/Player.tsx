@@ -191,31 +191,18 @@ const Player = () => {
     }
   }
 
+  useEffect(() => {
+    console.log("once")
+    getAuthCode();
+    getAccessCode();
+  }, []);
+  
+
   // this is running x2....
   useEffect(() => {
     let accessToken = "";
 
     if (localStorage.getItem("isLoggedIn") == "true") {
-      checkRefreshNeeded(new Date())
-        .then(async (response) => {
-          if (response === "true") {
-            TokenReaderWriter.getRefreshToken().then(async (refreshToken) => {
-              console.log("Refreshing access token...");
-              await refresh(refreshToken);
-            });
-            TokenReaderWriter.getAccessToken().then((token) => {
-              accessToken = token;
-            });
-          } else {
-            accessToken = await TokenReaderWriter.getAccessToken();
-          }
-        })
-        .then(async () => {
-          // console.log("TRYING TO SET PLAYER");
-          // await getAuthCode();
-          // await getAccessCode();
-        });
-
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
       script.async = true;
@@ -230,6 +217,28 @@ const Player = () => {
         const player = new window.Spotify.Player({
           name: "Web Playback SDK",
           getOAuthToken: (cb) => {
+            console.log("LET US CHECK REFRESH")
+            checkRefreshNeeded(new Date())
+              .then(async (response) => {
+                if (response === "true") {
+                  TokenReaderWriter.getRefreshToken().then(
+                    async (refreshToken) => {
+                      console.log("Refreshing access token...");
+                      await refresh(refreshToken);
+                    }
+                  );
+                  TokenReaderWriter.getAccessToken().then((token) => {
+                    accessToken = token;
+                  });
+                } else {
+                  accessToken = await TokenReaderWriter.getAccessToken();
+                }
+              })
+              .then(async () => {
+                // console.log("TRYING TO SET PLAYER");
+                // await getAuthCode();
+                // await getAccessCode();
+              });
             cb(accessToken);
             console.log("AUTHING YET AGAIN");
           },
