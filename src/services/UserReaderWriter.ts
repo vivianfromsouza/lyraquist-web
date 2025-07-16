@@ -1,5 +1,6 @@
 // Worked on by: Vivian D'Souza
 import {
+  deleteUser,
   getAuth,
   updatePassword,
   verifyBeforeUpdateEmail,
@@ -172,6 +173,14 @@ const UserReaderWriter = {
   },
 
   async deleteAccount() {
+    deleteUser(auth.currentUser!)
+      .then(() => {
+        // User deleted.
+      })
+      .catch((error) => {
+       console.log("Error deleting user:", error);
+      });
+      
     const response = await LocalSupabaseClient.from("users")
       .delete()
       .eq("user_id", currentUser);

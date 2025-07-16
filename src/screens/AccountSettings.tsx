@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 // import auth from "@react-native-firebase/auth";
-import { getAuth, updatePassword } from "firebase/auth";
+import { deleteUser, getAuth, updatePassword } from "firebase/auth";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
@@ -130,7 +130,10 @@ export default function AccountSettings() {
 
   // changes user's preferred language
   async function changePreferredLanguage() {
-    if (preferredLanguage != undefined && preferredLanguage != currentLanguage) {
+    if (
+      preferredLanguage != undefined &&
+      preferredLanguage != currentLanguage
+    ) {
       await UserReaderWriter.setPreferredLanguage(preferredLanguage);
       setCurrentLanguage(preferredLanguage);
       toast(
@@ -143,8 +146,8 @@ export default function AccountSettings() {
   // deletes the current user's account
   async function deleteAccount() {
     await UserReaderWriter.deleteAccount().then(() => {
-      // signOut();
-      setIsLoggedIn(false);
+ 
+      handleSignOut();
     });
   }
 
