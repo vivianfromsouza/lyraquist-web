@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 // import { firebase } from "@react-native-firebase/auth";
+
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -111,6 +112,8 @@ export default function SignUpScreen() {
               password!.trim(),
               preferredLanguage!
             );
+ 
+
             toast(
               "Account successfully created! Login and continue to connct your Spotify account."
             );

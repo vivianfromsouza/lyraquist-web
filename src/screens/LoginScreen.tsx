@@ -16,7 +16,7 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import { redirectToSpotifyAuthorize } from "../services/spotifyAuth";
+import { getSpotifyAccessCode, getSpotifyAuthCode, redirectToSpotifyAuthorize } from "../services/spotifyAuth";
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -135,7 +135,10 @@ const LoginScreen: React.FC = () => {
   //       }
   //     };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getSpotifyAuthCode();
+    getSpotifyAccessCode();
+  }, []);
 
   return (
     <>
