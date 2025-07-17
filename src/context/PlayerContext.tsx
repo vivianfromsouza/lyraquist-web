@@ -5,7 +5,7 @@ import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
 interface PlayerContextType {
   playSong: (songId: string) => void;
-  playPlaylist: (playlistId: string, offset: string) => void;
+  playPlaylist: (playlistId: string, offset?: string) => void;
   pausePlayback: () => void;
   isPaused: boolean;
   isActive: boolean;
