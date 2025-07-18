@@ -2,7 +2,6 @@
 // TODO: REWORK THIS WITH NEW SPOTIFY AUTH
 import axios from "axios";
 import { refresh, checkRefreshNeeded } from "../services/spotifyAuth";
-import UserReaderWriter from "./UserReaderWriter";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 const DisplayPlaylistService = {

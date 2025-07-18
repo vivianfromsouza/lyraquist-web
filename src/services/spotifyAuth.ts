@@ -11,7 +11,6 @@ import {
 } from "../constants/SpotifyConstants";
 import { toast } from "react-toastify";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
-import { getAuth } from "firebase/auth";
 
 // Function to redirect to Spotify authorization page
 export const redirectToSpotifyAuthorize = async () => {

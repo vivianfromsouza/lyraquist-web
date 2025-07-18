@@ -1,17 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/prefer-as-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
-import {
-  getSpotifyAccessCode,
-  getSpotifyAuthCode,
-} from "../services/spotifyAuth";
 import { useNavigate } from "react-router-dom";
 import StarredLang from "../components/StarredLang";
 import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import UserReaderWriter from "../services/UserReaderWriter";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import {
@@ -38,10 +32,8 @@ let counter = 0;
 const getFontSize = (size) => size;
 
 const HomeScreen: React.FC = () => {
-  const [authCode, setAuthCode] = useState<string | null>("");
-  const [accessCode, setAccessCode] = useState<string | null>("");
   const [username, setUsername] = useState<string>("");
-  const [loading, isLoading] = useState(true);
+  // const [loading, isLoading] = useState(true);
   const [starredLanguages, setStarredLanguages] = useState<any[] | null>([]);
   const [history, setHistory] = useState<any[] | null>([]);
   const [savedPlaylists, setSavedPlaylists] = useState<any[] | null>([]);
@@ -52,7 +44,7 @@ const HomeScreen: React.FC = () => {
   const { currentUser } = useFirebase();
 
   const navigate = useNavigate();
-  const auth = getAuth(LocalFirebaseClient);
+  // const auth = getAuth(LocalFirebaseClient);
 
   function getUsername() {
     UserReaderWriter.getUserName().then((name) => setUsername(name));
@@ -60,7 +52,8 @@ const HomeScreen: React.FC = () => {
   }
 
   function getLanguages() {
-    isLoading(true);
+    setLoadingScreen(true);
+    // isLoading(true);
     LanguageReaderWriter.getLanguages().then((languages) =>
       setStarredLanguages(languages)
     );
@@ -68,8 +61,8 @@ const HomeScreen: React.FC = () => {
   }
 
   async function getHistory() {
-    isLoading(true);
-    console.log(accessCode);
+    setLoadingScreen(true);
+    // isLoading(true);
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
       const historySongs: PlayItem[] = history.map((song) => ({
         artist: song.songs["artist"],
@@ -87,16 +80,19 @@ const HomeScreen: React.FC = () => {
   }
 
   function getPlaylists() {
-    isLoading(true);
+    // isLoading(true);
+    setLoadingScreen(true)
     PlaylistReaderWriter.getMyPlaylists().then((playlists) => {
       setSavedPlaylists(playlists);
     });
     counter += 1;
-    isLoading(false);
+    // isLoading(false);
+    setLoadingScreen(false)
   }
 
   async function getSongs() {
-    isLoading(true);
+    setLoadingScreen(true)
+    // isLoading(true);
     await RecordReaderWriter.getMySongs().then((songs) => {
       const savedSongs: PlayItem[] = songs.map((song) => ({
         artist: song.songs["artist"],
@@ -112,15 +108,18 @@ const HomeScreen: React.FC = () => {
       setSavedSongs(savedSongs);
     });
     counter += 1;
-    isLoading(false);
+    // isLoading(false);
+    setLoadingScreen(false)
   }
 
   function getWorkbooks() {
-    isLoading(true);
+    // isLoading(true);
+    setLoadingScreen(true)
     WorkbookReaderWriter.getWorkbooks().then((workbooks) =>
       setWorkbooksList(workbooks)
     );
-    isLoading(false);
+    // isLoading(false);
+    setLoadingScreen(false)
   }
 
   window.addEventListener("storage", () => {

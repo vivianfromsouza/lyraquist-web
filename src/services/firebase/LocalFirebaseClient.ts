@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useLocalStorage } from "usehooks-ts";
 
 
 const firebaseConfig = {
@@ -17,7 +16,7 @@ const firebaseConfig = {
 const LocalFirebaseClient = initializeApp(firebaseConfig);
 
 const auth = getAuth(LocalFirebaseClient);
-const userCredential = auth.currentUser;
+// const userCredential = auth.currentUser;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {

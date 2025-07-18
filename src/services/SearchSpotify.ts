@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // // Worked on by: Tanvi Singh
 import axios from "axios";
-import UserReaderWriter from "./UserReaderWriter";
 import { refresh, checkRefreshNeeded } from "../services/spotifyAuth";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
 

@@ -11,14 +11,11 @@ import {
 import UserReaderWriter from "../services/UserReaderWriter";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import SimpleLineIcon from "react-simple-line-icons";
-import { getAuth } from "firebase/auth";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import axios from "axios";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
-import { useLocalStorage } from "usehooks-ts";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import { ArrowBackOutline } from "react-ionicons";
 
@@ -29,7 +26,7 @@ export default function SettingsScreen() {
   // const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
-  const auth = getAuth(LocalFirebaseClient);
+  // const auth = getAuth(LocalFirebaseClient);
   // const currentUser = auth.currentUser?.uid;
   const { handleSignOut } = useFirebase();
 

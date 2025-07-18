@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
-  Alert,
   TextInput,
   Image,
 } from "react-native";
@@ -73,6 +72,7 @@ export default function ProfileInfoScreen() {
         .catch((error) => {
           // An error occurred
           // ...
+          console.log(error)
         });
     } else {
       toast(

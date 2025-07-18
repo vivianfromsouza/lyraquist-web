@@ -17,10 +17,10 @@ const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isPaused, setPaused] = useState(true);
-  const [isActive, setActive] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(null);
-  const [deviceId, setDeviceId] = useState("abc");
+  const [isPaused] = useState(true);
+  const [isActive] = useState(false);
+  const [currentTrack] = useState(null);
+  // const [deviceId, setDeviceId] = useState("abc");
 
   // Define the functions you want to expose globally
   const playSong = (songId: string) => {
@@ -79,30 +79,30 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     // Add logic to pause playback
   };
 
-  const toggleShuffle = (isShuffled: boolean) => {
-    console.log("Toggling shuffle");
-    TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
-      axios({
-        url:
-          "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
-        method: "PUT",
-        headers: {
-          authorization: "Bearer " + accessCode,
-        },
-        data: {
-          state: !isShuffled,
-          device_ids: [localStorage.getItem("device_id")], // use local storage for now?
-        },
-      })
-        .then(async (res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          return err;
-        });
-    });
-  };
+  // const toggleShuffle = (isShuffled: boolean) => {
+  //   console.log("Toggling shuffle");
+  //   TokenReaderWriter.getAccessToken().then((accessCode) => {
+  //     // Makes request to Spotify API for song search
+  //     axios({
+  //       url:
+  //         "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
+  //       method: "PUT",
+  //       headers: {
+  //         authorization: "Bearer " + accessCode,
+  //       },
+  //       data: {
+  //         state: !isShuffled,
+  //         device_ids: [localStorage.getItem("device_id")], // use local storage for now?
+  //       },
+  //     })
+  //       .then(async (res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         return err;
+  //       });
+  //   });
+  // };
 
   return (
     <PlayerContext.Provider

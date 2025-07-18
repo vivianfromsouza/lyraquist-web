@@ -9,7 +9,6 @@ import {
   Dimensions,
   TextInput,
   Image,
-  ActivityIndicator,
 } from "react-native";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -39,7 +38,6 @@ function PlaylistInfoScreen() {
   const spotifyURL = "spotify:playlist:" + playlistItem.spotify_url;
   const description = playlistItem.description;
   const [searchTerm, setSearchTerm] = useState("");
-  const [loadingScreen, isLoadingScreen] = useState(true);
   const { playPlaylist } = usePlayer();
 
   useEffect(() => {
@@ -310,7 +308,7 @@ function PlaylistInfoScreen() {
           accessibilityLabel="songs"
           accessible={true}
           numColumns={1}
-          renderItem={({ item, index }) => {
+          renderItem={({ item }) => {
             return (
               <>
                 <Pressable

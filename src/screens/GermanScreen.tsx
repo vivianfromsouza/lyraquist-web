@@ -7,7 +7,6 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
-  Image,
   StyleSheet,
   Pressable,
   Dimensions,

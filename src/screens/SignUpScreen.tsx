@@ -18,8 +18,6 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
-import UnfoldLessOutlinedIcon from "@mui/icons-material/UnfoldLessOutlined";
-import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import { ArrowBackOutline } from "react-ionicons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";

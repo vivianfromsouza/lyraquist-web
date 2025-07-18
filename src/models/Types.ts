@@ -22,6 +22,13 @@ export type PlayItem = {
   isLiked?: boolean;
 };
 
+export interface PlayerType {
+  seek: (position: number) => Promise<void>;
+  togglePlay: () => Promise<void>;
+  nextTrack: () => Promise<void>;
+  previousTrack: () => Promise<void>;
+  setVolume: (volume: number) => Promise<void>;
+}
 export {};
 
 declare global {

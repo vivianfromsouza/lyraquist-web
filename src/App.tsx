@@ -10,7 +10,7 @@ import SignUpScreen from "./screens/SignUpScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SpotifyAuthScreen from "./screens/SpotifyAuthScreen";
 import HomeScreen from "./screens/HomeScreen";
-import PlaybackScreen from "./screens/PlaybackScreen";
+// import PlaybackScreen from "./screens/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
 import AboutScreen from "./screens/AboutScreen";
 import FrenchScreen from "./screens/FrenchScreen";
@@ -44,7 +44,7 @@ const PrivateRoutes = () => {
 
 const App: React.FC = () => {
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-  const [value, setValue] = useLocalStorage(
+  const [value] = useLocalStorage(
     "isLoggedIn",
     isLoggedIn || "false"
   );
@@ -63,7 +63,7 @@ const App: React.FC = () => {
             <Route element={<PrivateRoutes />}>
               {/* Do I need home here as well? */}
               <Route path="/home" element={<HomeScreen />} />
-              <Route path="/play" element={<PlaybackScreen />} />
+              {/* <Route path="/play" element={<PlaybackScreen />} /> */}
               <Route path="/privacy" element={<PrivacyScreen />} />
               <Route path="/about" element={<AboutScreen />} />
               <Route path="/about/welcome" element={<AboutUsScreen />} />

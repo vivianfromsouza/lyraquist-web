@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "./LocalFirebaseClient";
-import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "usehooks-ts";
 
 interface FirebaseContextType {
@@ -20,6 +20,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<string>();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useLocalStorage("isLoggedIn", "false");
+  console.log(value)
 
   // function login(email, password) {
   //   return signInWithEmailAndPassword(auth, email, password);

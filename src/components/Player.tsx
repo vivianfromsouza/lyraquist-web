@@ -10,8 +10,17 @@ import {
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
 import { Seekbar } from "react-seekbar";
+import { PlayerType } from "../models/Types";
 
 const Player = () => {
+  const defaultPlayer: PlayerType = {
+    seek: async () => {},
+    togglePlay: async () => {},
+    nextTrack: async () => {},
+    previousTrack: async () => {},
+    setVolume: async () => {},
+    // Add other methods as needed
+  };
   const [authCode, setAuthCode] = useState<string | null>("");
   const [accessCode, setAccessCode] = useState<string | null>("");
   const [is_paused, setPaused] = useState(true);
@@ -22,16 +31,16 @@ const Player = () => {
   const [totalTime, setTotalTime] = useState("0:00");
   const [volume, setVolume] = useState(0.0); // Default volume
 
-  const [player, setPlayer] = useState(null);
+  const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
 
   const isLoggedIn = localStorage.getItem("isLoggedIn");
-  const [value, setValue] = useLocalStorage(
-    "isLoggedIn",
-    isLoggedIn || "false"
-  );
+  const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
 
-  const [currentURL] = useState("");
+  // const [currentURL] = useState("");
+
+  console.log(accessCode);
+  console.log(authCode);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -40,7 +49,7 @@ const Player = () => {
 
   const handleSeek = (position) => {
     setSeekPosition(position);
-    player.seek(position).then(() => {
+    player?.seek(position).then(() => {
       console.log("Changed position!");
     });
   };
@@ -62,11 +71,13 @@ const Player = () => {
   async function getAccessCode() {
     const accessCode = await getSpotifyAccessCode();
     setAccessCode(accessCode);
+    console.log("Access Code:", accessCode);
   }
 
   async function getAuthCode() {
     const authCode = await getSpotifyAuthCode();
     setAuthCode(authCode);
+    console.log(authCode);
   }
 
   async function toggleShuffle() {
@@ -140,28 +151,28 @@ const Player = () => {
     });
   }
 
-  async function playSong(songId: string) {
-    TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
-      axios({
-        url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
-        method: "PUT",
-        headers: {
-          authorization: "Bearer " + accessCode,
-        },
-        data: {
-          device_ids: [device_id],
-          uris: [songId], // keeps it off if it's paused
-        },
-      })
-        .then(async (res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          return err;
-        });
-    });
-  }
+  // async function playSong(songId: string) {
+  //   TokenReaderWriter.getAccessToken().then((accessCode) => {
+  //     // Makes request to Spotify API for song search
+  //     axios({
+  //       url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
+  //       method: "PUT",
+  //       headers: {
+  //         authorization: "Bearer " + accessCode,
+  //       },
+  //       data: {
+  //         device_ids: [device_id],
+  //         uris: [songId], // keeps it off if it's paused
+  //       },
+  //     })
+  //       .then(async (res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         return err;
+  //       });
+  //   });
+  // }
 
   function calculateDurationInSecs(duration_ms) {
     const seconds = parseInt(Math.floor(duration_ms / 1000).toFixed(2));
@@ -192,11 +203,10 @@ const Player = () => {
   }
 
   useEffect(() => {
-    console.log("once")
+    console.log("once");
     getAuthCode();
     getAccessCode();
   }, []);
-  
 
   // this is running x2....
   useEffect(() => {
@@ -217,7 +227,7 @@ const Player = () => {
         const player = new window.Spotify.Player({
           name: "Web Playback SDK",
           getOAuthToken: (cb) => {
-            console.log("LET US CHECK REFRESH")
+            console.log("LET US CHECK REFRESH");
             checkRefreshNeeded(new Date())
               .then(async (response) => {
                 if (response === "true") {
