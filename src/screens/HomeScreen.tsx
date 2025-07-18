@@ -47,12 +47,13 @@ const HomeScreen: React.FC = () => {
   // const auth = getAuth(LocalFirebaseClient);
 
   function getUsername() {
+    // setLoadingScreen(true);
+
     UserReaderWriter.getUserName().then((name) => setUsername(name));
-    setLoadingScreen(true);
   }
 
   function getLanguages() {
-    setLoadingScreen(true);
+    // setLoadingScreen(true);
     // isLoading(true);
     LanguageReaderWriter.getLanguages().then((languages) =>
       setStarredLanguages(languages)
@@ -61,7 +62,7 @@ const HomeScreen: React.FC = () => {
   }
 
   async function getHistory() {
-    setLoadingScreen(true);
+    // setLoadingScreen(true);
     // isLoading(true);
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
       const historySongs: PlayItem[] = history.map((song) => ({
@@ -74,6 +75,7 @@ const HomeScreen: React.FC = () => {
         songID: song.songs["song_id"] ? song.songs["song_id"] : "null",
       }));
       setHistory(historySongs);
+      // setLoadingScreen(false);
     });
 
     counter += 1;
@@ -81,17 +83,17 @@ const HomeScreen: React.FC = () => {
 
   function getPlaylists() {
     // isLoading(true);
-    setLoadingScreen(true)
+    // setLoadingScreen(true);
     PlaylistReaderWriter.getMyPlaylists().then((playlists) => {
       setSavedPlaylists(playlists);
     });
     counter += 1;
     // isLoading(false);
-    setLoadingScreen(false)
+    // setLoadingScreen(false);
   }
 
   async function getSongs() {
-    setLoadingScreen(true)
+    // setLoadingScreen(true);
     // isLoading(true);
     await RecordReaderWriter.getMySongs().then((songs) => {
       const savedSongs: PlayItem[] = songs.map((song) => ({
@@ -109,17 +111,17 @@ const HomeScreen: React.FC = () => {
     });
     counter += 1;
     // isLoading(false);
-    setLoadingScreen(false)
+    // setLoadingScreen(false);
   }
 
   function getWorkbooks() {
     // isLoading(true);
-    setLoadingScreen(true)
+    // setLoadingScreen(true);
     WorkbookReaderWriter.getWorkbooks().then((workbooks) =>
       setWorkbooksList(workbooks)
     );
     // isLoading(false);
-    setLoadingScreen(false)
+    // setLoadingScreen(false);
   }
 
   window.addEventListener("storage", () => {
@@ -142,7 +144,10 @@ const HomeScreen: React.FC = () => {
       console.log(localStorage.getItem("code_verifier"));
       // getAuthCode();
       // getAccessCode();
+      setLoadingScreen(true)
       try {
+        // setLoadingScreen(true);
+
         const handleUserInserts = (payload) => {
           getUsername();
           console.log(payload);
@@ -232,6 +237,7 @@ const HomeScreen: React.FC = () => {
         //   console.log("CURR TRACK:");
         //   console.log(track);
         // });
+        // setLoadingScreen(false);
       } catch (err) {
         console.log(err);
       }
