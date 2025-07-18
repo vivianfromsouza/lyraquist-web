@@ -68,7 +68,7 @@ export default defineConfig({
   resolve: {
     extensions: extensions,
     alias: {
-      "react-native": "react-native-web",
+      "react-native": "react-native-web",      
     },
   },
   optimizeDeps: {
