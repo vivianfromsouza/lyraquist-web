@@ -226,9 +226,9 @@ const Player = () => {
 
         const player = new window.Spotify.Player({
           name: "Web Playback SDK",
-          getOAuthToken: (cb) => {
+          getOAuthToken: async (cb) => {
             console.log("LET US CHECK REFRESH");
-            checkRefreshNeeded(new Date())
+            await checkRefreshNeeded(new Date())
               .then(async (response) => {
                 if (response === "true") {
                   TokenReaderWriter.getRefreshToken().then(
@@ -244,11 +244,7 @@ const Player = () => {
                   accessToken = await TokenReaderWriter.getAccessToken();
                 }
               })
-              .then(async () => {
-                // console.log("TRYING TO SET PLAYER");
-                // await getAuthCode();
-                // await getAccessCode();
-              });
+
             cb(accessToken);
             console.log("AUTHING YET AGAIN");
           },
