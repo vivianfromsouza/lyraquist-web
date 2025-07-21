@@ -85,11 +85,6 @@ export default function LyricsToScreen({ currentTrack }) {
   const [isFocus, setIsFocus] = useState(false);
   const [workbookItems, setWorkbookItems] = useState<any>([]);
 
-  useEffect(() => {
-    // const sub = auth().onAuthStateChanged(onAuthStateChanged);
-    // return sub;
-  });
-
   //grabs workbooks and sets prefLang from user if loggin
   function onAuthStateChanged(user) {
     setTimeout(async () => {
@@ -177,7 +172,7 @@ export default function LyricsToScreen({ currentTrack }) {
     } else {
       setData("LOADING...");
     }
-  }, [prefLang, newWorkbookName]);
+  }, [prefLang, newWorkbookName,currentTrack]);
 
   // Parsing Lyrics for rendering
   //   var lyricLines = data.split("\n...\n\n*******")[0].split("\n"); //removes the usixmatch's postscript on their lyric returned

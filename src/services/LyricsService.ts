@@ -32,7 +32,12 @@ const LyricsService = {
       })
       .catch((err) => {
         console.log("ERROR WITH LYRICS:", err)
-        return err;
+        console.log( track.artists[0]["name"])
+        console.log( track.name)
+        console.log( track.album["name"])
+        console.log( (track.duration_ms) / 1000);
+
+        return "Lyrics not available for this track.";
       });
 
     return lyricsResponse;
