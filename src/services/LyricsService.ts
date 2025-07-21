@@ -1,44 +1,42 @@
-// // Worked on by: Ashley Bickham and Siri Avula
-// // TODO: FIX THIS FOR NEW CONFIG
-// import { APIKeys } from "../APIKeys"
+import axios from "axios";
 
-// const LyricsService = {
+const LyricsService = {
+  // grabs lyrics using lrclib API: https://lrclib.net/docs
+  async getLyrics(track): Promise<string> {
+    if (track == undefined || "") {
+      return "";
+    }
+    // to hold lyrics
+    let lyrics = "hello";
 
-//     // grabs lyrics using musixmatch API
-//     async getLyrics (artist, trackName) : Promise<string> {
-//         if (artist === undefined || artist == "" || trackName === undefined || trackName == "" ){return ""}
-//         // to hold lyrics
-//         var lyrics;
+    //setting up the API call request
+    const lyricsAPI =
+      "https://lrclib.net/api/get?artist_name=" +
+      track.artists[0]["name"] +
+      "&track_name=" +
+      track.name +
+      "&album_name=" +
+      track.album["name"] +
+      "&duration=" +
+      (track.duration_ms) / 1000;
 
-//         //setting up the API call request
-//         var apiKey = APIKeys.LyricKey;
-//         var lyricsAPI =
-//         "https://api.musixmatch.com/ws/1.1/" +
-//         "matcher.lyrics.get" +
-//         "?format=json&callback=callback" +
-//         "&q_artist=" +
-//         artist +
-//         "&q_track=" +
-//         trackName +
-//         apiKey;
+    const lyricsResponse : Promise<string> = axios({
+      url: lyricsAPI,
+      method: "GET",
+    })
+      .then(async (res ) => {
+        lyrics = res.data.plainLyrics.toString();
+        console.log("LYRICS:", lyrics);
+        console.log(res);
+        return lyrics;
+      })
+      .catch((err) => {
+        console.log("ERROR WITH LYRICS:", err)
+        return err;
+      });
 
-//         // fetches lyrics through the JSON response of the API call
-//         fetch(lyricsAPI)
-//         .then((response) => response.json())
-//         .then((lyricJson) => {
-//             // if the JSON response does not contain any lyrics for a song, return empty lyrics (JSON return is actually undefined)
-//             if (lyricJson.message.body.lyrics === undefined ) {
-//                 lyrics = ''
-//             }
-//             else {
-//             lyrics = (lyricJson.message.body.lyrics.lyrics_body)
-//             }
-//         })
-//         .catch((err) => {
-//             console.error("GetLyrics Error: " + err + "with request: " + lyricsAPI);
-//         });
-//         return lyrics
-//     }
-// }
+    return lyricsResponse;
+  },
+};
 
-// export default LyricsService;
+export default LyricsService;

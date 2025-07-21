@@ -11,6 +11,8 @@ import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
 import { Seekbar } from "react-seekbar";
 import { PlayerType } from "../models/Types";
+import LyricsToScreen from "../screens/LyricsToScreen";
+import TranslateScreen from "../screens/TranslateScreen";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -54,6 +56,12 @@ const Player = () => {
     });
   };
 
+  const [isLyricsOpen, setIsLyricsOpen] = useState(false);
+  const [isTranslationOpen, setIsTranslationOpen] = useState(false);
+
+
+  const [currentURL] = useState("");
+
   // this has to match template coming in from spotify's api
   const track = {
     name: "trackName",
@@ -78,6 +86,38 @@ const Player = () => {
     const authCode = await getSpotifyAuthCode();
     setAuthCode(authCode);
     console.log(authCode);
+  }
+
+  const handleLyricsClose = () => {
+    setIsLyricsOpen(false);
+  };
+
+  const handleLyricsOpen = () => {
+    setIsLyricsOpen(true);
+  };
+
+  async function openLyrics() {
+   if (isLyricsOpen) {
+    handleLyricsClose();
+   } else {
+    handleLyricsOpen();
+   }
+  }
+
+    const handleTranslationClose = () => {
+    setIsTranslationOpen(false);
+  };
+
+  const handleTranslationOpen = () => {
+    setIsTranslationOpen(true);
+  };
+
+  async function openTranslation() {
+   if (isTranslationOpen) {
+    handleTranslationClose();
+   } else {
+    handleTranslationOpen();
+   }
   }
 
   async function toggleShuffle() {
@@ -452,6 +492,33 @@ const Player = () => {
 
               <h4>Current Volume: </h4>
               {volume}
+
+                            <button
+                className="btn-spotify"
+                onClick={() => {
+                  openLyrics();
+                }}
+              >
+                Open Lyrics
+              </button>
+
+              
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  openTranslation();
+                }}
+              >
+                Open Translation
+              </button>
+
+              {isLyricsOpen && (
+                <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
+              )}
+
+              {isTranslationOpen && (
+                <TranslateScreen currentTrack={current_track}></TranslateScreen>
+              )}
             </div>
           </div>
         </div>

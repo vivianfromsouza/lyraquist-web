@@ -36,6 +36,7 @@ import FlashcardScreen from "./screens/FlashcardsScreen";
 import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
 import { useLocalStorage } from "usehooks-ts";
+import LyricsToScreen from "./screens/LyricsToScreen";
 
 const PrivateRoutes = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -101,6 +102,7 @@ const App: React.FC = () => {
               {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
               <Route path="/playlist" element={<PlaylistInfoScreen />} />
               <Route path="/playlist/addSong" element={<AddSongToPlaylistScreen />} />
+              <Route path ="/play/lyrics" element={<LyricsToScreen />} />
             </Route>
 
             <Route
