@@ -21,8 +21,6 @@ import { Dropdown } from "primereact/dropdown";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WordReaderWriter from "../services/WordReaderWriter";
-import { getAuth } from "firebase/auth";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import LyricsService from "../services/LyricsService";
 
@@ -75,7 +73,8 @@ export default function LyricsToScreen({ currentTrack }) {
   const [bookUID, setbookUID] = useState<string>();
   const [workbookName, setWorkbookName] = useState<string>();
   // const [isFocus, setIsFocus] = useState(false);
-  const [workbookItems, setWorkbookItems] = useState<any>([]);
+  const [workbookItems] = useState<any>([]);
+
 
   //grabs workbooks and sets prefLang from user if loggin
   // function onAuthStateChanged(user) {
@@ -256,14 +255,14 @@ export default function LyricsToScreen({ currentTrack }) {
                         )
                         .replace(".", "")
                     );
-                    setSpeechWord(
-                      prop
-                        .replace(
-                          /`|~|!|@|#|\$|%|\^|&|\*|\(|\)|_|\+|=|{|}|\||\[|\]|:|\\|"|;|<|>|\?|,|\/|—|…|•|¡|¿|《|》|『|』|「|」|。|«|»/g,
-                          ""
-                        )
-                        .replace(".", "")
-                    );
+                    // setSpeechWord(
+                    //   prop
+                    //     .replace(
+                    //       /`|~|!|@|#|\$|%|\^|&|\*|\(|\)|_|\+|=|{|}|\||\[|\]|:|\\|"|;|<|>|\?|,|\/|—|…|•|¡|¿|《|》|『|』|「|」|。|«|»/g,
+                    //       ""
+                    //     )
+                    //     .replace(".", "")
+                    // );
                     setOpenModal(true);
                   }}
                 >
@@ -594,9 +593,9 @@ export default function LyricsToScreen({ currentTrack }) {
       if (intermedDef == "" || intermedDef === undefined) {
         intermedDef =
           "Lexicala API does not have a definition for this word yet.";
-        fromLang = "en";
+        // fromLang = "en";
       } else {
-        fromLang = prefLang;
+       // fromLang = prefLang;
       }
     }
 
@@ -624,6 +623,7 @@ export default function LyricsToScreen({ currentTrack }) {
     //   currWordCount++;
     //   return false;
     // }
+    return true;
   }
 }
 

@@ -39,8 +39,6 @@ const Player = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
 
-  // const [currentURL] = useState("");
-
   console.log(accessCode);
   console.log(authCode);
 
@@ -514,7 +512,9 @@ const Player = () => {
               )}
 
               {isTranslationOpen && (
-                <TranslateScreen currentTrack={current_track}></TranslateScreen>
+                <TranslateScreen></TranslateScreen>
+                // reintroduce later
+                // <TranslateScreen currentTrack={current_track}></TranslateScreen>
               )}
             </div>
           </div>

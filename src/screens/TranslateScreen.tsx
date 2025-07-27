@@ -17,7 +17,8 @@ const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const TranslateScreen = ({ currentTrack }) => {
+// const TranslateScreen = ({ currentTrack }) => {
+const TranslateScreen = () => {
   //grabbing Song information from previous page (song playback)
 
   //pref language determined by detecting language from user's prefLanguage data
