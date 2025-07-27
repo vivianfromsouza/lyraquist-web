@@ -18,11 +18,7 @@ import {
 } from "react-native";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { Dropdown } from "primereact/dropdown";
-// import TranslationService from "../services/TranslationService";
-// import DefinitionService from "../services/DefinitionService";
 import UserReaderWriter from "../services/UserReaderWriter";
-import { APIKeys } from "../APIKeys";
-// import * as Speech from "expo-speech";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { getAuth } from "firebase/auth";
@@ -46,15 +42,11 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 // page contents, runs through on each render of page
 export default function LyricsToScreen({ currentTrack }) {
   //grabbing Song information from song playback
-  const auth = getAuth(LocalFirebaseClient);
   const playlistItem = currentTrack;
   let name = playlistItem.name;
-  let artist = playlistItem.artist;
-
   // songLang determined by examining song lyrics with detect later
-  const [songLang, setSongLang] = useState("");
+  const [songLang] = useState("");
   //pref language determined by detecting language from user's prefLanguage data
-  const [userPrefLang, setUserPrefLang] = useState("");
   /*locally held prefLang, assigned value from userPrefLang value
   Is a separate value because the formatting of the language is a a two-character code 
   vs plain english (database pref language format).
@@ -63,47 +55,47 @@ export default function LyricsToScreen({ currentTrack }) {
   const [prefLang, setPrefLang] = useState("");
 
   // string to contain lyrics data
-  const [data, setData] = useState("");
+  // const [data, setData] = useState("");
 
   //hold list of words in lyrics and location of line breaks - the index of the word with the \n (for formatting)
   let lyricsObject = { lyricsList: [], linelocations: [] };
   const [lyrics, setLyrics] = useState("");
 
   // this header is to show display for clicking the song instructions
-  const [header, setHeader] = useState(true);
+  const [header] = useState(true);
   const [newWorkbookName, setNewWorkbookName] = useState("");
 
   //managing states for pop-up
   const [openModal, setOpenModal] = React.useState(false);
 
   // to hold the word to dictate
-  const [speechWord, setSpeechWord] = useState("");
+  // const [speechWord, setSpeechWord] = useState("");
 
   //for workbook selection
   const [bookUID, setbookUID] = useState<string>();
   const [workbookName, setWorkbookName] = useState<string>();
-  const [isFocus, setIsFocus] = useState(false);
+  // const [isFocus, setIsFocus] = useState(false);
   const [workbookItems, setWorkbookItems] = useState<any>([]);
 
   //grabs workbooks and sets prefLang from user if loggin
-  function onAuthStateChanged(user) {
-    setTimeout(async () => {
-      if (user) {
-        WorkbookReaderWriter.getWorkbooks().then((myBooks) => {
-          let list: any[] = [""];
-          for (const i in myBooks) {
-            list.push(myBooks[i]);
-          }
-          list.push({
-            name: "Create New Workbook",
-            uid: "0",
-          });
+  // function onAuthStateChanged(user) {
+  //   setTimeout(async () => {
+  //     if (user) {
+  //       WorkbookReaderWriter.getWorkbooks().then((myBooks) => {
+  //         let list: any[] = [""];
+  //         for (const i in myBooks) {
+  //           list.push(myBooks[i]);
+  //         }
+  //         list.push({
+  //           name: "Create New Workbook",
+  //           uid: "0",
+  //         });
 
-          setWorkbookItems(list);
-        });
-      }
-    }, 1000);
-  }
+  //         setWorkbookItems(list);
+  //       });
+  //     }
+  //   }, 1000);
+  // }
 
   async function getLyrics() {
     const lyricsResponse = await LyricsService.getLyrics(playlistItem);
@@ -170,9 +162,10 @@ export default function LyricsToScreen({ currentTrack }) {
       //       console.log("print error: " + err);
       //     });
     } else {
-      setData("LOADING...");
+      // setData("LOADING...");
+      console.log("LOADING...");
     }
-  }, [prefLang, newWorkbookName,currentTrack]);
+  }, []);
 
   // Parsing Lyrics for rendering
   //   var lyricLines = data.split("\n...\n\n*******")[0].split("\n"); //removes the usixmatch's postscript on their lyric returned
@@ -231,14 +224,14 @@ export default function LyricsToScreen({ currentTrack }) {
                           )
                           .replace(".", "")
                       );
-                      setSpeechWord(
-                        prop
-                          .replace(
-                            /`|~|!|@|#|\$|%|\^|&|\*|\(|\)|_|\+|=|{|}|\||\[|\]|:|\\|"|;|<|>|\?|,|\/|—|…|•|¡|¿|《|》|『|』|「|」|。|«|»/g,
-                            ""
-                          )
-                          .replace(".", "")
-                      );
+                      // setSpeechWord(
+                      //   prop
+                      //     .replace(
+                      //       /`|~|!|@|#|\$|%|\^|&|\*|\(|\)|_|\+|=|{|}|\||\[|\]|:|\\|"|;|<|>|\?|,|\/|—|…|•|¡|¿|《|》|『|』|「|」|。|«|»/g,
+                      //       ""
+                      //     )
+                      //     .replace(".", "")
+                      // );
                       setOpenModal(true);
                     }}
                   >
@@ -538,7 +531,6 @@ export default function LyricsToScreen({ currentTrack }) {
   async function getUserPrefLang() {
     await UserReaderWriter.getPreferredLanguage().then((DBPrefLang) => {
       //grabbing specific language code for for translation and sets local prefLang value
-      setUserPrefLang(DBPrefLang);
       if (DBPrefLang.toLowerCase() == "english") {
         setPrefLang("en");
       } else if (
@@ -588,8 +580,6 @@ export default function LyricsToScreen({ currentTrack }) {
     console.log("\nPOPULATING DEF");
     // var fromLang = songLang;
     // var toLang = prefLang;
-    let fromLang = "de";
-    let toLang = "en";
 
     // FIX THIS - intermediate definition value incase undefined return and need to make another attempt
     // let intermedDef = await DefinitionService.getDefinition(word, fromLang);
@@ -626,14 +616,14 @@ export default function LyricsToScreen({ currentTrack }) {
   }
 
   function addnewLine() {
-    if (currWordCount == lyricsObject.linelocations[lineLocIndex]) {
-      currWordCount++;
-      lineLocIndex++;
-      return true;
-    } else {
-      currWordCount++;
-      return false;
-    }
+    // if (currWordCount == lyricsObject.linelocations[lineLocIndex]) {
+    //   currWordCount++;
+    //   lineLocIndex++;
+    //   return true;
+    // } else {
+    //   currWordCount++;
+    //   return false;
+    // }
   }
 }
 

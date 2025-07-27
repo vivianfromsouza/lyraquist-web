@@ -76,7 +76,7 @@ const App: React.FC = () => {
               <Route
                 path="/about/third-party"
                 element={<AboutThirdPartyScreen />}
-              />
+              /> 
               <Route path="/about/feedback" element={<FeedbackScreen />} />
               <Route path="/account/" element={<AccountSettings />} />
               <Route path="/settings/" element={<SettingsScreen />} />
@@ -102,7 +102,7 @@ const App: React.FC = () => {
               {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
               <Route path="/playlist" element={<PlaylistInfoScreen />} />
               <Route path="/playlist/addSong" element={<AddSongToPlaylistScreen />} />
-              <Route path ="/play/lyrics" element={<LyricsToScreen />} />
+              <Route path ="/play/lyrics" element={<LyricsToScreen currentTrack={""} />} />
             </Route>
 
             <Route

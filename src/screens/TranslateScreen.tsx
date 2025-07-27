@@ -19,8 +19,6 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const TranslateScreen = ({ currentTrack }) => {
   //grabbing Song information from previous page (song playback)
-  let name = currentTrack.name;
-  let artist = currentTrack.artist;
 
   //pref language determined by detecting language from user's prefLanguage data
   const [userPrefLang, setUserPrefLang] = useState("");

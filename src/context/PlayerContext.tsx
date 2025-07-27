@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState } from "react";
 import Player from "../components/Player";
 import axios from "axios";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
-import { Routes, useLocation } from "react-router-dom";
 
 interface PlayerContextType {
   playSong: (songId: string) => void;

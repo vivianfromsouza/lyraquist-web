@@ -59,9 +59,6 @@ const Player = () => {
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
   const [isTranslationOpen, setIsTranslationOpen] = useState(false);
 
-
-  const [currentURL] = useState("");
-
   // this has to match template coming in from spotify's api
   const track = {
     name: "trackName",
