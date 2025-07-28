@@ -148,7 +148,7 @@ function WorkbookInfoScreen() {
                 size={35}
                 color="white"
               /> */}
-              <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <View
               style={{
@@ -432,7 +432,7 @@ function WorkbookInfoScreen() {
             style={{ marginLeft: 20 }}
           >
             {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
-            <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
+            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
           </Pressable>
           <View
             style={{

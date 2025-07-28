@@ -179,7 +179,7 @@ function PlaylistInfoScreen() {
         >
           <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
             {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
-            <ArrowBackOutline />
+            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
           </Pressable>
           {/* <Pressable onPress={deletePlaylistAlert}>
               <FeatherIcon icon="x-circle" />

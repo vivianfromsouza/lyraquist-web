@@ -164,7 +164,7 @@ export default function FrenchScreen() {
               onPress={() => navigate(-1)}
               style={styles.backButton}
             >
-              <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </TouchableOpacity>
 
             {/* Search Bar */}
@@ -255,7 +255,7 @@ export default function FrenchScreen() {
             onPress={() => navigate(-1)}
             style={styles.backButton}
           >
-            <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
+            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
           </TouchableOpacity>
           <View style={styles.searchBar}>
             <TextInput
@@ -264,7 +264,7 @@ export default function FrenchScreen() {
               value={searchTerm}
               onChangeText={handleSearch}
             />
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            <SearchOutline color={"#00000"} height="25px" width="25px" />
             {/* <Ionicons name="search" size={24} color="#989898" /> */}
           </View>
         </View>

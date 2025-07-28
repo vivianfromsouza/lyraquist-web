@@ -162,7 +162,7 @@ export default function GermanScreen() {
               onPress={() => navigate(-1)}
               style={styles.backButton}
             >
-              <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </TouchableOpacity>
 
             {/* Search Bar */}
@@ -253,7 +253,7 @@ export default function GermanScreen() {
             onPress={() => navigate(-1)}
             style={styles.backButton}
           >
-            <ArrowBackOutline color={"#00000"} height="250px" width="250px" />
+            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
           </TouchableOpacity>
           <View style={styles.searchBar}>
             <TextInput

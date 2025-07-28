@@ -61,7 +61,7 @@ function AddSongToPlaylistScreen() {
       >
         <Pressable onPress={() => navigate(-1)} style={{}}>
           {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
-          <ArrowBackOutline />
+          <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
         </Pressable>
         <Text style={styles.title}>Add song to playlist</Text>
       </View>

@@ -96,7 +96,7 @@ function FlashcardScreen() {
         }}
       >
         {/* <Ionicons style={{}} name="arrow-undo" size={40} color="#303248" /> */}
-        <ArrowUndo />
+        <ArrowUndo color={"#00000"} height="25px" width="25px" />
       </Pressable>
 
       <Carousel

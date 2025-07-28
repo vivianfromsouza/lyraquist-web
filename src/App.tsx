@@ -78,8 +78,8 @@ const App: React.FC = () => {
                 element={<AboutThirdPartyScreen />}
               /> 
               <Route path="/about/feedback" element={<FeedbackScreen />} />
-              <Route path="/account/" element={<AccountSettings />} />
-              <Route path="/settings/" element={<SettingsScreen />} />
+              <Route path="/account" element={<AccountSettings />} />
+              <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/profile" element={<ProfileInfoScreen />} />
               <Route path="/language/french" element={<FrenchScreen />} />
               <Route path="/language/german" element={<GermanScreen />} />

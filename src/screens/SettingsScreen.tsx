@@ -108,9 +108,18 @@ export default function SettingsScreen() {
                 marginRight: 20,
               }}
             >
-              <Pressable
+              {/* <TouchableOpacity
                 onPress={() => navigate(-1)}
+                style={styles.backButton}
               >
+                <ArrowBackOutline
+                  color={"#00000"}
+                  height="250px"
+                  width="250px"
+                />
+              </TouchableOpacity> */}
+
+              <Pressable onPress={() => navigate(-1)}>
                 {/* <Ionicons
                           style={{}}
                           name="arrow-back"
@@ -118,7 +127,11 @@ export default function SettingsScreen() {
                           color="#e8e1db"
                         /> */}
 
-                <ArrowBackOutline />
+                <ArrowBackOutline
+                  color={"#00000"}
+                  height="25px"
+                  width="25px"
+                />
               </Pressable>
               <Image
                 source={redLogo as ImageSourcePropType}
@@ -155,7 +168,7 @@ export default function SettingsScreen() {
                 size={40}
                 color="#303248"
               /> */}
-              <SimpleLineIcon name="icon-user" />
+              <SimpleLineIcon name="icon-user" size="medium" />
             </View>
             <View
               style={{ marginLeft: 30 }}
