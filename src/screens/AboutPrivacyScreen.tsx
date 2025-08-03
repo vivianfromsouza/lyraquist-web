@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
-import { ImageSourcePropType } from 'react-native';
-import blueLogo from '../assets/blue_small.png';
+import { ImageSourcePropType } from "react-native";
+import blueLogo from "../assets/blue_small.png";
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AboutPrivacyScreen() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function AboutPrivacyScreen() {
                 size={40}
                 color="#303248"
               /> */}
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={blueLogo as ImageSourcePropType}

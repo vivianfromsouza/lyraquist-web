@@ -40,7 +40,7 @@ export default function AboutScreen() {
                 size={40}
                 color="#303248"
               /> */}
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={blueLogo as ImageSourcePropType}
@@ -178,7 +178,7 @@ export default function AboutScreen() {
             justifyContent: "space-between",
             marginTop: 25,
           }}
-          onPress={() =>navigate("/about/third-party")}
+          onPress={() => navigate("/about/third-party")}
         >
           <Text
             style={{

@@ -9,6 +9,11 @@ import { useEffect, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
+import { TextInput } from "react-native-web";
+import ReactImagePickerEditor, {
+  ImagePickerConf,
+} from "react-image-picker-editor";
+import "react-image-picker-editor/dist/index.css";
 
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();
@@ -19,6 +24,21 @@ function AddSongToPlaylistScreen() {
   const [selectedPlaylist, setSelectedPlaylist] = useState<string>("");
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<string>("");
   const [playlistItems, setPlaylistItems] = useState<any[]>([]);
+  const [newPlaylistName, setNewPlaylistName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+
+  const config2: ImagePickerConf = {
+    borderRadius: "8px",
+    language: "en",
+    width: "330px",
+    height: "250px",
+    objectFit: "contain",
+    compressInitial: null,
+    darkMode: false,
+    rtl: false,
+  };
+  // const initialImage: string = '/assets/images/8ptAya.webp';
+  const initialImage = "";
 
   function getMyPlaylists() {
     setTimeout(async () => {
@@ -40,7 +60,33 @@ function AddSongToPlaylistScreen() {
 
   async function addSong() {
     const songUID = await SongReaderWriter.getSongIDByURL(songURL);
-    await RecordReaderWriter.addSongToRecords(songUID.song_id, selectedPlaylistId);
+    await RecordReaderWriter.addSongToRecords(
+      songUID.song_id,
+      selectedPlaylistId
+    );
+  }
+
+  async function createPlaylist(
+    description = "",
+    imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8ZaSSfYdj9o0Q-S0XPOkSOpTdbQPPpKC2g&s"
+  ) {
+    const newPlaylistId = await PlaylistReaderWriter.createPlaylist(
+      newPlaylistName,
+      description,
+      imageURL
+    );
+    // await RecordReaderWriter.addSongToRecords(songURL, newPlaylistId);
+    navigate(-1);
+  }
+
+  async function getImageURL(file) {
+    if (file) {
+      const objectURL = URL.createObjectURL(file); // Create the object URL
+      const imageElement = document.getElementById("albumImage") as HTMLInputElement;
+      imageElement.src = objectURL; // Set the image source to the object URL
+      console.log(objectURL)
+      // URL.revokeObjectURL(objectURL);
+    }
   }
 
   useEffect(() => {
@@ -60,7 +106,6 @@ function AddSongToPlaylistScreen() {
         }}
       >
         <Pressable onPress={() => navigate(-1)} style={{}}>
-          {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
           <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
         </Pressable>
         <Text style={styles.title}>Add song to playlist</Text>
@@ -79,7 +124,12 @@ function AddSongToPlaylistScreen() {
         ></Text>
         <Dropdown
           value={selectedPlaylist}
-          onChange={(e) =>  {setSelectedPlaylist(e.value); setSelectedPlaylistId(e.value.playlist_id); console.log(e.value); console.log(e.value.playlist_id);}}
+          onChange={(e) => {
+            setSelectedPlaylist(e.value.name);
+            setSelectedPlaylistId(e.value.playlist_id);
+            console.log(e.value);
+            console.log(e.value.playlist_id);
+          }}
           options={playlistItems}
           optionLabel="name"
           placeholder="Select a playlist"
@@ -87,14 +137,100 @@ function AddSongToPlaylistScreen() {
         />
       </View>
 
-      <Pressable
-        onPress={addSong}
-        style={styles.button}
-        accessibilityLabel="addconfirm"
-        accessible={true}
-      >
-        <Text style={styles.buttonText}>Add Song</Text>
-      </Pressable>
+      {selectedPlaylist === "Create New Playlist" && (
+        <>
+          <Text
+            style={{
+              fontSize: 20,
+              color: "gray",
+            }}
+          >
+            New Playlist Name:
+          </Text>
+          <View
+            style={{
+              borderWidth: 0.5,
+              padding: 6,
+              paddingLeft: 8,
+              borderRadius: 5,
+              borderColor: "gray",
+              marginTop: 15,
+              marginBottom: 20,
+            }}
+          >
+            <TextInput
+              placeholder="New Playlist Name"
+              value={newPlaylistName}
+              onChangeText={(text) => setNewPlaylistName(text)}
+              style={{ fontSize: 20, color: "gray" }}
+            />
+          </View>
+          <Text
+            style={{
+              fontSize: 20,
+              color: "gray",
+            }}
+          >
+            Description:
+          </Text>
+          <View
+            style={{
+              borderWidth: 0.5,
+              padding: 6,
+              paddingLeft: 8,
+              borderRadius: 5,
+              borderColor: "gray",
+              marginTop: 15,
+              marginBottom: 20,
+            }}
+          >
+            <TextInput
+              placeholder="Enter description"
+              placeholderTextColor={"white"}
+              editable
+              value={description}
+              onChangeText={(text) => setDescription(text)}
+              style={{ fontSize: 20, color: "gray" }}
+            />
+          </View>
+          <View>
+            {/* <Pressable onPress={pickImage} style={styles.button}>
+              <Text style={styles.buttonText}>Select playlist image</Text>
+            </Pressable> */}
+            <input
+              type="file"
+              accept="image/*"
+              id="albumImage"
+              onChange={(e) => getImageURL(e.target.files![0])}
+            ></input>
+          </View>
+        </>
+      )}
+
+      {selectedPlaylist === "Create New Playlist" ? (
+        <Pressable
+          onPress={() =>
+            createPlaylist(
+              description,
+              (document.getElementById("albumImage") as HTMLInputElement).src
+            )
+          }
+          style={styles.button}
+          accessibilityLabel="addconfirm"
+          accessible={true}
+        >
+          <Text style={styles.buttonText}>Add Song</Text>
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={addSong}
+          style={styles.button}
+          accessibilityLabel="addconfirm"
+          accessible={true}
+        >
+          <Text style={styles.buttonText}>Add Song</Text>
+        </Pressable>
+      )}
     </SafeAreaView>
   );
 }

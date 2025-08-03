@@ -40,7 +40,7 @@ export default function AboutTermsConditionsScreen() {
                 size={40}
                 color="#303248"
               /> */}
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={blueLogo as ImageSourcePropType}
@@ -72,7 +72,6 @@ export default function AboutTermsConditionsScreen() {
         </Text>
 
         <Text>{"\n\n\n"}</Text>
-
       </ScrollView>
     </>
   );

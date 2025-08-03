@@ -146,7 +146,6 @@ export default function AccountSettings() {
   // deletes the current user's account
   async function deleteAccount() {
     await UserReaderWriter.deleteAccount().then(() => {
- 
       handleSignOut();
     });
   }
@@ -205,7 +204,7 @@ export default function AccountSettings() {
                 color="#e8e1db"
               /> */}
 
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={redLogo as ImageSourcePropType}

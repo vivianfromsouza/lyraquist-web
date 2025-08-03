@@ -16,7 +16,11 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import { getSpotifyAccessCode, getSpotifyAuthCode, redirectToSpotifyAuthorize } from "../services/spotifyAuth";
+import {
+  getSpotifyAccessCode,
+  getSpotifyAuthCode,
+  redirectToSpotifyAuthorize,
+} from "../services/spotifyAuth";
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -153,7 +157,7 @@ const LoginScreen: React.FC = () => {
           onPress={() => navigate("/")}
         >
           {/* <Ionicons style={{}} name="arrow-back" size={42} color="#e8e1db" /> */}
-          <ArrowBackOutline />
+          <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
         </Pressable>
         <View style={styles.content}>
           <View style={styles.info}>

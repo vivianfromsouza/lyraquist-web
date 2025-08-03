@@ -110,7 +110,6 @@ export default function SignUpScreen() {
               password!.trim(),
               preferredLanguage!
             );
- 
 
             toast(
               "Account successfully created! Login and continue to connct your Spotify account."
@@ -174,7 +173,7 @@ export default function SignUpScreen() {
               onPress={() => navigate(-1)}
             >
               {/* <Ionicons style={{}} name="arrow-back" size={40} color="#303248" /> */}
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={blueLogo as ImageSourcePropType}
