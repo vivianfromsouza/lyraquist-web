@@ -54,6 +54,7 @@ export default function SearchLanguage() {
         key={language.id}
         onPress={() => handleLanguageClick(language.name as RouteName)}
         style={styles.languageItem}
+        accessibilityLabel={language.name}
       >
         <Image
           source={{ uri: language.imageUrl }}
