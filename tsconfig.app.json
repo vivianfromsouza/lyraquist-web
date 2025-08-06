@@ -21,7 +21,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "noImplicitAny": false,
+    "noImplicitAny": false
   },
-  "include": ["src"]
+  "types": ["node", "jest", "@testing-library/jest-dom"],
+  "include": ["src", "jest.config.js"]
 }
