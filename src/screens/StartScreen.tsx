@@ -67,7 +67,7 @@ export default function StartScreen() {
           <Pressable onPress={() => navigate("/signUp")} style={styles.signUp}>
             <Text
               accessible={true}
-              accessibilityLabel="signup"
+              accessibilityLabel="signupClick"
               style={{
                 margin: 10,
                 fontSize: 18,
