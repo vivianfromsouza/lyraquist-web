@@ -42,7 +42,7 @@ export default function AboutThirdPartyScreen() {
                 size={40}
                 color="#303248"
               /> */}
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={blueLogo as ImageSourcePropType}
@@ -123,7 +123,6 @@ export default function AboutThirdPartyScreen() {
         </Text>
 
         <Text>{"\n\n\n"}</Text>
-
       </ScrollView>
     </>
   );

@@ -1,0 +1,20 @@
+module.exports = {
+  initializeApp: jest.fn(),
+  getApps: jest.fn(() => []),
+  getAuth: jest.fn(() => ({
+    currentUser: { uid: "mockUserId" },
+    signInWithEmailAndPassword: jest.fn(),
+    signOut: jest.fn(),
+  })),
+  signInWithEmailAndPassword: jest.fn(),
+  signOut: jest.fn(),
+  getDatabase: jest.fn(),
+  ref: jest.fn(),
+  set: jest.fn(),
+  get: jest.fn(),
+  update: jest.fn(),
+  onValue: jest.fn(),
+  getStorage: jest.fn(),
+  uploadBytes: jest.fn(),
+  getDownloadURL: jest.fn(() => Promise.resolve("https://mocked.url/image.png")),
+};

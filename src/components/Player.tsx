@@ -50,7 +50,7 @@ const Player = () => {
   const handleSeek = (position) => {
     setSeekPosition(position);
     player?.seek(position).then(() => {
-      console.log("Changed position!");
+      // console.log("Changed position!");
     });
   };
 
@@ -238,7 +238,6 @@ const Player = () => {
   }
 
   useEffect(() => {
-    console.log("once");
     getAuthCode();
     getAccessCode();
   }, []);
@@ -356,7 +355,6 @@ const Player = () => {
           setSeekDuration(state.track_window.current_track.duration_ms);
 
           player.getCurrentState().then((state) => {
-            console.log(state.position);
             !state ? setActive(false) : setActive(true);
           });
         });
@@ -365,7 +363,6 @@ const Player = () => {
           const state = await player.getCurrentState();
           if (state) {
             // state.position is the current playback position in ms
-            console.log("Current position (ms):", state.position);
             setCurrentTime(calculateDurationInSecs(state.position));
             setSeekPosition(state.position);
 

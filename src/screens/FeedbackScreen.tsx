@@ -87,7 +87,7 @@ export default function FeedbackScreen() {
                 size={40}
                 color="#303248"
               /> */}
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={blueLogo as ImageSourcePropType}

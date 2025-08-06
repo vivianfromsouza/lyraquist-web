@@ -183,7 +183,7 @@ export default function LyricsToScreen({ currentTrack }) {
       {/* contains lyrics below with each word as a pressable */}
 
       <ScrollView>
-        {header && (
+        {/* {header && (
           <>
             <Text
               accessibilityLabel="copyright"
@@ -196,7 +196,7 @@ export default function LyricsToScreen({ currentTrack }) {
               These lyrics are NOT for commercial use
             </Text>
           </>
-        )}
+        )} */}
         {header && (
           <Text style={styles.UIInfo}>Click a word to see its meaning!</Text>
         )}

@@ -21,6 +21,7 @@ const PlaylistReaderWriter = {
     imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8ZaSSfYdj9o0Q-S0XPOkSOpTdbQPPpKC2g&s"
   ) {
     const playlist_id = uuidv4();
+    console.log("Creating playlist with ID:", playlist_id);
     const { error } = await LocalSupabaseClient.from("playlists").insert({
       playlist_id: playlist_id,
       name: playlistName,
