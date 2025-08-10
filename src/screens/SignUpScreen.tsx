@@ -11,7 +11,6 @@ import {
   PixelRatio,
   TouchableOpacity,
 } from "react-native";
-// import { firebase } from "@react-native-firebase/auth";
 
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
@@ -40,7 +39,6 @@ const windowWidth = Dimensions.get("window").width; //screen flexibility on devi
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
-  // const auth = getAuth();
 
   const [name, setName] = useState<string | undefined>("");
   const [email, setEmail] = useState<string>("");
@@ -172,7 +170,6 @@ export default function SignUpScreen() {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons style={{}} name="arrow-back" size={40} color="#303248" /> */}
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -240,12 +237,6 @@ export default function SignUpScreen() {
             paddingVertical: 3,
           }}
         >
-          {/* <FontAwesome
-      style={{ marginLeft: 5 }}
-      name="user-circle-o"
-      size={24}
-      color="gray"
-    /> */}
           <FontAwesomeIcon icon={faUserCircle} />
 
           <Image
@@ -286,12 +277,6 @@ export default function SignUpScreen() {
             paddingVertical: 3,
           }}
         >
-          {/* <MaterialCommunityIcons
-      style={{ marginLeft: 5 }}
-      name="email-outline"
-      size={25}
-      color="gray"
-    /> */}
           <EmailOutlinedIcon />
           <Image
             source={divider as ImageSourcePropType}
@@ -330,12 +315,6 @@ export default function SignUpScreen() {
             paddingVertical: 3,
           }}
         >
-          {/* <MaterialCommunityIcons
-      style={{ marginLeft: 7 }}
-      name="email-check-outline"
-      size={25}
-      color="gray"
-    /> */}
           <MarkEmailReadOutlinedIcon />
           <Image
             source={divider as ImageSourcePropType}
@@ -389,12 +368,6 @@ export default function SignUpScreen() {
           }}
         >
           <View style={{ flexDirection: "row", gap: 10 }}>
-            {/* <MaterialIcons
-      style={{ marginLeft: 7 }}
-      name="lock-outline"
-      size={24}
-      color="gray"
-    /> */}
             <LockOutlinedIcon />
             <Image
               source={divider as ImageSourcePropType}
@@ -451,12 +424,6 @@ export default function SignUpScreen() {
           }}
         >
           <View style={{ flexDirection: "row", gap: 10 }}>
-            {/* <MaterialCommunityIcons
-      style={{ marginLeft: 7 }}
-      name="lock-check-outline"
-      size={24}
-      color="gray"
-    /> */}
             <LockPersonOutlinedIcon />
             <Image
               source={divider as ImageSourcePropType}
@@ -480,14 +447,6 @@ export default function SignUpScreen() {
             </TouchableOpacity>
           </View>
           <View>
-            {/* <MaterialCommunityIcons
-      name={showConfirmPassword ? "eye-off" : "eye"}
-      size={24}
-      color="gray"
-      style={{}}
-      onPress={toggleShowConfirmPassword}
-    /> */}
-
             <Pressable onPress={toggleShowConfirmPassword}>
               {showPassword ? (
                 <VisibilityOffOutlinedIcon />
@@ -507,23 +466,6 @@ export default function SignUpScreen() {
             Songs will be translated into this language and word definitions
             pulled for this language
           </Text>
-          {/* <Dropdown
-      // style={[styles.dropdown, isFocus && { borderColor: "green" }]}
-      containerStyle={{ zIndex: 60, top: -100 }}
-      placeholderStyle={styles.placeholderStyle}
-      selectedTextStyle={styles.selectedTextStyle}
-      inputSearchStyle={styles.inputSearchStyle}
-      iconStyle={styles.iconStyle}
-      data={languageItems}
-      maxHeight={1000}
-      labelField="label"
-      valueField="language"
-      placeholder="Select Preferred Langauge"
-      onChange={(preferredLanguage) => {
-        setPreferredLanguage(preferredLanguage.language);
-      }}
-      accessibilityLabel="langInput"
-    /> */}
           <Dropdown
             value={preferredLanguage}
             onChange={(e) => setPreferredLanguage(e.value)}
@@ -533,10 +475,7 @@ export default function SignUpScreen() {
             className="w-full md:w-14rem"
           />
         </View>
-        {/* BIRTHDAY TODO: THIS DOESNT SHOW UP PROPERLY IN UI DURING INPUT*/}
-        {/* <View style={{ marginHorizontal: 20 }}>
-          
-        </View> */}
+
         {/* ACCEPT TERMS & POLICIES */}
         <View
           style={{
@@ -546,19 +485,10 @@ export default function SignUpScreen() {
             justifyContent: "center",
           }}
         >
-          {/* <BouncyCheckbox
-      id="terms"
-      onPress={(isChecked: boolean) => {
-        setIsTermsChecked(true);
-      }}
-      fillColor="#5bc8a6"
-      accessibilityLabel="conditions"
-      accessible={true}
-    /> */}
           <Checkbox
             value="checkedA"
             inputProps={{
-              "aria-label": "Checkbox A",
+              "aria-label": "signupCheckbox",
             }}
             onChange={() => {
               setIsTermsChecked(true);
@@ -598,6 +528,7 @@ export default function SignUpScreen() {
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         onClick={signUp}
+        data-testid="signupButton"
       >
         <ToastContainer />
         Sign Up
