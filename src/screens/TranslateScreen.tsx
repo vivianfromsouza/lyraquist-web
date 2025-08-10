@@ -11,6 +11,7 @@ import {
 } from "react-native";
 // import TranslationService from "../services/TranslationService";
 import UserReaderWriter from "../services/UserReaderWriter";
+import TranslationService from "../services/TranslationService";
 // import { APIKeys } from "../APIKeys";
 
 const fontScale = PixelRatio.getFontScale();
@@ -35,12 +36,14 @@ const TranslateScreen = () => {
   interface LyricsObject {
     lyricsList: string[];
     linelocations: number[];
-}
+  }
   //hold list of words in lyrics and location of line breaks - the index of the word with the \n (for formatting)
-  let lyricsObject: LyricsObject = { 
-    lyricsList:  [], 
-    linelocations: []
-};
+  let lyricsObject: LyricsObject = {
+    lyricsList: [],
+    linelocations: [],
+  };
+
+
 
   //prepping API Call for lyric pull
   //   let apiKey = APIKeys.LyricKey;
