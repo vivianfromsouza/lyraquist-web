@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StarredLang from "../components/StarredLang";
-import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { SearchOutlined, ArrowRightOutlined, SettingOutlined } from "@ant-design/icons";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
@@ -249,12 +249,18 @@ const HomeScreen: React.FC = () => {
       <>
         <ScrollView style={styles.container}>
           <View style={styles.introSect}>
+            <View style={{marginRight:20, marginTop: 20, marginBottom:-20, flexDirection:"row", justifyContent:"flex-end"}}>
+              <Pressable onPress={() => {navigate("/settings", { state: "isLoggedIn" });}}
+                  accessibilityLabel="settings">
+                <SettingOutlined style={{color: "#e8e1db", fontSize: 30}} size={100}/>
+              </Pressable>
+            </View>
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
                 marginRight: 20,
-                marginTop: 15,
+                marginTop:0,
               }}
             >
               <View>
@@ -316,9 +322,12 @@ const HomeScreen: React.FC = () => {
                   color="#e8e1db"
                   style={{ marginBottom: 15 }}
                 /> */}
-                  <SearchOutlined />
+                  <SearchOutlined style={{color: "#e8e1db", fontSize: 35, marginBottom:10}} size={100}/>
                 </Pressable>
               </View>
+            </View>
+            <View>
+
             </View>
           </View>
           <View style={styles.starredLanguagesSect}>
@@ -545,14 +554,14 @@ const HomeScreen: React.FC = () => {
           <Text>{"\n\n\n\n"}</Text>
         </ScrollView>
 
-        <button
+        {/*<button
           onClick={() => {
             navigate("/settings", { state: "isLoggedIn" });
           }}
           className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
         >
           Settings
-        </button>
+        </button>*/}
       </>
     );
   } else {
@@ -571,11 +580,11 @@ const styles = {
   },
   introSect: {
     flex: 1,
-    width: 1000,
+    //width: 1000,
     backgroundColor: "#303248",
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    borderRadius: 15,
+    //borderRadius: 15,
     paddingBottom: 30,
   },
   shadow: {
