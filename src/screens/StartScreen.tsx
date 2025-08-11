@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { ImageSourcePropType } from "react-native";
 import fullLogo from "../assets/Full_Logo.png";
+import fullLogoStart from "../assets/Full_Logo_Start.png";
 import worldLogo from "../assets/world_logo.png";
 import { useNavigate } from "react-router-dom";
 import Alpine, { Alpine as AlpineType } from "alpinejs";
@@ -45,6 +46,7 @@ export default function StartScreen() {
   ).start();
 
   return (
+    <body style={styles.container}>
     <View style={styles.container}>
       <View>
         <View style={styles.info}>
@@ -82,7 +84,8 @@ export default function StartScreen() {
           <Pressable
             style={styles.logIn}
             accessibilityLabel="loginClick"
-            onPress={() => navigate("/login")}
+            onPress={() => navigate("/login")
+            }
           >
             <Text
               accessible={true}
@@ -101,10 +104,11 @@ export default function StartScreen() {
         </View>
         <Image
           style={styles.bigCircle}
-          source={worldLogo as ImageSourcePropType}
+          source={fullLogoStart as ImageSourcePropType}
         />
       </View>
     </View>
+    </body>
   );
 }
 
@@ -121,18 +125,16 @@ const styles = StyleSheet.create({
     marginBottom: -30,
   },
   bigCircle: {
-    height: 500,
+    height: 250,
     width: 500,
-    position: "absolute",
-    top: 430,
-    right: 0,
+    right:0,
     left: 0,
-    marginHorizontal: -90,
+    marginHorizontal: 0,
   },
   info: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 100,
+    marginBottom: 10,
   },
   title: {
     marginTop: 20,
