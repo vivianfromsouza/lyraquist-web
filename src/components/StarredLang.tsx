@@ -26,7 +26,7 @@ const StarredLang = ({ value }) => {
             style={{
               fontWeight: "bold",
               fontFamily: "Karla",
-              fontSize: 21,
+              fontSize: 20,
               color: "#2D3047",
               marginTop: 10,
               marginBottom: 7,
@@ -36,7 +36,7 @@ const StarredLang = ({ value }) => {
           </Text>
           <Pressable onPress={deleteLang}>
             {/* <AntDesign name="star" size={27} color="#edc526" /> */}
-            <StarFilled />
+            <StarFilled style={{fontSize:23, color:"#edc526", }}/>
           </Pressable>
         </View>
         <View style={{ borderBottomColor: "gray", borderBottomWidth: 0.2 }} />

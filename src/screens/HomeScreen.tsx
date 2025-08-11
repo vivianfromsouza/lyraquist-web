@@ -374,8 +374,8 @@ const HomeScreen: React.FC = () => {
                 >
                   <Text
                     style={{
-                      fontSize: getFontSize(20),
-                      fontFamily: "Karla",
+                      fontSize: getFontSize(15),
+                      //fontFamily: "Karla",
                       marginRight: 10,
                       color: "#2D3047",
                     }}
