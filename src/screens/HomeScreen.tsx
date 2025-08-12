@@ -509,7 +509,7 @@ const HomeScreen: React.FC = () => {
                 color="#303248"
                 style={{ marginRight: 5 }}
               /> */}
-                <PlusCircleOutlined />
+                <PlusCircleOutlined style={{marginRight:5, color: '#303248'}}/>
                 <Text
                   style={{
                     fontSize: getFontSize(15),
@@ -524,7 +524,7 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.noteText}>
               Save words in workbooks for quick access here!
             </Text>
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{marginRight: 20, marginLeft: 20}}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {workbooksList!.length != 0 &&
