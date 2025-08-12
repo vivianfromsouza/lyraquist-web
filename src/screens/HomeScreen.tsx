@@ -393,7 +393,7 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.header}>Tune Back In</Text>
             {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
             {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{marginRight:20, marginLeft:20}}>
               {history!.length != 0 &&
                 history!.map((item: any, index: any) => (
                   <SongCard item={item} key={index} />
@@ -419,7 +419,7 @@ const HomeScreen: React.FC = () => {
 
           <View style={styles.savedSect}>
             <Text style={styles.header}>My Playlists</Text>
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{marginRight:20, marginLeft:20}}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {savedPlaylists!.length != 0 &&
@@ -447,7 +447,7 @@ const HomeScreen: React.FC = () => {
 
           <View style={styles.savedSect}>
             <Text style={styles.header}>Saved Songs</Text>
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{marginRight:20, marginLeft:20}}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {savedSongs!.length != 0 &&
