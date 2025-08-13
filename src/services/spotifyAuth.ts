@@ -19,6 +19,11 @@ export const redirectToSpotifyAuthorize = async () => {
   const codeChallenge = await generateCodeChallenge(codeVerifier);
   localStorage.setItem("code_verifier", codeVerifier);
 
+  const signInUrl = new URL(
+    "https://accounts.spotify.com/login?allow_password=1"
+  );
+  window.location.href = signInUrl.toString();
+
   // Construct authorization URL
   const authUrl = new URL(authorizationEndpoint);
   const params = {
