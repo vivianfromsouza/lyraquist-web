@@ -44,7 +44,7 @@ const SongReaderWriter = {
       album: newSong.track.album.name,
       spotify_url: newSong.track.id,
     });
-    console.log(error);
+    console.log("ERROR ADDING TO DB", error);
 
     return song_id;
   },

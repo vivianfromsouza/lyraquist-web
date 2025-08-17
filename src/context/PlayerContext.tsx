@@ -26,7 +26,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   // Define the functions you want to expose globally
   const playSong = (songId: string) => {
     // Call the playSong function from Player.tsx
-    console.log("Playing song with ID:", songId);
+    console.log("Playing song with ID:", currentTrack);
     TokenReaderWriter.getAccessToken().then((accessCode) => {
       // Makes request to Spotify API for song search
       axios({

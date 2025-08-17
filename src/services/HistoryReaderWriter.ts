@@ -22,10 +22,20 @@ const HistoryReaderWriter = {
   },
 
   async addUserHistory(songURL: string, newSong) {
-    let songID = await SongReaderWriter.getSongIDByURL(songURL);
+    let songID = "";
+    console.log("NEW SONG:", newSong)
+    SongReaderWriter.getSongIDByURL(songURL)
+      .then((response) => {
+        songID = response;
+      })
+      .catch(async (error) => {
+        console.log(error);
+      });
 
-    if (songID == null) {
-      songID = await SongReaderWriter.addSongToDBFromSpotifyTrack(newSong);
+    if (songID == "") {
+      SongReaderWriter.addSongToDBFromSpotifyTrack(newSong).then((response) => {
+        songID = response;
+      });
     }
     console.log("TO ADD", songID);
 
@@ -43,90 +53,111 @@ const HistoryReaderWriter = {
       .select("*", { count: "exact", head: true })
       .eq("song_id", songID)
       .eq("user_id", currentUser);
+
     console.log(error);
+    this.insertHistory(songID);
 
     // song in list already
-    if (count! > 0) {
-      // const { data, count } = await LocalSupabaseClient.from("history")
-      //   .select("*", {
-      //     count: "exact",
-      //     head: true,
-      //   })
-      //   .eq("user_id", currentUser);
-      // console.log(data);
-      // const numOfEntries = count;
-      // if (numOfEntries! >= 10) {
-      //   const { data, error } = await LocalSupabaseClient.from("history")
-      //     .update({ num: 10 })
-      //     .eq("song_id", songID)
-      //     .eq("user_id", currentUser);
-      //   console.log(data);
-      //   if (error == null) {
-      //     const { data, error } = await LocalSupabaseClient.rpc("decrement", {
-      //       x: 1,
-      //       user_id: currentUser,
-      //     });
-      //     console.log(data);
-      //     console.log(error);
-      //   }
-      // } else {
-      //   const { data, error } = await LocalSupabaseClient.from("history")
-      //     .update({ num: count! + 1 })
-      //     .eq("song_id", songID)
-      //     .eq("user_id", currentUser);
-      //   console.log(data);
-      //   if (error == null) {
-      //     const { data, error } = await LocalSupabaseClient.rpc("decrement", {
-      //       x: 1,
-      //       user_id: currentUser,
-      //     });
-      //     console.log(data);
-      //     console.log(error);
-      //   }
-      // }
-    } else {
-      this.insertHistory(songID, 1);
+    // if (count! > 0) {
+    // const { data, count } = await LocalSupabaseClient.from("history")
+    //   .select("*", {
+    //     count: "exact",
+    //     head: true,
+    //   })
+    //   .eq("user_id", currentUser);
+    // console.log(data);
+    // const numOfEntries = count;
+    // if (numOfEntries! >= 10) {
+    //   const { data, error } = await LocalSupabaseClient.from("history")
+    //     .update({ num: 10 })
+    //     .eq("song_id", songID)
+    //     .eq("user_id", currentUser);
+    //   console.log(data);
+    //   if (error == null) {
+    //     const { data, error } = await LocalSupabaseClient.rpc("decrement", {
+    //       x: 1,
+    //       user_id: currentUser,
+    //     });
+    //     console.log(data);
+    //     console.log(error);
+    //   }
+    // } else {
+    //   const { data, error } = await LocalSupabaseClient.from("history")
+    //     .update({ num: count! + 1 })
+    //     .eq("song_id", songID)
+    //     .eq("user_id", currentUser);
+    //   console.log(data);
+    //   if (error == null) {
+    //     const { data, error } = await LocalSupabaseClient.rpc("decrement", {
+    //       x: 1,
+    //       user_id: currentUser,
+    //     });
+    //     console.log(data);
+    //     console.log(error);
+    //   }
+    // }
+    // } else {
 
-      // // song not in list
-      // const { data, count } = await LocalSupabaseClient.from("history")
-      //   .select("*", {
-      //     count: "exact",
-      //     head: true,
-      //   })
-      //   .eq("user_id", currentUser);
-      // console.log(data);
-      // const numOfEntries = count;
-      // //list is full
-      // if (numOfEntries! >= 10) {
-      //   const { error } = await LocalSupabaseClient.from("history")
-      //     .delete()
-      //     .eq("user_id", currentUser)
-      //     .eq("num", 10);
-      //   if (error == null) {
-      //     const { data, error } = await LocalSupabaseClient.rpc("increment", {
-      //       x: 1,
-      //       user_id: currentUser,
-      //     });
-      //     console.log(data);
-      //     console.log(error);
-      //   }
-      //   this.insertHistory(songID, 1);
-      // } else {
-      //   // list is not full
-      //   this.insertHistory(songID, numOfEntries! + 1);
-      // }
-    }
+    // // song not in list
+    // const { data, count } = await LocalSupabaseClient.from("history")
+    //   .select("*", {
+    //     count: "exact",
+    //     head: true,
+    //   })
+    //   .eq("user_id", currentUser);
+    // console.log(data);
+    // const numOfEntries = count;
+    // //list is full
+    // if (numOfEntries! >= 10) {
+    //   const { error } = await LocalSupabaseClient.from("history")
+    //     .delete()
+    //     .eq("user_id", currentUser)
+    //     .eq("num", 10);
+    //   if (error == null) {
+    //     const { data, error } = await LocalSupabaseClient.rpc("increment", {
+    //       x: 1,
+    //       user_id: currentUser,
+    //     });
+    //     console.log(data);
+    //     console.log(error);
+    //   }
+    //   this.insertHistory(songID, 1);
+    // } else {
+    //   // list is not full
+    //   this.insertHistory(songID, numOfEntries! + 1);
+    // }
+    // }
   },
 
-  async insertHistory(songID: string, numOfEntries: number) {
-    const { error } = await LocalSupabaseClient.from("history").insert({
-      history_id: uuidv4(),
-      user_id: currentUser,
-      song_id: songID,
-      num: numOfEntries,
-    });
+  async insertHistory(songID: string) {
+    const { count, error } = await LocalSupabaseClient.from("history")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", currentUser);
 
-    console.log(error);
+    console.log("Count", count);
+
+    if (count! < 10) {
+      const { error } = await LocalSupabaseClient.from("history").insert({
+        history_id: uuidv4(),
+        user_id: currentUser,
+        song_id: songID,
+        num: count! + 1,
+      });
+    } else {
+      const { error } = await LocalSupabaseClient.from("history")
+        .delete()
+        .eq("user_id", currentUser)
+        .eq("num", 1);
+      if (error == null) {
+        const { data, error } = await LocalSupabaseClient.rpc("decrement", {
+          x: 1,
+          user_id: currentUser,
+        });
+        console.log(data);
+        console.log(error);
+        this.insertHistory(songID);
+      }
+    }
   },
 
   async isSongInHistory(songID: string) {
