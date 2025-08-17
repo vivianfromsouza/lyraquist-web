@@ -81,12 +81,12 @@ function PlaylistInfoScreen() {
     });
   }
 
-  function likedToNot(songID) {
-    RecordReaderWriter.unlikeSong(songID);
+  function likedToNot(spotifyURL) {
+    RecordReaderWriter.unlikeSongByURL(spotifyURL);
   }
 
-  function notToLiked(songID) {
-    RecordReaderWriter.likeSong(songID);
+  function notToLiked(spotifyURL, track) {
+    RecordReaderWriter.likeSongByURL(songID, track);
   }
 
   const deletePlaylistAlert = () => {
@@ -362,7 +362,7 @@ function PlaylistInfoScreen() {
                       }}
                     >
                       {item.isLiked ? (
-                        <Pressable onPress={() => likedToNot(item.songID)}>
+                        <Pressable onPress={() => likedToNot(item.spotifyURL)}>
                           {/* <MaterialCommunityIcons
                               name="heart"
                               size={32}
@@ -372,7 +372,7 @@ function PlaylistInfoScreen() {
                           <FavoriteIcon />
                         </Pressable>
                       ) : (
-                        <Pressable onPress={() => notToLiked(item.songID)}>
+                        <Pressable onPress={() => notToLiked(item.spotifyURL, item)}>
                           {/* <MaterialCommunityIcons
                               name="heart-outline"
                               size={32}

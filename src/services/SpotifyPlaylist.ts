@@ -74,17 +74,17 @@ const SpotifyPlaylist = {
             );
 
             const isSongInPlaylist = await RecordReaderWriter.isSongInPlaylist(
-              songID["song_id"],
+              tracks[i].track.id,
               playUID
             );
 
             if (!isSongInPlaylist) {
-              RecordReaderWriter.addSongToRecords(songID["song_id"], playUID);
+              RecordReaderWriter.addSongToRecords(tracks[i].track.id, playUID);
             }
 
           } else {
             const newSongID = await SongReaderWriter.addSongToDBFromSpotifyTrack(tracks[i]);
-            RecordReaderWriter.addSongToRecords(newSongID, playUID);
+            RecordReaderWriter.addSongToRecords(tracks[i].track.id, playUID);
           }
         }
       }

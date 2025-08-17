@@ -6,7 +6,6 @@ import SongReaderWriter from "./SongReaderWriter";
 
 const currentUser = localStorage.getItem("current_user");
 
-// WorkbookReaderWriter: Service that reads and writes workbook data from Firebase
 const RecordReaderWriter = {
   async getMySongs() {
     const { data } = await LocalSupabaseClient.from("records")
@@ -23,12 +22,12 @@ const RecordReaderWriter = {
     return data;
   },
 
-  async addSongToRecords(songID: string, playID: string) {
+  async addSongToRecords(spotifyURL: string, playID: string) {
     const { error } = await LocalSupabaseClient.from("records").insert({
       record_id: uuidv4(),
       user_id: currentUser,
       playlist_id: playID,
-      song_id: songID,
+      spotify_url: spotifyURL,
       is_liked: false,
     });
     console.log(error);
@@ -43,22 +42,22 @@ const RecordReaderWriter = {
         record_id,
         is_liked,
         user_id,
-        songs (song_id, name, artist, image_url, spotify_url, duration)
+        songs (name, artist, image_url, spotify_url, duration)
         `
       )
       .eq("playlist_id", playlistID)
       .eq("user_id", currentUser)
-      .order("song_id", { ascending: true });
+      .order("spotify_url", { ascending: true });
 
     console.log(error);
 
     return data;
   },
 
-  async deleteSongFromRecords(songID: string) {
+  async deleteSongFromRecords(spotifyURL: string) {
     const { error } = await LocalSupabaseClient.from("records")
       .delete()
-      .eq("song_id", songID)
+      .eq("spotify_url", spotifyURL)
       .eq("user_id", currentUser);
     return error;
   },
@@ -70,13 +69,6 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async likeSong(songID: string) {
-    const { error } = await LocalSupabaseClient.from("records")
-      .update({ is_liked: true })
-      .eq("song_id", songID)
-      .eq("user_id", currentUser);
-    return error;
-  },
 
   async likeSongByURL(spotifyURL: string, songDetails) {
     if (!(await SongReaderWriter.isSongInDB(spotifyURL))) {
@@ -94,20 +86,10 @@ const RecordReaderWriter = {
         record_id: uuidv4(),
         user_id: currentUser,
         playlist_id: null,
-        song_id: null,
         spotify_url: spotifyURL,
         is_liked: true,
       });
     }
-  },
-
-  async unlikeSong(songID: string) {
-    console.log(songID);
-    const { error } = await LocalSupabaseClient.from("records")
-      .update({ is_liked: false })
-      .eq("song_id", songID)
-      .eq("user_id", currentUser);
-    return error;
   },
 
   async unlikeSongByURL(spotifyURL: string) {
@@ -118,10 +100,10 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async isSongInPlaylist(songID: string, playlistID: string) {
+  async isSongInPlaylist(spotifyURL: string, playlistID: string) {
     const { count, status, error } = await LocalSupabaseClient.from("records")
       .select("*", { count: "exact", head: true })
-      .eq("song_id", songID)
+      .eq("spotify_url", spotifyURL)
       .eq("playlist_id", playlistID)
       .eq("user_id", currentUser);
     console.log(error);
@@ -148,10 +130,10 @@ const RecordReaderWriter = {
     return false;
   },
 
-  async getLike(songID: string) {
+  async getLike(spotifyURL: string) {
     const { data, error } = await LocalSupabaseClient.from("records")
       .select("is_liked")
-      .eq("song_id", songID)
+      .eq("spotify_url", spotifyURL)
       .eq("user_id", currentUser)
       .limit(1)
       .single();

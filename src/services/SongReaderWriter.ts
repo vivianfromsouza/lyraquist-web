@@ -33,23 +33,23 @@ const SongReaderWriter = {
     return getSong();
   },
 
+  // async addSongToDBFromSpotifyTrack(newSong) {
+  //   const song_id = uuidv4();
+  //   const { error } = await LocalSupabaseClient.from("songs").insert({
+  //     song_id: song_id,
+  //     name: newSong.track.name,
+  //     artist: newSong.track.artists[0].name,
+  //     image_url: newSong.track.album.images[0].url,
+  //     duration: newSong.track.duration_ms,
+  //     album: newSong.track.album.name,
+  //     spotify_url: newSong.track.id,
+  //   });
+  //   console.log(error);
+
+  //   return song_id;
+  // },
+
   async addSongToDBFromSpotifyTrack(newSong) {
-    const song_id = uuidv4();
-    const { error } = await LocalSupabaseClient.from("songs").insert({
-      song_id: song_id,
-      name: newSong.track.name,
-      artist: newSong.track.artists[0].name,
-      image_url: newSong.track.album.images[0].url,
-      duration: newSong.track.duration_ms,
-      album: newSong.track.album.name,
-      spotify_url: newSong.track.id,
-    });
-    console.log(error);
-
-    return song_id;
-  },
-
-  async addSongToDBFromCurrentTrack(newSong) {
     const song_id = uuidv4();
     const { error } = await LocalSupabaseClient.from("songs").insert({
       song_id: song_id,
