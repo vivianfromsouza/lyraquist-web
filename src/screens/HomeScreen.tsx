@@ -221,19 +221,19 @@ const HomeScreen: React.FC = () => {
         //   .subscribe((status) => console.log("P:" + status));
 
         // whenever a song is added or deleted, the home screen will update with new set of songs
-        // const handleRecordInserts = (payload) => {
-        //   getSongs();
-        // };
+        const handleRecordInserts = (payload) => {
+          getSongs();
+        };
 
         getSongs();
 
-        // LocalSupabaseClient.channel("records")
-        //   .on(
-        //     "postgres_changes",
-        //     { event: "*", schema: "public", table: "records" },
-        //     handleRecordInserts
-        //   )
-        //   .subscribe((status) => console.log(status));
+        LocalSupabaseClient.channel("records")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "records" },
+            handleRecordInserts
+          )
+          .subscribe((status) => console.log(status));
 
         // UserReaderWriter.getCurrentTrackDetails().then((track) => {
         //   console.log("CURR TRACK:");
