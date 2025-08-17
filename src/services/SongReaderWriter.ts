@@ -49,6 +49,22 @@ const SongReaderWriter = {
     return song_id;
   },
 
+  async addSongToDBFromCurrentTrack(newSong) {
+    const song_id = uuidv4();
+    const { error } = await LocalSupabaseClient.from("songs").insert({
+      song_id: song_id,
+      name: newSong.name,
+      artist: newSong.artists[0].name,
+      image_url: newSong.album.images[0].url,
+      duration: newSong.duration_ms,
+      album: newSong.album.name,
+      spotify_url: newSong.id,
+    });
+    console.log(error);
+
+    return song_id;
+  },
+
   async addSongToDBFromPlayItem(newSong) {
     console.log(newSong);
     const song_id = uuidv4();

@@ -2,6 +2,7 @@
 // Worked on by: Vivian D'Souza
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
+import SongReaderWriter from "./SongReaderWriter";
 
 const currentUser = localStorage.getItem("current_user");
 
@@ -13,7 +14,7 @@ const RecordReaderWriter = {
         `
         record_id,
         is_liked,
-        songs (song_id, spotify_url, name, artist, album, image_url, duration)
+        songs (spotify_url, name, artist, album, image_url, duration)
         `
       )
       .eq("user_id", currentUser)
@@ -77,11 +78,15 @@ const RecordReaderWriter = {
     return error;
   },
 
-  async likeSongByURL(spotifyURL: string) {
+  async likeSongByURL(spotifyURL: string, songDetails) {
+    if (!(await SongReaderWriter.isSongInDB(spotifyURL))) {
+      SongReaderWriter.addSongToDBFromSpotifyTrack(songDetails);
+    }
+
     if (await this.isSongInRecords(spotifyURL)) {
       const { error } = await LocalSupabaseClient.from("records")
         .update({ is_liked: true })
-        .eq("song_id", spotifyURL)
+        .eq("spotify_url", spotifyURL)
         .eq("user_id", currentUser);
       return error;
     } else {

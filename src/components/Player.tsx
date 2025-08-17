@@ -240,7 +240,7 @@ const Player = () => {
   }
 
   async function likeSong(spotifyURL: string) {
-    RecordReaderWriter.likeSongByURL(spotifyURL);
+    RecordReaderWriter.likeSongByURL(spotifyURL, current_track);
   }
 
   async function unlikeSong(spotifyURL: string) {
