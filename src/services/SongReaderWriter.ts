@@ -84,18 +84,17 @@ const SongReaderWriter = {
     }
 
     return false;
-    console.log(error);
   },
 
   async getSongIDByURL(spotifyURL: string) {
     const { data } = await LocalSupabaseClient.from("songs")
       .select("song_id")
-      .eq("spotify_url", spotifyURL)
+      .eq("spotify_url", spotifyURL.split(":")[2])
       .limit(1)
       .single()
       .throwOnError();
     console.log(data);
-    return data;
+    return data["song_id"];
   },
 
   async getSongURL(songID: string) {

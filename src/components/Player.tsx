@@ -39,9 +39,6 @@ const Player = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
 
-  console.log(accessCode);
-  console.log(authCode);
-
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const [seekPosition, setSeekPosition] = useState(0);
@@ -56,6 +53,7 @@ const Player = () => {
 
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
   const [isTranslationOpen, setIsTranslationOpen] = useState(false);
+
 
   // this has to match template coming in from spotify's api
   const track = {
@@ -92,14 +90,14 @@ const Player = () => {
   };
 
   async function openLyrics() {
-   if (isLyricsOpen) {
-    handleLyricsClose();
-   } else {
-    handleLyricsOpen();
-   }
+    if (isLyricsOpen) {
+      handleLyricsClose();
+    } else {
+      handleLyricsOpen();
+    }
   }
 
-    const handleTranslationClose = () => {
+  const handleTranslationClose = () => {
     setIsTranslationOpen(false);
   };
 
@@ -108,11 +106,11 @@ const Player = () => {
   };
 
   async function openTranslation() {
-   if (isTranslationOpen) {
-    handleTranslationClose();
-   } else {
-    handleTranslationOpen();
-   }
+    if (isTranslationOpen) {
+      handleTranslationClose();
+    } else {
+      handleTranslationOpen();
+    }
   }
 
   async function toggleShuffle() {
@@ -262,22 +260,21 @@ const Player = () => {
           name: "Web Playback SDK",
           getOAuthToken: async (cb) => {
             console.log("LET US CHECK REFRESH");
-            await checkRefreshNeeded(new Date())
-              .then(async (response) => {
-                if (response === "true") {
-                  TokenReaderWriter.getRefreshToken().then(
-                    async (refreshToken) => {
-                      console.log("Refreshing access token...");
-                      await refresh(refreshToken);
-                    }
-                  );
-                  TokenReaderWriter.getAccessToken().then((token) => {
-                    accessToken = token;
-                  });
-                } else {
-                  accessToken = await TokenReaderWriter.getAccessToken();
-                }
-              })
+            await checkRefreshNeeded(new Date()).then(async (response) => {
+              if (response === "true") {
+                TokenReaderWriter.getRefreshToken().then(
+                  async (refreshToken) => {
+                    console.log("Refreshing access token...");
+                    await refresh(refreshToken);
+                  }
+                );
+                TokenReaderWriter.getAccessToken().then((token) => {
+                  accessToken = token;
+                });
+              } else {
+                accessToken = await TokenReaderWriter.getAccessToken();
+              }
+            });
 
             cb(accessToken);
             console.log("AUTHING YET AGAIN");
@@ -339,6 +336,7 @@ const Player = () => {
           }
 
           setCurrentTrack(state.track_window.current_track);
+
           setPaused(state.paused);
           setIsShuffled(state.shuffle_state);
 
@@ -485,7 +483,7 @@ const Player = () => {
               <h4>Current Volume: </h4>
               {volume}
 
-                            <button
+              <button
                 className="btn-spotify"
                 onClick={() => {
                   openLyrics();
@@ -494,7 +492,6 @@ const Player = () => {
                 Open Lyrics
               </button>
 
-              
               <button
                 className="btn-spotify"
                 onClick={() => {

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import Player from "../components/Player";
 import axios from "axios";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
+import HistoryReaderWriter from "../services/HistoryReaderWriter";
 
 interface PlayerContextType {
   playSong: (songId: string) => void;
@@ -45,7 +46,15 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         .catch((err) => {
           return err;
         });
+
+      HistoryReaderWriter.addUserHistory(songId, currentTrack).then((response) => {
+        console.log("History updated:", response);
+      });
     });
+
+    // HistoryReaderWriter.addUserHistory(songId).then((response) => {
+    //   console.log("History updated:", response);
+    // });
   };
 
   const playPlaylist = (playlistId: string, offset: string = "") => {
