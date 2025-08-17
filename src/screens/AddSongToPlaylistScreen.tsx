@@ -59,11 +59,7 @@ function AddSongToPlaylistScreen() {
   }
 
   async function addSong() {
-    const songUID = await SongReaderWriter.getSongIDByURL(songURL);
-    await RecordReaderWriter.addSongToRecords(
-      songUID.song_id,
-      selectedPlaylistId
-    );
+    await RecordReaderWriter.addSongToRecords(songURL, selectedPlaylistId);
   }
 
   async function createPlaylist(
@@ -82,9 +78,11 @@ function AddSongToPlaylistScreen() {
   async function getImageURL(file) {
     if (file) {
       const objectURL = URL.createObjectURL(file); // Create the object URL
-      const imageElement = document.getElementById("albumImage") as HTMLInputElement;
+      const imageElement = document.getElementById(
+        "albumImage"
+      ) as HTMLInputElement;
       imageElement.src = objectURL; // Set the image source to the object URL
-      console.log(objectURL)
+      console.log(objectURL);
       // URL.revokeObjectURL(objectURL);
     }
   }

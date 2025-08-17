@@ -69,9 +69,9 @@ const SpotifyPlaylist = {
         for (let i = 0; i < tracks.length; i++) {
           const isSongInDB = await SongReaderWriter.isSongInDB(tracks[i].track.id);
           if (isSongInDB) {
-            const songID = await SongReaderWriter.getSongIDByURL(
-              tracks[i].track.id
-            );
+            // const songID = await SongReaderWriter.getSongIDByURL(
+            //   tracks[i].track.id
+            // );
 
             const isSongInPlaylist = await RecordReaderWriter.isSongInPlaylist(
               tracks[i].track.id,
@@ -83,7 +83,7 @@ const SpotifyPlaylist = {
             }
 
           } else {
-            const newSongID = await SongReaderWriter.addSongToDBFromSpotifyTrack(tracks[i]);
+            // const newSongID = await SongReaderWriter.addSongToDBFromSpotifyTrack(tracks[i]);
             RecordReaderWriter.addSongToRecords(tracks[i].track.id, playUID);
           }
         }
