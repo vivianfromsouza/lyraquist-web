@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import axios from "axios";
 import {
@@ -13,6 +13,8 @@ import { Seekbar } from "react-seekbar";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import TranslateScreen from "../screens/TranslateScreen";
+import RecordReaderWriter from "../services/RecordReaderWriter";
+import PlayerContext from "../context/PlayerContext";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -60,7 +62,7 @@ const Player = () => {
   // this has to match template coming in from spotify's api
   const track = {
     name: "trackName",
-    spotifyURL: "trackURL",
+    uri: "trackURL",
     album: {
       name: "trackAlbum",
       images: [{ url: "trackImage" }],
@@ -92,14 +94,14 @@ const Player = () => {
   };
 
   async function openLyrics() {
-   if (isLyricsOpen) {
-    handleLyricsClose();
-   } else {
-    handleLyricsOpen();
-   }
+    if (isLyricsOpen) {
+      handleLyricsClose();
+    } else {
+      handleLyricsOpen();
+    }
   }
 
-    const handleTranslationClose = () => {
+  const handleTranslationClose = () => {
     setIsTranslationOpen(false);
   };
 
@@ -108,11 +110,11 @@ const Player = () => {
   };
 
   async function openTranslation() {
-   if (isTranslationOpen) {
-    handleTranslationClose();
-   } else {
-    handleTranslationOpen();
-   }
+    if (isTranslationOpen) {
+      handleTranslationClose();
+    } else {
+      handleTranslationOpen();
+    }
   }
 
   async function toggleShuffle() {
@@ -237,6 +239,14 @@ const Player = () => {
     }
   }
 
+  async function likeSong(spotifyURL: string) {
+    RecordReaderWriter.likeSongByURL(spotifyURL);
+  }
+
+  async function unlikeSong(spotifyURL: string) {
+    RecordReaderWriter.unlikeSongByURL(spotifyURL);
+  }
+
   useEffect(() => {
     getAuthCode();
     getAccessCode();
@@ -262,22 +272,21 @@ const Player = () => {
           name: "Web Playback SDK",
           getOAuthToken: async (cb) => {
             console.log("LET US CHECK REFRESH");
-            await checkRefreshNeeded(new Date())
-              .then(async (response) => {
-                if (response === "true") {
-                  TokenReaderWriter.getRefreshToken().then(
-                    async (refreshToken) => {
-                      console.log("Refreshing access token...");
-                      await refresh(refreshToken);
-                    }
-                  );
-                  TokenReaderWriter.getAccessToken().then((token) => {
-                    accessToken = token;
-                  });
-                } else {
-                  accessToken = await TokenReaderWriter.getAccessToken();
-                }
-              })
+            await checkRefreshNeeded(new Date()).then(async (response) => {
+              if (response === "true") {
+                TokenReaderWriter.getRefreshToken().then(
+                  async (refreshToken) => {
+                    console.log("Refreshing access token...");
+                    await refresh(refreshToken);
+                  }
+                );
+                TokenReaderWriter.getAccessToken().then((token) => {
+                  accessToken = token;
+                });
+              } else {
+                accessToken = await TokenReaderWriter.getAccessToken();
+              }
+            });
 
             cb(accessToken);
             console.log("AUTHING YET AGAIN");
@@ -482,10 +491,30 @@ const Player = () => {
                 Volume Down
               </button>
 
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  likeSong(current_track.uri.split(":")[2]);
+                  console.log("URL", current_track);
+                }}
+              >
+                Like
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  unlikeSong(current_track.uri.split(":")[2]);
+                  console.log("URL", current_track);
+                }}
+              >
+                Unlike
+              </button>
+
               <h4>Current Volume: </h4>
               {volume}
 
-                            <button
+              <button
                 className="btn-spotify"
                 onClick={() => {
                   openLyrics();
@@ -494,7 +523,6 @@ const Player = () => {
                 Open Lyrics
               </button>
 
-              
               <button
                 className="btn-spotify"
                 onClick={() => {
