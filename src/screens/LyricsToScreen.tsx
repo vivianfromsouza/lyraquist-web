@@ -210,9 +210,35 @@ export default function LyricsToScreen({ currentTrack }) {
         {header && (
           <Text style={styles.UIInfo}>Click a word to see its meaning!</Text>
         )}
-        <Text>{lyrics}</Text>
+        {/* <Text>{lyrics}</Text> */}
+        {lyrics.split(" ").map((word, idx) => (
+          <>
+            <TouchableHighlight
+              onPress={() => {
+                console.log(word);
+              }}
+            >
+              <Text key={idx} style={styles.lyricsText}>
+                {word}{" "}
+              </Text>
+            </TouchableHighlight>
+          </>
+        ))}
         <Text>TRANSLATION</Text>
-        <Text>{translation}</Text>
+
+        {translation.split(" ").map((word, idx) => (
+          <>
+            <TouchableHighlight
+              onPress={() => {
+                console.log(word);
+              }}
+            >
+              <Text key={idx} style={styles.lyricsText}>
+                {word}{" "}
+              </Text>
+            </TouchableHighlight>
+          </>
+        ))}
 
         <View style={styles.lyricBlock}>
           {lyricsObject.lyricsList.map((prop: string) => {
@@ -668,6 +694,7 @@ const styles = StyleSheet.create({
     lineHeight: 45,
     flexWrap: "wrap",
     flexDirection: "row",
+    color: "white",
   },
   lyricsText: {
     fontSize: getFontSize(25),
