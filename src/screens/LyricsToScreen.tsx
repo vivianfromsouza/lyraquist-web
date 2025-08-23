@@ -98,16 +98,17 @@ export default function LyricsToScreen({ currentTrack }) {
   // }
 
   async function getLyrics() {
-    const lyricsResponse = await LyricsService.getLyrics(playlistItem);
-    setLyrics(lyricsResponse);
-    getTranslation();
+    await LyricsService.getLyrics(playlistItem).then((lyricsResponse) => {
+      setLyrics(lyricsResponse);
+      getTranslation(lyricsResponse);
+    });
   }
 
-  async function getTranslation() {
+  async function getTranslation(lyricsResponse) {
     await getUserPrefLang();
     console.log(lyrics);
     const translationResponse =
-      await TranslationService.getTranslationAllLyrics(lyrics, "en");
+      await TranslationService.getTranslationAllLyrics(lyricsResponse, "en");
     setTranslation(translationResponse);
     // await LyricsService.getLyrics(playlistItem).then((lyricString) => {
     //   console.log(lyricString + " from LyricsService");

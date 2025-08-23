@@ -39,9 +39,6 @@ const Player = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
 
-  console.log(accessCode);
-  console.log(authCode);
-
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const [seekPosition, setSeekPosition] = useState(0);
@@ -330,8 +327,8 @@ const Player = () => {
             }
           });
 
-          console.log("song changed");
-          console.log(state.track_window.current_track);
+          // console.log("song changed");
+          // console.log(state.track_window.current_track);
 
           // setTrack(track);
           if (!state) {
