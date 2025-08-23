@@ -210,34 +210,45 @@ export default function LyricsToScreen({ currentTrack }) {
         {header && (
           <Text style={styles.UIInfo}>Click a word to see its meaning!</Text>
         )}
-        {/* <Text>{lyrics}</Text> */}
-        {lyrics.split(" ").map((word, idx) => (
-          <>
-            <TouchableHighlight
-              onPress={() => {
-                console.log(word);
-              }}
-            >
-              <Text key={idx} style={styles.lyricsText}>
-                {word}{" "}
-              </Text>
-            </TouchableHighlight>
-          </>
+        {lyrics.split("\n").map((line, lineIdx) => (
+          <View
+            key={lineIdx}
+            style={{ marginBottom: 10, flexDirection: "row", flexWrap: "wrap" }}
+          >
+            {line.split(" ").map((word, wordIdx) => (
+              <TouchableHighlight
+                key={wordIdx}
+                onPress={() => {
+                  console.log(word);
+                }}
+                style={{ marginRight: 4, marginBottom: 4 }}
+                underlayColor="#5bc8a6"
+              >
+                <Text style={styles.lyricsText}>{word}</Text>
+              </TouchableHighlight>
+            ))}
+          </View>
         ))}
         <Text>TRANSLATION</Text>
 
-        {translation.split(" ").map((word, idx) => (
-          <>
-            <TouchableHighlight
-              onPress={() => {
-                console.log(word);
-              }}
-            >
-              <Text key={idx} style={styles.lyricsText}>
-                {word}{" "}
-              </Text>
-            </TouchableHighlight>
-          </>
+        {translation.split("\n").map((line, lineIdx) => (
+          <View
+            key={lineIdx}
+            style={{ marginBottom: 10, flexDirection: "row", flexWrap: "wrap" }}
+          >
+            {line.split(" ").map((word, wordIdx) => (
+              <TouchableHighlight
+                key={wordIdx}
+                onPress={() => {
+                  console.log(word);
+                }}
+                style={{ marginRight: 4, marginBottom: 4 }}
+                underlayColor="#5bc8a6"
+              >
+                <Text style={styles.lyricsText}>{word}</Text>
+              </TouchableHighlight>
+            ))}
+          </View>
         ))}
 
         <View style={styles.lyricBlock}>
