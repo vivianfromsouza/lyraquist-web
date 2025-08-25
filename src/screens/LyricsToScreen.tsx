@@ -220,6 +220,7 @@ export default function LyricsToScreen({ currentTrack }) {
                 key={wordIdx}
                 onPress={() => {
                   console.log(word);
+                  setOpenModal(true);
                 }}
                 style={{ marginRight: 4, marginBottom: 4 }}
                 underlayColor="#5bc8a6"
@@ -241,6 +242,7 @@ export default function LyricsToScreen({ currentTrack }) {
                 key={wordIdx}
                 onPress={() => {
                   console.log(word);
+                  setOpenModal(true);
                 }}
                 style={{ marginRight: 4, marginBottom: 4 }}
                 underlayColor="#5bc8a6"
@@ -251,7 +253,7 @@ export default function LyricsToScreen({ currentTrack }) {
           </View>
         ))}
 
-        <View style={styles.lyricBlock}>
+        {/* <View style={styles.lyricBlock}>
           {lyricsObject.lyricsList.map((prop: string) => {
             // if at a word index to add a newLine renders an additonal text element of "\n"
             if (addnewLine()) {
@@ -322,7 +324,7 @@ export default function LyricsToScreen({ currentTrack }) {
               );
             }
           })}
-        </View>
+        </View> */}
         <Text>{"\n\n"}</Text>
       </ScrollView>
       {renderModal()}
@@ -440,7 +442,7 @@ export default function LyricsToScreen({ currentTrack }) {
                 setWorkbookName(e.value.name);
               }}
               optionLabel="name"
-              placeholder="hoose a workbook"
+              placeholder="Choose a workbook"
               className="w-full md:w-14rem"
             />
             {/* renders a TextInput when "create own workbook" option is chosen */}
