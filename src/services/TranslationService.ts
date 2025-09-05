@@ -1,15 +1,50 @@
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// // Worked on by: Ashley Bickham and Siri Avula
-// // TODO: FIX THIS FILE FOR NEW CONFIG
-// import { setupURLPolyfill } from "react-native-url-polyfill"
-// import axios from 'axios';
-// // import { APIKeys } from "../APIKeys";
+import axios from "axios";
 
-// // setup syntax for URLs for API Call
-// setupURLPolyfill();
+const TranslationService = {
+  // grabs lyrics using lrclib API: https://lrclib.net/docs
+  async getTranslationAllLyrics(lyrics, toLanguage): Promise<string> {
+    if (lyrics == undefined || "") {
+      return "";
+    }
+
+    const lyricsToSend = [{ Text: lyrics }];
+    // to hold translation
+    let translatedLyrics;
+    //setting up the API call request
+    const lyricsAPI =
+      "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" +
+      toLanguage;
+
+    const translationResponse: Promise<string> = axios({
+      url: lyricsAPI,
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "Content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": import.meta.env.VITE_TRANSLATE_KEY,
+        "Ocp-Apim-Subscription-Region": import.meta.env.VITE_TRANSLATE_REGION,
+      },
+      data: lyricsToSend,
+    })
+      .then(async (res) => {
+        console.log(res.data);
+
+        translatedLyrics = res.data[0].translations[0].text;
+        return translatedLyrics;
+      })
+      .catch((err) => {
+        console.log("ERROR WITH TRANSLATION:", err);
+        return "Translation not available for this track.";
+      });
+
+    return translationResponse;
+  },
+};
+
+export default TranslationService;
 
 // const TranslationService = {
-  
+
 //     // detects language and returns language code as a string
 //     async detectLanguage(text) : Promise<string> {
 //       if (text === undefined || text == ""){return ""}
