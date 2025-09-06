@@ -159,13 +159,16 @@ export default function SearchScreen() {
             data={searchResults}
             keyExtractor={(item) => item.spotifyURL}
             renderItem={renderSearchResultItem}
-            numColumns={5}
+            numColumns={7}
             contentContainerStyle={styles.flatListContainer}
             accessibilityLabel="searchResultItem"
             accessible={true}
             style={{marginBottom:20}}
             
           />
+        )}
+        {searchTerm.trim()=="" && (
+          <View style={{flex:1, height:100, backgroundColor:"#e8e1db"}}/>
         )}
       </SafeAreaView>
       </View>
@@ -244,7 +247,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   space: {
-    height: 20,
+    height: 20
   },
   noteAndButtonContainer: {
     marginHorizontal: 10,

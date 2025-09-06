@@ -423,15 +423,16 @@ const Player = () => {
               <View style={{justifyContent:'center', marginRight:30}}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                   <div className="now-playing__artist" style={{fontSize:15, color:"#e8e1db"}}>{currentTime}</div>
-                  <div className="now-playing__artist" style={{fontSize:15, color:"#e8e1db"}}>{totalTime}</div>
-                </View>
-                <View style={{alignItems:'center'}}>
+                  <View style={{alignItems:'center'}}>
                   <Seekbar
                       position={seekPosition}
                       duration={seekDuration}
                       onSeek={handleSeek}
                   />
                 </View>
+                  <div className="now-playing__artist" style={{fontSize:15, color:"#e8e1db"}}>{totalTime}</div>
+                </View>
+                
                 <div className="now-playing__side">
                   <button
                     className="btn-spotify"
