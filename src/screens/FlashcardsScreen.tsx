@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { View, Pressable, Dimensions, StyleSheet } from "react-native";
+import { View, Pressable, Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import Flashcard from "../components/Flashcard";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowUndo,  } from "react-ionicons";
+import { ArrowBackOutline } from "react-ionicons";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import WordReaderWriter from "../services/WordReaderWriter";
@@ -90,14 +91,12 @@ function FlashcardScreen() {
 
   return (
     <View style={styles.container}>
-      <Pressable
-        onPress={() => {
-          navigate(-1);
-        }}
-      >
-        {/* <Ionicons style={{}} name="arrow-undo" size={40} color="#303248" /> */}
-        <ArrowUndo color={"#00000"} height="25px" width="25px" />
-      </Pressable>
+      <TouchableOpacity
+                onPress={() => navigate(-1)}
+                  style={{marginLeft: 20,marginTop:20}}
+                >
+                  <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+      </TouchableOpacity>
 
       <Carousel
         swipeable={false}
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     backgroundColor: "#e8e1db",
-    height: SCREEN_HEIGHT,
+    height: '91vh',
   },
 });
 
