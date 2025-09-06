@@ -248,7 +248,7 @@ export default function SpanishScreen() {
           keyExtractor={(item) => item.spotifyURL}
           renderItem={renderSearchResultItem}
           numColumns={7} // Displaying six columns
-          style={{marginRight:30, marginLeft:30, marginBottom:30}}
+          style={{marginRight:30, marginLeft:30,marginBottom:10}}
         />
         </View>
         

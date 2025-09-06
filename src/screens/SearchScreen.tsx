@@ -102,7 +102,7 @@ export default function SearchScreen() {
 
   return (
     <>
-    <View>
+    <View  style={{height:'80vh'}}>
       
       <SafeAreaView style={styles.container}>
         {/* Blue section */}
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:"80vh",
   },
   blueSection: {
     backgroundColor: "#303248",

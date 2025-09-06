@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:"80vh",
   },
   blueSection: {
     backgroundColor: "#303248",
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   },
   languageItem: {
     alignItems: "center",
-    marginBottom: 20,
+   
   },
   playlistImage: {
     width: 150,
