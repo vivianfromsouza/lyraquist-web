@@ -135,8 +135,8 @@ export default function FrenchScreen() {
   // Component for like button
   const LikeButton = () => {
     return (
-      <Pressable onPress={handleLike}>
-        {starred ? <StarFilled /> : <StarOutlined />}
+      <Pressable onPress={handleLike} style={{fontSize:30, color:"#edc526", marginBottom:7, marginLeft:25}}>
+        {starred ? <StarFilled size={30} color={"#edc526"}/> : <StarOutlined size={30} />}
 
         {/* <AntDesign
           name={starred ? "star" : "staro"}
@@ -175,7 +175,7 @@ export default function FrenchScreen() {
                 value={searchTerm}
                 onChangeText={handleSearch}
               />
-              <SearchOutline color={"#00000"} height="250px" width="250px" />
+              <SearchOutline color={"#00000"} height="30px" width="30px" />
               {/* <Ionicons name="search" size={24} color="#989898" /> */}
             </View>
           </View>
@@ -202,21 +202,20 @@ export default function FrenchScreen() {
 
           {/* Display French */}
           <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginLeft: 30,
-              marginRight: 30,
-              marginTop: 15,
-            }}
-          >
-            <Text
-              style={{ fontSize: 30, fontWeight: "bold", marginBottom: 10 }}
-            >
-              French
-            </Text>
-            <LikeButton />
-          </View>
+          style={{
+            flexDirection: "row",
+            justifyContent:'center',
+            alignItems:'center',
+            marginLeft: 10,
+            marginRight: 30,
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ fontSize: 30, fontWeight: "bold", marginBottom: 10 }}>
+            French
+          </Text>
+          <LikeButton />
+        </View>
 
           {searchResults!.length == 0 && (
             <View
@@ -241,7 +240,8 @@ export default function FrenchScreen() {
             data={searchResults}
             keyExtractor={(item) => item.spotifyURL}
             renderItem={renderSearchResultItem}
-            numColumns={2} // Displaying two columns
+            numColumns={7} // Displaying two columns
+            style={{marginRight:30, marginLeft:30, marginBottom:30}}
           />
         </View>
       </>
