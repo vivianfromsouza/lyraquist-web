@@ -128,7 +128,7 @@ function WorkbookInfoScreen() {
   if (!loadingScreen) {
     return (
       <>
-        <View style={{ backgroundColor: "#e8e1db", flex: 1 }}>
+        <View style={{ backgroundColor: "#e8e1db", flex: 1, height:'80vh' }}>
           <View
             style={{
               paddingTop: 50,
@@ -139,17 +139,11 @@ function WorkbookInfoScreen() {
               flexDirection: "column",
               flex: 0.5,
               justifyContent: "space-between",
+              marginBottom:-20
+              
             }}
           >
-            <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
-              {/* <Ionicons
-                style={{ marginTop: 60 }}
-                name="arrow-back"
-                size={35}
-                color="white"
-              /> */}
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
+            
             <View
               style={{
                 flexDirection: "row",
@@ -157,8 +151,19 @@ function WorkbookInfoScreen() {
                 justifyContent: "space-between",
                 marginRight: 20,
                 flex: 0,
+                marginBottom:20
               }}
             >
+              <View style={{flexDirection:'row', alignItems:'center', marginBottom:20}}>
+              <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
+              {/* <Ionicons
+                style={{ marginTop: 60 }}
+                name="arrow-back"
+                size={35}
+                color="white"
+              /> */}
+              <ArrowBackOutline color={"#00000"} height="30px" width="30px" style={{marginTop:25}}/>
+            </Pressable>
               <Text
                 style={styles.title}
                 accessibilityLabel="workbookTitle"
@@ -166,14 +171,15 @@ function WorkbookInfoScreen() {
               >
                 {name}
               </Text>
-              <Pressable onPress={deleteWorkbookAlert}>
+              </View>
+              <Pressable onPress={deleteWorkbookAlert} style={{color:"#ff4a2a"}}>
                 {/* <Feather
                   name="x-circle"
                   size={30}
                   color="#ff4a2a"
                   style={{ paddingTop: 20 }}
                 /> */}
-                <FeatherIcon icon="x-circle" />
+                <FeatherIcon icon="x-circle" size={35}/>
               </Pressable>
             </View>
           </View>
@@ -189,7 +195,7 @@ function WorkbookInfoScreen() {
               accessible={true}
             />
             {/* <Ionicons name="search" size={24} color="#989898" /> */}
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            <SearchOutline color={"#00000"} height="40px" width="40px" />
           </View>
 
           <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
@@ -223,6 +229,8 @@ function WorkbookInfoScreen() {
                     marginVertical: 10,
                     fontSize: 18,
                     marginRight: 20,
+                    marginLeft:8,
+                    
                   }}
                   accessibilityLabel="description"
                   accessible={true}
@@ -368,7 +376,7 @@ function WorkbookInfoScreen() {
           {/* //</>Button to add a new word, navigates to newWord screen  */}
           <View
             style={{
-              flex: 1,
+              //flex: 1,
               // justifyContent: "flex-end",
             }}
           >
@@ -382,12 +390,13 @@ function WorkbookInfoScreen() {
                 flexDirection: "row",
                 marginLeft: 35,
                 alignItems: "center",
-                marginTop: 20,
+                //marginTop: 20,
+                marginBottom:70
               }}
               accessibilityLabel="addWord"
               accessible={true}
             >
-              <PlusCircleOutlined />
+              <PlusCircleOutlined style={{marginRight:9}}/>
               {/* <AntDesign
                 name="pluscircleo"
                 size={25}
@@ -499,7 +508,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 20,
     paddingHorizontal: 15,
-    marginTop: 20,
+    marginTop: 30,
     alignItems: "center",
   },
   searchInput: {
@@ -524,6 +533,7 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "80%",
+    marginBottom:20,
   },
   buttonText: {
     fontWeight: "bold",
