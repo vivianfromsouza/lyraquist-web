@@ -86,7 +86,7 @@ export default function SearchLanguage() {
               value={searchTerm}
               onChangeText={(text) => setSearchTerm(text)}
             />
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            <SearchOutline color={"#00000"} height="30px" width="30px" />
           </View>
         </View>
 

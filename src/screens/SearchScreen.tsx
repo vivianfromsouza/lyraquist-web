@@ -102,6 +102,8 @@ export default function SearchScreen() {
 
   return (
     <>
+    <View>
+      
       <SafeAreaView style={styles.container}>
         {/* Blue section */}
         <View style={styles.blueSection}>
@@ -122,7 +124,7 @@ export default function SearchScreen() {
               accessibilityLabel="searchInput" // Add accessibility label for search input
               accessible={true}
             />
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            <SearchOutline color={"#00000"} height="30px" width="30px" />
           </View>
         </View>
         <View style={styles.space} />
@@ -157,13 +159,16 @@ export default function SearchScreen() {
             data={searchResults}
             keyExtractor={(item) => item.spotifyURL}
             renderItem={renderSearchResultItem}
-            numColumns={2}
+            numColumns={5}
             contentContainerStyle={styles.flatListContainer}
             accessibilityLabel="searchResultItem"
             accessible={true}
+            style={{marginBottom:20}}
+            
           />
         )}
       </SafeAreaView>
+      </View>
     </>
   );
 }
