@@ -8,6 +8,7 @@ import {
   Pressable,
   TextInput,
   Alert,
+  TouchableOpacity
 } from "react-native";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { ArrowBackOutline } from "react-ionicons";
@@ -128,23 +129,30 @@ function NewWorkbookScreen() {
       <View
         style={{
           backgroundColor: "#5bc8a6",
-          paddingTop: 45,
+          paddingTop: 10,
           borderBottomLeftRadius: 15,
           borderBottomRightRadius: 15,
           paddingBottom: 15,
           paddingLeft: 20,
+          
+          
         }}
       >
-        <Pressable onPress={() => navigate(-1)} style={{}}>
-          {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
-          <ArrowBackOutline />
-        </Pressable>
+        <View style={{flexDirection:'row', alignItems:'center', marginTop:30}}>
+        {/* Back Button */}
+        <TouchableOpacity
+          onPress={() => navigate(-1)}
+            style={{marginRight: 10,marginTop:7}}
+          >
+            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+        </TouchableOpacity>
         {newWorkbookName == "" && (
           <Text style={styles.title}>New Workbook</Text>
         )}
         {newWorkbookName != "" && (
           <Text style={styles.title}>{newWorkbookName}</Text>
         )}
+        </View>
       </View>
 
       <View style={styles.inputContainer}>
@@ -154,7 +162,7 @@ function NewWorkbookScreen() {
           color="black"
           style={{ marginRight: 18 }}
         /> */}
-        <FontAwesomeIcon icon={faBook} />
+        <FontAwesomeIcon icon={faBook} style={{fontSize:70, marginRight: 30}}/>
 
         <View style={styles.inputWrapper}>
           <View style={styles.inputRow}>
@@ -164,7 +172,7 @@ function NewWorkbookScreen() {
               color="black"
               style={styles.icon}
             /> */}
-            <FontAwesomeIcon icon={faPencil} />
+            <FontAwesomeIcon icon={faPencil} style={{fontSize:20, marginRight:10}} />
 
             <TextInput
               placeholder="New Workbook Name"
@@ -176,7 +184,7 @@ function NewWorkbookScreen() {
             />
           </View>
           <View style={styles.inputRow}>
-            <DescriptionIcon />
+            <DescriptionIcon style={{fontSize:24, marginRight:7}}/>
             <TextInput
               placeholder="New Workbook Description"
               value={description}
@@ -193,7 +201,7 @@ function NewWorkbookScreen() {
           onPress={() => setAddWord(true)}
           style={{
             flexDirection: "row",
-            marginLeft: 20,
+            marginLeft: 70,
             alignItems: "center",
             paddingBottom: 10,
           }}
@@ -204,7 +212,7 @@ function NewWorkbookScreen() {
             color="#303248"
             style={{ marginRight: 8 }}
           /> */}
-          <PlusCircleOutlined />
+          <PlusCircleOutlined style={{marginRight:8}}/>
           <Text style={{ fontSize: 18, color: "#303248", fontWeight: "bold" }}>
             Add Word
           </Text>
@@ -299,12 +307,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:'80vh'
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
     color: "white",
-    marginTop: 20,
+    marginTop: 0,
   },
   inputContainer: {
     flexDirection: "row",
