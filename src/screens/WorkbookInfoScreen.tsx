@@ -296,12 +296,12 @@ function WorkbookInfoScreen() {
                       }}
                     >
                       {item.is_starred ? (
-                        <Pressable onPress={() => starredToNot(item.word_id)}>
+                        <Pressable onPress={() => starredToNot(item.word_id)} style={{fontSize:30, color:"#edc526"}}>
                           <StarFilled />
                           {/* <AntDesign name="star" size={32} color="#edc526" /> */}
                         </Pressable>
                       ) : (
-                        <Pressable onPress={() => notToStarred(item.word_id)}>
+                        <Pressable onPress={() => notToStarred(item.word_id)} style={{fontSize:30,}}>
                           <StarOutlined />
                           {/* <AntDesign name="staro" size={32} color="#303248" /> */}
                         </Pressable>
