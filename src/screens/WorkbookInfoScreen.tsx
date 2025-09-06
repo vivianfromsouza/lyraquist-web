@@ -128,7 +128,7 @@ function WorkbookInfoScreen() {
   if (!loadingScreen) {
     return (
       <>
-        <View style={{ backgroundColor: "#e8e1db", flex: 1, height:'80vh' }}>
+        <View style={{ backgroundColor: "#e8e1db", flex: 1, height:'91vh' }}>
           <View
             style={{
               paddingTop: 50,
@@ -139,7 +139,7 @@ function WorkbookInfoScreen() {
               flexDirection: "column",
               flex: 0.5,
               justifyContent: "space-between",
-              marginBottom:-20
+              //marginBottom:-20
               
             }}
           >
@@ -151,10 +151,10 @@ function WorkbookInfoScreen() {
                 justifyContent: "space-between",
                 marginRight: 20,
                 flex: 0,
-                marginBottom:20
+                //marginBottom:20
               }}
             >
-              <View style={{flexDirection:'row', alignItems:'center', marginBottom:20}}>
+              <View style={{flexDirection:'row', alignItems:'center', }}>
               <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
               {/* <Ionicons
                 style={{ marginTop: 60 }}
@@ -390,8 +390,9 @@ function WorkbookInfoScreen() {
                 flexDirection: "row",
                 marginLeft: 35,
                 alignItems: "center",
-                //marginTop: 20,
-                marginBottom:70
+                marginTop: 20,
+                marginBottom:20
+
               }}
               accessibilityLabel="addWord"
               accessible={true}
