@@ -102,7 +102,7 @@ export default function SearchScreen() {
 
   return (
     <>
-    <View  style={{height:'80vh'}}>
+    <View  style={{height:'91vh'}}>
       
       <SafeAreaView style={styles.container}>
         {/* Blue section */}

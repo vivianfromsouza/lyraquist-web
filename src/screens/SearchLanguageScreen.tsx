@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height:"80vh",
+    height:'91vh'
   },
   blueSection: {
     backgroundColor: "#303248",

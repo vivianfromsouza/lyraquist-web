@@ -551,7 +551,7 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <Text>{"\n\n\n\n"}</Text>
+          {/*<Text>{"\n\n\n\n"}</Text>*/}
         </ScrollView>
 
         {/*<button
@@ -577,6 +577,7 @@ const styles = {
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    //height:'100vh'
   },
   introSect: {
     flex: 1,
@@ -603,6 +604,7 @@ const styles = {
   },
   workbookSect: {
     flex: 1,
+    
   },
   header: {
     paddingLeft: 20,

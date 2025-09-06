@@ -277,7 +277,7 @@ export default function GermanScreen() {
 // Styles for the components
 const styles = StyleSheet.create({
   container: {
-    height: SCREEN_HEIGHT,
+    height: '91vh',
     backgroundColor: "#e8e1db",
   },
   blueSection: {
