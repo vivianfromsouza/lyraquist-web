@@ -11,9 +11,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "primereact/dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import WordReaderWriter from "../services/WordReaderWriter";
+import DictionaryService from "../services/DictionaryService";
+import { set } from "firebase/database";
+import useSound from 'use-sound';
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -21,15 +24,29 @@ const getFontSize = (size) => size / fontScale;
 const WordModal = ({ openModal, setOpenModal, word }) => {
   const [workbookItems] = useState<any>([]);
   const [bookUID, setbookUID] = useState<string>();
+  const [translation, setTranslation] = useState("");
+  const [definition, setDefinition] = useState("");
+  const [pos, setPos] = useState("");
+  const [pronunciation, setPronunciation] = useState("");
+  const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
 
-  //for dictation functionality - NEED TO UPDATE
-  const speak = () => {
-    // Speech.speak(speechWord, {
-    //   language: songLang,
-    // });
-  };
+   async function getDefinition() {
+    await DictionaryService.getDefinition(word, ).then((definitionResponse) => {
+      setPos(definitionResponse[0].fl)
+      setDefinition(definitionResponse[0].shortdef[0])
+      setPronunciation(definitionResponse[0].pronunciationAudio)
+      console.log("definitionResponse", definitionResponse);
+    });
+  }
+
+    // parsing data from JSON response and put it in a string
+    useEffect(() => {
+      console.log("Ich renne...")
+      getDefinition();
+    }, [pronunciation, play]);
+  
 
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
@@ -80,13 +97,13 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
                     fontStyle: "italic",
                   }}
                 >
-                  {"TRANSLATION"}
+                  {definition}
                 </Text>
               </View>
             </View>
             {/*Button for dictation */}
             <Pressable
-              onPress={speak}
+              onPress={() => play}
               style={{ justifyContent: "center", alignItems: "center" }}
             >
               <FontAwesomeIcon icon={faVolumeUp} />
@@ -94,14 +111,14 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
               <Text style={{ fontSize: 10, color: "white" }}>
                 Press to Dictate
               </Text>
+              <audio src={pronunciation} />
             </Pressable>
           </View>
           <View style={{ padding: 10 }}>
-            <Text style={{ fontSize: 15, color: "white" }}>Definition:</Text>
+            <Text style={{ fontSize: 20, color: "white" }}>{definition}</Text>
             <Text style={{ fontSize: 15, color: "gray", fontStyle: "italic" }}>
-              {"PART OF SPEECH"}
+              {pos}
             </Text>
-            <Text style={{ fontSize: 20, color: "white" }}>{"DEFINITION"}</Text>
           </View>
 
           <Dropdown
