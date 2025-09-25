@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useContext } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import axios from "axios";
 import {
   checkRefreshNeeded,
@@ -14,6 +14,8 @@ import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import TranslateScreen from "../screens/TranslateScreen";
 import RecordReaderWriter from "../services/RecordReaderWriter";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PlayerContext from "../context/PlayerContext";
 
 const Player = () => {
@@ -33,7 +35,8 @@ const Player = () => {
 
   const [currentTime, setCurrentTime] = useState("0:00");
   const [totalTime, setTotalTime] = useState("0:00");
-  const [volume, setVolume] = useState(0.0); // Default volume
+  const [volume, setVolume] = useState(0.0);
+  const [isLiked, setIsLiked] = useState(false);
 
   const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
@@ -491,25 +494,25 @@ const Player = () => {
                 Volume Down
               </button>
 
-              <button
-                className="btn-spotify"
-                onClick={() => {
-                  likeSong(current_track.uri.split(":")[2]);
-                  console.log("URL", current_track);
-                }}
-              >
-                Like
-              </button>
-
-              <button
-                className="btn-spotify"
-                onClick={() => {
-                  unlikeSong(current_track.uri.split(":")[2]);
-                  console.log("URL", current_track);
-                }}
-              >
-                Unlike
-              </button>
+              {isLiked ? (
+                <Pressable
+                  onPress={() => {
+                    unlikeSong(current_track.uri.split(":")[2]);
+                    setIsLiked(false);
+                  }}
+                >
+                  <FavoriteIcon />
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={() => {
+                    likeSong(current_track.uri.split(":")[2]);
+                    setIsLiked(true);
+                  }}
+                >
+                  <FavoriteBorderIcon />
+                </Pressable>
+              )}
 
               <h4>Current Volume: </h4>
               {volume}

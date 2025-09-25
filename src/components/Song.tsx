@@ -11,7 +11,6 @@ const SongCard = ({ item }) => {
     <View style={{ marginLeft: 4 }}>
       <Pressable
         onPress={() => playSong(item.spotifyURL)}
-        // onPress={() => navigate("/play", { state: item })}
         style={{ margin: 10 }}
       >
         <View
@@ -48,7 +47,7 @@ const SongCard = ({ item }) => {
         </View>
       </Pressable>
 
-      <Pressable
+      {/* <Pressable
         onPress={() =>
           navigate("/playlist/addSong", {
             state: { song_id: item.spotifyURL },
@@ -62,7 +61,7 @@ const SongCard = ({ item }) => {
         }}
       >
         <PlusCircleOutlined />
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };
