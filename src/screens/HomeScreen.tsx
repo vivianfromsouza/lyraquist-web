@@ -4,7 +4,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StarredLang from "../components/StarredLang";
-import { SearchOutlined, ArrowRightOutlined, SettingOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  ArrowRightOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
@@ -180,17 +184,20 @@ const HomeScreen: React.FC = () => {
           )
           .subscribe((status) => console.log("H:" + status));
 
-        // const handleLanguageInserts = (payload) => {
-        //   getLanguages();
-        // };
+        const handleLanguageInserts = (payload) => {
+          console.log(payload);
+          getLanguages();
+        };
 
         getLanguages();
 
-        // LocalSupabaseClient.channel("languages").on(
-        //   "postgres_changes",
-        //   { event: "*", schema: "public", table: "languages" },
-        //   handleLanguageInserts
-        // );
+        LocalSupabaseClient.channel("languages")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "languages" },
+            handleLanguageInserts
+          )
+          .subscribe((status) => console.log("L:" + status));
 
         // const handleWorkbookInserts = (payload) => {
         //   getWorkbooks();
@@ -251,10 +258,25 @@ const HomeScreen: React.FC = () => {
       <>
         <ScrollView style={styles.container}>
           <View style={styles.introSect}>
-            <View style={{marginRight:20, marginTop: 20, marginBottom:-20, flexDirection:"row", justifyContent:"flex-end"}}>
-              <Pressable onPress={() => {navigate("/settings", { state: "isLoggedIn" });}}
-                  accessibilityLabel="settings">
-                <SettingOutlined style={{color: "#e8e1db", fontSize: 30}} size={100}/>
+            <View
+              style={{
+                marginRight: 20,
+                marginTop: 20,
+                marginBottom: -20,
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Pressable
+                onPress={() => {
+                  navigate("/settings", { state: "isLoggedIn" });
+                }}
+                accessibilityLabel="settings"
+              >
+                <SettingOutlined
+                  style={{ color: "#e8e1db", fontSize: 30 }}
+                  size={100}
+                />
               </Pressable>
             </View>
             <View
@@ -262,7 +284,7 @@ const HomeScreen: React.FC = () => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 marginRight: 20,
-                marginTop:0,
+                marginTop: 0,
               }}
             >
               <View>
@@ -324,13 +346,14 @@ const HomeScreen: React.FC = () => {
                   color="#e8e1db"
                   style={{ marginBottom: 15 }}
                 /> */}
-                  <SearchOutlined style={{color: "#e8e1db", fontSize: 35, marginBottom:10}} size={100}/>
+                  <SearchOutlined
+                    style={{ color: "#e8e1db", fontSize: 35, marginBottom: 10 }}
+                    size={100}
+                  />
                 </Pressable>
               </View>
             </View>
-            <View>
-
-            </View>
+            <View></View>
           </View>
           <View style={styles.starredLanguagesSect}>
             <Text
@@ -363,7 +386,7 @@ const HomeScreen: React.FC = () => {
                 style={{ marginLeft: 10, marginBottom: 12, marginRight: 10 }}
               >
                 {starredLanguages!.map((value, index) => (
-                  <StarredLang value={value} key={index} />
+                  <StarredLang value={value["name"]} key={index} />
                 ))}
                 <Pressable
                   style={{
@@ -395,7 +418,7 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.header}>Tune Back In</Text>
             {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
             {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
-            <ScrollView horizontal style={{marginRight:20, marginLeft:20}}>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {history!.length != 0 &&
                 history!.map((item: any, index: any) => (
                   <SongCard item={item} key={index} />
@@ -421,7 +444,7 @@ const HomeScreen: React.FC = () => {
 
           <View style={styles.savedSect}>
             <Text style={styles.header}>My Playlists</Text>
-            <ScrollView horizontal style={{marginRight:20, marginLeft:20}}>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {savedPlaylists!.length != 0 &&
@@ -449,7 +472,7 @@ const HomeScreen: React.FC = () => {
 
           <View style={styles.savedSect}>
             <Text style={styles.header}>Saved Songs</Text>
-            <ScrollView horizontal style={{marginRight:20, marginLeft:20}}>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {savedSongs!.length != 0 &&
@@ -511,7 +534,9 @@ const HomeScreen: React.FC = () => {
                 color="#303248"
                 style={{ marginRight: 5 }}
               /> */}
-                <PlusCircleOutlined style={{marginRight:5, color: '#303248'}}/>
+                <PlusCircleOutlined
+                  style={{ marginRight: 5, color: "#303248" }}
+                />
                 <Text
                   style={{
                     fontSize: getFontSize(15),
@@ -526,7 +551,7 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.noteText}>
               Save words in workbooks for quick access here!
             </Text>
-            <ScrollView horizontal style={{marginRight: 20, marginLeft: 20}}>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {workbooksList!.length != 0 &&
@@ -606,7 +631,6 @@ const styles = {
   },
   workbookSect: {
     flex: 1,
-    
   },
   header: {
     paddingLeft: 20,

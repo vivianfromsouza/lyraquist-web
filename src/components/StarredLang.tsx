@@ -1,4 +1,4 @@
-import { Text, View, Pressable } from "react-native";
+import { Text, View, Pressable } from "react-native-web";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { StarFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const StarredLang = ({ value }) => {
 
   return (
     <View>
-      <Pressable onPress={() => navigate("/language/"+ value.name.toLowerCase())}>
+      <Pressable testID="go-to-lang" onPress={() => navigate("/language/"+ value.toLowerCase())}>
         <View
           style={{
             flexDirection: "row",
@@ -32,11 +32,10 @@ const StarredLang = ({ value }) => {
               marginBottom: 7,
             }}
           >
-            {value.name}
+            {value}
           </Text>
           <Pressable onPress={deleteLang}>
-            {/* <AntDesign name="star" size={27} color="#edc526" /> */}
-            <StarFilled style={{fontSize:23, color:"#edc526", }}/>
+            <StarFilled data-testid="star-icon" style={{fontSize:23, color:"#edc526", }}/>
           </Pressable>
         </View>
         <View style={{ borderBottomColor: "gray", borderBottomWidth: 0.2 }} />

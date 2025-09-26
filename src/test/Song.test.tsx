@@ -1,8 +1,6 @@
-import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import SongCard from "../components/Song"; // Adjust path as needed
-import { vi, describe, test, expect, it, beforeAll, afterEach } from "vitest";
-import { verifyBeforeUpdateEmail } from "firebase/auth";
+import SongCard from "../components/Song";
+import { vi, describe, expect, it, beforeAll, afterEach } from "vitest";
 
 const mockPlaySong = vi.fn();
 
@@ -83,7 +81,6 @@ describe("SongCard", () => {
   });
 
   it("plays the song upon click", () => {
-    // render(<SongCard item={mockSong} />);
     expect(screen.getByTestId("play-song")).toBeInTheDocument();
     const playButton = screen.getByTestId("play-song");
     fireEvent.click(playButton);

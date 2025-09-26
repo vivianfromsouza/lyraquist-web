@@ -6,7 +6,7 @@ const currentUser = localStorage.getItem("current_user");
 const LanguageReaderWriter = {
   async getLanguages() {
     const { data, error } = await LocalSupabaseClient.from("languages")
-      .select()
+      .select("name")
       .eq("user_id", currentUser);
 
     console.log(error);
