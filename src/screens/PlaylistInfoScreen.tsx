@@ -66,16 +66,19 @@ function PlaylistInfoScreen() {
 
   async function getAllSongsFromPlaylist(playUID) {
     await RecordReaderWriter.getAllPlaylistSongs(playUID).then((mySongs) => {
-      const playItems: PlayItem[] = mySongs!.map((song) => ({
-        artist: song.songs["artist"],
-        spotifyURL: "spotify:track:" + song.songs["spotify_url"],
-        imageURL: song.songs["image_url"],
-        name: song.songs["name"],
-        album: song.songs["album"],
-        duration: song.songs["duration"],
-        recordID: song["record_id"],
-        isLiked: song["is_liked"],
-      }));
+      const playItems: PlayItem[] = mySongs!.map((song) =>
+        // console.log(song);
+        ({
+          artist: song.songs["artist"],
+          spotifyURL: "spotify:track:" + song.songs["spotify_url"],
+          imageURL: song.songs["image_url"],
+          name: song.songs["name"],
+          album: song.songs["album"],
+          duration: song.songs["duration"],
+          recordID: song["record_id"],
+          isLiked: song["is_liked"],
+        })
+      );
       setRenSongList(playItems);
     });
   }
@@ -153,11 +156,10 @@ function PlaylistInfoScreen() {
 
   // Filter the word list based on the search term
   const filteredWordList = renSongList
-    ? renSongList.filter((song) =>
-        song.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            song.artist
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
+    ? renSongList.filter(
+        (song) =>
+          song.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          song.artist.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 
@@ -371,7 +373,9 @@ function PlaylistInfoScreen() {
                           <FavoriteIcon />
                         </Pressable>
                       ) : (
-                        <Pressable onPress={() => notToLiked(item.spotifyURL, item)}>
+                        <Pressable
+                          onPress={() => notToLiked(item.spotifyURL, item)}
+                        >
                           {/* <MaterialCommunityIcons
                               name="heart-outline"
                               size={32}

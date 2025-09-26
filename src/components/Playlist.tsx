@@ -6,13 +6,14 @@ const PlaylistCard = ({ item }) => {
   return (
     <View style={{ marginLeft: 4 }}>
       <Pressable
-        onPress={() => navigate("/playlist", { state: item })} 
+        onPress={() => navigate("/playlist/", { state: item })}
         style={{ margin: 10 }}
       >
         <View
           style={{ backgroundColor: "white", elevation: 8, borderRadius: 5 }}
         >
           <Image
+            testID="playlist-image"
             style={{ width: 130, height: 130, borderRadius: 5 }}
             source={{ uri: item.image_url }}
           />
@@ -28,17 +29,6 @@ const PlaylistCard = ({ item }) => {
             }}
           >
             {item?.name}
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={{
-              fontSize: 13,
-              fontWeight: "500",
-              color: "black",
-              marginTop: 1,
-            }}
-          >
-            {item?.artist}
           </Text>
         </View>
       </Pressable>
