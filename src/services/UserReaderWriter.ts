@@ -131,7 +131,7 @@ const UserReaderWriter = {
         `
         current_track,
         user_id,
-        songs (spotify_url, song_id, name, album, artist, image_url, duration)
+        songs (spotify_url, name, album, artist, image_url, duration)
         `
       )
       .eq("user_id", currentUser)

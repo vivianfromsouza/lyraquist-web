@@ -73,7 +73,6 @@ function PlaylistInfoScreen() {
         name: song.songs["name"],
         album: song.songs["album"],
         duration: song.songs["duration"],
-        songID: song.songs["song_id"],
         recordID: song["record_id"],
         isLiked: song["is_liked"],
       }));

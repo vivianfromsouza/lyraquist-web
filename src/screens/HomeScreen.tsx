@@ -76,7 +76,6 @@ const HomeScreen: React.FC = () => {
         name: song.songs["name"],
         album: song.songs["album"],
         duration: song.songs["duration"],
-        songID: song.songs["song_id"] ? song.songs["song_id"] : "null",
       }));
       setHistory(historySongs);
       // setLoadingScreen(false);
