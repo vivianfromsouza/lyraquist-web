@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import SongCard from "../components/Song";
+import Workbook from "../../components/Workbook";
 import { vi, describe, expect, it, beforeAll, afterEach } from "vitest";
+import { userEvent } from "@vitest/browser/context";
 
 const mockPlaySong = vi.fn();
 
@@ -48,42 +49,41 @@ vi.mock("../context/PlayerContext", async () => {
   };
 });
 
+const mockNavigate = vi.fn();
+
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<any>("react-router-dom");
   return {
     ...actual,
-    useNavigate: () => vi.fn(),
+    useNavigate: () => mockNavigate,
   };
 });
 
-const mockSong = {
-  name: "Test Song",
-  artist: "Test Artist",
-  imageURL: "https://picsum.photos/536/354",
-  album: "Test Album",
-  duration: 123456,
-  spotifyURL: "spotify:track:123",
+const mockWorkbook = {
+  name: "Test Workbook",
 };
 
-describe("SongCard", () => {
+describe("Workbook", () => {
   beforeAll(() => {
-    render(<SongCard item={mockSong} />);
+    render(<Workbook item={mockWorkbook} />);
   });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders song details", () => {
-    expect(screen.getByText("Test Song")).toBeInTheDocument();
-    expect(screen.getByText("Test Artist")).toBeInTheDocument();
-    expect(screen.getByTestId("song-image")).toBeInTheDocument();
+  it("renders Workbook", () => {
+    expect(screen.getByText("Test Workbook")).toBeInTheDocument();
+    expect(screen.getByTestId("workbook-icon")).toBeInTheDocument();
   });
 
-  it("plays the song upon click", () => {
-    expect(screen.getByTestId("play-song")).toBeInTheDocument();
-    const playButton = screen.getByTestId("play-song");
-    fireEvent.click(playButton);
-    expect(mockPlaySong).toHaveBeenCalledWith(mockSong.spotifyURL);
+  it("goes to workbook screen", async () => {
+    const workbookButton = screen.getByTestId("workbook-icon");
+    await userEvent.click(workbookButton);
+    expect(mockNavigate).toHaveBeenCalledWith("/workbook/info", {
+      state: {
+        name: "Test Workbook",
+      },
+    });
   });
 });

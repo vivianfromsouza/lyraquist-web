@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import StarredLang from "../components/StarredLang";
+import StarredLang from "../../components/StarredLang";
 import { vi, describe, expect, it, beforeAll, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";
-import LanguageReaderWriter from "../services/LanguageReaderWriter";
+import LanguageReaderWriter from "../../services/LanguageReaderWriter";
 
 const mockNavigate = vi.fn();
 
