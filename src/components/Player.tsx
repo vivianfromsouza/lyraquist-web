@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { useEffect, useState, useRef, useContext } from "react";
+import { View, ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import axios from "axios";
 import {
   checkRefreshNeeded,
@@ -13,6 +13,10 @@ import { Seekbar } from "react-seekbar";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import TranslateScreen from "../screens/TranslateScreen";
+import RecordReaderWriter from "../services/RecordReaderWriter";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import PlayerContext from "../context/PlayerContext";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -31,7 +35,8 @@ const Player = () => {
 
   const [currentTime, setCurrentTime] = useState("0:00");
   const [totalTime, setTotalTime] = useState("0:00");
-  const [volume, setVolume] = useState(0.0); // Default volume
+  const [volume, setVolume] = useState(0.0);
+  const [isLiked, setIsLiked] = useState(false);
 
   const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
@@ -57,7 +62,7 @@ const Player = () => {
   // this has to match template coming in from spotify's api
   const track = {
     name: "trackName",
-    spotifyURL: "trackURL",
+    uri: "trackURL",
     album: {
       name: "trackAlbum",
       images: [{ url: "trackImage" }],
@@ -89,14 +94,14 @@ const Player = () => {
   };
 
   async function openLyrics() {
-   if (isLyricsOpen) {
-    handleLyricsClose();
-   } else {
-    handleLyricsOpen();
-   }
+    if (isLyricsOpen) {
+      handleLyricsClose();
+    } else {
+      handleLyricsOpen();
+    }
   }
 
-    const handleTranslationClose = () => {
+  const handleTranslationClose = () => {
     setIsTranslationOpen(false);
   };
 
@@ -105,11 +110,11 @@ const Player = () => {
   };
 
   async function openTranslation() {
-   if (isTranslationOpen) {
-    handleTranslationClose();
-   } else {
-    handleTranslationOpen();
-   }
+    if (isTranslationOpen) {
+      handleTranslationClose();
+    } else {
+      handleTranslationOpen();
+    }
   }
 
   async function toggleShuffle() {
@@ -234,6 +239,14 @@ const Player = () => {
     }
   }
 
+  async function likeSong(spotifyURL: string) {
+    RecordReaderWriter.likeSongByURL(spotifyURL, current_track);
+  }
+
+  async function unlikeSong(spotifyURL: string) {
+    RecordReaderWriter.unlikeSongByURL(spotifyURL);
+  }
+
   useEffect(() => {
     getAuthCode();
     getAccessCode();
@@ -259,22 +272,21 @@ const Player = () => {
           name: "Web Playback SDK",
           getOAuthToken: async (cb) => {
             console.log("LET US CHECK REFRESH");
-            await checkRefreshNeeded(new Date())
-              .then(async (response) => {
-                if (response === "true") {
-                  TokenReaderWriter.getRefreshToken().then(
-                    async (refreshToken) => {
-                      console.log("Refreshing access token...");
-                      await refresh(refreshToken);
-                    }
-                  );
-                  TokenReaderWriter.getAccessToken().then((token) => {
-                    accessToken = token;
-                  });
-                } else {
-                  accessToken = await TokenReaderWriter.getAccessToken();
-                }
-              })
+            await checkRefreshNeeded(new Date()).then(async (response) => {
+              if (response === "true") {
+                TokenReaderWriter.getRefreshToken().then(
+                  async (refreshToken) => {
+                    console.log("Refreshing access token...");
+                    await refresh(refreshToken);
+                  }
+                );
+                TokenReaderWriter.getAccessToken().then((token) => {
+                  accessToken = token;
+                });
+              } else {
+                accessToken = await TokenReaderWriter.getAccessToken();
+              }
+            });
 
             cb(accessToken);
             console.log("AUTHING YET AGAIN");
@@ -403,98 +415,106 @@ const Player = () => {
       <>
         <div className="container" style={{backgroundColor:"#303248"}}>
           <div className="main-wrapper">
-            <View
-              style={{flexDirection:'row', marginRight: 10, marginLeft: 10, alignItems:'center', justifyContent:'space-between'}}
-            >
-              <View style={{flexDirection:'row', alignItems:'center', marginTop:10}}>
-                <img
-                    src={current_track.album.images[0].url}
-                    className="now-playing__cover"
-                    alt=""
-                    style = {{height:70, width:70, marginBottom:10}}
-                />
-                <View style={{ marginLeft:10}}>
-                  <div className="now-playing__name" style={{fontWeight:'bold', color:"#e8e1db"}}>{current_track.name}</div>
-                  <div className="now-playing__artist" style={{color:"#e8e1db"}}>
-                    {current_track.artists[0].name}
-                  </div>
-                </View>
-              </View>
-              <View style={{justifyContent:'center', marginRight:30}}>
-                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <div className="now-playing__artist" style={{fontSize:15, color:"#e8e1db"}}>{currentTime}</div>
-                  <View style={{alignItems:'center'}}>
-                  <Seekbar
-                      position={seekPosition}
-                      duration={seekDuration}
-                      onSeek={handleSeek}
-                  />
-                </View>
-                  <div className="now-playing__artist" style={{fontSize:15, color:"#e8e1db"}}>{totalTime}</div>
-                </View>
-                
-                <div className="now-playing__side">
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                    player.previousTrack();
-                    }}
-                  >
-                      &lt;&lt;
-                  </button>
+            <img
+              src={current_track.album.images[0].url}
+              className="now-playing__cover"
+              alt=""
+            />
 
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                    player.togglePlay();
-                    }}
-                  >
-                    {is_paused ? "PLAY" : "PAUSE"}
-                  </button>
+            <div className="now-playing__side">
+              <div className="now-playing__name">{current_track.name}</div>
+              <div className="now-playing__artist">
+                {current_track.artists[0].name}
+              </div>
 
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      player.nextTrack();
-                    }}
-                  >
-                    &gt;&gt;
-                  </button>
+              <div className="now-playing__artist">{currentTime}</div>
 
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      toggleShuffle();
-                    }}
-                  >
-                    Toggle Shuffle
-                  </button>
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      volumeUp();
-                    }}
-                  >
-                    Volume Up
-                  </button>
+              <div className="now-playing__artist">{totalTime}</div>
 
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      volumeDown();
-                    }}
-                  >
-                    Volume Down
-                  </button>
-                </div>
-              </View>
-              <View style={{flexDirection:'row', alignItems:'center', marginRight:20, color:"#e8e1db"}}>
-                <h4 style={{marginRight:5}}>Current Volume: </h4>
-                {volume}
-              </View>
-            </View>
-            <View style={{flexDirection:'row', justifyContent: 'center'}}>
-                            <button
+              <Seekbar
+                position={seekPosition}
+                duration={seekDuration}
+                onSeek={handleSeek}
+              />
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  player.previousTrack();
+                }}
+              >
+                &lt;&lt;
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  player.togglePlay();
+                }}
+              >
+                {is_paused ? "PLAY" : "PAUSE"}
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  player.nextTrack();
+                }}
+              >
+                &gt;&gt;
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  toggleShuffle();
+                }}
+              >
+                Toggle Shuffle
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  volumeUp();
+                }}
+              >
+                Volume Up
+              </button>
+
+              <button
+                className="btn-spotify"
+                onClick={() => {
+                  volumeDown();
+                }}
+              >
+                Volume Down
+              </button>
+
+              {isLiked ? (
+                <Pressable
+                  onPress={() => {
+                    unlikeSong(current_track.uri.split(":")[2]);
+                    setIsLiked(false);
+                  }}
+                >
+                  <FavoriteIcon />
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={() => {
+                    likeSong(current_track.uri.split(":")[2]);
+                    setIsLiked(true);
+                  }}
+                >
+                  <FavoriteBorderIcon />
+                </Pressable>
+              )}
+
+              <h4>Current Volume: </h4>
+              {volume}
+
+              <button
                 className="btn-spotify"
                 onClick={() => {
                   openLyrics();
@@ -504,7 +524,6 @@ const Player = () => {
                 Open Lyrics
               </button>
 
-              
               <button
                 className="btn-spotify"
                 onClick={() => {

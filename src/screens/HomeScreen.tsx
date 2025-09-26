@@ -95,17 +95,19 @@ const HomeScreen: React.FC = () => {
   async function getSongs() {
     // setLoadingScreen(true);
     // isLoading(true);
+
     await RecordReaderWriter.getMySongs().then((songs) => {
+      console.log("API songs response:", songs); // <--- Add this
+
       const savedSongs: PlayItem[] = songs.map((song) => ({
         artist: song.songs["artist"],
         spotifyURL: "spotify:track:" + song.songs["spotify_url"],
         imageURL: song.songs["image_url"],
         name: song.songs["name"],
-        album: song.songs["album"],
+        // album: song.songs["album"],
         duration: song.songs["duration"],
-        songID: song.songs["song_id"],
-        isLiked: song.songs["is_liked"],
-        recordID: song.songs["record_id"],
+        isLiked: song["is_liked"],
+        recordID: song["record_id"],
       }));
       setSavedSongs(savedSongs);
     });
@@ -144,7 +146,7 @@ const HomeScreen: React.FC = () => {
       console.log(localStorage.getItem("code_verifier"));
       // getAuthCode();
       // getAccessCode();
-      setLoadingScreen(true)
+      setLoadingScreen(true);
       try {
         // setLoadingScreen(true);
 
@@ -219,19 +221,19 @@ const HomeScreen: React.FC = () => {
         //   .subscribe((status) => console.log("P:" + status));
 
         // whenever a song is added or deleted, the home screen will update with new set of songs
-        // const handleRecordInserts = (payload) => {
-        //   getSongs();
-        // };
+        const handleRecordInserts = (payload) => {
+          getSongs();
+        };
 
         getSongs();
 
-        // LocalSupabaseClient.channel("records")
-        //   .on(
-        //     "postgres_changes",
-        //     { event: "*", schema: "public", table: "records" },
-        //     handleRecordInserts
-        //   )
-        //   .subscribe((status) => console.log(status));
+        LocalSupabaseClient.channel("records")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "records" },
+            handleRecordInserts
+          )
+          .subscribe((status) => console.log(status));
 
         // UserReaderWriter.getCurrentTrackDetails().then((track) => {
         //   console.log("CURR TRACK:");

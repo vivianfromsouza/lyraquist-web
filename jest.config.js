@@ -1,3 +1,5 @@
+import { defineConfig } from 'vitest/config'
+
 /** @type {import('jest').Config} */
 const config = {
   verbose: true,
@@ -5,6 +7,13 @@ const config = {
   "@testing-library/jest-dom/extend-expect"
 ]
 };
+
+export default defineConfig({
+  test: {
+    globals: true
+    
+  }
+})
 
 
 module.exports = config;
