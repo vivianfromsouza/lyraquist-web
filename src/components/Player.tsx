@@ -413,7 +413,7 @@ const Player = () => {
   } else {
     return (
       <>
-        <div className="container" style={{backgroundColor:"#303248"}}>
+        <div className="container" style={{ backgroundColor: "#303248" }}>
           <div className="main-wrapper">
             <img
               src={current_track.album.images[0].url}
@@ -519,7 +519,14 @@ const Player = () => {
                 onClick={() => {
                   openLyrics();
                 }}
-                style={{marginRight:30, marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}
+                style={{
+                  marginRight: 30,
+                  marginBottom: 10,
+                  fontWeight: "bold",
+                  backgroundColor: "#edc526",
+                  borderRadius: 5,
+                  fontSize: 15,
+                }}
               >
                 Open Lyrics
               </button>
@@ -529,7 +536,14 @@ const Player = () => {
                 onClick={() => {
                   openTranslation();
                 }}
-                style={{ marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}>
+                style={{
+                  marginBottom: 10,
+                  fontWeight: "bold",
+                  backgroundColor: "#edc526",
+                  borderRadius: 5,
+                  fontSize: 15,
+                }}
+              >
                 Open Translation
               </button>
 
@@ -542,10 +556,9 @@ const Player = () => {
                 // reintroduce later
                 // <TranslateScreen currentTrack={current_track}></TranslateScreen>
               )}
-            </View>
             </div>
           </div>
-        
+        </div>
       </>
     );
   }
