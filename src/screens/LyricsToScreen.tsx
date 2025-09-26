@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import LyricsService from "../services/LyricsService";
+import TranslationService from "../services/TranslationService";
 
 //setting up pixelRatio so the font sizing scale is based off device size
 const fontScale = PixelRatio.getFontScale();
@@ -58,6 +59,7 @@ export default function LyricsToScreen({ currentTrack }) {
   //hold list of words in lyrics and location of line breaks - the index of the word with the \n (for formatting)
   let lyricsObject = { lyricsList: [], linelocations: [] };
   const [lyrics, setLyrics] = useState("");
+  const [translation, setTranslation] = useState("");
 
   // this header is to show display for clicking the song instructions
   const [header] = useState(true);
@@ -74,7 +76,6 @@ export default function LyricsToScreen({ currentTrack }) {
   const [workbookName, setWorkbookName] = useState<string>();
   // const [isFocus, setIsFocus] = useState(false);
   const [workbookItems] = useState<any>([]);
-
 
   //grabs workbooks and sets prefLang from user if loggin
   // function onAuthStateChanged(user) {
@@ -97,8 +98,18 @@ export default function LyricsToScreen({ currentTrack }) {
   // }
 
   async function getLyrics() {
-    const lyricsResponse = await LyricsService.getLyrics(playlistItem);
-    setLyrics(lyricsResponse);
+    await LyricsService.getLyrics(playlistItem).then((lyricsResponse) => {
+      setLyrics(lyricsResponse);
+      getTranslation(lyricsResponse);
+    });
+  }
+
+  async function getTranslation(lyricsResponse) {
+    await getUserPrefLang();
+    console.log(lyrics);
+    const translationResponse =
+      await TranslationService.getTranslationAllLyrics(lyricsResponse, "en");
+    setTranslation(translationResponse);
     // await LyricsService.getLyrics(playlistItem).then((lyricString) => {
     //   console.log(lyricString + " from LyricsService");
     //   setLyrics(lyricString);
@@ -126,7 +137,6 @@ export default function LyricsToScreen({ currentTrack }) {
 
   // parsing data from JSON response and put it in a string
   useEffect(() => {
-    getUserPrefLang();
     getLyrics();
 
     if (prefLang != "") {
@@ -200,7 +210,35 @@ export default function LyricsToScreen({ currentTrack }) {
         {header && (
           <Text style={styles.UIInfo}>Click a word to see its meaning!</Text>
         )}
-        <Text>{lyrics}</Text>
+        {/* <Text>{lyrics}</Text> */}
+        {lyrics.split(" ").map((word, idx) => (
+          <>
+            <TouchableHighlight
+              onPress={() => {
+                console.log(word);
+              }}
+            >
+              <Text key={idx} style={styles.lyricsText}>
+                {word}{" "}
+              </Text>
+            </TouchableHighlight>
+          </>
+        ))}
+        <Text>TRANSLATION</Text>
+
+        {translation.split(" ").map((word, idx) => (
+          <>
+            <TouchableHighlight
+              onPress={() => {
+                console.log(word);
+              }}
+            >
+              <Text key={idx} style={styles.lyricsText}>
+                {word}{" "}
+              </Text>
+            </TouchableHighlight>
+          </>
+        ))}
 
         <View style={styles.lyricBlock}>
           {lyricsObject.lyricsList.map((prop: string) => {
@@ -595,7 +633,7 @@ export default function LyricsToScreen({ currentTrack }) {
           "Lexicala API does not have a definition for this word yet.";
         // fromLang = "en";
       } else {
-       // fromLang = prefLang;
+        // fromLang = prefLang;
       }
     }
 
@@ -656,6 +694,7 @@ const styles = StyleSheet.create({
     lineHeight: 45,
     flexWrap: "wrap",
     flexDirection: "row",
+    color: "white",
   },
   lyricsText: {
     fontSize: getFontSize(25),

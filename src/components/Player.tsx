@@ -44,9 +44,6 @@ const Player = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
 
-  console.log(accessCode);
-  console.log(authCode);
-
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const [seekPosition, setSeekPosition] = useState(0);
@@ -342,8 +339,8 @@ const Player = () => {
             }
           });
 
-          console.log("song changed");
-          console.log(state.track_window.current_track);
+          // console.log("song changed");
+          // console.log(state.track_window.current_track);
 
           // setTrack(track);
           if (!state) {
@@ -416,7 +413,7 @@ const Player = () => {
   } else {
     return (
       <>
-        <div className="container">
+        <div className="container" style={{backgroundColor:"#303248"}}>
           <div className="main-wrapper">
             <img
               src={current_track.album.images[0].url}
@@ -522,6 +519,7 @@ const Player = () => {
                 onClick={() => {
                   openLyrics();
                 }}
+                style={{marginRight:30, marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}
               >
                 Open Lyrics
               </button>
@@ -531,7 +529,7 @@ const Player = () => {
                 onClick={() => {
                   openTranslation();
                 }}
-              >
+                style={{ marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}>
                 Open Translation
               </button>
 
@@ -544,9 +542,10 @@ const Player = () => {
                 // reintroduce later
                 // <TranslateScreen currentTrack={current_track}></TranslateScreen>
               )}
+            </View>
             </div>
           </div>
-        </div>
+        
       </>
     );
   }

@@ -103,7 +103,7 @@ export default function SettingsScreen() {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                marginTop: 60,
+                marginTop: 30,
                 marginLeft: 20,
                 marginRight: 20,
               }}
@@ -128,7 +128,7 @@ export default function SettingsScreen() {
                         /> */}
 
                 <ArrowBackOutline
-                  color={"#00000"}
+                  color={"#e8e1db"}
                   height="25px"
                   width="25px"
                 />
@@ -141,6 +141,7 @@ export default function SettingsScreen() {
                   flex: 1,
                   resizeMode: "contain",
                   marginBottom: 7,
+                  marginLeft:-19
                 }}
               />
             </View>
@@ -160,18 +161,18 @@ export default function SettingsScreen() {
               marginTop: 30,
             }}
           >
-            <View style={{}}>
-              <View style={styles.circle} />
-              {/* <SimpleLineIcons
+             {/*<View style={{justifyContent:'center'}}>
+             <View style={{}} />
+               <SimpleLineIcons
                 style={{ marginLeft: 30 }}
                 name="user"
                 size={40}
                 color="#303248"
-              /> */}
-              <SimpleLineIcon name="icon-user" size="medium" />
-            </View>
+              /> 
+              <SimpleLineIcon name="icon-user" size="medium"  />
+              </View>*/}
             <View
-              style={{ marginLeft: 30 }}
+              style={{ marginLeft: 30, justifyContent:'center', alignItems:'center' }}
               accessibilityLabel="profileInfo"
               accessible={true}
             >
@@ -181,9 +182,17 @@ export default function SettingsScreen() {
                 accessible={true}
               >
                 {name}
-                {email}
+                
               </Text>
-              <Text style={{ color: "gray" }}>View Profile Information</Text>
+              <Text
+                style={{ fontSize: 20, fontWeight: "bold", color: "#303248" }}
+                accessibilityLabel="email"
+                accessible={true}
+              >
+                {email}
+                
+              </Text>
+              <Text style={{ color: "gray", marginTop:2 }}>View Profile Information</Text>
             </View>
             {/* <MaterialIcons
               style={{ alignSelf: "flex-end", marginLeft: 80 }}
@@ -342,6 +351,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:'91vh'
   },
   introSect: {
     flex: 1,
@@ -376,7 +386,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     position: "absolute",
     marginLeft: 20,
-    marginTop: -6,
+    marginBottom: 70
   },
   logOut: {
     borderRadius: 15,
