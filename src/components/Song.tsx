@@ -1,6 +1,5 @@
-import { Text, View, Image, Pressable } from "react-native";
+import { Text, View, Image, Pressable } from "react-native-web";
 import { usePlayer } from "../context/PlayerContext";
-import { PlusCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 const SongCard = ({ item }) => {
@@ -10,6 +9,7 @@ const SongCard = ({ item }) => {
   return (
     <View style={{ marginLeft: 4 }}>
       <Pressable
+        testID="play-song"
         onPress={() => playSong(item.spotifyURL)}
         style={{ margin: 10 }}
       >
@@ -17,6 +17,7 @@ const SongCard = ({ item }) => {
           style={{ backgroundColor: "white", elevation: 8, borderRadius: 5 }}
         >
           <Image
+            testID="song-image"
             style={{ width: 130, height: 130, borderRadius: 5 }}
             source={{ uri: item.imageURL }}
           />
@@ -46,22 +47,6 @@ const SongCard = ({ item }) => {
           </Text>
         </View>
       </Pressable>
-
-      {/* <Pressable
-        onPress={() =>
-          navigate("/playlist/addSong", {
-            state: { song_id: item.spotifyURL },
-          })
-        }
-        style={{
-          flexDirection: "row",
-          marginLeft: 20,
-          alignItems: "center",
-          paddingTop: 15,
-        }}
-      >
-        <PlusCircleOutlined />
-      </Pressable> */}
     </View>
   );
 };
