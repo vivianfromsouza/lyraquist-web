@@ -8,7 +8,6 @@ import {
   Pressable,
   Dimensions,
   TextInput,
-  Image,
 } from "react-native";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -19,11 +18,10 @@ import RecordReaderWriter from "../services/RecordReaderWriter";
 import { PlayItem } from "../models/Types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PlayCircleFilled } from "@ant-design/icons";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { usePlayer } from "../context/PlayerContext";
 import { toast, ToastContainer } from "react-toastify";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
+import PlaylistItem from "../components/PlaylistItem";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -31,7 +29,6 @@ function PlaylistInfoScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const playlistItem = location.state;
-  // change to song list
   const [renSongList, setRenSongList] = useState<PlayItem[]>([]);
   const name = playlistItem.name;
   const playUID = playlistItem.playlist_id;
@@ -44,7 +41,6 @@ function PlaylistInfoScreen() {
     try {
       getAllSongsFromPlaylist(playUID);
 
-      // whenever a playlist is added or deleted, the home screen will update with new set of playlist
       const handleRecordInserts = (payload) => {
         console.log(payload);
         getAllSongsFromPlaylist(playUID);
@@ -57,8 +53,6 @@ function PlaylistInfoScreen() {
           handleRecordInserts
         )
         .subscribe();
-
-      // isLoadingScreen(false);
     } catch (err) {
       console.log(err);
     }
@@ -66,29 +60,18 @@ function PlaylistInfoScreen() {
 
   async function getAllSongsFromPlaylist(playUID) {
     await RecordReaderWriter.getAllPlaylistSongs(playUID).then((mySongs) => {
-      const playItems: PlayItem[] = mySongs!.map((song) =>
-        // console.log(song);
-        ({
-          artist: song.songs["artist"],
-          spotifyURL: "spotify:track:" + song.songs["spotify_url"],
-          imageURL: song.songs["image_url"],
-          name: song.songs["name"],
-          album: song.songs["album"],
-          duration: song.songs["duration"],
-          recordID: song["record_id"],
-          isLiked: song["is_liked"],
-        })
-      );
+      const playItems: PlayItem[] = mySongs!.map((song) => ({
+        artist: song.songs["artist"],
+        spotifyURL: "spotify:track:" + song.songs["spotify_url"],
+        imageURL: song.songs["image_url"],
+        name: song.songs["name"],
+        album: song.songs["album"],
+        duration: song.songs["duration"],
+        recordID: song["record_id"],
+        isLiked: song["is_liked"],
+      }));
       setRenSongList(playItems);
     });
-  }
-
-  function likedToNot(spotifyURL) {
-    RecordReaderWriter.unlikeSongByURL(spotifyURL);
-  }
-
-  function notToLiked(spotifyURL, track) {
-    RecordReaderWriter.likeSongByURL(songID, track);
   }
 
   const deletePlaylistAlert = () => {
@@ -117,41 +100,10 @@ function PlaylistInfoScreen() {
     );
   };
 
-  const deleteSongAlert = (recordID: string | undefined) => {
-    toast(
-      "Are you Sure? This song will be removed from this playlist if deleted.",
-      { closeButton: deleteSongAlertButton(recordID) }
-    );
-  };
-
-  const deleteSongAlertButton = (recordID: string | undefined) => {
-    return (
-      <>
-        <button
-          onClick={() => console.log("Cancel Pressed")}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={() => deleteSongFromPlaylist(recordID)}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-        >
-          Delete
-        </button>
-      </>
-    );
-  };
-
   function deletePlaylist() {
     PlaylistReaderWriter.deletePlaylist(playUID);
     Alert.alert("Playlist deleted!");
     navigate("/home");
-  }
-
-  function deleteSongFromPlaylist(recordID) {
-    console.log("Deleting song with record ID:", recordID);
-    RecordReaderWriter.deleteSongFromPlaylist(recordID);
   }
 
   // Filter the word list based on the search term
@@ -163,7 +115,6 @@ function PlaylistInfoScreen() {
       )
     : [];
 
-  // if (!loadingScreen) {
   return (
     <>
       <View style={{ backgroundColor: "#e8e1db", flex: 1 }}>
@@ -179,12 +130,9 @@ function PlaylistInfoScreen() {
           }}
         >
           <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
-            {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
             <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
           </Pressable>
-          {/* <Pressable onPress={deletePlaylistAlert}>
-              <FeatherIcon icon="x-circle" />
-            </Pressable> */}
+
           <View
             style={{
               flexDirection: "row",
@@ -207,21 +155,11 @@ function PlaylistInfoScreen() {
               </Pressable>
 
               <Pressable onPress={deletePlaylistAlert}>
-                {/* <Feather
-                    name="x-circle"
-                    size={30}
-                    color="#ff4a2a"
-                    accessibilityLabel="delete"
-                    accessible={true}
-                    style={{ paddingLeft: 20, paddingTop: 20 }}
-                  /> */}
                 <FeatherIcon icon="x-circle" />
               </Pressable>
             </View>
-            {/* </Pressable> */}
           </View>
         </View>
-        {/* Search bar */}
 
         <View style={styles.searchBar}>
           <TextInput
@@ -232,7 +170,6 @@ function PlaylistInfoScreen() {
             accessibilityLabel="playlistSearch"
             accessible={true}
           />
-          {/* <Ionicons name="search" size={24} color="#989898" /> */}
           <SearchOutline />
         </View>
 
@@ -255,12 +192,6 @@ function PlaylistInfoScreen() {
                 paddingRight: 15,
               }}
             >
-              {/* <AntDesign
-                  name="infocirlceo"
-                  size={24}
-                  color="gray"
-                  style={{ marginHorizontal: 10 }}
-                /> */}
               <InfoCircleOutlined />
 
               <Text
@@ -310,105 +241,7 @@ function PlaylistInfoScreen() {
           accessible={true}
           numColumns={1}
           renderItem={({ item }) => {
-            return (
-              <>
-                <Pressable
-                  onPress={() => playPlaylist(spotifyURL, item.spotifyURL)}
-                >
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginHorizontal: 30,
-                      marginVertical: 7,
-                    }}
-                  >
-                    <View
-                      style={{ flexDirection: "row", alignItems: "center" }}
-                    >
-                      <Image
-                        style={{ width: 50, height: 50, borderRadius: 5 }}
-                        source={{ uri: item.imageURL }}
-                      />
-                      <View style={{ paddingLeft: 5 }}>
-                        <Text
-                          numberOfLines={1}
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: 14,
-                            maxWidth: 190,
-                          }}
-                        >
-                          {item["name"]}
-                        </Text>
-                        <Text
-                          numberOfLines={1}
-                          style={{
-                            maxWidth: 190,
-                            color: "grey",
-                          }}
-                        >
-                          {item["artist"]}
-                        </Text>
-                      </View>
-                    </View>
-
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        width: "30%",
-                        alignItems: "center",
-                      }}
-                    >
-                      {item.isLiked ? (
-                        <Pressable onPress={() => likedToNot(item.spotifyURL)}>
-                          {/* <MaterialCommunityIcons
-                              name="heart"
-                              size={32}
-                              color="#ff4a2a"
-                              onPress={() => likedToNot(item.songID)}
-                            /> */}
-                          <FavoriteIcon />
-                        </Pressable>
-                      ) : (
-                        <Pressable
-                          onPress={() => notToLiked(item.spotifyURL, item)}
-                        >
-                          {/* <MaterialCommunityIcons
-                              name="heart-outline"
-                              size={32}
-                              color="#ff4a2a"
-                              onPress={() => notToLiked(item.songID)}
-                            /> */}
-                          <FavoriteBorderIcon />
-                        </Pressable>
-                      )}
-
-                      <Pressable
-                        onPress={() => deleteSongAlert(item.recordID)}
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginRight: 5,
-                        }}
-                      >
-                        {/* <Feather name="x-circle" size={25} color="#ff4a2a" /> */}
-                        <FeatherIcon icon="x-circle" />
-                      </Pressable>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      borderBottomColor: "gray",
-                      borderBottomWidth: 0.5,
-                      marginHorizontal: 30,
-                    }}
-                  />
-                </Pressable>
-              </>
-            );
+            return <PlaylistItem item={item} key={item.spotifyURL} />;
           }}
         />
 
@@ -416,7 +249,6 @@ function PlaylistInfoScreen() {
           <Text
             style={{
               textAlign: "left",
-              // paddingTop: 20,
               paddingBottom: 240,
               color: "gray",
               fontSize: 15,
@@ -429,7 +261,6 @@ function PlaylistInfoScreen() {
           </Text>
         )}
 
-        {/*EDIT TO ADD NEW SONG? */}
         <Pressable
           onPress={() => navigate("/Search")}
           style={{
@@ -441,76 +272,14 @@ function PlaylistInfoScreen() {
           accessibilityLabel="addWord"
           accessible={true}
         >
-          {/* <AntDesign
-              name="pluscircleo"
-              size={25}
-              color="gray"
-              style={{ marginRight: 10 }}
-            /> */}
           <PlusCircleOutlined />
           <Text style={{ fontSize: 20, color: "gray" }}>Add New Song</Text>
         </Pressable>
 
         <Text>{"\n\n\n\n"}</Text>
-        {/*Needs styling*/}
       </View>
     </>
   );
-  // } else {
-  //   return (
-  //     <View>
-  //       <View
-  //         style={{
-  //           paddingTop: 50,
-  //           backgroundColor: "#5bc8a6",
-  //           paddingBottom: 15,
-  //           borderBottomLeftRadius: 15,
-  //           borderBottomRightRadius: 15,
-  //         }}
-  //       >
-  //         <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
-  //           {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
-  //           <ArrowBackOutline />
-  //         </Pressable>
-  //         <View
-  //           style={{
-  //             flexDirection: "row",
-  //             alignItems: "center",
-  //             justifyContent: "space-between",
-  //             marginRight: 20,
-  //           }}
-  //         >
-  //           <Text style={styles.title}>{name}</Text>
-  //           <Pressable onPress={deletePlaylistAlert}>
-  //             {/* <Feather
-  //               name="x-circle"
-  //               size={30}
-  //               color="#ff4a2a"
-  //               style={{ paddingTop: 20 }}
-  //             /> */}
-  //             <FeatherIcon icon="x-circle" />
-  //           </Pressable>
-  //         </View>
-  //       </View>
-
-  //       {/* Search bar */}
-  //       <View style={styles.searchBar}>
-  //         <TextInput
-  //           style={styles.searchInput}
-  //           placeholder="Search Words"
-  //           value={searchTerm}
-  //           onChangeText={setSearchTerm}
-  //         />
-  //         {/* <Ionicons name="search" size={24} color="#989898" /> */}
-  //         <SearchOutline />
-  //       </View>
-
-  //       <View style={styles.loading}>
-  //         <ActivityIndicator size="large" color="#303248" />
-  //       </View>
-  //     </View>
-  //   );
-  // }
 }
 
 const styles = StyleSheet.create({
