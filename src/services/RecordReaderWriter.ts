@@ -42,6 +42,7 @@ const RecordReaderWriter = {
         record_id,
         is_liked,
         user_id,
+        spotify_url,
         songs (name, artist, image_url, spotify_url, duration)
         `
       )
@@ -72,6 +73,7 @@ const RecordReaderWriter = {
 
   async likeSongByURL(spotifyURL: string, songDetails) {
     if (!(await SongReaderWriter.isSongInDB(spotifyURL))) {
+      console.log("NOT IN DB")
       SongReaderWriter.addSongToDBFromSpotifyTrack(songDetails);
     }
 
