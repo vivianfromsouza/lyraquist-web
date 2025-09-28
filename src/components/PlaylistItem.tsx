@@ -6,7 +6,7 @@ import RecordReaderWriter from "../services/RecordReaderWriter";
 import FeatherIcon from "feather-icons-react";
 import { toast } from "react-toastify";
 
-const PlaylistItem = ({ item }) => {
+const PlaylistItem = ({ item, playlistURL }) => {
   const { playPlaylist } = usePlayer();
 
   function likedToNot(spotifyURL) {
@@ -39,6 +39,7 @@ const PlaylistItem = ({ item }) => {
           Cancel
         </button>
         <button
+          data-testid="delete-button"
           onClick={() => deleteSongFromPlaylist(recordID)}
           className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
         >
@@ -51,7 +52,9 @@ const PlaylistItem = ({ item }) => {
   return (
     <>
       <Pressable
-        onPress={() => playPlaylist(item.playlistURL, item.spotifyURL)}
+        onPress={() =>
+          playPlaylist(playlistURL, "spotify:track:" + item.spotifyURL)
+        }
       >
         <View
           style={{
@@ -64,11 +67,13 @@ const PlaylistItem = ({ item }) => {
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image
+              testID="playlist-item-image"
               style={{ width: 50, height: 50, borderRadius: 5 }}
               source={{ uri: item.imageURL }}
             />
             <View style={{ paddingLeft: 5 }}>
               <Text
+                testID="playlist-item-name"
                 numberOfLines={1}
                 style={{
                   fontWeight: "bold",
@@ -79,6 +84,7 @@ const PlaylistItem = ({ item }) => {
                 {item["name"]}
               </Text>
               <Text
+                testID="playlist-item-artist"
                 numberOfLines={1}
                 style={{
                   maxWidth: 190,
@@ -99,16 +105,23 @@ const PlaylistItem = ({ item }) => {
             }}
           >
             {item.isLiked ? (
-              <Pressable onPress={() => likedToNot(item.spotifyURL)}>
+              <Pressable
+                testID="liked-icon"
+                onPress={() => likedToNot(item.spotifyURL)}
+              >
                 <FavoriteIcon />
               </Pressable>
             ) : (
-              <Pressable onPress={() => notToLiked(item.spotifyURL, item)}>
+              <Pressable
+                testID="unliked-icon"
+                onPress={() => notToLiked(item.spotifyURL, item)}
+              >
                 <FavoriteBorderIcon />
               </Pressable>
             )}
 
             <Pressable
+              testID="delete-icon"
               onPress={() => deleteSongAlert(item.recordID)}
               style={{
                 flexDirection: "row",
@@ -116,7 +129,6 @@ const PlaylistItem = ({ item }) => {
                 marginRight: 5,
               }}
             >
-              {/* <Feather name="x-circle" size={25} color="#ff4a2a" /> */}
               <FeatherIcon icon="x-circle" />
             </Pressable>
           </View>

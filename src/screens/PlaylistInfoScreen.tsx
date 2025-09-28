@@ -32,7 +32,7 @@ function PlaylistInfoScreen() {
   const [renSongList, setRenSongList] = useState<PlayItem[]>([]);
   const name = playlistItem.name;
   const playUID = playlistItem.playlist_id;
-  const spotifyURL = "spotify:playlist:" + playlistItem.spotify_url;
+  const playlistURL = "spotify:playlist:" + playlistItem.spotify_url;
   const description = playlistItem.description;
   const [searchTerm, setSearchTerm] = useState("");
   const { playPlaylist } = usePlayer();
@@ -62,7 +62,7 @@ function PlaylistInfoScreen() {
     await RecordReaderWriter.getAllPlaylistSongs(playUID).then((mySongs) => {
       const playItems: PlayItem[] = mySongs!.map((song) => ({
         artist: song.songs["artist"],
-        spotifyURL: "spotify:track:" + song.songs["spotify_url"],
+        spotifyURL: song.songs["spotify_url"],
         imageURL: song.songs["image_url"],
         name: song.songs["name"],
         album: song.songs["album"],
@@ -150,7 +150,7 @@ function PlaylistInfoScreen() {
             </Text>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Pressable onPress={() => playPlaylist(spotifyURL)}>
+              <Pressable onPress={() => playPlaylist(playlistURL)}>
                 <PlayCircleFilled />
               </Pressable>
 
@@ -241,7 +241,7 @@ function PlaylistInfoScreen() {
           accessible={true}
           numColumns={1}
           renderItem={({ item }) => {
-            return <PlaylistItem item={item} key={item.spotifyURL} />;
+            return <PlaylistItem item={item} playlistURL={playlistURL} key={item.spotifyURL} />;
           }}
         />
 

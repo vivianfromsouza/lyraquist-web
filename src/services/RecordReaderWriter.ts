@@ -73,6 +73,7 @@ const RecordReaderWriter = {
 
   async likeSongByURL(spotifyURL: string, songDetails) {
     if (!(await SongReaderWriter.isSongInDB(spotifyURL))) {
+      console.log("NOT IN DB")
       SongReaderWriter.addSongToDBFromSpotifyTrack(songDetails);
     }
 
