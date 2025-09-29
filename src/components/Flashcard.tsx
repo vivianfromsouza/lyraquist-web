@@ -9,6 +9,7 @@ const Flashcard = ({ wordItem }) => {
   const [flip, setFlip] = useState(false);
   return (
     <Pressable
+      testID="flashcard"
       onPress={() => {
         setFlip(!flip);
       }}

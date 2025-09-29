@@ -125,309 +125,9 @@ function WorkbookInfoScreen() {
       )
     : [];
 
-  if (!loadingScreen) {
-    return (
-      <>
-        <View style={{ backgroundColor: "#e8e1db", flex: 1, height:'91vh' }}>
-          <View
-            style={{
-              paddingTop: 50,
-              backgroundColor: "#5bc8a6",
-              paddingBottom: 15,
-              borderBottomLeftRadius: 15,
-              borderBottomRightRadius: 15,
-              flexDirection: "column",
-              flex: 0.5,
-              justifyContent: "space-between",
-              //marginBottom:-20
-              
-            }}
-          >
-            
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginRight: 20,
-                flex: 0,
-                //marginBottom:20
-              }}
-            >
-              <View style={{flexDirection:'row', alignItems:'center', }}>
-              <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
-              {/* <Ionicons
-                style={{ marginTop: 60 }}
-                name="arrow-back"
-                size={35}
-                color="white"
-              /> */}
-              <ArrowBackOutline color={"#00000"} height="30px" width="30px" style={{marginTop:25}}/>
-            </Pressable>
-              <Text
-                style={styles.title}
-                accessibilityLabel="workbookTitle"
-                accessible={true}
-              >
-                {name}
-              </Text>
-              </View>
-              <Pressable onPress={deleteWorkbookAlert} style={{color:"#ff4a2a"}}>
-                {/* <Feather
-                  name="x-circle"
-                  size={30}
-                  color="#ff4a2a"
-                  style={{ paddingTop: 20 }}
-                /> */}
-                <FeatherIcon icon="x-circle" size={35}/>
-              </Pressable>
-            </View>
-          </View>
-          {/* Search bar */}
-
-          <View style={styles.searchBar}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search Words"
-              value={searchTerm}
-              onChangeText={setSearchTerm}
-              accessibilityLabel="wordSearch"
-              accessible={true}
-            />
-            {/* <Ionicons name="search" size={24} color="#989898" /> */}
-            <SearchOutline color={"#00000"} height="40px" width="40px" />
-          </View>
-
-          <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
-            <Text style={{ fontSize: 18, paddingBottom: 3, color: "gray" }}>
-              Description
-            </Text>
-            <View
-              style={{
-                backgroundColor: "#e8e1db",
-                borderRadius: 10,
-                elevation: 5,
-              }}
-            >
-              <View
-                style={{
-                  borderRadius: 10,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingRight: 15,
-                }}
-              >
-                {/* <AntDesign
-                  name="infocirlceo"
-                  size={24}
-                  color="gray"
-                  style={{ marginHorizontal: 10 }}
-                /> */}
-                <InfoCircleOutlined />
-                <Text
-                  style={{
-                    marginVertical: 10,
-                    fontSize: 18,
-                    marginRight: 20,
-                    marginLeft:8,
-                    
-                  }}
-                  accessibilityLabel="description"
-                  accessible={true}
-                >
-                  {description}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginHorizontal: 30,
-              paddingTop: 15,
-              marginRight: 40,
-            }}
-          >
-            <Text style={{ color: "gray", marginLeft: 5 }}>Word</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "30%",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "gray", marginRight: 30 }}>Starred</Text>
-              <Text style={{ color: "gray" }}>Delete</Text>
-            </View>
-          </View>
-
-          <FlatList
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={true}
-            style={{
-              flex: 1,
-            }}
-            data={filteredWordList}
-            accessibilityLabel="words"
-            accessible={true}
-            numColumns={1}
-            renderItem={({ item }) => {
-              return (
-                <>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginHorizontal: 30,
-                      marginVertical: 5,
-                      //flex:1
-                    }}
-                  >
-                    <WordItem item={item} />
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        width: "30%",
-                        alignItems: "center",
-                      }}
-                    >
-                      {item.is_starred ? (
-                        <Pressable onPress={() => starredToNot(item.word_id)} style={{fontSize:30, color:"#edc526"}}>
-                          <StarFilled />
-                          {/* <AntDesign name="star" size={32} color="#edc526" /> */}
-                        </Pressable>
-                      ) : (
-                        <Pressable onPress={() => notToStarred(item.word_id)} style={{fontSize:30,}}>
-                          <StarOutlined />
-                          {/* <AntDesign name="staro" size={32} color="#303248" /> */}
-                        </Pressable>
-                      )}
-
-                      {/* {item !== null && (
-                        <>
-                          {item.isStarred && (
-                            <StarredButton
-                              word={item.wordUID}
-                              accessibilityLabel="starWord"
-                              accessible={true}
-                            />
-                          )}
-                          {!item.isStarred && (
-                            <NotStarredButton
-                              word={item}
-
-                              accessibilityLabel="starWord"
-                              accessible={true}
-                            />
-                          )}
-                        </>
-                      )}
-                      {starredWords === null && (
-                        <>
-                          <NotStarredButton word={item} />
-                        </>
-                      )} */}
-                      <Pressable
-                        onPress={() => deleteWordAlert(item)}
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginRight: 5,
-                        }}
-                      >
-                        {/* <Feather name="x-circle" size={25} color="#ff4a2a" /> */}
-                        <FeatherIcon icon="x-circle" />
-                      </Pressable>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      borderBottomColor: "gray",
-                      borderBottomWidth: 0.5,
-                      marginHorizontal: 30,
-                    }}
-                  />
-                </>
-              )
-            }}
-          />
-
-          {renWordList === null && (
-            <Text
-              style={{
-                textAlign: "left",
-                paddingTop: 40,
-                color: "gray",
-                fontSize: 15,
-                fontWeight: "bold",
-                paddingLeft: 20,
-                paddingRight: 20,
-              }}
-            >
-              Add words manually or start listening to songs and click a word in
-              the original lyrics to save it!
-            </Text>
-          )}
-
-          {/* //</>Button to add a new word, navigates to newWord screen  */}
-          <View
-            style={{
-              //flex: 1,
-              // justifyContent: "flex-end",
-            }}
-          >
-            <Pressable
-              onPress={() =>
-                navigate("/workbook/newWord", {
-                  state: { name: name, book_id: bookUID },
-                })
-              }
-              style={{
-                flexDirection: "row",
-                marginLeft: 35,
-                alignItems: "center",
-                marginTop: 20,
-                marginBottom:20
-
-              }}
-              accessibilityLabel="addWord"
-              accessible={true}
-            >
-              <PlusCircleOutlined style={{marginRight:9}}/>
-              {/* <AntDesign
-                name="pluscircleo"
-                size={25}
-                color="gray"
-                style={{ marginRight: 10 }}
-              /> */}
-              <Text style={{ fontSize: 20, color: "gray" }}>Add New Word</Text>
-            </Pressable>
-
-            {/* <Text>{"\n\n\n\n"}</Text> */}
-
-            <Pressable
-              onPress={() =>
-                navigate("/workbook/flashcards", {
-                  state: { name: name, book_id: bookUID },
-                })
-              }
-              style={styles.button}
-              accessibilityLabel="addconfirm"
-              accessible={true}
-            >
-              <Text style={styles.buttonText}>Open Flashcards</Text>
-            </Pressable>
-          </View>
-        </View>
-      </>
-    )
-  } else {
-    return (
-      <View>
+  return (
+    <>
+      <View style={{ backgroundColor: "#e8e1db", flex: 1, height: "91vh" }}>
         <View
           style={{
             paddingTop: 50,
@@ -435,54 +135,291 @@ function WorkbookInfoScreen() {
             paddingBottom: 15,
             borderBottomLeftRadius: 15,
             borderBottomRightRadius: 15,
+            flexDirection: "column",
+            flex: 0.5,
+            justifyContent: "space-between",
+            //marginBottom:-20
           }}
         >
-          <Pressable
-            onPress={() => navigate(-1)}
-            style={{ marginLeft: 20 }}
-          >
-            {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-          </Pressable>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
               marginRight: 20,
+              flex: 0,
+              //marginBottom:20
             }}
           >
-            <Text style={styles.title}>{name}</Text>
-            <Pressable onPress={deleteWorkbookAlert}>
-              {/* <Feather
-                name="x-circle"
-                size={30}
-                color="#ff4a2a"
-                style={{ paddingTop: 20 }}
-              /> */}
-              <FeatherIcon icon="x-circle" />
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Pressable
+                onPress={() => navigate(-1)}
+                style={{ marginLeft: 20 }}
+              >
+                <ArrowBackOutline
+                  color={"#00000"}
+                  height="30px"
+                  width="30px"
+                  style={{ marginTop: 25 }}
+                />
+              </Pressable>
+              <Text
+                testID="workbook-title"
+                style={styles.title}
+                accessibilityLabel="workbookTitle"
+                accessible={true}
+              >
+                {name}
+              </Text>
+            </View>
+            <Pressable
+              testID="delete-icon"
+              onPress={deleteWorkbookAlert}
+              style={{ color: "#ff4a2a" }}
+            >
+              <FeatherIcon icon="x-circle" size={35} />
             </Pressable>
           </View>
         </View>
-
-        {/* Search bar */}
         <View style={styles.searchBar}>
           <TextInput
+            testID="search-input"
             style={styles.searchInput}
             placeholder="Search Words"
             value={searchTerm}
             onChangeText={setSearchTerm}
+            accessibilityLabel="wordSearch"
+            accessible={true}
           />
-          {/* <Ionicons name="search" size={24} color="#989898" /> */}
-          <SearchOutline color={"#00000"} height="250px" width="250px" />
+          <SearchOutline color={"#00000"} height="40px" width="40px" />
+        </View>
+        <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
+          <Text style={{ fontSize: 18, paddingBottom: 3, color: "gray" }}>
+            Description
+          </Text>
+          <View
+            style={{
+              backgroundColor: "#e8e1db",
+              borderRadius: 10,
+              elevation: 5,
+            }}
+          >
+            <View
+              style={{
+                borderRadius: 10,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingRight: 15,
+              }}
+            >
+              <InfoCircleOutlined />
+              <Text
+                style={{
+                  marginVertical: 10,
+                  fontSize: 18,
+                  marginRight: 20,
+                  marginLeft: 8,
+                }}
+                accessibilityLabel="description"
+                accessible={true}
+                testID="workbook-description"
+              >
+                {description}
+              </Text>
+            </View>
+          </View>
         </View>
 
-        <View style={styles.loading}>
-          <ActivityIndicator size="large" color="#303248" />
+        {!loadingScreen ? (
+          <>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginHorizontal: 30,
+                paddingTop: 15,
+                marginRight: 40,
+              }}
+            >
+              <Text style={{ color: "gray", marginLeft: 5 }}>Word</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "30%",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "gray", marginRight: 30 }}>Starred</Text>
+                <Text style={{ color: "gray" }}>Delete</Text>
+              </View>
+            </View>
+            <FlatList
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={true}
+              style={{
+                flex: 1,
+              }}
+              data={filteredWordList}
+              accessibilityLabel="words"
+              accessible={true}
+              numColumns={1}
+              renderItem={({ item }) => {
+                return (
+                  <>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginHorizontal: 30,
+                        marginVertical: 5,
+                      }}
+                    >
+                      <WordItem item={item} />
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          width: "30%",
+                          alignItems: "center",
+                        }}
+                      >
+                        {item.is_starred ? (
+                          <Pressable
+                            onPress={() => starredToNot(item.word_id)}
+                            style={{ fontSize: 30, color: "#edc526" }}
+                          >
+                            <StarFilled />
+                          </Pressable>
+                        ) : (
+                          <Pressable
+                            onPress={() => notToStarred(item.word_id)}
+                            style={{ fontSize: 30 }}
+                          >
+                            <StarOutlined />
+                          </Pressable>
+                        )}
+
+                        {/* {item !== null && (
+                      <>
+                        {item.isStarred && (
+                          <StarredButton
+                            word={item.wordUID}
+                            accessibilityLabel="starWord"
+                            accessible={true}
+                          />
+                        )}
+                        {!item.isStarred && (
+                          <NotStarredButton
+                            word={item}
+
+                            accessibilityLabel="starWord"
+                            accessible={true}
+                          />
+                        )}
+                      </>
+                    )}
+                    {starredWords === null && (
+                      <>
+                        <NotStarredButton word={item} />
+                      </>
+                    )} */}
+                        <Pressable
+                          onPress={() => deleteWordAlert(item)}
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginRight: 5,
+                          }}
+                        >
+                          <FeatherIcon icon="x-circle" />
+                        </Pressable>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        borderBottomColor: "gray",
+                        borderBottomWidth: 0.5,
+                        marginHorizontal: 30,
+                      }}
+                    />
+                  </>
+                );
+              }}
+            />
+          </>
+        ) : (
+          <View style={styles.loading}>
+            <ActivityIndicator size="large" color="#303248" />
+          </View>
+        )}
+
+        {renWordList === null && (
+          <Text
+            style={{
+              textAlign: "left",
+              paddingTop: 40,
+              color: "gray",
+              fontSize: 15,
+              fontWeight: "bold",
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+          >
+            Add words manually or start listening to songs and click a word in
+            the original lyrics to save it!
+          </Text>
+        )}
+        {/* //</>Button to add a new word, navigates to newWord screen  */}
+        <View
+          style={
+            {
+              //flex: 1,
+              // justifyContent: "flex-end",
+            }
+          }
+        >
+          <Pressable
+            onPress={() =>
+              navigate("/workbook/newWord", {
+                state: { name: name, book_id: bookUID },
+              })
+            }
+            style={{
+              flexDirection: "row",
+              marginLeft: 35,
+              alignItems: "center",
+              marginTop: 20,
+              marginBottom: 20,
+            }}
+            accessibilityLabel="addWord"
+            accessible={true}
+          >
+            <PlusCircleOutlined style={{ marginRight: 9 }} />
+
+            <Text testID="add-word" style={{ fontSize: 20, color: "gray" }}>
+              Add New Word
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() =>
+              navigate("/workbook/flashcards", {
+                state: { name: name, book_id: bookUID },
+              })
+            }
+            style={styles.button}
+            accessibilityLabel="addconfirm"
+            accessible={true}
+          >
+            <Text testID="flashcards-button" style={styles.buttonText}>
+              Open Flashcards
+            </Text>
+          </Pressable>
         </View>
       </View>
-    )
-  }
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -534,7 +471,7 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "80%",
-    marginBottom:20,
+    marginBottom: 20,
   },
   buttonText: {
     fontWeight: "bold",
