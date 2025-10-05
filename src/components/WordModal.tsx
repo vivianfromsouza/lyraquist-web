@@ -16,7 +16,6 @@ import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import WordReaderWriter from "../services/WordReaderWriter";
 import DictionaryService from "../services/DictionaryService";
 import { set } from "firebase/database";
-import useSound from 'use-sound';
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -28,25 +27,44 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
   const [pronunciation, setPronunciation] = useState("");
-  const [play] = useSound(pronunciation);
+  // const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
 
-   async function getDefinition() {
-    await DictionaryService.getDefinition(word, ).then((definitionResponse) => {
-      setPos(definitionResponse[0].fl)
-      setDefinition(definitionResponse[0].shortdef[0])
-      setPronunciation(definitionResponse[0].pronunciationAudio)
-      console.log("definitionResponse", definitionResponse);
-    });
+  async function getDefinition() {
+    fetch("http://localhost:3000/api/handler")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`API Proxy Error: ${res.status} ${res.statusText}`);
+        }
+        return res.text();
+      })
+      .then((text) => {
+        console.log("Raw response:", text);
+        try {
+          const data = JSON.parse(text);
+          console.log("Parsed JSON:", data);
+          // setDefinition(data.definition); // or whatever field you expect
+        } catch (err) {
+          console.error("JSON parse error:", err);
+        }
+      })
+      .catch((error) => {
+        console.error("Frontend failed to fetch from local API:", error);
+      });
+    // await DictionaryService.getDefinition(word, ).then((definitionResponse) => {
+    //   setPos(definitionResponse[0].fl)
+    //   setDefinition(definitionResponse[0].shortdef[0])
+    //   setPronunciation(definitionResponse[0].pronunciationAudio)
+    //   console.log("definitionResponse", definitionResponse);
+    // });
   }
 
-    // parsing data from JSON response and put it in a string
-    useEffect(() => {
-      console.log("Ich renne...")
-      getDefinition();
-    }, [pronunciation, play]);
-  
+  // parsing data from JSON response and put it in a string
+  useEffect(() => {
+    console.log("Ich renne...");
+    getDefinition();
+  }, [pronunciation]);
 
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
@@ -102,7 +120,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
               </View>
             </View>
             {/*Button for dictation */}
-            <Pressable
+            {/* <Pressable
               onPress={() => play}
               style={{ justifyContent: "center", alignItems: "center" }}
             >
@@ -112,7 +130,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
                 Press to Dictate
               </Text>
               <audio src={pronunciation} />
-            </Pressable>
+            </Pressable> */}
           </View>
           <View style={{ padding: 10 }}>
             <Text style={{ fontSize: 20, color: "white" }}>{definition}</Text>

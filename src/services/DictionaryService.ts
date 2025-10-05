@@ -1,5 +1,4 @@
 import axios from "axios";
-import { eld } from 'eld'
 
 // //This service handles queries and responses to Lexicala API which will pull word definitions and tentativey words' part of speech (POS)
 const DictionaryService = {
