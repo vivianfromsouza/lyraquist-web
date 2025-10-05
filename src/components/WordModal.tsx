@@ -8,14 +8,10 @@ import {
   Alert,
   PixelRatio,
 } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
-import WordReaderWriter from "../services/WordReaderWriter";
-import DictionaryService from "../services/DictionaryService";
-import { set } from "firebase/database";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -23,13 +19,18 @@ const getFontSize = (size) => size / fontScale;
 const WordModal = ({ openModal, setOpenModal, word }) => {
   const [workbookItems] = useState<any>([]);
   const [bookUID, setbookUID] = useState<string>();
-  const [translation, setTranslation] = useState("");
+  // const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
   const [pronunciation, setPronunciation] = useState("");
   // const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
+
+  console.log(workbookName);
+  console.log(setPronunciation);
+  console.log(setPos);
+  console.log(setDefinition);
 
   async function getDefinition() {
     fetch("http://localhost:3000/api/handler")

@@ -44,6 +44,9 @@ const Player = () => {
   const [seekPosition, setSeekPosition] = useState(0);
   const [seekDuration, setSeekDuration] = useState(0);
 
+  console.log(accessCode);
+  console.log(authCode)
+
   const handleSeek = (position) => {
     setSeekPosition(position);
     player?.seek(position).then(() => {

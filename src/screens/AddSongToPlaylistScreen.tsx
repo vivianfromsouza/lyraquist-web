@@ -10,9 +10,6 @@ import { Dropdown } from "primereact/dropdown";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
 import { TextInput } from "react-native-web";
-import ReactImagePickerEditor, {
-  ImagePickerConf,
-} from "react-image-picker-editor";
 import "react-image-picker-editor/dist/index.css";
 
 function AddSongToPlaylistScreen() {
@@ -27,18 +24,18 @@ function AddSongToPlaylistScreen() {
   const [newPlaylistName, setNewPlaylistName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const config2: ImagePickerConf = {
-    borderRadius: "8px",
-    language: "en",
-    width: "330px",
-    height: "250px",
-    objectFit: "contain",
-    compressInitial: null,
-    darkMode: false,
-    rtl: false,
-  };
+  // const config2: ImagePickerConf = {
+  //   borderRadius: "8px",
+  //   language: "en",
+  //   width: "330px",
+  //   height: "250px",
+  //   objectFit: "contain",
+  //   compressInitial: null,
+  //   darkMode: false,
+  //   rtl: false,
+  // };
   // const initialImage: string = '/assets/images/8ptAya.webp';
-  const initialImage = "";
+  // const initialImage = "";
 
   function getMyPlaylists() {
     setTimeout(async () => {
@@ -66,18 +63,18 @@ function AddSongToPlaylistScreen() {
     );
   }
 
-  async function createPlaylist(
-    description = "",
-    imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8ZaSSfYdj9o0Q-S0XPOkSOpTdbQPPpKC2g&s"
-  ) {
-    const newPlaylistId = await PlaylistReaderWriter.createPlaylist(
-      newPlaylistName,
-      description,
-      imageURL
-    );
+  // async function createPlaylist(
+    // description = "",
+    // imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8ZaSSfYdj9o0Q-S0XPOkSOpTdbQPPpKC2g&s"
+  //) {
+    // const newPlaylistId = await PlaylistReaderWriter.createPlaylist(
+    //   newPlaylistName,
+    //   description,
+    //   imageURL
+    // );
     // await RecordReaderWriter.addSongToRecords(songURL, newPlaylistId);
-    navigate(-1);
-  }
+    //navigate(-1);
+  //}
 
   async function getImageURL(file) {
     if (file) {
@@ -209,12 +206,12 @@ function AddSongToPlaylistScreen() {
 
       {selectedPlaylist === "Create New Playlist" ? (
         <Pressable
-          onPress={() =>
-            createPlaylist(
-              description,
-              (document.getElementById("albumImage") as HTMLInputElement).src
-            )
-          }
+          onPress={() => console.log("Create playlist")}
+            //() =>
+            // createPlaylist(
+            //   description,
+            //   (document.getElementById("albumImage") as HTMLInputElement).src
+            // )
           style={styles.button}
           accessibilityLabel="addconfirm"
           accessible={true}

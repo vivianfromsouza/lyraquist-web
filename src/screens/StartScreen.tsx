@@ -11,7 +11,6 @@ import {
 import { ImageSourcePropType } from "react-native";
 import fullLogo from "../assets/Full_Logo.png";
 import fullLogoStart from "../assets/Full_Logo_Start.png";
-import worldLogo from "../assets/world_logo.png";
 import { useNavigate } from "react-router-dom";
 import Alpine, { Alpine as AlpineType } from "alpinejs";
 

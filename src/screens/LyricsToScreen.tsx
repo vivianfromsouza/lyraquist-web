@@ -21,7 +21,6 @@ const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
 // saves word that was pressed's data, needs to be loaded here so data doesn't get rewritten while data gets updated from API calls
-let savedWord = { word: "", TLWord: "", POS: "", def: "" };
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -30,7 +29,6 @@ export default function LyricsToScreen({ currentTrack }) {
   //grabbing Song information from song playback
   const playlistItem = currentTrack;
   // songLang determined by examining song lyrics with detect later
-  const [songLang] = useState("");
   //pref language determined by detecting language from user's prefLanguage data
   /*locally held prefLang, assigned value from userPrefLang value
   Is a separate value because the formatting of the language is a a two-character code 

@@ -1,8 +1,9 @@
 import axios from "axios";
+import eld from "eld";
 
 // //This service handles queries and responses to Lexicala API which will pull word definitions and tentativey words' part of speech (POS)
 const DictionaryService = {
-  async getDefinition(word, toLang?) {
+  async getDefinition(word) {
 
     const fromLang = eld.detect(word).language;
     if (
@@ -22,7 +23,7 @@ const DictionaryService = {
       "?key=" +
       import.meta.env.VITE_DEFINITION_APP_KEY;
 
-    let pronunciationAPI = "https://media.merriam-webster.com/audio/prons/" + fromLang +
+    const pronunciationAPI = "https://media.merriam-webster.com/audio/prons/" + fromLang +
     `${fromLang === "en" ? "/us/" : "/me/"}` + "mp3/" + word[0] + "/";
     
 
