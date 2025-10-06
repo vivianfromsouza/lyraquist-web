@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { View, Pressable, Dimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Flashcard from "../components/Flashcard";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowUndo,  } from "react-ionicons";
 import { ArrowBackOutline } from "react-ionicons";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -12,7 +11,7 @@ import WordReaderWriter from "../services/WordReaderWriter";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 
 // // const windowWidth = Dimensions.get("window").width;
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
+// const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 function FlashcardScreen() {
   // these are for the carousel's dimensions

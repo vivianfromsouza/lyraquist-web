@@ -228,6 +228,7 @@ const HomeScreen: React.FC = () => {
 
         // whenever a song is added or deleted, the home screen will update with new set of songs
         const handleRecordInserts = (payload) => {
+          console.log(payload)
           getSongs();
         };
 

@@ -2,8 +2,6 @@
 // Worked on by: Vivian D'Souza
 import axios from "axios";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import { v4 as uuidv4 } from "uuid";
-import RecordReaderWriter from "./RecordReaderWriter";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 // This service handles CRUD operations to Firebase for any song a user adds to their playlists

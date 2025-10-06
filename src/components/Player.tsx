@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useRef } from "react";
 import { View, ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import axios from "axios";
 import {
@@ -16,7 +16,6 @@ import TranslateScreen from "../screens/TranslateScreen";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import PlayerContext from "../context/PlayerContext";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {

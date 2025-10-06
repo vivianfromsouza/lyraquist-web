@@ -2,7 +2,6 @@
 import {
   deleteUser,
   getAuth,
-  updatePassword,
   verifyBeforeUpdateEmail,
 } from "firebase/auth";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";

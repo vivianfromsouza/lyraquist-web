@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import SimpleLineIcon from "react-simple-line-icons";
 import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";

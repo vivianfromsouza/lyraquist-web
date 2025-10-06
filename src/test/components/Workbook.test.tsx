@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import {render, screen } from "@testing-library/react";
 import Workbook from "../../components/Workbook";
 import { vi, describe, expect, it, beforeAll, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";

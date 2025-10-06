@@ -1,10 +1,10 @@
 import { Text, View, Image, Pressable } from "react-native-web";
 import { usePlayer } from "../context/PlayerContext";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const SongCard = ({ item }) => {
   const { playSong } = usePlayer();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <View style={{ marginLeft: 4 }}>

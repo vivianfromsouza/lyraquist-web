@@ -1,6 +1,6 @@
-import { fireEvent, render, screen, cleanup } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import PlaylistItem from "../../components/PlaylistItem";
-import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
+import { vi, describe, expect, it, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";
 import { PlayerProvider } from "../../context/PlayerContext";
 import RecordReaderWriter from "../../services/RecordReaderWriter";
@@ -93,6 +93,7 @@ const mockPlaylistItemLiked = {
 };
 
 const mockPlaylistURL = "spotify:playlist:12345";
+console.log(mockPlaylistURL)
 
 describe("PlaylistItem", () => {
   afterEach(() => {

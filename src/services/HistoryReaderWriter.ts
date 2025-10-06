@@ -1,7 +1,6 @@
 // Worked on by: Vivian D'Souza
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
-import SongReaderWriter from "./SongReaderWriter";
 
 const currentUser = localStorage.getItem("current_user");
 

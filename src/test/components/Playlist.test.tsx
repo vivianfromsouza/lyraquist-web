@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Playlist from "../../components/Playlist";
 import { vi, describe, expect, it, beforeAll, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";

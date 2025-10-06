@@ -91,6 +91,7 @@ const RecordReaderWriter = {
         spotify_url: spotifyURL,
         is_liked: true,
       });
+      console.log(error)
     }
   },
 
