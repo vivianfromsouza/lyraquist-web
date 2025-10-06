@@ -1,14 +1,13 @@
 import {
   Text,
   View,
-  Pressable,
   StyleSheet,
   Modal,
   TextInput,
   Alert,
   PixelRatio,
 } from "react-native";
-
+import { Pressable} from "react-native-web"
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
