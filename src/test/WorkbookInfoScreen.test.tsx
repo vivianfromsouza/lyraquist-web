@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { page } from "@vitest/browser/context";
 import { render } from "@testing-library/react";
-import { Home } from "react-ionicons";
 import WorkbookInfoScreen from "../screens/WorkbookInfoScreen";
 import { BrowserRouter } from "react-router-dom";
 

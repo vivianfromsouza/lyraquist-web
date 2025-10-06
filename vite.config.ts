@@ -73,6 +73,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     esbuildOptions: {
+      supported: { "top-level-await": true },
       resolveExtensions: extensions,
       // https://github.com/vitejs/vite-plugin-react/issues/192#issuecomment-1627384670
       jsx: "automatic",

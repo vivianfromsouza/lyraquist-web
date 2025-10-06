@@ -9,7 +9,7 @@ import {
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
-import { Seekbar } from "react-seekbar";
+// import { Seekbar } from "react-seekbar";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import TranslateScreen from "../screens/TranslateScreen";
@@ -46,15 +46,18 @@ const Player = () => {
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [seekPosition, setSeekPosition] = useState(0);
-  const [seekDuration, setSeekDuration] = useState(0);
+  // const [seekPosition, setSeekPosition] = useState(0);
+  // const [seekDuration, setSeekDuration] = useState(0);
 
-  const handleSeek = (position) => {
-    setSeekPosition(position);
-    player?.seek(position).then(() => {
-      // console.log("Changed position!");
-    });
-  };
+  console.log(accessCode);
+  console.log(authCode);
+
+  // const handleSeek = (position) => {
+  //   setSeekPosition(position);
+  //   player?.seek(position).then(() => {
+  //     // console.log("Changed position!");
+  //   });
+  // };
 
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
   const [isTranslationOpen, setIsTranslationOpen] = useState(false);
@@ -361,7 +364,7 @@ const Player = () => {
             )
           );
 
-          setSeekDuration(state.track_window.current_track.duration_ms);
+          // setSeekDuration(state.track_window.current_track.duration_ms);
 
           player.getCurrentState().then((state) => {
             !state ? setActive(false) : setActive(true);
@@ -373,7 +376,7 @@ const Player = () => {
           if (state) {
             // state.position is the current playback position in ms
             setCurrentTime(calculateDurationInSecs(state.position));
-            setSeekPosition(state.position);
+            // setSeekPosition(state.position);
 
             // You can update your state here if needed
           }
@@ -431,11 +434,12 @@ const Player = () => {
 
               <div className="now-playing__artist">{totalTime}</div>
 
-              <Seekbar
+              <input type="range"></input>
+              {/* <Seekbar
                 position={seekPosition}
                 duration={seekDuration}
                 onSeek={handleSeek}
-              />
+              /> */}
 
               <button
                 className="btn-spotify"
