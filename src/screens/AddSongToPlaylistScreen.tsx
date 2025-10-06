@@ -10,7 +10,7 @@ import { Dropdown } from "primereact/dropdown";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
 import { TextInput } from "react-native-web";
-import "react-image-picker-editor/dist/index.css";
+// import "react-image-picker-editor/dist/index.css";
 
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();

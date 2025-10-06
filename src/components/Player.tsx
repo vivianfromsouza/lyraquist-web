@@ -9,7 +9,7 @@ import {
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
-import { Seekbar } from "react-seekbar";
+// import { Seekbar } from "react-seekbar";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import TranslateScreen from "../screens/TranslateScreen";
@@ -41,18 +41,18 @@ const Player = () => {
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [seekPosition, setSeekPosition] = useState(0);
-  const [seekDuration, setSeekDuration] = useState(0);
+  // const [seekPosition, setSeekPosition] = useState(0);
+  // const [seekDuration, setSeekDuration] = useState(0);
 
   console.log(accessCode);
-  console.log(authCode)
+  console.log(authCode);
 
-  const handleSeek = (position) => {
-    setSeekPosition(position);
-    player?.seek(position).then(() => {
-      // console.log("Changed position!");
-    });
-  };
+  // const handleSeek = (position) => {
+  //   setSeekPosition(position);
+  //   player?.seek(position).then(() => {
+  //     // console.log("Changed position!");
+  //   });
+  // };
 
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
   const [isTranslationOpen, setIsTranslationOpen] = useState(false);
@@ -92,14 +92,14 @@ const Player = () => {
   };
 
   async function openLyrics() {
-   if (isLyricsOpen) {
-    handleLyricsClose();
-   } else {
-    handleLyricsOpen();
-   }
+    if (isLyricsOpen) {
+      handleLyricsClose();
+    } else {
+      handleLyricsOpen();
+    }
   }
 
-    const handleTranslationClose = () => {
+  const handleTranslationClose = () => {
     setIsTranslationOpen(false);
   };
 
@@ -108,11 +108,11 @@ const Player = () => {
   };
 
   async function openTranslation() {
-   if (isTranslationOpen) {
-    handleTranslationClose();
-   } else {
-    handleTranslationOpen();
-   }
+    if (isTranslationOpen) {
+      handleTranslationClose();
+    } else {
+      handleTranslationOpen();
+    }
   }
 
   async function toggleShuffle() {
@@ -262,22 +262,21 @@ const Player = () => {
           name: "Web Playback SDK",
           getOAuthToken: async (cb) => {
             console.log("LET US CHECK REFRESH");
-            await checkRefreshNeeded(new Date())
-              .then(async (response) => {
-                if (response === "true") {
-                  TokenReaderWriter.getRefreshToken().then(
-                    async (refreshToken) => {
-                      console.log("Refreshing access token...");
-                      await refresh(refreshToken);
-                    }
-                  );
-                  TokenReaderWriter.getAccessToken().then((token) => {
-                    accessToken = token;
-                  });
-                } else {
-                  accessToken = await TokenReaderWriter.getAccessToken();
-                }
-              })
+            await checkRefreshNeeded(new Date()).then(async (response) => {
+              if (response === "true") {
+                TokenReaderWriter.getRefreshToken().then(
+                  async (refreshToken) => {
+                    console.log("Refreshing access token...");
+                    await refresh(refreshToken);
+                  }
+                );
+                TokenReaderWriter.getAccessToken().then((token) => {
+                  accessToken = token;
+                });
+              } else {
+                accessToken = await TokenReaderWriter.getAccessToken();
+              }
+            });
 
             cb(accessToken);
             console.log("AUTHING YET AGAIN");
@@ -352,7 +351,7 @@ const Player = () => {
             )
           );
 
-          setSeekDuration(state.track_window.current_track.duration_ms);
+          // setSeekDuration(state.track_window.current_track.duration_ms);
 
           player.getCurrentState().then((state) => {
             !state ? setActive(false) : setActive(true);
@@ -364,7 +363,7 @@ const Player = () => {
           if (state) {
             // state.position is the current playback position in ms
             setCurrentTime(calculateDurationInSecs(state.position));
-            setSeekPosition(state.position);
+            // setSeekPosition(state.position);
 
             // You can update your state here if needed
           }
@@ -422,11 +421,12 @@ const Player = () => {
 
               <div className="now-playing__artist">{totalTime}</div>
 
-              <Seekbar
+              <input type="range"></input>
+              {/* <Seekbar
                 position={seekPosition}
                 duration={seekDuration}
                 onSeek={handleSeek}
-              />
+              /> */}
 
               <button
                 className="btn-spotify"
@@ -485,7 +485,7 @@ const Player = () => {
               <h4>Current Volume: </h4>
               {volume}
 
-                            <button
+              <button
                 className="btn-spotify"
                 onClick={() => {
                   openLyrics();
@@ -494,7 +494,6 @@ const Player = () => {
                 Open Lyrics
               </button>
 
-              
               <button
                 className="btn-spotify"
                 onClick={() => {
