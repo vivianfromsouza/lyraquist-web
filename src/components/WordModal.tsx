@@ -7,10 +7,12 @@ import {
   Alert,
   PixelRatio,
 } from "react-native";
-import { Pressable} from "react-native-web"
+import { Pressable } from "react-native-web";
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
+import { eldr } from "eldr/lib/medium"
+import TranslationService from "../services/TranslationService";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -18,7 +20,7 @@ const getFontSize = (size) => size / fontScale;
 const WordModal = ({ openModal, setOpenModal, word }) => {
   const [workbookItems] = useState<any>([]);
   const [bookUID, setbookUID] = useState<string>();
-  // const [translation, setTranslation] = useState("");
+  const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
   const [pronunciation, setPronunciation] = useState("");
@@ -31,8 +33,24 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   console.log(setPos);
   console.log(setDefinition);
 
+  async function getTranslation() {
+    TranslationService.getSingleTranslation(word, "en", "es").then(
+      (translation) => setTranslation(translation)
+    );
+  }
+
   async function getDefinition() {
-    fetch("http://localhost:3000/api/handler")
+    const fromLang = await eld.detect(word).language;
+
+    console.log("Detected language:", fromLang);
+    console.log(eld.detect("Hola, como te llamas?").language)
+
+    fetch(
+      "http://localhost:3000/api/dictionaryLookup?word=" +
+        word +
+        "&fromLang=" +
+        fromLang
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`API Proxy Error: ${res.status} ${res.statusText}`);
@@ -64,6 +82,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   useEffect(() => {
     console.log("Ich renne...");
     getDefinition();
+    getTranslation();
   }, [pronunciation]);
 
   return (
