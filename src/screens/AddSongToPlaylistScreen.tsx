@@ -103,9 +103,14 @@ function AddSongToPlaylistScreen() {
         <Pressable onPress={() => navigate(-1)} style={{}}>
           <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
         </Pressable>
-        <Text style={styles.title}>Add song to playlist</Text>
+        <Text testID="add-song-title" style={styles.title}>
+          Add song to playlist
+        </Text>
       </View>
-      <View style={{ flexDirection: "row", marginLeft: 20, paddingTop: 10 }}>
+      <View
+        testID="playlist-dropdown"
+        style={{ flexDirection: "row", marginLeft: 20, paddingTop: 10 }}
+      >
         <Text style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}>
           {" "}
         </Text>
@@ -129,6 +134,7 @@ function AddSongToPlaylistScreen() {
           optionLabel="name"
           placeholder={selectedPlaylist || "Select a Playlist"}
           className="w-full md:w-14rem"
+          test-id="playlist-dropdown"
         />
       </View>
 
@@ -137,6 +143,7 @@ function AddSongToPlaylistScreen() {
       ) : (
         <Pressable
           onPress={addSong}
+          testID="add-song"
           style={styles.button}
           accessibilityLabel="addconfirm"
           accessible={true}
