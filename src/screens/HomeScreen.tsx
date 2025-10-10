@@ -4,7 +4,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StarredLang from "../components/StarredLang";
-import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  ArrowRightOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
@@ -72,7 +76,6 @@ const HomeScreen: React.FC = () => {
         name: song.songs["name"],
         album: song.songs["album"],
         duration: song.songs["duration"],
-        songID: song.songs["song_id"] ? song.songs["song_id"] : "null",
       }));
       setHistory(historySongs);
       // setLoadingScreen(false);
@@ -95,17 +98,19 @@ const HomeScreen: React.FC = () => {
   async function getSongs() {
     // setLoadingScreen(true);
     // isLoading(true);
+
     await RecordReaderWriter.getMySongs().then((songs) => {
+      console.log("API songs response:", songs); // <--- Add this
+
       const savedSongs: PlayItem[] = songs.map((song) => ({
         artist: song.songs["artist"],
         spotifyURL: "spotify:track:" + song.songs["spotify_url"],
         imageURL: song.songs["image_url"],
         name: song.songs["name"],
-        album: song.songs["album"],
+        // album: song.songs["album"],
         duration: song.songs["duration"],
-        songID: song.songs["song_id"],
-        isLiked: song.songs["is_liked"],
-        recordID: song.songs["record_id"],
+        isLiked: song["is_liked"],
+        recordID: song["record_id"],
       }));
       setSavedSongs(savedSongs);
     });
@@ -144,7 +149,7 @@ const HomeScreen: React.FC = () => {
       console.log(localStorage.getItem("code_verifier"));
       // getAuthCode();
       // getAccessCode();
-      setLoadingScreen(true)
+      setLoadingScreen(true);
       try {
         // setLoadingScreen(true);
 
@@ -178,17 +183,20 @@ const HomeScreen: React.FC = () => {
           )
           .subscribe((status) => console.log("H:" + status));
 
-        // const handleLanguageInserts = (payload) => {
-        //   getLanguages();
-        // };
+        const handleLanguageInserts = (payload) => {
+          console.log(payload);
+          getLanguages();
+        };
 
         getLanguages();
 
-        // LocalSupabaseClient.channel("languages").on(
-        //   "postgres_changes",
-        //   { event: "*", schema: "public", table: "languages" },
-        //   handleLanguageInserts
-        // );
+        LocalSupabaseClient.channel("languages")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "languages" },
+            handleLanguageInserts
+          )
+          .subscribe((status) => console.log("L:" + status));
 
         // const handleWorkbookInserts = (payload) => {
         //   getWorkbooks();
@@ -219,19 +227,20 @@ const HomeScreen: React.FC = () => {
         //   .subscribe((status) => console.log("P:" + status));
 
         // whenever a song is added or deleted, the home screen will update with new set of songs
-        // const handleRecordInserts = (payload) => {
-        //   getSongs();
-        // };
+        const handleRecordInserts = (payload) => {
+          console.log(payload)
+          getSongs();
+        };
 
         getSongs();
 
-        // LocalSupabaseClient.channel("records")
-        //   .on(
-        //     "postgres_changes",
-        //     { event: "*", schema: "public", table: "records" },
-        //     handleRecordInserts
-        //   )
-        //   .subscribe((status) => console.log(status));
+        LocalSupabaseClient.channel("records")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "records" },
+            handleRecordInserts
+          )
+          .subscribe((status) => console.log(status));
 
         // UserReaderWriter.getCurrentTrackDetails().then((track) => {
         //   console.log("CURR TRACK:");
@@ -251,10 +260,31 @@ const HomeScreen: React.FC = () => {
           <View style={styles.introSect}>
             <View
               style={{
+                marginRight: 20,
+                marginTop: 20,
+                marginBottom: -20,
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Pressable
+                onPress={() => {
+                  navigate("/settings", { state: "isLoggedIn" });
+                }}
+                accessibilityLabel="settings"
+              >
+                <SettingOutlined
+                  style={{ color: "#e8e1db", fontSize: 30 }}
+                  size={100}
+                />
+              </Pressable>
+            </View>
+            <View
+              style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
                 marginRight: 20,
-                marginTop: 15,
+                marginTop: 0,
               }}
             >
               <View>
@@ -316,10 +346,14 @@ const HomeScreen: React.FC = () => {
                   color="#e8e1db"
                   style={{ marginBottom: 15 }}
                 /> */}
-                  <SearchOutlined />
+                  <SearchOutlined
+                    style={{ color: "#e8e1db", fontSize: 35, marginBottom: 10 }}
+                    size={100}
+                  />
                 </Pressable>
               </View>
             </View>
+            <View></View>
           </View>
           <View style={styles.starredLanguagesSect}>
             <Text
@@ -352,7 +386,7 @@ const HomeScreen: React.FC = () => {
                 style={{ marginLeft: 10, marginBottom: 12, marginRight: 10 }}
               >
                 {starredLanguages!.map((value, index) => (
-                  <StarredLang value={value} key={index} />
+                  <StarredLang value={value["name"]} key={index} />
                 ))}
                 <Pressable
                   style={{
@@ -365,8 +399,8 @@ const HomeScreen: React.FC = () => {
                 >
                   <Text
                     style={{
-                      fontSize: getFontSize(20),
-                      fontFamily: "Karla",
+                      fontSize: getFontSize(15),
+                      //fontFamily: "Karla",
                       marginRight: 10,
                       color: "#2D3047",
                     }}
@@ -384,7 +418,7 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.header}>Tune Back In</Text>
             {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
             {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {history!.length != 0 &&
                 history!.map((item: any, index: any) => (
                   <SongCard item={item} key={index} />
@@ -410,7 +444,7 @@ const HomeScreen: React.FC = () => {
 
           <View style={styles.savedSect}>
             <Text style={styles.header}>My Playlists</Text>
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {savedPlaylists!.length != 0 &&
@@ -438,7 +472,7 @@ const HomeScreen: React.FC = () => {
 
           <View style={styles.savedSect}>
             <Text style={styles.header}>Saved Songs</Text>
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {savedSongs!.length != 0 &&
@@ -500,7 +534,9 @@ const HomeScreen: React.FC = () => {
                 color="#303248"
                 style={{ marginRight: 5 }}
               /> */}
-                <PlusCircleOutlined />
+                <PlusCircleOutlined
+                  style={{ marginRight: 5, color: "#303248" }}
+                />
                 <Text
                   style={{
                     fontSize: getFontSize(15),
@@ -515,7 +551,7 @@ const HomeScreen: React.FC = () => {
             <Text style={styles.noteText}>
               Save words in workbooks for quick access here!
             </Text>
-            <ScrollView horizontal>
+            <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
               {workbooksList!.length != 0 &&
@@ -542,17 +578,17 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <Text>{"\n\n\n\n"}</Text>
+          {/*<Text>{"\n\n\n\n"}</Text>*/}
         </ScrollView>
 
-        <button
+        {/*<button
           onClick={() => {
             navigate("/settings", { state: "isLoggedIn" });
           }}
           className="text-black bg-green hover:opacity-80 transition duration-300 ease-in-out font-bold rounded-full text-md px-5 py-2.5 text-center me-2 mb-4"
         >
           Settings
-        </button>
+        </button>*/}
       </>
     );
   } else {
@@ -568,14 +604,15 @@ const styles = {
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    //height:'100vh'
   },
   introSect: {
     flex: 1,
-    width: 1000,
+    //width: 1000,
     backgroundColor: "#303248",
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    borderRadius: 15,
+    //borderRadius: 15,
     paddingBottom: 30,
   },
   shadow: {

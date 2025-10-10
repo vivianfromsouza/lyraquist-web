@@ -29,9 +29,8 @@ const Workbook = ({ item }) => {
       }
       style={{ margin: 10 }}
     >
-      <View style={{ elevation: 8 }}>
-        {/* <FontAwesome5 name="book" size={80} color={colors[colorNum]} /> */}
-        <FontAwesomeIcon icon={faBook} />
+      <View testID="workbook-icon" style={{ elevation: 8 }}>
+        <FontAwesomeIcon icon={faBook} style={{fontSize:75}}/>
       </View>
       <View style={{ width: 80 }}>
         <Text

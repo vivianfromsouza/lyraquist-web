@@ -102,6 +102,8 @@ export default function SearchScreen() {
 
   return (
     <>
+    <View  style={{height:'91vh'}}>
+      
       <SafeAreaView style={styles.container}>
         {/* Blue section */}
         <View style={styles.blueSection}>
@@ -122,7 +124,7 @@ export default function SearchScreen() {
               accessibilityLabel="searchInput" // Add accessibility label for search input
               accessible={true}
             />
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            <SearchOutline color={"#00000"} height="30px" width="30px" />
           </View>
         </View>
         <View style={styles.space} />
@@ -157,13 +159,19 @@ export default function SearchScreen() {
             data={searchResults}
             keyExtractor={(item) => item.spotifyURL}
             renderItem={renderSearchResultItem}
-            numColumns={2}
+            numColumns={7}
             contentContainerStyle={styles.flatListContainer}
             accessibilityLabel="searchResultItem"
             accessible={true}
+            style={{marginBottom:20}}
+            
           />
         )}
+        {searchTerm.trim()=="" && (
+          <View style={{flex:1, height:100, backgroundColor:"#e8e1db"}}/>
+        )}
       </SafeAreaView>
+      </View>
     </>
   );
 }
@@ -172,6 +180,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:"80vh",
   },
   blueSection: {
     backgroundColor: "#303248",
@@ -239,7 +248,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   space: {
-    height: 20,
+    height: 20
   },
   noteAndButtonContainer: {
     marginHorizontal: 10,

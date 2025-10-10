@@ -308,14 +308,17 @@ export default function AccountSettings() {
               />
             </View>
           </View>
+          <View style={{justifyContent:'center', alignItems:'center'}}>
           <Pressable
             style={{
-              marginRight: 10,
+              //marginRight: 10,
               backgroundColor: "#ff4a2a",
-              marginStart: 200,
+              //marginStart: 200,
+              //marginHorizontal:200,
               borderRadius: 10,
               marginTop: 5,
               marginBottom: 30,
+              width:'80%'
             }}
             onPress={changePassword}
           >
@@ -333,6 +336,7 @@ export default function AccountSettings() {
               Change Password
             </Text>
           </Pressable>
+          </View>
         </View>
 
         <View>
@@ -384,14 +388,16 @@ export default function AccountSettings() {
               className="w-full md:w-14rem"
             />
           </View>
+          <View style={{justifyContent:'center', alignItems:'center'}}>
           <Pressable
             style={{
-              marginRight: 10,
+              //marginRight: 10,
               backgroundColor: "#ff4a2a",
-              marginStart: 200,
+              //marginStart: 200,
               borderRadius: 10,
               marginTop: 5,
               marginBottom: 30,
+              width:'80%'
             }}
             onPress={() => {
               changePreferredLanguage();
@@ -409,6 +415,7 @@ export default function AccountSettings() {
               Change Langauge
             </Text>
           </Pressable>
+          </View>
         </View>
 
         <View>
@@ -457,6 +464,7 @@ const styles = StyleSheet.create({
   full: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:'91vh'
   },
   introSect: {
     flex: 1,

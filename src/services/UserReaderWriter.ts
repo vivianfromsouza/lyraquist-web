@@ -2,7 +2,6 @@
 import {
   deleteUser,
   getAuth,
-  updatePassword,
   verifyBeforeUpdateEmail,
 } from "firebase/auth";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
@@ -79,25 +78,25 @@ const UserReaderWriter = {
     return true;
   },
 
-  async writeUserPassword(newPassword: string) {
-    updatePassword(auth.currentUser!, newPassword)
-      .then(async () => {
-        // Password updated successfully
-        const { error } = await LocalSupabaseClient.from("users")
-          .update({ password: newPassword })
-          .eq("user_id", currentUser);
-        console.log("Password updated!");
-        console.log(error);
+  // async writeUserPassword(newPassword: string) {
+  //   updatePassword(auth.currentUser!, newPassword)
+  //     .then(async () => {
+  //       // Password updated successfully
+  //       const { error } = await LocalSupabaseClient.from("users")
+  //         .update({ password: newPassword })
+  //         .eq("user_id", currentUser);
+  //       console.log("Password updated!");
+  //       console.log(error);
 
-        return true;
-      })
-      .catch((error: string) => {
-        // An error happened.
-        console.error(error);
-        return false;
-      });
-    return true;
-  },
+  //       return true;
+  //     })
+  //     .catch((error: string) => {
+  //       // An error happened.
+  //       console.error(error);
+  //       return false;
+  //     });
+  //   return true;
+  // },
 
   async getPreferredLanguage() {
     const { data } = await LocalSupabaseClient.from("users")
@@ -131,7 +130,7 @@ const UserReaderWriter = {
         `
         current_track,
         user_id,
-        songs (spotify_url, song_id, name, album, artist, image_url, duration)
+        songs (spotify_url, name, album, artist, image_url, duration)
         `
       )
       .eq("user_id", currentUser)

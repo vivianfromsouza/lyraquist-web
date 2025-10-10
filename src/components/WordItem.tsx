@@ -13,7 +13,8 @@ export default WordItem
 const styles = StyleSheet.create({
     word:{
         margin: 5,
-        fontSize: 20
+        fontSize: 20,
+        fontWeight:'bold'
     },
     translation:{
         marginLeft: 5

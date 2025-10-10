@@ -7,10 +7,12 @@ import {
   Alert,
   PixelRatio,
 } from "react-native";
-import { Pressable} from "react-native-web"
+import { Pressable } from "react-native-web";
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
+import TranslationService from "../services/TranslationService";
+import UserReaderWriter from "../services/UserReaderWriter";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -18,21 +20,34 @@ const getFontSize = (size) => size / fontScale;
 const WordModal = ({ openModal, setOpenModal, word }) => {
   const [workbookItems] = useState<any>([]);
   const [bookUID, setbookUID] = useState<string>();
-  // const [translation, setTranslation] = useState("");
+  const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
   const [pronunciation, setPronunciation] = useState("");
   // const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
+  const fromLang = TranslationService.detectLanguage(word);
+  const toLang = UserReaderWriter.getPreferredLanguage();
 
   console.log(workbookName);
   console.log(setPronunciation);
   console.log(setPos);
   console.log(setDefinition);
 
+  async function getTranslation() {
+    TranslationService.getSingleTranslation(word, fromLang, toLang).then(
+      (translation) => setTranslation(translation)
+    );
+  }
+
   async function getDefinition() {
-    fetch("http://localhost:3000/api/handler")
+    fetch(
+      "http://localhost:3000/api/dictionaryLookup?word=" +
+        word +
+        "&fromLang=" +
+        fromLang
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`API Proxy Error: ${res.status} ${res.statusText}`);
@@ -64,6 +79,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   useEffect(() => {
     console.log("Ich renne...");
     getDefinition();
+    getTranslation();
   }, [pronunciation]);
 
   return (
@@ -80,6 +96,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
               alignItems: "center",
             }}
           >
+            {translation}
             <View>
               <View style={{ flexDirection: "row", alignItems: "baseline" }}>
                 <Text

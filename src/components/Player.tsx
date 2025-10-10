@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import axios from "axios";
 import {
   checkRefreshNeeded,
@@ -13,6 +13,9 @@ import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import TranslateScreen from "../screens/TranslateScreen";
+import RecordReaderWriter from "../services/RecordReaderWriter";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -31,7 +34,8 @@ const Player = () => {
 
   const [currentTime, setCurrentTime] = useState("0:00");
   const [totalTime, setTotalTime] = useState("0:00");
-  const [volume, setVolume] = useState(0.0); // Default volume
+  const [volume, setVolume] = useState(0.0);
+  const [isLiked, setIsLiked] = useState(false);
 
   const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
@@ -60,7 +64,7 @@ const Player = () => {
   // this has to match template coming in from spotify's api
   const track = {
     name: "trackName",
-    spotifyURL: "trackURL",
+    uri: "trackURL",
     album: {
       name: "trackAlbum",
       images: [{ url: "trackImage" }],
@@ -237,6 +241,14 @@ const Player = () => {
     }
   }
 
+  async function likeSong(spotifyURL: string) {
+    RecordReaderWriter.likeSongByURL(spotifyURL, current_track);
+  }
+
+  async function unlikeSong(spotifyURL: string) {
+    RecordReaderWriter.unlikeSongByURL(spotifyURL);
+  }
+
   useEffect(() => {
     getAuthCode();
     getAccessCode();
@@ -403,7 +415,7 @@ const Player = () => {
   } else {
     return (
       <>
-        <div className="container">
+        <div className="container" style={{ backgroundColor: "#303248" }}>
           <div className="main-wrapper">
             <img
               src={current_track.album.images[0].url}
@@ -482,6 +494,26 @@ const Player = () => {
                 Volume Down
               </button>
 
+              {isLiked ? (
+                <Pressable
+                  onPress={() => {
+                    unlikeSong(current_track.uri.split(":")[2]);
+                    setIsLiked(false);
+                  }}
+                >
+                  <FavoriteIcon />
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={() => {
+                    likeSong(current_track.uri.split(":")[2]);
+                    setIsLiked(true);
+                  }}
+                >
+                  <FavoriteBorderIcon />
+                </Pressable>
+              )}
+
               <h4>Current Volume: </h4>
               {volume}
 
@@ -489,6 +521,14 @@ const Player = () => {
                 className="btn-spotify"
                 onClick={() => {
                   openLyrics();
+                }}
+                style={{
+                  marginRight: 30,
+                  marginBottom: 10,
+                  fontWeight: "bold",
+                  backgroundColor: "#edc526",
+                  borderRadius: 5,
+                  fontSize: 15,
                 }}
               >
                 Open Lyrics
@@ -498,6 +538,13 @@ const Player = () => {
                 className="btn-spotify"
                 onClick={() => {
                   openTranslation();
+                }}
+                style={{
+                  marginBottom: 10,
+                  fontWeight: "bold",
+                  backgroundColor: "#edc526",
+                  borderRadius: 5,
+                  fontSize: 15,
                 }}
               >
                 Open Translation

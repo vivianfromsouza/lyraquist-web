@@ -2,8 +2,6 @@
 // Worked on by: Vivian D'Souza
 import axios from "axios";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import { v4 as uuidv4 } from "uuid";
-import RecordReaderWriter from "./RecordReaderWriter";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 // This service handles CRUD operations to Firebase for any song a user adds to their playlists
@@ -33,46 +31,58 @@ const SongReaderWriter = {
     return getSong();
   },
 
+  // async addSongToDBFromSpotifyTrack(newSong) {
+  //   const song_id = uuidv4();
+  //   const { error } = await LocalSupabaseClient.from("songs").insert({
+  //     song_id: song_id,
+  //     name: newSong.track.name,
+  //     artist: newSong.track.artists[0].name,
+  //     image_url: newSong.track.album.images[0].url,
+  //     duration: newSong.track.duration_ms,
+  //     album: newSong.track.album.name,
+  //     spotify_url: newSong.track.id,
+  //   });
+  //   console.log(error);
+
+  //   return song_id;
+  // },
+
   async addSongToDBFromSpotifyTrack(newSong) {
-    const song_id = uuidv4();
-    const { error } = await LocalSupabaseClient.from("songs").insert({
-      song_id: song_id,
-      name: newSong.track.name,
-      artist: newSong.track.artists[0].name,
-      image_url: newSong.track.album.images[0].url,
-      duration: newSong.track.duration_ms,
-      album: newSong.track.album.name,
-      spotify_url: newSong.track.id,
-    });
-    console.log(error);
-
-    return song_id;
-  },
-
-  async addSongToDBFromPlayItem(newSong) {
-    console.log(newSong);
-    const song_id = uuidv4();
-    const { error } = await LocalSupabaseClient.from("songs").insert({
-      song_id: song_id,
+    const { data, error } = await LocalSupabaseClient.from("songs").insert({
       name: newSong.name,
-      artist: newSong.artist,
-      image_url: newSong.imageURL,
-      duration: newSong.duration,
-      album: newSong.album,
-      spotify_url: newSong.spotifyURL.split(":")[2],
+      artist: newSong.artists[0].name,
+      image_url: newSong.album.images[0].url,
+      duration: newSong.duration_ms,
+      album: newSong.album.name,
+      spotify_url: newSong.id,
     });
     console.log(error);
 
-    return song_id;
+    return data;
   },
 
-  async deleteSongFromDB(songUID: string) {
-    const response = await LocalSupabaseClient.from("songs")
-      .delete()
-      .eq("song_id", songUID);
-    RecordReaderWriter.deleteSongFromRecords(songUID);
-    return response;
-  },
+  // async addSongToDBFromPlayItem(newSong) {
+  //   console.log(newSong);
+  //   const { data, error } = await LocalSupabaseClient.from("songs").insert({
+  //     name: newSong.name,
+  //     artist: newSong.artist,
+  //     image_url: newSong.imageURL,
+  //     duration: newSong.duration,
+  //     album: newSong.album,
+  //     spotify_url: newSong.spotifyURL.split(":")[2],
+  //   });
+  //   console.log(error);
+
+  //   return data;
+  // },
+
+  // async deleteSongFromDB(spotifyURL: string) {
+  //   const response = await LocalSupabaseClient.from("songs")
+  //     .delete()
+  //     .eq("spotify_url", spotifyURL);
+  //   RecordReaderWriter.deleteSongFromRecords(spotifyURL);
+  //   return response;
+  // },
 
   async isSongInDB(spotifyURL: string) {
     const { count, error } = await LocalSupabaseClient.from("songs")
@@ -85,28 +95,6 @@ const SongReaderWriter = {
 
     return false;
     console.log(error);
-  },
-
-  async getSongIDByURL(spotifyURL: string) {
-    const { data } = await LocalSupabaseClient.from("songs")
-      .select("song_id")
-      .eq("spotify_url", spotifyURL)
-      .limit(1)
-      .single()
-      .throwOnError();
-    console.log(data);
-    return data;
-  },
-
-  async getSongURL(songID: string) {
-    const { data } = await LocalSupabaseClient.from("songs")
-      .select("spotify_url")
-      .eq("song_id", songID)
-      .limit(1)
-      .single()
-      .throwOnError();
-
-    return data;
   },
 };
 

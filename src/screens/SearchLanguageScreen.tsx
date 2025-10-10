@@ -86,7 +86,7 @@ export default function SearchLanguage() {
               value={searchTerm}
               onChangeText={(text) => setSearchTerm(text)}
             />
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            <SearchOutline color={"#00000"} height="30px" width="30px" />
           </View>
         </View>
 
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:'91vh'
   },
   blueSection: {
     backgroundColor: "#303248",
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   },
   languageItem: {
     alignItems: "center",
-    marginBottom: 20,
+   
   },
   playlistImage: {
     width: 150,

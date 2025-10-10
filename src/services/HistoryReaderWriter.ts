@@ -1,8 +1,6 @@
 // Worked on by: Vivian D'Souza
-
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
-import SongReaderWriter from "./SongReaderWriter";
 
 const currentUser = localStorage.getItem("current_user");
 
@@ -11,8 +9,8 @@ const HistoryReaderWriter = {
     const { data, error } = await LocalSupabaseClient.from("history")
       .select(
         `
-    song_id,
-    songs (song_id, name, artist, album, image_url, duration, spotify_url)
+    spotify_url,
+    songs (name, artist, album, image_url, duration, spotify_url)
     `
       )
       .eq("user_id", currentUser)
@@ -21,7 +19,7 @@ const HistoryReaderWriter = {
     return data;
   },
 
-  async addUserHistory(songID: string) {
+  async addUserHistory(spotifyURL: string) {
     // check if that song is in the list of current entries for that user
 
     // check if there are even 10 entries for that user
@@ -34,7 +32,7 @@ const HistoryReaderWriter = {
 
     const { count, error } = await LocalSupabaseClient.from("history")
       .select("*", { count: "exact", head: true })
-      .eq("song_id", songID)
+      .eq("spotify_url", spotifyURL)
       .eq("user_id", currentUser);
     console.log(error);
 
@@ -54,7 +52,7 @@ const HistoryReaderWriter = {
       if (numOfEntries! >= 10) {
         const { data, error } = await LocalSupabaseClient.from("history")
           .update({ num: 10 })
-          .eq("song_id", songID)
+          .eq("spotify_url", spotifyURL)
           .eq("user_id", currentUser);
         console.log(data);
 
@@ -69,7 +67,7 @@ const HistoryReaderWriter = {
       } else {
         const { data, error } = await LocalSupabaseClient.from("history")
           .update({ num: count! + 1 })
-          .eq("song_id", songID)
+          .eq("spotify_url", spotifyURL)
           .eq("user_id", currentUser);
         console.log(data);
 
@@ -110,29 +108,29 @@ const HistoryReaderWriter = {
           console.log(error);
         }
 
-        this.insertHistory(songID, 1);
+        this.insertHistory(spotifyURL, 1);
       } else {
         // list is not full
-        this.insertHistory(songID, numOfEntries! + 1);
+        this.insertHistory(spotifyURL, numOfEntries! + 1);
       }
     }
   },
 
-  async insertHistory(songID: string, numOfEntries: number) {
+  async insertHistory(spotifyURL: string, numOfEntries: number) {
     const { error } = await LocalSupabaseClient.from("history").insert({
       history_id: uuidv4(),
       user_id: currentUser,
-      song_id: songID,
+      spotify_url: spotifyURL,
       num: numOfEntries,
     });
 
     console.log(error);
   },
 
-  async isSongInHistory(songID: string) {
+  async isSongInHistory(spotifyURL: string) {
     const { count, error } = await LocalSupabaseClient.from("history")
       .select("*", { count: "exact", head: true })
-      .eq("song_id", songID);
+      .eq("spotify_url", spotifyURL);
 
     console.log(error);
     if (count! > 0) {
@@ -146,7 +144,7 @@ const HistoryReaderWriter = {
     const { data, error } = await LocalSupabaseClient.from("history")
       .select(
         `
-    song_id
+    spotify_url
     `
       )
       .eq("user_id", currentUser)
@@ -156,8 +154,8 @@ const HistoryReaderWriter = {
     console.log(data);
     console.log(error);
 
-    const url = SongReaderWriter.getSongURL(data!["song_id"]);
-    return url;
+    // const url = SongReaderWriter.getSongURL(data!["song_id"]);
+    return data!["spotify_url"];
   },
 };
 export default HistoryReaderWriter;

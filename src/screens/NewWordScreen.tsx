@@ -8,6 +8,7 @@ import {
   Pressable,
   TextInput,
   Alert,
+  TouchableOpacity
 } from "react-native";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -69,10 +70,14 @@ function NewWordScreen() {
           paddingLeft: 20,
         }}
       >
-        <Pressable onPress={() => navigate(-1)} style={{}}>
-          {/* <Ionicons style={{}} name="arrow-back" size={35} color="white" /> */}
-          <ArrowBackOutline />
-        </Pressable>
+        {/* Back Button */}
+        {/* Back Button */}
+        <TouchableOpacity
+          onPress={() => navigate(-1)}
+            style={{marginRight: 10,marginTop:0}}
+          >
+            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+        </TouchableOpacity>
         <Text style={styles.title}>New Word</Text>
       </View>
       <View style={{ flexDirection: "row", marginLeft: 20, paddingTop: 10 }}>
@@ -98,7 +103,7 @@ function NewWordScreen() {
           color="black"
           style={{ marginRight: 18 }}
         /> */}
-        <FontAwesomeIcon icon={faBook} />
+        <FontAwesomeIcon icon={faBook} style={{fontSize:70, marginRight: 30}}/>
 
         <View style={styles.inputWrapper}>
           <View style={styles.inputRow}>
@@ -189,6 +194,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:'91vh'
   },
   title: {
     fontSize: 30,
@@ -220,6 +226,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 18,
     flex: 1,
+    marginLeft:8
   },
   wordInputContainer: {
     flexDirection: "row",
