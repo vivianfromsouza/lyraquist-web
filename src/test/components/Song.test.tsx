@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import SongCard from "../../components/Song";
 import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
-import PlayerContext, { PlayerProvider } from "../../context/PlayerContext";
+import { PlayerProvider } from "../../context/PlayerContext";
 
 const mockPlaySong = vi.fn();
 
