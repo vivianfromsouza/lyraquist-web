@@ -2,17 +2,14 @@
 /* eslint-disable prefer-const */
 // Worked on by: Vivian D'Souza, Ashley Bickham
 import { SafeAreaView, View, Text, StyleSheet, Pressable } from "react-native";
-import { ArrowBackOutline, Create } from "react-ionicons";
+import { ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import { useEffect, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import RecordReaderWriter from "../services/RecordReaderWriter";
-import { TextInput } from "react-native-web";
 import SongReaderWriter from "../services/SongReaderWriter";
 import CreateNewPlaylistForm from "../components/CreateNewPlaylistForm";
-import create from "@ant-design/icons/lib/components/IconFont";
-// import "react-image-picker-editor/dist/index.css";
 
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();
@@ -25,55 +22,12 @@ function AddSongToPlaylistScreen() {
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<string>("");
   const [playlistItems, setPlaylistItems] = useState<any[]>([]);
 
-  // const config2: ImagePickerConf = {
-  //   borderRadius: "8px",
-  //   language: "en",
-  //   width: "330px",
-  //   height: "250px",
-  //   objectFit: "contain",
-  //   compressInitial: null,
-  //   darkMode: false,
-  //   rtl: false,
-  // };
-  // const initialImage: string = '/assets/images/8ptAya.webp';
-  // const initialImage = "";
-
-  // function getMyPlaylists() {
-  //   setTimeout(async () => {
-  //     PlaylistReaderWriter.getMyPlaylists().then((myPlaylists) => {
-  //       let list: any[] = [];
-  //       for (const i in myPlaylists) {
-  //         list.push(myPlaylists[i]);
-  //       }
-
-  //       list.push({
-  //         name: "Create New Playlist",
-  //         playlist_id: "0",
-  //       });
-
-  //       setPlaylistItems(list);
-  //     });
-  //   }, 1000);
-  // }
-
   async function addSong() {
     if (!(await SongReaderWriter.isSongInDB(songURL))) {
       await SongReaderWriter.addSongToDBFromSongCard(songItem);
     }
     await RecordReaderWriter.addSongToRecords(songURL, selectedPlaylistId);
     navigate(-1);
-  }
-
-  async function getImageURL(file) {
-    if (file) {
-      const objectURL = URL.createObjectURL(file); // Create the object URL
-      const imageElement = document.getElementById(
-        "albumImage"
-      ) as HTMLInputElement;
-      imageElement.src = objectURL; // Set the image source to the object URL
-      console.log(objectURL);
-      // URL.revokeObjectURL(objectURL);
-    }
   }
 
   useEffect(() => {

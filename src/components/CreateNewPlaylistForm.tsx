@@ -11,6 +11,7 @@ const CreateNewPlaylistForm = ({ songItem }) => {
   const [newPlaylistName, setNewPlaylistName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const songURL = songItem["spotifyURL"].split(":")[2];
+  const [imageURL, setImageURL] = useState<string>();
 
   async function createPlaylist(
     description = "",
@@ -91,23 +92,17 @@ const CreateNewPlaylistForm = ({ songItem }) => {
         />
       </View>
       <View>
-        {/* <Pressable onPress={pickImage} style={styles.button}>
-                 <Text style={styles.buttonText}>Select playlist image</Text>
-               </Pressable> */}
-        {/* <input
+        <input
+          test-id="image-input"
           type="file"
           accept="image/*"
-          id="albumImage"
-          onChange={(e) => getImageURL(e.target.files![0])}
-        ></input> */}
+          onChange={(e) => setImageURL(URL.createObjectURL(e.target.files![0]))}
+        />
       </View>
       <Pressable
         onPress={() => {
           console.log("button pressed");
-          createPlaylist(
-            description
-            // (document.getElementById("albumImage") as HTMLInputElement).src
-          );
+          createPlaylist(description, imageURL);
         }}
         testID="add-song"
         style={styles.button}

@@ -126,4 +126,35 @@ describe("CreateNewPlaylistForm", () => {
       mockSong
     );
   });
+
+  it("creates a new playlist with custom image", async () => {
+    localStorage.setItem("current_user", "mockUserId");
+    const file = new File(["file content"], "example.png", {
+      type: "img/png",
+    });
+
+    render(<CreateNewPlaylistForm songItem={mockSong} />);
+
+    const playlistNameInput = screen.getByTestId("playlist-name-input");
+    await userEvent.type(playlistNameInput, "My Playlist");
+    expect(playlistNameInput).toHaveValue("My Playlist");
+
+    const descriptionInput = screen.getByTestId("description-input");
+    await userEvent.type(descriptionInput, "My Description");
+    expect(descriptionInput).toHaveValue("My Description");
+
+    const imageInput = screen.getByTestId("image-input");
+    await userEvent.upload(imageInput, file);
+
+    const addSongButton = screen.getByTestId("add-song");
+    await userEvent.click(addSongButton);
+    expect(PlaylistReaderWriter.createPlaylist).toHaveBeenCalledWith(
+      "My Playlist",
+      "My Description",
+      "example.png"
+    );
+    expect(SongReaderWriter.addSongToDBFromSongCard).toHaveBeenCalledWith(
+      mockSong
+    );
+  });
 });
