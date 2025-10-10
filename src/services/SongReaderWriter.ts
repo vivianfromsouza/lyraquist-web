@@ -50,11 +50,25 @@ const SongReaderWriter = {
   async addSongToDBFromSpotifyTrack(newSong) {
     const { data, error } = await LocalSupabaseClient.from("songs").insert({
       name: newSong.name,
-      artist: newSong.artists[0].name,
+      artist: newSong.artists[0].name || newSong.artist,
       image_url: newSong.album.images[0].url,
       duration: newSong.duration_ms,
       album: newSong.album.name,
       spotify_url: newSong.id,
+    });
+    console.log(error);
+
+    return data;
+  },
+
+  async addSongToDBFromSongCard(newSong) {
+    const { data, error } = await LocalSupabaseClient.from("songs").insert({
+      name: newSong.name,
+      artist:  newSong.artist,
+      image_url: newSong.imageURL,
+      duration: newSong.duration,
+      album: newSong.album,
+      spotify_url: newSong.spotifyURL.split(":")[2],
     });
     console.log(error);
 
