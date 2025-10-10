@@ -11,8 +11,9 @@ import { Pressable } from "react-native-web";
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
-import { eldr } from "eldr/lib/medium"
 import TranslationService from "../services/TranslationService";
+import { User } from "feather-icons-react";
+import UserReaderWriter from "../services/UserReaderWriter";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -27,6 +28,8 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   // const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
+  const fromLang = TranslationService.detectLanguage(word);
+  const toLang = UserReaderWriter.getPreferredLanguage();
 
   console.log(workbookName);
   console.log(setPronunciation);
@@ -34,17 +37,12 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   console.log(setDefinition);
 
   async function getTranslation() {
-    TranslationService.getSingleTranslation(word, "en", "es").then(
+    TranslationService.getSingleTranslation(word, fromLang, toLang).then(
       (translation) => setTranslation(translation)
     );
   }
 
   async function getDefinition() {
-    const fromLang = await eld.detect(word).language;
-
-    console.log("Detected language:", fromLang);
-    console.log(eld.detect("Hola, como te llamas?").language)
-
     fetch(
       "http://localhost:3000/api/dictionaryLookup?word=" +
         word +

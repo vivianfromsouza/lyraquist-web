@@ -1,4 +1,6 @@
 import axios from "axios";
+import { franc } from 'franc';
+import { iso6393 } from 'iso-639-3';
 
 const TranslationService = {
   async getTranslationAllLyrics(lyrics, toLanguage): Promise<string> {
@@ -52,6 +54,23 @@ const TranslationService = {
         return "Translation unavailable.";
       });
   },
+  async detectLanguage(word) : Promise<string> {
+     if (!word || word.trim().length === 0) {
+        return "";
+    }
+
+    const threeCharCode = franc(word);
+
+    if (threeCharCode === 'und') {
+        return "un";
+    }
+
+    const languageData = iso6393.find(
+        (lang) => lang.iso6393 === threeCharCode
+    );
+
+    return languageData?.iso6391 || "un";
+  }
 };
 
 export default TranslationService;
