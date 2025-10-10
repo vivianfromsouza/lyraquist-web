@@ -12,7 +12,6 @@ import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
-import { User } from "feather-icons-react";
 import UserReaderWriter from "../services/UserReaderWriter";
 
 const fontScale = PixelRatio.getFontScale();
@@ -97,6 +96,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
               alignItems: "center",
             }}
           >
+            {translation}
             <View>
               <View style={{ flexDirection: "row", alignItems: "baseline" }}>
                 <Text
