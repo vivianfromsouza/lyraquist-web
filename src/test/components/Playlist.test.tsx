@@ -81,7 +81,7 @@ describe("Playlist", () => {
   it("goes to playlist screen", async () => {
     const playlistButton = screen.getByTestId("playlist-image");
     await userEvent.click(playlistButton);
-    expect(mockNavigate).toHaveBeenCalledWith("/playlist/", {
+    expect(mockNavigate).toHaveBeenCalledWith("/playlist", {
       state: {
         image_url: "https://picsum.photos/536/354",
         name: "Test Playlist",

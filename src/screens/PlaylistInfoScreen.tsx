@@ -60,7 +60,9 @@ function PlaylistInfoScreen() {
 
   async function getAllSongsFromPlaylist(playUID) {
     await RecordReaderWriter.getAllPlaylistSongs(playUID).then((mySongs) => {
-      const playItems: PlayItem[] = mySongs!.map((song) => ({
+      const playItems: PlayItem[] = mySongs!.map((song) => (
+        console.log("song", song.songs),
+        {
         artist: song.songs["artist"],
         spotifyURL: song.songs["spotify_url"],
         imageURL: song.songs["image_url"],

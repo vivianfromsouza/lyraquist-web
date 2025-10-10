@@ -14,7 +14,7 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-vi.mock("../services/LanguageReaderWriter", () => {
+vi.mock("../../services/LanguageReaderWriter", () => {
   return {
     default: {
       deleteLangauge: vi.fn(),

@@ -1,8 +1,25 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import SongCard from "../../components/Song";
-import { vi, describe, expect, it, beforeAll, afterEach } from "vitest";
+import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
+import PlayerContext, { PlayerProvider } from "../../context/PlayerContext";
 
 const mockPlaySong = vi.fn();
+
+vi.mock("../../context/PlayerContext", async () => {
+  const actual = await vi.importActual<any>("../../context/PlayerContext");
+  return {
+    ...actual,
+    usePlayer: () => ({
+      playSong: mockPlaySong,
+      playPlaylist: vi.fn(),
+      pausePlayback: vi.fn(),
+      isPaused: false,
+      isActive: true,
+      currentTrack: null,
+      accessToken: "fake-access-token", // <-- Add this line
+    }),
+  };
+});
 
 vi.mock("firebase/app", () => ({
   initializeApp: vi.fn(() => ({ name: "mocked-app" })),
@@ -66,8 +83,12 @@ const mockSong = {
 };
 
 describe("SongCard", () => {
-  beforeAll(() => {
-    render(<SongCard item={mockSong} />);
+  beforeEach(() => {
+    render(
+      <PlayerProvider>
+        <SongCard item={mockSong} />
+      </PlayerProvider>
+    );
   });
 
   afterEach(() => {
@@ -81,7 +102,6 @@ describe("SongCard", () => {
   });
 
   it("plays the song upon click", () => {
-    expect(screen.getByTestId("play-song")).toBeInTheDocument();
     const playButton = screen.getByTestId("play-song");
     fireEvent.click(playButton);
     expect(mockPlaySong).toHaveBeenCalledWith(mockSong.spotifyURL);
