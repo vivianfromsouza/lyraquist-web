@@ -53,9 +53,11 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
       );
       setPos(response.results[0].lexicalEntries[0].lexicalCategory.text);
 
-      // setPronunciation(
-      //   response.results[0].lexicalEntries[0].pronunciations[0].audioFile
-      // );
+      if (songLang === "en") {
+        setPronunciation(
+          response.results[0].lexicalEntries[0].entries[0].pronunciations[0].audioFile
+        );
+      }
     });
   }
 

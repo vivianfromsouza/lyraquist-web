@@ -53,6 +53,8 @@ export default function SignUpScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [preferredLanguage, setPreferredLanguage] = useState<string>();
+  const [targetLanguage, setTargetLanguage] = useState<string>();
+
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
 
   const toggleShowPassword = () => {
@@ -72,10 +74,12 @@ export default function SignUpScreen() {
       password == null ||
       password.trim() == "" ||
       preferredLanguage == null ||
-      preferredLanguage.trim() == ""
+      preferredLanguage.trim() == "" ||
+      targetLanguage == null ||
+      targetLanguage.trim() == ""
     ) {
       toast(
-        "Error: Name, email, password, and preferred language fields are required. Please check these fields and try again"
+        "Error: Name, email, password,preferred language, and target language fields are required. Please check these fields and try again"
       );
       // return false;
     } else if (isTermsChecked != true) {
@@ -90,7 +94,10 @@ export default function SignUpScreen() {
       toast(
         "Couldn't create account. Passwords don't match. Please try again."
       );
-    } else createProfile();
+    } else if (targetLanguage === preferredLanguage) {
+      toast("Preferred and target language cannot be the same. Please try again.");
+    }
+     else createProfile();
   }
 
   const createProfile = () => {
@@ -106,7 +113,8 @@ export default function SignUpScreen() {
               name!.trim(),
               email!.trim(),
               password!.trim(),
-              preferredLanguage!
+              preferredLanguage!,
+              targetLanguage!
             );
 
             toast(
@@ -496,32 +504,16 @@ export default function SignUpScreen() {
           </View>
         </View>
 
-        {/* PREFERRED LANGUAGE */}
         <View style={{ marginHorizontal: 20 }}>
           <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
-            Language for App Features
+            Preferred Language
           </Text>
           <Text style={styles.noteText}>
-            Songs will be translated into this language and word definitions
-            pulled for this language
+            This is the language you are most familiar with. Songs will be
+            translated into this language and word definitions pulled for this
+            language
           </Text>
-          {/* <Dropdown
-      // style={[styles.dropdown, isFocus && { borderColor: "green" }]}
-      containerStyle={{ zIndex: 60, top: -100 }}
-      placeholderStyle={styles.placeholderStyle}
-      selectedTextStyle={styles.selectedTextStyle}
-      inputSearchStyle={styles.inputSearchStyle}
-      iconStyle={styles.iconStyle}
-      data={languageItems}
-      maxHeight={1000}
-      labelField="label"
-      valueField="language"
-      placeholder="Select Preferred Langauge"
-      onChange={(preferredLanguage) => {
-        setPreferredLanguage(preferredLanguage.language);
-      }}
-      accessibilityLabel="langInput"
-    /> */}
+
           <Dropdown
             value={preferredLanguage}
             onChange={(e) => setPreferredLanguage(e.value)}
@@ -532,10 +524,28 @@ export default function SignUpScreen() {
             className="w-full md:w-14rem"
           />
         </View>
-        {/* BIRTHDAY TODO: THIS DOESNT SHOW UP PROPERLY IN UI DURING INPUT*/}
-        {/* <View style={{ marginHorizontal: 20 }}>
-          
-        </View> */}
+
+        <View style={{ marginHorizontal: 20 }}>
+          <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
+            Target Language
+          </Text>
+          <Text style={styles.noteText}>
+            This is the language you are trying to learn at the moment. When you
+            listen to music in your preferred language, lyrics and definitions
+            will be provided in your target language.
+          </Text>
+
+          <Dropdown
+            value={targetLanguage}
+            onChange={(e) => setTargetLanguage(e.value)}
+            options={languages}
+            optionLabel="language"
+            optionValue="code"
+            placeholder="Select a language"
+            className="w-full md:w-14rem"
+          />
+        </View>
+
         {/* ACCEPT TERMS & POLICIES */}
         <View
           style={{
