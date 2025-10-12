@@ -25,7 +25,7 @@ export default async function singleTranslation(req, res) {
     "/" +
     toLang +
     "/" +
-    word.toLowerCase();
+    word.toLowerCase() + "?fields=translations";
 
   if (req.method === "OPTIONS") {
     res.status(200).end();

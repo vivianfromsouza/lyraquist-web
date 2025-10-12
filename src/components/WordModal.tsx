@@ -10,6 +10,7 @@ import {
 import { Pressable } from "react-native-web";
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
+import useSound from "use-sound";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
 import UserReaderWriter from "../services/UserReaderWriter";
@@ -25,37 +26,42 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
   const [pronunciation, setPronunciation] = useState("");
-  // const [play] = useSound(pronunciation);
+  const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
-  // const fromLang = TranslationService.detectLanguage(word);
-  // const toLang = UserReaderWriter.getPreferredLanguage();
 
   console.log(workbookName);
   console.log(setPronunciation);
 
-
   async function getTranslation() {
     const toLang = await UserReaderWriter.getPreferredLanguage();
-
-    TranslationService.getSingleTranslation(word, songLang, toLang).then(
-      (translation) => setTranslation(translation)
+    await TranslationService.getSingleTranslation(word, songLang, toLang).then(
+      (response) => {
+        setTranslation(
+          response.results[0].lexicalEntries[0].entries[0].senses[0]
+            .translations[0].text
+        );
+      }
     );
   }
 
   async function getDefinition() {
     await DictionaryService.getDefinition(word, songLang).then((response) => {
       setDefinition(
-        response.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0]
+        response.results[0].lexicalEntries[0].entries[0].senses[0]
+          .definitions[0]
       );
       setPos(response.results[0].lexicalEntries[0].lexicalCategory.text);
+
+      // setPronunciation(
+      //   response.results[0].lexicalEntries[0].pronunciations[0].audioFile
+      // );
     });
   }
 
-  // parsing data from JSON response and put it in a string
   useEffect(() => {
     getDefinition();
-    // getTranslation();
+    getTranslation();
   }, [pronunciation]);
 
   return (
@@ -72,7 +78,6 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
               alignItems: "center",
             }}
           >
-            {translation}
             <View>
               <View style={{ flexDirection: "row", alignItems: "baseline" }}>
                 <Text
@@ -100,6 +105,11 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
                 >
                   in {"prefLang"}:{" "}
                 </Text>
+                <Text
+                  style={{ fontWeight: "bold", fontSize: 35, color: "white" }}
+                >
+                  {translation}
+                </Text>
                 {/* <Text
                   style={{
                     fontWeight: "bold",
@@ -113,17 +123,17 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
               </View>
             </View>
             {/*Button for dictation */}
-            {/* <Pressable
+            {/* <audio controls id="player" src="https://audio.oxforddictionaries.com/en/mp3/amazing__gb_1.mp3"></audio>
+              return <button onClick={play}>Boop!</button>; */}
+            <Pressable
               onPress={() => play}
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <FontAwesomeIcon icon={faVolumeUp} />
-
               <Text style={{ fontSize: 10, color: "white" }}>
                 Press to Dictate
               </Text>
               <audio src={pronunciation} />
-            </Pressable> */}
+            </Pressable>
           </View>
           <View style={{ padding: 10 }}>
             <Text style={{ fontSize: 20, color: "white" }}>{definition}</Text>

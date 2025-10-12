@@ -36,7 +36,7 @@ const TranslationService = {
     return translationResponse;
   },
 
-  async getSingleTranslation(word, fromLang, toLang): Promise<string> {
+  async getSingleTranslation(word, fromLang, toLang): Promise<any> {
     return axios(
       "http://localhost:3000/api/singleTranslation?fromLang=" +
         fromLang +
