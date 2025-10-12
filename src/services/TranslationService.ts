@@ -2,7 +2,7 @@ import axios from "axios";
 import LanguageDetect from "languagedetect";
 
 const TranslationService = {
-  async getTranslationAllLyrics(lyrics, toLanguage): Promise<string> {
+  async getTranslationAllLyrics(lyrics, toLanguage): Promise<any> {
     if (lyrics == undefined || "") {
       return "";
     }
@@ -13,7 +13,7 @@ const TranslationService = {
       "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" +
       toLanguage;
 
-    const translationResponse: Promise<string> = axios({
+    const translationResponse: Promise<any> = axios({
       url: lyricsAPI,
       method: "POST",
       headers: {
@@ -24,9 +24,9 @@ const TranslationService = {
       },
       data: lyricsToSend,
     })
-      .then(async (res) => {
-        translatedLyrics = res.data[0].translations[0].text;
-        return translatedLyrics;
+      .then(async (response) => {
+        // translatedLyrics = res.data[0].translations[0].text;
+        return response;
       })
       .catch((err) => {
         console.log("ERROR WITH TRANSLATION:", err);

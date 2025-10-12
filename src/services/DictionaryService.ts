@@ -2,9 +2,7 @@ import axios from "axios";
 import TranslationService from "./TranslationService";
 
 const DictionaryService = {
-  async getDefinition(word): Promise<any> {
-    const fromLang = await TranslationService.detectLanguage(word);
-
+  async getDefinition(word, fromLang): Promise<any> {
     return axios(
       "http://localhost:3000/api/dictionaryLookup?word=" +
         word +

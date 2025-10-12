@@ -16,6 +16,7 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import LyricsService from "../services/LyricsService";
 import TranslationService from "../services/TranslationService";
 import WordModal from "../components/WordModal";
+import { set } from "firebase/database";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -39,6 +40,7 @@ export default function LyricsToScreen({ currentTrack }) {
 
   const [lyrics, setLyrics] = useState("");
   const [translation, setTranslation] = useState("");
+  const [fromLang, setFromLang] = useState("");
 
   const [openModal, setOpenModal] = React.useState(false);
   const [clickedWord, setClickedWord] = React.useState("");
@@ -52,12 +54,14 @@ export default function LyricsToScreen({ currentTrack }) {
 
   async function getTranslation(lyricsResponse) {
     await getUserPrefLang();
-    const translationResponse =
-      await TranslationService.getTranslationAllLyrics(lyricsResponse, "en");
-    setTranslation(translationResponse);
+    TranslationService.getTranslationAllLyrics(
+      lyricsResponse,
+      "en").then((response) => {
+        setTranslation(response.data[0].translations[0].text);
+        setFromLang(response.data[0].detectedLanguage.language);
+      })
   }
 
-  // parsing data from JSON response and put it in a string
   useEffect(() => {
     getLyrics();
   }, []);
@@ -115,6 +119,7 @@ export default function LyricsToScreen({ currentTrack }) {
           openModal={openModal}
           setOpenModal={setOpenModal}
           word={clickedWord}
+          songLang={fromLang}
         ></WordModal>
       )}
     </View>

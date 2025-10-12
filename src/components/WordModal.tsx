@@ -18,7 +18,7 @@ import DictionaryService from "../services/DictionaryService";
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
-const WordModal = ({ openModal, setOpenModal, word }) => {
+const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
   const [workbookItems] = useState<any>([]);
   const [bookUID, setbookUID] = useState<string>();
   const [translation, setTranslation] = useState("");
@@ -45,7 +45,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   }
 
   async function getDefinition() {
-    await DictionaryService.getDefinition(word).then((response) => {
+    await DictionaryService.getDefinition(word, songLang).then((response) => {
       setDefinition(
         response.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0]
       );
@@ -55,7 +55,6 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
 
   // parsing data from JSON response and put it in a string
   useEffect(() => {
-    console.log("Ich renne...");
     getDefinition();
     // getTranslation();
   }, [pronunciation]);
