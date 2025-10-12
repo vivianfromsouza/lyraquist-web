@@ -32,6 +32,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
+import { languages } from "../constants/ProjectConstants";
 import "react-datepicker/dist/react-datepicker.css";
 //setting up pixelRatio, font scale is based off device size
 const fontScale = PixelRatio.getFontScale();
@@ -51,10 +52,7 @@ export default function SignUpScreen() {
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const languages = ["English", "Spanish", "French", "German"];
-
   const [preferredLanguage, setPreferredLanguage] = useState<string>();
-
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
 
   const toggleShowPassword = () => {
@@ -528,7 +526,8 @@ export default function SignUpScreen() {
             value={preferredLanguage}
             onChange={(e) => setPreferredLanguage(e.value)}
             options={languages}
-            optionLabel="name"
+            optionLabel="language"
+            optionValue="code"
             placeholder="Select a language"
             className="w-full md:w-14rem"
           />

@@ -36,10 +36,9 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
 
 
   async function getTranslation() {
-    const fromLang = await TranslationService.detectLanguage(word);
     const toLang = await UserReaderWriter.getPreferredLanguage();
 
-    TranslationService.getSingleTranslation(word, fromLang, toLang).then(
+    TranslationService.getSingleTranslation(word, songLang, toLang).then(
       (translation) => setTranslation(translation)
     );
   }

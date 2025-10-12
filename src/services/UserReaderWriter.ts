@@ -1,4 +1,3 @@
-// Worked on by: Vivian D'Souza
 import {
   deleteUser,
   getAuth,
@@ -174,7 +173,7 @@ const UserReaderWriter = {
   async deleteAccount() {
     deleteUser(auth.currentUser!)
       .then(() => {
-        // User deleted.
+        console.log("User deleted successfully");
       })
       .catch((error) => {
        console.log("Error deleting user:", error);

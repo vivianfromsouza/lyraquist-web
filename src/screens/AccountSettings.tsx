@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
+import { languages } from "../constants/ProjectConstants";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
@@ -34,8 +35,6 @@ export default function AccountSettings() {
   const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
-
-  const languages = ["English", "Spanish", "French", "German"];
 
   useEffect(() => {
     try {
@@ -79,7 +78,7 @@ export default function AccountSettings() {
 
   function getPrefLang() {
     UserReaderWriter.getPreferredLanguage().then((lang) => {
-      setCurrentLanguage(lang);
+      setCurrentLanguage(languages.find((l) => l.code === lang)?.language);
     });
   }
 
@@ -308,34 +307,34 @@ export default function AccountSettings() {
               />
             </View>
           </View>
-          <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Pressable
-            style={{
-              //marginRight: 10,
-              backgroundColor: "#ff4a2a",
-              //marginStart: 200,
-              //marginHorizontal:200,
-              borderRadius: 10,
-              marginTop: 5,
-              marginBottom: 30,
-              width:'80%'
-            }}
-            onPress={changePassword}
-          >
-            <ToastContainer />
-
-            <Text
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Pressable
               style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                textAlign: "center",
-                color: "#e8e1db",
-                marginVertical: 3,
+                //marginRight: 10,
+                backgroundColor: "#ff4a2a",
+                //marginStart: 200,
+                //marginHorizontal:200,
+                borderRadius: 10,
+                marginTop: 5,
+                marginBottom: 30,
+                width: "80%",
               }}
+              onPress={changePassword}
             >
-              Change Password
-            </Text>
-          </Pressable>
+              <ToastContainer />
+
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: "#e8e1db",
+                  marginVertical: 3,
+                }}
+              >
+                Change Password
+              </Text>
+            </Pressable>
           </View>
         </View>
 
@@ -383,38 +382,39 @@ export default function AccountSettings() {
               value={preferredLanguage}
               onChange={(e) => setPreferredLanguage(e.value)}
               options={languages}
-              optionLabel="name"
+              optionLabel="language"
+              optionValue="code"
               placeholder="Select a language"
               className="w-full md:w-14rem"
             />
           </View>
-          <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Pressable
-            style={{
-              //marginRight: 10,
-              backgroundColor: "#ff4a2a",
-              //marginStart: 200,
-              borderRadius: 10,
-              marginTop: 5,
-              marginBottom: 30,
-              width:'80%'
-            }}
-            onPress={() => {
-              changePreferredLanguage();
-            }}
-          >
-            <Text
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Pressable
               style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                textAlign: "center",
-                color: "#e8e1db",
-                marginVertical: 3,
+                //marginRight: 10,
+                backgroundColor: "#ff4a2a",
+                //marginStart: 200,
+                borderRadius: 10,
+                marginTop: 5,
+                marginBottom: 30,
+                width: "80%",
+              }}
+              onPress={() => {
+                changePreferredLanguage();
               }}
             >
-              Change Langauge
-            </Text>
-          </Pressable>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: "#e8e1db",
+                  marginVertical: 3,
+                }}
+              >
+                Change Langauge
+              </Text>
+            </Pressable>
           </View>
         </View>
 
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
   full: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height:'91vh'
+    height: "91vh",
   },
   introSect: {
     flex: 1,
