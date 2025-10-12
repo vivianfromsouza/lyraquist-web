@@ -1,6 +1,5 @@
 import axios from "axios";
-import { franc } from 'franc';
-import { iso6393 } from 'iso-639-3';
+import LanguageDetect from "languagedetect";
 
 const TranslationService = {
   async getTranslationAllLyrics(lyrics, toLanguage): Promise<string> {
@@ -54,23 +53,20 @@ const TranslationService = {
         return "Translation unavailable.";
       });
   },
-  async detectLanguage(word) : Promise<string> {
-     if (!word || word.trim().length === 0) {
-        return "";
+  async detectLanguage(word): Promise<string> {
+    if (!word || word.trim().length === 0) {
+      return "";
     }
 
-    const threeCharCode = franc(word);
+    const langDetector = new LanguageDetect();
+    langDetector.setLanguageType("iso2");
 
-    if (threeCharCode === 'und') {
-        return "un";
-    }
+    const detectedLang = langDetector.detect(word, 1);
 
-    const languageData = iso6393.find(
-        (lang) => lang.iso6393 === threeCharCode
-    );
+    console.log("detected lang;", detectedLang)
 
-    return languageData?.iso6391 || "un";
-  }
+    return detectedLang[0][0].toString();
+  },
 };
 
 export default TranslationService;

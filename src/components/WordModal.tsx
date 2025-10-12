@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
 import UserReaderWriter from "../services/UserReaderWriter";
+import DictionaryService from "../services/DictionaryService";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -27,59 +28,36 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
   // const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
-  const fromLang = TranslationService.detectLanguage(word);
-  const toLang = UserReaderWriter.getPreferredLanguage();
+  // const fromLang = TranslationService.detectLanguage(word);
+  // const toLang = UserReaderWriter.getPreferredLanguage();
 
   console.log(workbookName);
   console.log(setPronunciation);
-  console.log(setPos);
-  console.log(setDefinition);
+
 
   async function getTranslation() {
+    const fromLang = await TranslationService.detectLanguage(word);
+    const toLang = await UserReaderWriter.getPreferredLanguage();
+
     TranslationService.getSingleTranslation(word, fromLang, toLang).then(
       (translation) => setTranslation(translation)
     );
   }
 
   async function getDefinition() {
-    fetch(
-      "http://localhost:3000/api/dictionaryLookup?word=" +
-        word +
-        "&fromLang=" +
-        fromLang
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`API Proxy Error: ${res.status} ${res.statusText}`);
-        }
-        return res.text();
-      })
-      .then((text) => {
-        console.log("Raw response:", text);
-        try {
-          const data = JSON.parse(text);
-          console.log("Parsed JSON:", data);
-          // setDefinition(data.definition); // or whatever field you expect
-        } catch (err) {
-          console.error("JSON parse error:", err);
-        }
-      })
-      .catch((error) => {
-        console.error("Frontend failed to fetch from local API:", error);
-      });
-    // await DictionaryService.getDefinition(word, ).then((definitionResponse) => {
-    //   setPos(definitionResponse[0].fl)
-    //   setDefinition(definitionResponse[0].shortdef[0])
-    //   setPronunciation(definitionResponse[0].pronunciationAudio)
-    //   console.log("definitionResponse", definitionResponse);
-    // });
+    await DictionaryService.getDefinition(word).then((response) => {
+      setDefinition(
+        response.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0]
+      );
+      setPos(response.results[0].lexicalEntries[0].lexicalCategory.text);
+    });
   }
 
   // parsing data from JSON response and put it in a string
   useEffect(() => {
     console.log("Ich renne...");
     getDefinition();
-    getTranslation();
+    // getTranslation();
   }, [pronunciation]);
 
   return (
@@ -124,7 +102,7 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
                 >
                   in {"prefLang"}:{" "}
                 </Text>
-                <Text
+                {/* <Text
                   style={{
                     fontWeight: "bold",
                     fontSize: 30,
@@ -132,8 +110,8 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
                     fontStyle: "italic",
                   }}
                 >
-                  {definition}
-                </Text>
+                  {pos}
+                </Text> */}
               </View>
             </View>
             {/*Button for dictation */}
