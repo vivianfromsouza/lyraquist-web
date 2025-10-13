@@ -8,7 +8,6 @@ const TranslationService = {
     }
 
     const lyricsToSend = [{ Text: lyrics }];
-    let translatedLyrics;
     const lyricsAPI =
       "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" +
       toLanguage;
@@ -25,7 +24,6 @@ const TranslationService = {
       data: lyricsToSend,
     })
       .then(async (response) => {
-        // translatedLyrics = res.data[0].translations[0].text;
         return response;
       })
       .catch((err) => {

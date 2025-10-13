@@ -16,7 +16,6 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import LyricsService from "../services/LyricsService";
 import TranslationService from "../services/TranslationService";
 import WordModal from "../components/WordModal";
-import { set } from "firebase/database";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;

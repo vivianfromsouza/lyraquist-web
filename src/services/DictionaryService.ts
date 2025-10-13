@@ -1,5 +1,4 @@
 import axios from "axios";
-import TranslationService from "./TranslationService";
 
 const DictionaryService = {
   async getDefinition(word, fromLang): Promise<any> {

@@ -12,7 +12,6 @@ import { useLocalStorage } from "usehooks-ts";
 // import { Seekbar } from "react-seekbar";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
-import TranslateScreen from "../screens/TranslateScreen";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -59,7 +58,6 @@ const Player = () => {
   // };
 
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
-  const [isTranslationOpen, setIsTranslationOpen] = useState(false);
 
   // this has to match template coming in from spotify's api
   const track = {
@@ -100,22 +98,6 @@ const Player = () => {
       handleLyricsClose();
     } else {
       handleLyricsOpen();
-    }
-  }
-
-  const handleTranslationClose = () => {
-    setIsTranslationOpen(false);
-  };
-
-  const handleTranslationOpen = () => {
-    setIsTranslationOpen(true);
-  };
-
-  async function openTranslation() {
-    if (isTranslationOpen) {
-      handleTranslationClose();
-    } else {
-      handleTranslationOpen();
     }
   }
 

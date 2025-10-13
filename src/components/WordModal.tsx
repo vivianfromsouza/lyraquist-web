@@ -10,12 +10,10 @@ import {
 import { Pressable } from "react-native-web";
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useRef, useState } from "react";
-import useSound from "use-sound";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
 import UserReaderWriter from "../services/UserReaderWriter";
 import DictionaryService from "../services/DictionaryService";
-import { a } from "vitest/dist/chunks/suite.d.FvehnV49.js";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -27,7 +25,6 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
   const [pronunciation, setPronunciation] = useState("");
-  const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
   const audioRef = useRef<HTMLAudioElement>(null);
