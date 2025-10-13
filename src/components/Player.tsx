@@ -534,30 +534,8 @@ const Player = () => {
                 Open Lyrics
               </button>
 
-              <button
-                className="btn-spotify"
-                onClick={() => {
-                  openTranslation();
-                }}
-                style={{
-                  marginBottom: 10,
-                  fontWeight: "bold",
-                  backgroundColor: "#edc526",
-                  borderRadius: 5,
-                  fontSize: 15,
-                }}
-              >
-                Open Translation
-              </button>
-
               {isLyricsOpen && (
                 <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
-              )}
-
-              {isTranslationOpen && (
-                <TranslateScreen></TranslateScreen>
-                // reintroduce later
-                // <TranslateScreen currentTrack={current_track}></TranslateScreen>
               )}
             </div>
           </div>
