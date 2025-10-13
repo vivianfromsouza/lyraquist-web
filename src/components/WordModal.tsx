@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import { Pressable } from "react-native-web";
 import { Dropdown } from "primereact/dropdown";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSound from "use-sound";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
 import UserReaderWriter from "../services/UserReaderWriter";
 import DictionaryService from "../services/DictionaryService";
+import { a } from "vitest/dist/chunks/suite.d.FvehnV49.js";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -29,41 +30,55 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
   const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   console.log(workbookName);
   console.log(setPronunciation);
 
-  async function getTranslation() {
-    const toLang = await UserReaderWriter.getPreferredLanguage();
-    await TranslationService.getSingleTranslation(word, songLang, toLang).then(
-      (response) => {
-        setTranslation(
-          response.results[0].lexicalEntries[0].entries[0].senses[0]
-            .translations[0].text
-        );
-      }
+  async function getEntryDetails() {
+    let prefLang = await UserReaderWriter.getPreferredLanguage();
+
+    if (prefLang === songLang) {
+      prefLang = await UserReaderWriter.getTargetLanguage();
+    }
+
+    const translationResponse = await TranslationService.getSingleTranslation(
+      word,
+      songLang,
+      prefLang
+    );
+
+    const translation =
+      translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+        ?.senses?.[0]?.translations?.[0]?.text ?? "";
+
+    setTranslation(translation);
+
+    if (songLang === "en") {
+      setPronunciation(
+        translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+          ?.pronunciations?.[0]?.audioFile ?? ""
+      );
+    }
+
+    const definitionResponse = await DictionaryService.getDefinition(
+      translation,
+      prefLang
+    );
+
+    setDefinition(
+      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+        ?.senses?.[0]?.definitions?.[0] ?? ""
+    );
+    setPos(
+      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
+        ?.text ?? ""
     );
   }
 
-  async function getDefinition() {
-    await DictionaryService.getDefinition(word, songLang).then((response) => {
-      setDefinition(
-        response.results[0].lexicalEntries[0].entries[0].senses[0]
-          .definitions[0]
-      );
-      setPos(response.results[0].lexicalEntries[0].lexicalCategory.text);
-
-      if (songLang === "en") {
-        setPronunciation(
-          response.results[0].lexicalEntries[0].entries[0].pronunciations[0].audioFile
-        );
-      }
-    });
-  }
-
   useEffect(() => {
-    getDefinition();
-    getTranslation();
+    getEntryDetails();
+    console.log(pronunciation);
   }, [pronunciation]);
 
   return (
@@ -128,13 +143,18 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
             {/* <audio controls id="player" src="https://audio.oxforddictionaries.com/en/mp3/amazing__gb_1.mp3"></audio>
               return <button onClick={play}>Boop!</button>; */}
             <Pressable
-              onPress={() => play}
+              onPress={() => {
+                if (audioRef.current) {
+                  audioRef.current.play();
+                }
+              }}
               style={{ justifyContent: "center", alignItems: "center" }}
             >
               <Text style={{ fontSize: 10, color: "white" }}>
                 Press to Dictate
               </Text>
-              <audio src={pronunciation} />
+
+              <audio ref={audioRef} src={pronunciation} />
             </Pressable>
           </View>
           <View style={{ padding: 10 }}>
