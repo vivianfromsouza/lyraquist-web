@@ -24,9 +24,10 @@
     "alpinejs": "^3.14.8",
     "axios": "^1.7.9",
     "depcheck": "^1.4.7",
-    "eld": "^1.0.1",
     "feather-icons-react": "^0.9.0",
     "firebase": "^11.2.0",
+    "franc": "^6.2.0",
+    "iso-639-3": "^3.0.1",
     "languagedetect": "^2.0.0",
     "primereact": "^10.9.2",
     "react": "19.2.0",
@@ -73,7 +74,7 @@
     "vite-plugin-react-native-web": "^2.1.1",
     "vitest": "^3.1.2"
   },
-   "jest": {
+  "jest": {
     "preset": "react-native"
   }
 }

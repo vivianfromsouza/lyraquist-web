@@ -7,63 +7,75 @@ import {
   Alert,
   PixelRatio,
 } from "react-native";
-import { Pressable} from "react-native-web"
+import { Pressable } from "react-native-web";
 import { Dropdown } from "primereact/dropdown";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
+import TranslationService from "../services/TranslationService";
+import UserReaderWriter from "../services/UserReaderWriter";
+import DictionaryService from "../services/DictionaryService";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
-const WordModal = ({ openModal, setOpenModal, word }) => {
+const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
   const [workbookItems] = useState<any>([]);
   const [bookUID, setbookUID] = useState<string>();
-  // const [translation, setTranslation] = useState("");
+  const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
   const [pronunciation, setPronunciation] = useState("");
-  // const [play] = useSound(pronunciation);
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   console.log(workbookName);
   console.log(setPronunciation);
-  console.log(setPos);
-  console.log(setDefinition);
 
-  async function getDefinition() {
-    fetch("http://localhost:3000/api/handler")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`API Proxy Error: ${res.status} ${res.statusText}`);
-        }
-        return res.text();
-      })
-      .then((text) => {
-        console.log("Raw response:", text);
-        try {
-          const data = JSON.parse(text);
-          console.log("Parsed JSON:", data);
-          // setDefinition(data.definition); // or whatever field you expect
-        } catch (err) {
-          console.error("JSON parse error:", err);
-        }
-      })
-      .catch((error) => {
-        console.error("Frontend failed to fetch from local API:", error);
-      });
-    // await DictionaryService.getDefinition(word, ).then((definitionResponse) => {
-    //   setPos(definitionResponse[0].fl)
-    //   setDefinition(definitionResponse[0].shortdef[0])
-    //   setPronunciation(definitionResponse[0].pronunciationAudio)
-    //   console.log("definitionResponse", definitionResponse);
-    // });
+  async function getEntryDetails() {
+    let prefLang = await UserReaderWriter.getPreferredLanguage();
+
+    if (prefLang === songLang) {
+      prefLang = await UserReaderWriter.getTargetLanguage();
+    }
+
+    const translationResponse = await TranslationService.getSingleTranslation(
+      word,
+      songLang,
+      prefLang
+    );
+
+    const translation =
+      translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+        ?.senses?.[0]?.translations?.[0]?.text ?? "";
+
+    setTranslation(translation);
+
+    if (songLang === "en") {
+      setPronunciation(
+        translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+          ?.pronunciations?.[0]?.audioFile ?? ""
+      );
+    }
+
+    const definitionResponse = await DictionaryService.getDefinition(
+      translation,
+      prefLang
+    );
+
+    setDefinition(
+      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+        ?.senses?.[0]?.definitions?.[0] ?? ""
+    );
+    setPos(
+      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
+        ?.text ?? ""
+    );
   }
 
-  // parsing data from JSON response and put it in a string
   useEffect(() => {
-    console.log("Ich renne...");
-    getDefinition();
+    getEntryDetails();
+    console.log(pronunciation);
   }, [pronunciation]);
 
   return (
@@ -108,6 +120,11 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
                   in {"prefLang"}:{" "}
                 </Text>
                 <Text
+                  style={{ fontWeight: "bold", fontSize: 35, color: "white" }}
+                >
+                  {translation}
+                </Text>
+                {/* <Text
                   style={{
                     fontWeight: "bold",
                     fontSize: 30,
@@ -115,22 +132,27 @@ const WordModal = ({ openModal, setOpenModal, word }) => {
                     fontStyle: "italic",
                   }}
                 >
-                  {definition}
-                </Text>
+                  {pos}
+                </Text> */}
               </View>
             </View>
             {/*Button for dictation */}
-            {/* <Pressable
-              onPress={() => play}
+            {/* <audio controls id="player" src="https://audio.oxforddictionaries.com/en/mp3/amazing__gb_1.mp3"></audio>
+              return <button onClick={play}>Boop!</button>; */}
+            <Pressable
+              onPress={() => {
+                if (audioRef.current) {
+                  audioRef.current.play();
+                }
+              }}
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <FontAwesomeIcon icon={faVolumeUp} />
-
               <Text style={{ fontSize: 10, color: "white" }}>
                 Press to Dictate
               </Text>
-              <audio src={pronunciation} />
-            </Pressable> */}
+
+              <audio ref={audioRef} src={pronunciation} />
+            </Pressable>
           </View>
           <View style={{ padding: 10 }}>
             <Text style={{ fontSize: 20, color: "white" }}>{definition}</Text>

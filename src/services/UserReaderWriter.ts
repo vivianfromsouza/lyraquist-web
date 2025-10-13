@@ -1,4 +1,3 @@
-// Worked on by: Vivian D'Souza
 import {
   deleteUser,
   getAuth,
@@ -19,7 +18,8 @@ const UserReaderWriter = {
     name: string,
     email: string,
     password: string,
-    preferredLanguage: string
+    preferredLanguage: string,
+    targetLanguage: string
   ): Promise<boolean> {
     const { error } = await LocalSupabaseClient.from("users").insert({
       user_id: userId,
@@ -28,6 +28,7 @@ const UserReaderWriter = {
       name: name,
       password: password,
       preferred_language: preferredLanguage,
+      target_language: targetLanguage,
       spotify_user: "",
     });
     console.log(error);
@@ -107,9 +108,25 @@ const UserReaderWriter = {
     return data["preferred_language"];
   },
 
-  async setPreferredLanguage(lang: string) {
+  async setPreferredLanguage(lang: (string | undefined)) {
     const { error } = await LocalSupabaseClient.from("users")
       .update({ preferred_language: lang })
+      .eq("user_id", currentUser);
+    return error;
+  },
+
+  async getTargetLanguage() {
+    const { data } = await LocalSupabaseClient.from("users")
+      .select("target_language")
+      .eq("user_id", currentUser)
+      .single()
+      .throwOnError();
+    return data["target_language"];
+  },
+
+    async setTargetLanguage(lang: string | undefined) {
+    const { error } = await LocalSupabaseClient.from("users")
+      .update({ target_language: lang })
       .eq("user_id", currentUser);
     return error;
   },
@@ -174,7 +191,7 @@ const UserReaderWriter = {
   async deleteAccount() {
     deleteUser(auth.currentUser!)
       .then(() => {
-        // User deleted.
+        console.log("User deleted successfully");
       })
       .catch((error) => {
        console.log("Error deleting user:", error);

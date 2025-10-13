@@ -1,21 +1,18 @@
 import axios from "axios";
+import LanguageDetect from "languagedetect";
 
 const TranslationService = {
-  // grabs lyrics using lrclib API: https://lrclib.net/docs
-  async getTranslationAllLyrics(lyrics, toLanguage): Promise<string> {
+  async getTranslationAllLyrics(lyrics, toLanguage): Promise<any> {
     if (lyrics == undefined || "") {
       return "";
     }
 
     const lyricsToSend = [{ Text: lyrics }];
-    // to hold translation
-    let translatedLyrics;
-    //setting up the API call request
     const lyricsAPI =
       "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" +
       toLanguage;
 
-    const translationResponse: Promise<string> = axios({
+    const translationResponse: Promise<any> = axios({
       url: lyricsAPI,
       method: "POST",
       headers: {
@@ -26,11 +23,8 @@ const TranslationService = {
       },
       data: lyricsToSend,
     })
-      .then(async (res) => {
-        console.log(res.data);
-
-        translatedLyrics = res.data[0].translations[0].text;
-        return translatedLyrics;
+      .then(async (response) => {
+        return response;
       })
       .catch((err) => {
         console.log("ERROR WITH TRANSLATION:", err);
@@ -39,122 +33,38 @@ const TranslationService = {
 
     return translationResponse;
   },
+
+  async getSingleTranslation(word, fromLang, toLang): Promise<any> {
+    return axios(
+      "http://localhost:3000/api/singleTranslation?fromLang=" +
+        fromLang +
+        "&toLang=" +
+        toLang +
+        "&word=" +
+        word
+    )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Frontend failed to fetch from local API:", error);
+        return "Translation unavailable.";
+      });
+  },
+  async detectLanguage(word): Promise<string> {
+    if (!word || word.trim().length === 0) {
+      return "";
+    }
+
+    const langDetector = new LanguageDetect();
+    langDetector.setLanguageType("iso2");
+
+    const detectedLang = langDetector.detect(word, 1);
+
+    console.log("detected lang;", detectedLang)
+
+    return detectedLang[0][0].toString();
+  },
 };
 
 export default TranslationService;
-
-// const TranslationService = {
-
-//     // detects language and returns language code as a string
-//     async detectLanguage(text) : Promise<string> {
-//       if (text === undefined || text == ""){return ""}
-//       // to hold language value
-//       let lang;
-
-//       // setting up API call, text is text to be TLed
-//       const encodedParams = new URLSearchParams();
-//       encodedParams.set('text', text);
-
-//       const options = {
-//         method: 'POST',
-//         url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/detect-language',
-//         headers: {
-//           'content-type': 'application/x-www-form-urlencoded',
-//           'X-RapidAPI-Key': APIKeys.TLKey,
-//           'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
-//         },
-//         data: encodedParams,
-//       };
-
-//       // attempts API call and grabs language code detected
-//       try {
-//         const response = await axios.request(options);
-//         lang = response.data.source_lang_code;
-//       } catch (error) {
-//         console.error("error Detecting Lang: " + error);
-//       }
-
-//       return lang;
-//     },
-
-//     /*translates <text> from language <from> (what lang <text> is initially in) into language <into>
-//     */
-//     async translateFRINTO(text, from, into) : Promise<string> {
-//       if ( text === undefined || text == "" || from === undefined || from == "" || into === undefined || into == ""){return ""}
-
-//       // holds the translation
-//       let TLed;
-
-//       // only runs translation call when <from> language has been provided and <from> != <into>
-//       if (from != into && from != '') {
-//         // setting up API call
-//         const encodedParams = new URLSearchParams();
-//         encodedParams.set('from', from );
-//         encodedParams.set('to', into );
-//         encodedParams.set('text', text);
-//         const options = {
-//         method: 'POST',
-//         url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
-//         headers: {
-//             'content-type': 'application/x-www-form-urlencoded',
-//             'X-RapidAPI-Key': APIKeys.TLKey,
-//             'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
-//         },
-//         data: encodedParams,
-//         };
-
-//         // makes API call and parses translation from json response
-//         try {
-//             const response = await axios.request(options);
-//             TLed = response.data.trans;
-//         } catch (error : any) {
-//             console.error('ERROR TL FRINTO: ' +error);
-//             TLed = 'ERROR: ' + error.response.status;
-//         }
-//       }
-//       // when language you want to translate <from> and <into> are the same, do not need to translate the text
-//       else{
-//         TLed = text;
-//       }
-
-//       return TLed;
-//     },
-
-//     /*translates without being told from what language to translate from
-//     only used with large chunks of text like lyrics
-//     */
-//     async translateAuto(text, into) : Promise<string> {
-//       if ( text === undefined || text == "" || into === undefined || into == ""){return ""}
-//       // holds the translation
-//       let TLed;
-
-//       // setting up API call
-//       const encodedParams = new URLSearchParams();
-//       encodedParams.set('from', 'auto' );
-//       encodedParams.set('to', into);
-//       encodedParams.set('text', text);
-//       const options = {
-//       method: 'POST',
-//       url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
-//       headers: {
-//           'content-type': 'application/x-www-form-urlencoded',
-//           'X-RapidAPI-Key': APIKeys.TLKey,
-//           'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
-//       },
-//       data: encodedParams,
-//       };
-
-//       // makes API call and parses translation from JSON response
-//       try {
-//         const response = await axios.request(options);
-//         TLed = response.data.trans;
-//       } catch (error: any) {
-//           console.error("ERROR from TLAuto: "+ error);
-//           TLed = 'ERROR: ' + error.response.status
-//       }
-//     return TLed;
-//   },
-
-// }
-
-// export default TranslationService;
