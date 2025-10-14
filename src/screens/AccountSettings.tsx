@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
+import { languages } from "../constants/ProjectConstants";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
@@ -29,13 +30,13 @@ export default function AccountSettings() {
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [preferredLanguage, setPreferredLanguage] = useState<string>();
-  const [currentLanguage, setCurrentLanguage] = useState<string>();
+  const [prefLang, setPrefLang] = useState<string>();
+  const [targetLang, setTargetLang] = useState<string>();
+  const [newPrefLang, setNewPrefLang] = useState<string>();
+  const [newTargetLang, setNewTargetLang] = useState<string>();
   const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
-
-  const languages = ["English", "Spanish", "French", "German"];
 
   useEffect(() => {
     try {
@@ -45,7 +46,7 @@ export default function AccountSettings() {
       // };
 
       getPrefLang();
-
+      getTargetLang();
       // LocalSupabaseClient.channel("users")
       //   .on(
       //     "postgres_changes",
@@ -62,24 +63,17 @@ export default function AccountSettings() {
     } catch (err) {
       console.log(err);
     }
-  }, []);
-
-  // signs user out
-  // function handleSignOut() {
-  //   signOut(auth)
-  //     .then(() => {
-  //       navigate("/login");
-  //       console.log("SIGNED OUT");
-  //       localStorage.setItem("isLoggedIn", "false");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
+  }, [prefLang, targetLang]);
 
   function getPrefLang() {
     UserReaderWriter.getPreferredLanguage().then((lang) => {
-      setCurrentLanguage(lang);
+      setPrefLang(languages.find((l) => l.code === lang)?.language);
+    });
+  }
+
+  function getTargetLang() {
+    UserReaderWriter.getTargetLanguage().then((lang) => {
+      setTargetLang(languages.find((l) => l.code === lang)?.language);
     });
   }
 
@@ -87,9 +81,7 @@ export default function AccountSettings() {
     UserReaderWriter.getUserName().then((name) => setName(name));
   }
 
-  // calls UserReaderWriter to write password change to DB
   async function changePassword() {
-    // if password is too short
     if (password!.trim().length < 6) {
       toast(
         "Password is too short. Password must be at least 6 characters long."
@@ -97,7 +89,6 @@ export default function AccountSettings() {
     } else if (password == confirmPassword) {
       updatePassword(auth.currentUser!, password)
         .then(() => {
-          // Update successful.
           toast(
             "Password changed successfully! You will now need to sign-in again with your new password."
           );
@@ -106,8 +97,6 @@ export default function AccountSettings() {
           handleSignOut();
         })
         .catch((error) => {
-          // An error ocurred
-          // ...
           toast(
             "Could not change password. Need recent login. Please log out, sign in, and try again."
           );
@@ -128,22 +117,30 @@ export default function AccountSettings() {
     }
   }
 
-  // changes user's preferred language
   async function changePreferredLanguage() {
-    if (
-      preferredLanguage != undefined &&
-      preferredLanguage != currentLanguage
-    ) {
-      await UserReaderWriter.setPreferredLanguage(preferredLanguage);
-      setCurrentLanguage(preferredLanguage);
+    if (newPrefLang != undefined && newPrefLang != prefLang) {
+      const langCode = languages.find((l) => l.language === newPrefLang)?.code;
+      await UserReaderWriter.setPreferredLanguage(langCode);
+      setPrefLang(newPrefLang);
+
       toast(
-        "Success! Preferred Language successfully changed to: " +
-          preferredLanguage
+        "Success! Preferred Language successfully changed to: " + newPrefLang
       );
     }
   }
 
-  // deletes the current user's account
+  async function changeTargetLanguage() {
+    if (newTargetLang != undefined && newTargetLang != targetLang) {
+      const langCode = languages.find((l) => l.language === newTargetLang)?.code;
+      await UserReaderWriter.setTargetLanguage(langCode);
+      setPrefLang(newTargetLang);
+
+      toast(
+        "Success! Target Language successfully changed to: " + newTargetLang
+      );
+    }
+  }
+
   async function deleteAccount() {
     await UserReaderWriter.deleteAccount().then(() => {
       handleSignOut();
@@ -308,34 +305,31 @@ export default function AccountSettings() {
               />
             </View>
           </View>
-          <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Pressable
-            style={{
-              //marginRight: 10,
-              backgroundColor: "#ff4a2a",
-              //marginStart: 200,
-              //marginHorizontal:200,
-              borderRadius: 10,
-              marginTop: 5,
-              marginBottom: 30,
-              width:'80%'
-            }}
-            onPress={changePassword}
-          >
-            <ToastContainer />
-
-            <Text
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Pressable
               style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                textAlign: "center",
-                color: "#e8e1db",
-                marginVertical: 3,
+                backgroundColor: "#ff4a2a",
+                borderRadius: 10,
+                marginTop: 5,
+                marginBottom: 30,
+                width: "80%",
               }}
+              onPress={changePassword}
             >
-              Change Password
-            </Text>
-          </Pressable>
+              <ToastContainer />
+
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: "#e8e1db",
+                  marginVertical: 3,
+                }}
+              >
+                Change Password
+              </Text>
+            </Pressable>
           </View>
         </View>
 
@@ -372,7 +366,7 @@ export default function AccountSettings() {
                 accessibilityLabel="preferredLanguage"
                 accessible={true}
               >
-                {currentLanguage}
+                {prefLang}
               </Text>
             </View>
             <View style={styles.rows}>
@@ -380,41 +374,118 @@ export default function AccountSettings() {
             </View>
 
             <Dropdown
-              value={preferredLanguage}
-              onChange={(e) => setPreferredLanguage(e.value)}
+              value={newPrefLang}
+              onChange={(e) => setNewPrefLang(e.value)}
               options={languages}
-              optionLabel="name"
+              optionLabel="language"
+              optionValue="language"
               placeholder="Select a language"
               className="w-full md:w-14rem"
             />
           </View>
-          <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Pressable
-            style={{
-              //marginRight: 10,
-              backgroundColor: "#ff4a2a",
-              //marginStart: 200,
-              borderRadius: 10,
-              marginTop: 5,
-              marginBottom: 30,
-              width:'80%'
-            }}
-            onPress={() => {
-              changePreferredLanguage();
-            }}
-          >
-            <Text
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Pressable
               style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                textAlign: "center",
-                color: "#e8e1db",
-                marginVertical: 3,
+                backgroundColor: "#ff4a2a",
+                borderRadius: 10,
+                marginTop: 5,
+                marginBottom: 30,
+                width: "80%",
+              }}
+              onPress={() => {
+                changePreferredLanguage();
               }}
             >
-              Change Langauge
-            </Text>
-          </Pressable>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: "#e8e1db",
+                  marginVertical: 3,
+                }}
+              >
+                Change Langauge
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+
+        <View>
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              marginHorizontal: 20,
+              marginTop: 20,
+              color: "#ff4a2a",
+            }}
+          >
+            Target Language
+          </Text>
+          <View style={styles.border}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 10,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "gray",
+                }}
+              >
+                Current Language:
+              </Text>
+              <Text
+                style={{ fontSize: 20, color: "#303248", fontWeight: "bold" }}
+                accessibilityLabel="targetLanguage"
+                accessible={true}
+              >
+                {targetLang}
+              </Text>
+            </View>
+            <View style={styles.rows}>
+              <View style={styles.divider} />
+            </View>
+
+            <Dropdown
+              value={newTargetLang}
+              onChange={(e) => setNewTargetLang(e.value)}
+              options={languages}
+              optionLabel="language"
+              optionValue="language"
+              placeholder="Select a language"
+              className="w-full md:w-14rem"
+            />
+          </View>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Pressable
+              style={{
+                backgroundColor: "#ff4a2a",
+                borderRadius: 10,
+                marginTop: 5,
+                marginBottom: 30,
+                width: "80%",
+              }}
+              onPress={() => {
+                changeTargetLanguage();
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: "#e8e1db",
+                  marginVertical: 3,
+                }}
+              >
+                Change Langauge
+              </Text>
+            </Pressable>
           </View>
         </View>
 
@@ -464,7 +535,7 @@ const styles = StyleSheet.create({
   full: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height:'91vh'
+    height: "91vh",
   },
   introSect: {
     flex: 1,

@@ -299,7 +299,7 @@ const HomeScreen: React.FC = () => {
                     }}
                     accessibilityLabel="welcome"
                   >
-                    Hello
+                    Hello,
                   </Text>
                   <Text
                     style={{
