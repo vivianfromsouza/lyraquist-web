@@ -66,23 +66,15 @@ const HomeScreen: React.FC = () => {
   }
 
   async function getHistory() {
-    // setLoadingScreen(true);
-    // isLoading(true);
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
-      console.log("HISTORY:");
-      console.log(history);
-      // const historySongs: PlayItem[] = history.map((song) => ({
-      //   console.log(song)
-      //   artist: song.songs["artist"],
-      //   spotifyURL: "spotify:track:" + song.songs["spotify_url"],
-      //   imageURL: song.songs["image_url"],
-      //   name: song.songs["name"],
-      //   album: song.songs["album"],
-      //   duration: song.songs["duration"],
-      //   songID: song.songs["song_id"] ? song.songs["song_id"] : "null",
-      // }));
-      // setHistory(historySongs);
-      // setLoadingScreen(false);
+      const historySongs: PlayItem[] = history.map((song) => ({
+        artist: song.track.artists[0]["name"],
+        spotifyURL: song.track.uri,
+        imageURL: song.track.album.images[0]["url"],
+        name: song.track.name,
+        duration: song.track.duration_ms,
+      }));
+      setHistory(historySongs);
     });
 
     counter += 1;
@@ -104,8 +96,6 @@ const HomeScreen: React.FC = () => {
     // isLoading(true);
 
     await RecordReaderWriter.getMySongs().then((songs) => {
-      console.log("API songs response:", songs); // <--- Add this
-
       const savedSongs: PlayItem[] = songs.map((song) => ({
         artist: song.songs["artist"],
         spotifyURL: "spotify:track:" + song.songs["spotify_url"],
@@ -137,7 +127,6 @@ const HomeScreen: React.FC = () => {
     // When local storage changes, dump the list to
     // the console.
     const value = window.localStorage.getItem("isLoggedIn");
-    console.log("LOGIN CHANGED");
     console.log(value ? JSON.parse(value) : null);
   });
 

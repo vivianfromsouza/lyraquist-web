@@ -6,4 +6,4 @@ export const tokenEndpoint = "https://accounts.spotify.com/api/token";
 export const refreshEndpoint = "https://accounts.spotify.com/api/token";
 
 export const scope =
-  "streaming user-read-private user-read-email user-library-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative";
+  "streaming user-read-private user-read-email user-library-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative user-read-recently-played";
