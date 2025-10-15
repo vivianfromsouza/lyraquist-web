@@ -500,14 +500,14 @@ const Player = () => {
               </button>
 
               
-              <button
+              {/* <button
                 className="btn-spotify"
                 onClick={() => {
                   openTranslation();
                 }}
                 style={{ marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}>
                 Open Translation
-              </button>
+              </button> */}
 
               
             </View>
@@ -516,11 +516,11 @@ const Player = () => {
                 <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
               )}
 
-              {isTranslationOpen && (
+              {/* {isTranslationOpen && (
                 <TranslateScreen></TranslateScreen>
                 // reintroduce later
                 // <TranslateScreen currentTrack={current_track}></TranslateScreen>
-              )}
+              )} */}
               </View>
             </div>
           </div>

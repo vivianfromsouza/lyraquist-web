@@ -18,7 +18,7 @@ let duration = 0;
 const GlobalPlayer = {
   async setAppStartValues() {
     await HistoryReaderWriter.getLastPlayedSong().then((song) => {
-      lastSong = song["spotify_url"];
+      lastSong = song.track.uri;
     });
 
   },
