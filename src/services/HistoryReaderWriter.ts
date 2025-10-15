@@ -1,25 +1,53 @@
 // Worked on by: Vivian D'Souza
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
+import SongReaderWriter from "./SongReaderWriter";
+import axios from "axios";
+import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 const currentUser = localStorage.getItem("current_user");
 
 const HistoryReaderWriter = {
   async getUserHistory() {
-    const { data, error } = await LocalSupabaseClient.from("history")
-      .select(
-        `
-    spotify_url,
-    songs (name, artist, album, image_url, duration, spotify_url)
-    `
-      )
-      .eq("user_id", currentUser)
-      .order("num", { ascending: false });
-    console.log(error);
-    return data;
+    TokenReaderWriter.getAccessToken().then((accessCode) => {
+      axios({
+        url: "https://api.spotify.com/v1/me/player/recently-played", 
+        method: "GET",
+        headers: {
+          authorization: "Bearer " + accessCode,
+        },
+        data: {
+          limit: 10,
+          after: Date.now()
+        },
+      })
+        .then(async (res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
   },
 
-  async addUserHistory(spotifyURL: string) {
+  async addUserHistory(songURL: string, newSong) {
+    let songID = "";
+    console.log("NEW SONG:", newSong);
+    SongReaderWriter.getSongIDByURL(songURL)
+      .then((response) => {
+        songID = response;
+      })
+      .catch(async (error) => {
+        console.log(error);
+      });
+
+    if (songID == "") {
+      SongReaderWriter.addSongToDBFromSpotifyTrack(newSong).then((response) => {
+        songID = response;
+      });
+    }
+    console.log("TO ADD", songID);
+
     // check if that song is in the list of current entries for that user
 
     // check if there are even 10 entries for that user

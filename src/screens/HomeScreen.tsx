@@ -69,15 +69,19 @@ const HomeScreen: React.FC = () => {
     // setLoadingScreen(true);
     // isLoading(true);
     await HistoryReaderWriter.getUserHistory().then((history: any) => {
-      const historySongs: PlayItem[] = history.map((song) => ({
-        artist: song.songs["artist"],
-        spotifyURL: "spotify:track:" + song.songs["spotify_url"],
-        imageURL: song.songs["image_url"],
-        name: song.songs["name"],
-        album: song.songs["album"],
-        duration: song.songs["duration"],
-      }));
-      setHistory(historySongs);
+      console.log("HISTORY:");
+      console.log(history);
+      // const historySongs: PlayItem[] = history.map((song) => ({
+      //   console.log(song)
+      //   artist: song.songs["artist"],
+      //   spotifyURL: "spotify:track:" + song.songs["spotify_url"],
+      //   imageURL: song.songs["image_url"],
+      //   name: song.songs["name"],
+      //   album: song.songs["album"],
+      //   duration: song.songs["duration"],
+      //   songID: song.songs["song_id"] ? song.songs["song_id"] : "null",
+      // }));
+      // setHistory(historySongs);
       // setLoadingScreen(false);
     });
 
