@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { View, ActivityIndicator, StyleSheet, Pressable } from "react-native";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 import axios from "axios";
 import {
   checkRefreshNeeded,
@@ -9,12 +9,13 @@ import {
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useLocalStorage } from "usehooks-ts";
-// import { Seekbar } from "react-seekbar";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -44,18 +45,16 @@ const Player = () => {
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // const [seekPosition, setSeekPosition] = useState(0);
-  // const [seekDuration, setSeekDuration] = useState(0);
+  const [seekPosition, setSeekPosition] = useState(0);
+  const [seekDuration, setSeekDuration] = useState(0);
 
   console.log(accessCode);
   console.log(authCode);
 
-  // const handleSeek = (position) => {
-  //   setSeekPosition(position);
-  //   player?.seek(position).then(() => {
-  //     // console.log("Changed position!");
-  //   });
-  // };
+  const handleSeek = (position) => {
+    setSeekPosition(position[1]);
+    player?.seek(position[1]);
+  };
 
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
 
@@ -345,7 +344,7 @@ const Player = () => {
             )
           );
 
-          // setSeekDuration(state.track_window.current_track.duration_ms);
+          setSeekDuration(state.track_window.current_track.duration_ms);
 
           player.getCurrentState().then((state) => {
             !state ? setActive(false) : setActive(true);
@@ -357,7 +356,7 @@ const Player = () => {
           if (state) {
             // state.position is the current playback position in ms
             setCurrentTime(calculateDurationInSecs(state.position));
-            // setSeekPosition(state.position);
+            setSeekPosition(state.position);
 
             // You can update your state here if needed
           }
@@ -397,51 +396,90 @@ const Player = () => {
   } else {
     return (
       <>
-        <div className="container" style={{backgroundColor:"#303248"}}>
+        <div className="container" style={{ backgroundColor: "#303248" }}>
           <div className="main-wrapper">
             <View
-              style={{flexDirection:'row', marginRight: 10, marginLeft: 10, alignItems:'center', justifyContent:'space-between'}}
+              style={{
+                flexDirection: "row",
+                marginRight: 10,
+                marginLeft: 10,
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              <View style={{flexDirection:'row', alignItems:'center', marginTop:10}}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 10,
+                }}
+              >
                 <img
-                    src={current_track.album.images[0].url}
-                    className="now-playing__cover"
-                    alt=""
-                    style = {{height:70, width:70, marginBottom:10}}
+                  src={current_track.album.images[0].url}
+                  className="now-playing__cover"
+                  alt=""
+                  style={{ height: 70, width: 70, marginBottom: 10 }}
                 />
-                <View style={{ marginLeft:10}}>
-                  <div className="now-playing__name" style={{fontWeight:'bold', color:"#e8e1db"}}>{current_track.name}</div>
-                  <div className="now-playing__artist" style={{color:"#e8e1db"}}>
+                <View style={{ marginLeft: 10 }}>
+                  <div
+                    className="now-playing__name"
+                    style={{ fontWeight: "bold", color: "#e8e1db" }}
+                  >
+                    {current_track.name}
+                  </div>
+                  <div
+                    className="now-playing__artist"
+                    style={{ color: "#e8e1db" }}
+                  >
                     {current_track.artists[0].name}
                   </div>
                 </View>
               </View>
-              <View style={{justifyContent:'center', marginRight:30}}>
-                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <div className="now-playing__artist" style={{fontSize:15, color:"#e8e1db"}}>{currentTime}</div>
-                  <div className="now-playing__artist" style={{fontSize:15, color:"#e8e1db"}}>{totalTime}</div>
+              <View style={{ justifyContent: "center", marginRight: 30 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div
+                    className="now-playing__artist"
+                    style={{ fontSize: 15, color: "#e8e1db" }}
+                  >
+                    {currentTime}
+                  </div>
+                  <div
+                    className="now-playing__artist"
+                    style={{ fontSize: 15, color: "#e8e1db" }}
+                  >
+                    {totalTime}
+                  </div>
                 </View>
-                <View style={{alignItems:'center'}}>
-                  {/* <Seekbar
-                      position={seekPosition}
-                      duration={seekDuration}
-                      onSeek={handleSeek}
-                  /> */}
-                </View>
+
+                <RangeSlider
+                  min={0}
+                  max={seekDuration}
+                  step={1}
+                  value={[0, seekPosition]}
+                  onInput={handleSeek}
+                  thumbsDisabled={[true, false]}
+                  rangeSlideDisabled={true}
+                />
+
                 <div className="now-playing__side">
                   <button
                     className="btn-spotify"
                     onClick={() => {
-                    player.previousTrack();
+                      player.previousTrack();
                     }}
                   >
-                      &lt;&lt;
+                    &lt;&lt;
                   </button>
 
                   <button
                     className="btn-spotify"
                     onClick={() => {
-                    player.togglePlay();
+                      player.togglePlay();
                     }}
                   >
                     {is_paused ? "PLAY" : "PAUSE"}
@@ -483,23 +521,37 @@ const Player = () => {
                   </button>
                 </div>
               </View>
-              <View style={{flexDirection:'row', alignItems:'center', marginRight:20,}}>
-                <h4 style={{marginRight:5, color: "#e8e1db"}}>Current Volume: </h4>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginRight: 20,
+                }}
+              >
+                <h4 style={{ marginRight: 5, color: "#e8e1db" }}>
+                  Current Volume:{" "}
+                </h4>
                 {volume}
               </View>
             </View>
-            <View style={{flexDirection:'row', justifyContent: 'center'}}>
-                            <button
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <button
                 className="btn-spotify"
                 onClick={() => {
                   openLyrics();
                 }}
-                style={{marginRight:30, marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}
+                style={{
+                  marginRight: 30,
+                  marginBottom: 10,
+                  fontWeight: "bold",
+                  backgroundColor: "#edc526",
+                  borderRadius: 5,
+                  fontSize: 15,
+                }}
               >
                 Open Lyrics
               </button>
 
-              
               {/* <button
                 className="btn-spotify"
                 onClick={() => {
@@ -508,11 +560,9 @@ const Player = () => {
                 style={{ marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}>
                 Open Translation
               </button> */}
-
-              
             </View>
-            <View style={{flexDirection:'row', justifyContent: 'center'}}>
-            {isLyricsOpen && (
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              {isLyricsOpen && (
                 <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
               )}
 
@@ -521,10 +571,9 @@ const Player = () => {
                 // reintroduce later
                 // <TranslateScreen currentTrack={current_track}></TranslateScreen>
               )} */}
-              </View>
-            </div>
+            </View>
           </div>
-        
+        </div>
       </>
     );
   }
