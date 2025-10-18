@@ -14,25 +14,12 @@ import SearchSpotify from "../services/SearchSpotify";
 import { useNavigate } from "react-router-dom";
 import SongCard from "../components/Song";
 
-// Define the type for the navigation object
-// type RootStackParamList = {
-//   Play: { item: any };
-//   SearchLanguage: undefined;
-//   Trending: undefined;
-// };
-
-// type SearchScreenNavigationProp = NavigationProp<RootStackParamList, "Play">;
-
 export default function SearchScreen() {
-  // State variables
-  const [searchTerm, setSearchTerm] = useState(""); // State variable to store search term
-  const [searchResults, setSearchResults] = useState([]); // State variable to store search results
-  const [isLoading, setIsLoading] = useState(false); // State variable to manage loading state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // const navigation = useNavigation<SearchScreenNavigationProp>(); // Explicitly typing navigation
-
-  // Function to handle search
   const handleSearch = async () => {
     try {
       setIsLoading(true); // Set loading state to true
@@ -56,121 +43,78 @@ export default function SearchScreen() {
           explicit: item.explicit,
         }));
 
-        // spotify_url: item.id,
-        // title: item.name,
-        // duration: item.duration_ms,
-
         const filteredData = formattedData.filter(
           (item) => item.explicit == false
-        ); // Filter out items with null imageURL
+        );
 
-        setSearchResults(filteredData); // Set formatted search results
+        setSearchResults(filteredData);
       } else {
-        setSearchResults([]); // If no results, clear search results
+        setSearchResults([]);
       }
     } catch (error) {
-      console.error("Error fetching search results:", error); // Log error if fetching search results fails
+      console.error("Error fetching search results:", error);
     } finally {
-      setIsLoading(false); // Set loading state to false
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    handleSearch(); // Trigger search when search term changes
+    handleSearch();
   }, [searchTerm]);
 
-  // Function to navigate to trending screen
-  // const goToTrending = () => {
-  //   navigate("/Trending");
-  // };
-
-  // Function to render each search result item
-  const renderSearchResultItem = ({ item }) => (
-    <SongCard item={item} />
-
-    // <TouchableOpacity
-    //   onPress={() => navigate("Play", { state: item })}
-    //   style={styles.searchResultItem}
-    // >
-    //   <View style={styles.albumContainer}>
-    //     <Image source={{ uri: item.imageURL }} style={styles.coverImage} />
-    //     <Text style={styles.title}>{item.name}</Text>
-    //     <Text style={styles.artist}>Artist: {item.artist}</Text>
-    //   </View>
-    // </TouchableOpacity>
-  );
+  const renderSearchResultItem = ({ item }) => <SongCard item={item} />;
 
   return (
     <>
-    <View  style={{height:'91vh'}}>
-      
-      <SafeAreaView style={styles.container}>
-        {/* Blue section */}
-        <View style={styles.blueSection}>
-          {/* Back Button */}
-          <TouchableOpacity
-            onPress={() => navigate(-1)}
-            style={styles.backButton}
-          >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-          </TouchableOpacity>
-          {/* Search Bar */}
-          <View style={styles.searchBar}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search Spotify"
-              value={searchTerm}
-              onChangeText={(text) => setSearchTerm(text)}
-              accessibilityLabel="searchInput" // Add accessibility label for search input
-              accessible={true}
-            />
-            <SearchOutline color={"#00000"} height="30px" width="30px" />
+      <View style={{ height: "91vh" }}>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.blueSection}>
+            <TouchableOpacity
+              onPress={() => navigate(-1)}
+              style={styles.backButton}
+            >
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+            </TouchableOpacity>
+            <View style={styles.searchBar}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search Spotify"
+                value={searchTerm}
+                onChangeText={(text) => setSearchTerm(text)}
+                accessibilityLabel="searchInput"
+                accessible={true}
+              />
+              <SearchOutline color={"#00000"} height="30px" width="30px" />
+            </View>
           </View>
-        </View>
-        <View style={styles.space} />
-        {/* Note and button container */}
-        <View style={styles.noteAndButtonContainer}>
-          {/* Note text */}
-          <Text style={styles.noteText}>
-            *NOTE Language translation functionality is not guaranteed for songs
-            in unsupported languages. See supported Languages below
-          </Text>
-          {/* Button to navigate to search by language screen */}
-          <TouchableOpacity
-            onPress={() => navigate("/SearchLanguages")}
-            style={styles.languageButton}
-          >
-            <Text style={styles.buttonText}>Search by Language</Text>
-          </TouchableOpacity>
-          {/* Button to navigate to trending screen */}
-          {/* <TouchableOpacity
-            onPress={goToTrending}
-            style={styles.languageButton}
-            accessibilityLabel="trending"
-            accessible={true}
-          >
-            <Text style={styles.buttonText}>Globally Trending</Text>
-          </TouchableOpacity> */}
-        </View>
-        {isLoading && <Text style={{ paddingLeft: 10 }}>Searching...</Text>}
-        {/* Render search results */}
-        {searchTerm.trim() !== "" && (
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item) => item.spotifyURL}
-            renderItem={renderSearchResultItem}
-            numColumns={7}
-            contentContainerStyle={styles.flatListContainer}
-            accessibilityLabel="searchResultItem"
-            accessible={true}
-            style={{marginBottom:20}}
-            
-          />
-        )}
-        {searchTerm.trim()=="" && (
-          <View style={{flex:1, height:100, backgroundColor:"#e8e1db"}}/>
-        )}
-      </SafeAreaView>
+          <View style={styles.space} />
+          <View style={styles.noteAndButtonContainer}>
+            <TouchableOpacity
+              onPress={() => navigate("/SearchLanguages")}
+              style={styles.languageButton}
+            >
+              <Text style={styles.buttonText}>Search by Language</Text>
+            </TouchableOpacity>
+          </View>
+          {isLoading && <Text style={{ paddingLeft: 10 }}>Searching...</Text>}
+          {searchTerm.trim() !== "" && (
+            <FlatList
+              data={searchResults}
+              keyExtractor={(item) => item.spotifyURL}
+              renderItem={renderSearchResultItem}
+              numColumns={7}
+              contentContainerStyle={styles.flatListContainer}
+              accessibilityLabel="searchResultItem"
+              accessible={true}
+              style={{ marginBottom: 20 }}
+            />
+          )}
+          {searchTerm.trim() == "" && (
+            <View
+              style={{ flex: 1, height: 100, backgroundColor: "#e8e1db" }}
+            />
+          )}
+        </SafeAreaView>
       </View>
     </>
   );
@@ -180,7 +124,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height:"80vh",
+    height: "80vh",
   },
   blueSection: {
     backgroundColor: "#303248",
@@ -248,7 +192,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   space: {
-    height: 20
+    height: 20,
   },
   noteAndButtonContainer: {
     marginHorizontal: 10,
