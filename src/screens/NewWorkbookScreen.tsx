@@ -21,7 +21,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import SimpleLineIcon from "react-simple-line-icons";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { useNavigate } from "react-router-dom";
 

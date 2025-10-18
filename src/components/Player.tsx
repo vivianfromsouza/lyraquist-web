@@ -12,8 +12,8 @@ import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 import RecordReaderWriter from "../services/RecordReaderWriter";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+// import FavoriteIcon from "@mui/icons-material/Favorite";
+// import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
@@ -35,7 +35,7 @@ const Player = () => {
   const [currentTime, setCurrentTime] = useState("0:00");
   const [totalTime, setTotalTime] = useState("0:00");
   const [volume, setVolume] = useState(0.0);
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(false);
 
   const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
@@ -222,13 +222,13 @@ const Player = () => {
     }
   }
 
-  async function likeSong(spotifyURL: string) {
-    RecordReaderWriter.likeSongByURL(spotifyURL, current_track);
-  }
+  // async function likeSong(spotifyURL: string) {
+  //   RecordReaderWriter.likeSongByURL(spotifyURL, current_track);
+  // }
 
-  async function unlikeSong(spotifyURL: string) {
-    RecordReaderWriter.unlikeSongByURL(spotifyURL);
-  }
+  // async function unlikeSong(spotifyURL: string) {
+  //   RecordReaderWriter.unlikeSongByURL(spotifyURL);
+  // }
 
   useEffect(() => {
     getAuthCode();
