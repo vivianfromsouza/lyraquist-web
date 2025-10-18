@@ -11,7 +11,6 @@ import {
   Image,
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
-// import auth from "@react-native-firebase/auth";
 import { getAuth, updatePassword } from "firebase/auth";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
@@ -23,10 +22,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import { languages } from "../constants/ProjectConstants";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 export default function AccountSettings() {
-  // const location = useLocation();
-  // const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>();
@@ -96,10 +93,7 @@ export default function AccountSettings() {
           setTimeout(() => {
             handleSignOut();
             navigate("/login");
-        }, 4000);
-
-          // handleSignOut();
-          // navigate("/login");
+          }, 4000);
         })
         .catch((error) => {
           toast(
@@ -107,16 +101,6 @@ export default function AccountSettings() {
           );
           console.log("Error changing password: ", error);
         });
-
-      // await UserReaderWriter.writeUserPassword(password!.trim()).then(
-      //   (result) => {
-      //     if (result) {
-      //       toast(
-      //         "Password changed successfully! You will now need to sign-in again with your new password."
-      //       );
-      //     }
-      //   }
-      // );
     } else {
       toast("Passwords don't match. Please try again.");
     }
@@ -154,7 +138,6 @@ export default function AccountSettings() {
     });
   }
 
-  // modal prompting user to confirm delete
   const deleteAlert = () => {
     toast(
       name +
@@ -201,13 +184,6 @@ export default function AccountSettings() {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#e8e1db"
-              /> */}
-
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -493,8 +469,6 @@ export default function AccountSettings() {
             }}
             onPress={deleteAlert}
           >
-            {/* <ToastContainer closeButton={deleteAlertButton} /> */}
-
             <Text style={styles.deleteAccount}>Delete My Account</Text>
           </Pressable>
         </View>

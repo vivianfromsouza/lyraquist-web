@@ -13,7 +13,7 @@ import {
 import { ArrowBackOutline } from "react-ionicons";
 
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth, updateEmail } from "firebase/auth";
+import { getAuth, verifyBeforeUpdateEmail } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 export default function ProfileInfoScreen() {
   const navigate = useNavigate();
   // const location = useLocation();
@@ -34,22 +34,8 @@ export default function ProfileInfoScreen() {
   const auth = getAuth(LocalFirebaseClient);
   const { handleSignOut } = useFirebase();
 
-  // function handleSignOut() {
-  //   signOut(auth)
-  //     .then(() => {
-  //       navigate("/login");
-  //       console.log("SIGNED OUT");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  // calls UserReaderWriter to write username change to DB
   async function changeUsername() {
-    if (newName === undefined || newName.trim() == "") {
-      /*DO NOTHING*/
-    } else {
+    if (newName !== undefined && !(newName.trim() == "")) {
       await UserReaderWriter.writeUserName(newName.trim()).then(() => {
         setName(newName.trim());
         toast("Username changed successfully!");
@@ -57,10 +43,9 @@ export default function ProfileInfoScreen() {
     }
   }
 
-  // calls UserReaderWriter to write email change to DB
   async function changeEmail() {
     if (newEmail.includes("@")) {
-      updateEmail(auth.currentUser!, newEmail.trim())
+      verifyBeforeUpdateEmail(auth.currentUser!, newEmail.trim())
         .then(() => {
           toast(
             "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
@@ -69,9 +54,7 @@ export default function ProfileInfoScreen() {
           handleSignOut();
         })
         .catch((error) => {
-          // An error occurred
-          // ...
-          console.log(error)
+          console.log(error);
         });
     } else {
       toast(
@@ -134,13 +117,6 @@ export default function ProfileInfoScreen() {
               accessible={true}
             >
               <ToastContainer />
-
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#e8e1db"
-              /> */}
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -160,13 +136,6 @@ export default function ProfileInfoScreen() {
 
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <View style={styles.circle} />
-          {/* <SimpleLineIcons
-            style={{ position: "absolute", marginTop: 12 }}
-            name="user"
-            size={80}
-            color="#303248"
-          /> */}
-          {/* <SimpleLineIcon name="minus" /> */}
         </View>
 
         <Text
