@@ -14,7 +14,7 @@ import blueLogo from "../assets/blue_small.png";
 import largeLogo from "../assets/Full_Logo.png";
 import { useNavigate } from "react-router-dom";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 
 export default function AboutUsScreen() {
   const navigate = useNavigate();
@@ -69,27 +69,60 @@ export default function AboutUsScreen() {
           </Text>
         </View>
         <View style={{ marginHorizontal: 20, marginTop: 10 }}>
-          <Text style={{ fontSize: 15 }}>
+          {/* <Text style={{ fontSize: 15 }}>
             We are so happy you have decided to start your language learning
             journey with Lyraquist! Here, you have the opportunity to learn
             lanaguages a more natural way: through music.
-          </Text>
+          </Text> */}
           <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
-            Why did we create the app?
+            What is Lyraquist?
           </Text>
           <Text style={{ fontSize: 15 }}>
-            Because we think it is needed. Other language learning apps
-            trivialize learning language. We wanted to put the fun back into
-            language learning and music felt like the perfect way to do that.
-            Music not only allows us to learn a variety of vocabulary used in
-            many different contexts, but also exposes you to the culture and
-            ambience the language comes from.
+            Lyraquist is a language learning app that uses music to help users
+            learn new languages in a fun and engaging way. You can study
+            flashcards and write sentences over and over, but sometimes all it
+            takes is one earworm to get something stuck in your head! Music not
+            only allows us to learn a variety of vocabulary used in many
+            different contexts, but it also exposes you to the culture the
+            language comes from.
           </Text>
           <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
-            The Creators
+            What was the inspiration behind Lyraquist?
+          </Text>
+          <Text style={{ fontSize: 15 }}>
+            All of us have tried learning other langauges at some point, and
+            part of our interest/motivation for doing so was music or media in
+            that language. Many of us also did a study abroad semester during
+            college, where we often used music to connect with newfound friends
+            from different countries. These experiences helped us realize a
+            potential connection between music and language learning.
+          </Text>
+
+          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
+            Why was Lyraquist created?
+          </Text>
+          <Text style={{ fontSize: 15 }}>
+            The original Lyraquist project was created to satisfy our senior
+            capstone project at the University of South Carolina. Since then,
+            the project has been reworked to be used as a learning tool in a
+            local elementary school.
+          </Text>
+
+          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
+            How was Lyraquist created?
+          </Text>
+          <Text style={{ fontSize: 15 }}>
+            Our project started off as an Android app built using React Native
+            and various API servies for translation, music, lyrics, and storage.
+            The app has since been reworked into a website built using ReactJS.
+          </Text>
+          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
+            The Contributors
           </Text>
           <Text style={{ fontSize: 15, marginTop: 10 }}>
-            Siri Avula, Vivian D'Souza, Ashley Bickham, Mahi Patel, Tanvi Singh
+            Lyraquist 2.0 (the website): Vivian D'Souza and Mahi Patel <br />
+            Lyraquist 1.0 (the original app): Siri Avula, Vivian D'Souza, Ashley
+            Bickham, Mahi Patel, Tanvi Singh
           </Text>
 
           <Text style={{ fontSize: 15 }} />

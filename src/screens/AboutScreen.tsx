@@ -13,7 +13,7 @@ import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import { useNavigate } from "react-router-dom";
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 export default function AboutScreen() {
   const navigate = useNavigate();
 

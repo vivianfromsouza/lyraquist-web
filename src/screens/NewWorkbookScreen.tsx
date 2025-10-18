@@ -236,7 +236,7 @@ function NewWorkbookScreen() {
               style={{ marginRight: 8 }}
             /> */}
 
-            <SimpleLineIcon name="minus" />
+            {/* <SimpleLineIcon name="minus" /> */}
 
             <Text
               style={{ fontSize: 18, color: "#303248", fontWeight: "bold" }}
