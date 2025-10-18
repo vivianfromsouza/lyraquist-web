@@ -121,7 +121,7 @@ function WorkbookInfoScreen() {
   // Filter the word list based on the search term
   const filteredWordList = renWordList
     ? renWordList.filter((word) =>
-        word["word"].toLowerCase().includes(searchTerm.toLowerCase())
+        word["word"].toLowerCase().includes(searchTerm.toLowerCase()) || word["translation"].toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 
