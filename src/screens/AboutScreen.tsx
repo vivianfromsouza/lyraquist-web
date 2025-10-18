@@ -13,7 +13,7 @@ import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import { useNavigate } from "react-router-dom";
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 export default function AboutScreen() {
   const navigate = useNavigate();
 
@@ -34,12 +34,6 @@ export default function AboutScreen() {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#303248"
-              /> */}
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -74,14 +68,8 @@ export default function AboutScreen() {
               color: "#303248",
             }}
           >
-            About us{" "}
+            About Us{" "}
           </Text>
-          {/* <MaterialIcons
-            style={{ alignSelf: "flex-end", paddingRight: 25 }}
-            name="keyboard-arrow-right"
-            size={40}
-            color="#303248"
-          /> */}
           <KeyboardArrowRightIcon />
         </Pressable>
 
@@ -114,12 +102,6 @@ export default function AboutScreen() {
           >
             Privacy Policy{" "}
           </Text>
-          {/* <MaterialIcons
-            style={{ alignSelf: "flex-end", paddingRight: 25 }}
-            name="keyboard-arrow-right"
-            size={40}
-            color="#303248"
-          /> */}
           <KeyboardArrowRightIcon />
         </Pressable>
         <View
@@ -152,12 +134,6 @@ export default function AboutScreen() {
           >
             Terms & Conditions{" "}
           </Text>
-          {/* <MaterialIcons
-            style={{ alignSelf: "flex-end", paddingRight: 25 }}
-            name="keyboard-arrow-right"
-            size={40}
-            color="#303248"
-          /> */}
           <KeyboardArrowRightIcon />
         </Pressable>
 
@@ -190,12 +166,6 @@ export default function AboutScreen() {
           >
             Third-Party Software
           </Text>
-          {/* <MaterialIcons
-            style={{ alignSelf: "flex-end", paddingRight: 25 }}
-            name="keyboard-arrow-right"
-            size={40}
-            color="#303248"
-          /> */}
           <KeyboardArrowRightIcon />
         </Pressable>
         <View
@@ -228,12 +198,6 @@ export default function AboutScreen() {
           >
             Send us Feedback
           </Text>
-          {/* <MaterialIcons
-            style={{ alignSelf: "flex-end", paddingRight: 25 }}
-            name="keyboard-arrow-right"
-            size={40}
-            color="#303248"
-          /> */}
           <KeyboardArrowRightIcon />
         </Pressable>
         <View

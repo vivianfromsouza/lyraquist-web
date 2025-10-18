@@ -21,7 +21,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import SimpleLineIcon from "react-simple-line-icons";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { useNavigate } from "react-router-dom";
 
@@ -236,7 +235,7 @@ function NewWorkbookScreen() {
               style={{ marginRight: 8 }}
             /> */}
 
-            <SimpleLineIcon name="minus" />
+            {/* <SimpleLineIcon name="minus" /> */}
 
             <Text
               style={{ fontSize: 18, color: "#303248", fontWeight: "bold" }}

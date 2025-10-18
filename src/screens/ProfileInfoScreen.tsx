@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 
-import SimpleLineIcon from "react-simple-line-icons";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { getAuth, updateEmail } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
@@ -142,7 +141,7 @@ export default function ProfileInfoScreen() {
                 size={40}
                 color="#e8e1db"
               /> */}
-              <ArrowBackOutline />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={yellowLogo as ImageSourcePropType}
@@ -167,7 +166,7 @@ export default function ProfileInfoScreen() {
             size={80}
             color="#303248"
           /> */}
-          <SimpleLineIcon name="minus" />
+          {/* <SimpleLineIcon name="minus" /> */}
         </View>
 
         <Text

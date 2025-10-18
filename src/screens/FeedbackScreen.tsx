@@ -15,7 +15,7 @@ import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width; 
 export default function FeedbackScreen() {
   const navigate = useNavigate();
 
@@ -29,28 +29,6 @@ export default function FeedbackScreen() {
     );
     setFeedback("");
   }
-
-  // const submitAlert = () => {
-  //   if (feedback === undefined || feedback.trim() == "") {
-  //     /*DO NOTHING*/
-  //   } else {
-  //     Alert.alert(
-  //       "Have you completed your feedback?",
-  //       "Submitting feedback stores account information for further communication.",
-  //       [
-  //         {
-  //           text: "Cancel",
-  //           onPress: () => console.log("Cancel Pressed"),
-  //           style: "cancel",
-  //         },
-  //         {
-  //           text: "Submit Feedback",
-  //           onPress: () => submitFeedback(feedback),
-  //         },
-  //       ]
-  //     );
-  //   }
-  // };
 
   return (
     <>
@@ -81,12 +59,6 @@ export default function FeedbackScreen() {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#303248"
-              /> */}
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -124,7 +96,6 @@ export default function FeedbackScreen() {
             paddingBottom: 100,
           }}
         >
-          {/*Introduction*/}
           <Text
             style={{
               textAlign: "center",
@@ -142,11 +113,10 @@ export default function FeedbackScreen() {
               textAlign: "center",
             }}
           >
-            To keep us informed on how to improve the app to best fit your needs
-            please gives us some feedback. Our team will review the request and
-            see what we can do.
+            To keep us informed on how to improve the app, please gives us any
+            feedback you may have. Our team will review the request and see what
+            we can do.
           </Text>
-          {/*Text Input*/}
           <View style={{ paddingTop: 20, flex: 1 }}>
             <Text
               style={{

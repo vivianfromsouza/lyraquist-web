@@ -56,48 +56,36 @@ export default function AboutPrivacyScreen() {
           <Text style={styles.title}>Privacy Policy</Text>
         </View>
         <Text style={{ fontSize: 15, margin: 13, marginTop: 20 }}>
-          We will have access to users' data, but we will be securing this
-          information. This information will be used only to provide users their
-          own personal experience of using this application. We will be
-          collecting personal information, like birthday, to ensure all users
-          are of legal age to be using this application. Upon using this
-          application, users are requested to sign into their Spotify account.
+          Upon using this application, users are requested to sign into their
+          Spotify account. We will have access to the following user data from
+          Spotify:
+          <ul>
+            <li>User ID</li>
+            <li>User Email</li>
+            <li>Playlists</li>
+            <li>Currently Playing</li>
+            <li>Recently Played</li>
+          </ul>
+          This information will be used only to provide users their own personal
+          experience of using this application. Email, ID, and playlist data
+          will be stored securely in our database to build a functioning user
+          profile in Lyraquist. Lyraquist Account passwords will be encrypted
+          and stored securely in our database.
         </Text>
 
         <Text style={{ fontSize: 15, margin: 13 }}>
           Our app will uphold Spotify's established policies, ensuring that user
           data is handled in strict accordance with Spotify Web API guidelines.
-          When users log in with their Spotify accounts, they implicitly grant
-          consent for our app to access the necessary data for its
-          functionality. This approach not only aligns with their existing
-          agreements but also prioritizes the safeguarding of their privacy.
+          When users log in with their Spotify accounts, they grant consent for
+          our app to access the necessary data for its functionality. This
+          approach not only aligns with their existing agreements but also
+          prioritizes the safeguarding of a user's privacy.
         </Text>
 
         <Text style={{ fontSize: 15, margin: 13 }}>
-          Within our app, users will be unable to access each other's accounts
-          or engage in direct communication, mitigating the potential for harm.
-          This design ensures a secure environment where interactions are
-          limited to the scope of language learning, prioritizing user safety
-          and comfort.
+          Within our app, users will be unable to access other user's accounts
+          or engage in direct communication, eliminating the potential for harm.
         </Text>
-
-        <Text style={{ fontSize: 15, margin: 13 }}>
-          To maintain security in our application, we will be allowing limited
-          access to accounts and our database. Users are only allowed to log in
-          to accounts they have a username and password to. Information
-          regarding their password will not be displayed in plain text.
-          Information inside the database will be secured as the Database will
-          be encrypted. Access (and decryption) will only be allowed with the
-          correct username and password (admin view) or authorization key (app
-          system access). When sending and receiving calls to the database, each
-          message to/from the app/database should be encrypted. Within each
-          message contains some type of signature to ensure the call is coming
-          from our app (a legitimate user)/database, a Hash to ensure integrity
-          of the message (had not been tampered in transit), and the call
-          itself.
-        </Text>
-
-        <Text></Text>
       </ScrollView>
     </>
   );

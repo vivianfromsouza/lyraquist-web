@@ -14,7 +14,7 @@ import blueLogo from "../assets/blue_small.png";
 import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 
 export default function AboutThirdPartyScreen() {
   const navigate = useNavigate();
@@ -36,12 +36,6 @@ export default function AboutThirdPartyScreen() {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#303248"
-              /> */}
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -59,9 +53,10 @@ export default function AboutThirdPartyScreen() {
           <Text style={styles.title}>Third Party</Text>
         </View>
         <Text style={{ fontSize: 15, margin: 13, marginTop: 20 }}>
-          We will be using several application programming interfaces from the
-          following: Spotify, MusixMatch, Lexicala, and Google Cloud
-          Translation.
+          We used the following application programming interfaces (APIs):
+          Spotify Web Player SDK, Spotify Web API, LRCLIB, Azure Translator, and
+          Oxford Dictionaries API. We do not own any of these services and are
+          using them for educational purposes only.
         </Text>
 
         <Text style={{ fontSize: 15, margin: 13 }}>
@@ -86,20 +81,11 @@ export default function AboutThirdPartyScreen() {
             marginLeft: 13,
             marginBottom: 5,
           }}
-          onPress={() => Linking.openURL("https://developer.musixmatch.com/")}
+          onPress={() =>
+            Linking.openURL("https://github.com/tranxuanthang/lrclib")
+          }
         >
-          Musixmatch
-        </Text>
-        <Text
-          style={{
-            color: "blue",
-            fontSize: 15,
-            marginLeft: 13,
-            marginBottom: 5,
-          }}
-          onPress={() => Linking.openURL("https://lexicala.com/")}
-        >
-          Lexicala
+          LRCLIB
         </Text>
         <Text
           style={{
@@ -109,19 +95,26 @@ export default function AboutThirdPartyScreen() {
             marginBottom: 5,
           }}
           onPress={() =>
-            Linking.openURL("https://cloud.google.com/translate/docs")
+            Linking.openURL(
+              "https://azure.microsoft.com/en-us/products/ai-services/ai-translator"
+            )
           }
         >
-          Google Translation
+          Azure Translator
         </Text>
-
-        <Text style={{ fontSize: 15, margin: 13 }}>
-          We do not own any of these services and are using them for educational
-          purposes only. We expect all users of our application to follow the
-          rules and regulations of these providers and to only take advantage of
-          our application with intentions of learning.
+        <Text
+          style={{
+            color: "blue",
+            fontSize: 15,
+            marginLeft: 13,
+            marginBottom: 5,
+          }}
+          onPress={() =>
+            Linking.openURL("https://developer.oxforddictionaries.com/")
+          }
+        >
+          Oxford Dictionaries API
         </Text>
-
         <Text>{"\n\n\n"}</Text>
       </ScrollView>
     </>

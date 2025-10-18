@@ -13,7 +13,7 @@ import blueLogo from "../assets/blue_small.png";
 import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 export default function AboutTermsConditionsScreen() {
   const navigate = useNavigate();
 
@@ -34,12 +34,6 @@ export default function AboutTermsConditionsScreen() {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#303248"
-              /> */}
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -57,11 +51,10 @@ export default function AboutTermsConditionsScreen() {
           <Text style={styles.title}>Terms & Conditions</Text>
         </View>
         <Text style={{ fontSize: 15, margin: 13, marginTop: 20 }}>
-          Please read these terms of use as they will help you understand how to
-          ethically use this application. You will need access to a Spotify
-          Premium account to be able to access music on this application. The
-          developers of Lyraquist do not own any music or content from Spotify,
-          and we developed this application for educational purposes only.
+          You will need access to a Spotify Premium account to be able to access
+          music on this application. The developers of Lyraquist do not own any
+          music or content from Spotify. We developed this application for
+          educational purposes only.
         </Text>
 
         <Text style={{ fontSize: 15, margin: 13 }}>
