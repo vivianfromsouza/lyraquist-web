@@ -89,6 +89,30 @@ const HomeScreen: React.FC = () => {
     // isLoading(false);
     // setLoadingScreen(false);
   }
+  async function syncPlaylists() {
+    await SpotifyPlaylist.getUserPlaylists().then(async (playlists) => {
+      const lyraquistPlaylists =
+        await PlaylistReaderWriter.getMyPlaylistNames();
+      const spotifyPlaylists = playlists;
+      const notInLyrquist = spotifyPlaylists.filter((spoPlaylist) => {
+        return !lyraquistPlaylists.some(
+          (lyrPlaylist) => lyrPlaylist.name === spoPlaylist["name"]
+        );
+      });
+
+      let list = "";
+      for (list in notInLyrquist) {
+        await PlaylistReaderWriter.createPlaylistFromSpotify(
+          notInLyrquist[list]
+        ).then(async (playID) => {
+          await SpotifyPlaylist.downloadSongsDetails(
+            playID,
+            notInLyrquist[list]["id"]
+          );
+        });
+      }
+    });
+  }
 
   async function getSongs() {
     // setLoadingScreen(true);
@@ -198,19 +222,20 @@ const HomeScreen: React.FC = () => {
         //   )
         //   .subscribe();
 
-        // const handlePlaylistInserts = (payload) => {
-        //   getPlaylists();
-        // };
+        const handlePlaylistInserts = (payload) => {
+          getPlaylists();
+        };
 
         getPlaylists();
+        syncPlaylists();
 
-        // LocalSupabaseClient.channel("playlists")
-        //   .on(
-        //     "postgres_changes",
-        //     { event: "INSERT", schema: "public", table: "playlists" },
-        //     handlePlaylistInserts
-        //   )
-        //   .subscribe((status) => console.log("P:" + status));
+        LocalSupabaseClient.channel("playlists")
+          .on(
+            "postgres_changes",
+            { event: "INSERT", schema: "public", table: "playlists" },
+            handlePlaylistInserts
+          )
+          .subscribe((status) => console.log("P:" + status));
 
         // whenever a song is added or deleted, the home screen will update with new set of songs
         const handleRecordInserts = (payload) => {
@@ -229,7 +254,6 @@ const HomeScreen: React.FC = () => {
           .subscribe((status) => console.log(status));
 
         UserReaderWriter.getSpotifyUserId();
-
 
         // SpotifyPlaylist.getUserPlaylists().then(
         //   async (playlists) => {

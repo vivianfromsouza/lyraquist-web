@@ -93,29 +93,6 @@ export const getSpotifyAccessCode = async () => {
       await TokenReaderWriter.writeAccessToken(accessCode);
       await TokenReaderWriter.writeRefreshToken(response.data.refresh_token);
       await TokenReaderWriter.writeTimeTokenTaken(new Date().toISOString());
-
-      await SpotifyPlaylist.getUserPlaylists().then(async (playlists) => {
-        const lyraquistPlaylists =
-          await PlaylistReaderWriter.getMyPlaylistNames();
-        const spotifyPlaylists = playlists;
-        const notInLyrquist = spotifyPlaylists.filter((spoPlaylist) => {
-          return !lyraquistPlaylists.some(
-            (lyrPlaylist) => lyrPlaylist.name === spoPlaylist.name
-          );
-        });
-
-        let list = "";
-        for (list in notInLyrquist) {
-          await PlaylistReaderWriter.createPlaylistFromSpotify(
-            notInLyrquist[list]
-          ).then(async (playID) => {
-            await SpotifyPlaylist.downloadSongsDetails(
-              playID,
-              notInLyrquist[list].id
-            );
-          });
-        }
-      });
     })
     .catch((err) => {
       console.log("ERROR:" + err);

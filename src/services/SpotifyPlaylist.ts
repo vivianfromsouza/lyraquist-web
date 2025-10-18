@@ -8,7 +8,7 @@ import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
 const SpotifyPlaylist = {
   // obtains all of a user's playlists as an array
-  getUserPlaylists(): Promise<object> {
+  getUserPlaylists(): Promise<Array<object>> {
     // Define function to get the song from Spotify API
     const getPlaylists = function () {
       return new Promise<object[]>((resolve) => {
@@ -72,7 +72,7 @@ const SpotifyPlaylist = {
   async downloadSongsDetails(playUID: string, playlistURL: string) {
     await SpotifyPlaylist.getSongsFromPlaylist(playlistURL).then(
       async (tracks) => {
-        console.log("tracks in downloadSongsDetails:", tracks);
+        // console.log("tracks in downloadSongsDetails:", tracks);
         for (let i = 0; i < tracks.length; i++) {
           const isSongInDB = await SongReaderWriter.isSongInDB(
             tracks[i].track.id
@@ -87,11 +87,7 @@ const SpotifyPlaylist = {
               RecordReaderWriter.addSongToRecords(tracks[i].track.id, playUID);
             }
           } else {
-            await SongReaderWriter.addSongToDBFromSpotifyTrack(tracks[i].track).then(
-              async (songID) => {
-                console.log("songID after adding to DB:", songID);
-              }
-            );
+            await SongReaderWriter.addSongToDBFromSpotifyTrack(tracks[i].track);
             await RecordReaderWriter.addSongToRecords(tracks[i].track.id, playUID);
           }
         }
