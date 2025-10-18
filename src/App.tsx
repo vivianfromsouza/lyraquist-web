@@ -27,7 +27,6 @@ import FeedbackScreen from "./screens/FeedbackScreen";
 import AboutPrivacy from "./screens/AboutPrivacyScreen";
 import AboutThirdPartyScreen from "./screens/AboutThirdPartyScreen";
 import AboutTermsConditionsScreen from "./screens/AboutTermsConditionsScreen";
-import PrivacyScreen from "./screens/PrivacySocials";
 import AccountSettings from "./screens/AccountSettings";
 import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -65,7 +64,6 @@ const App: React.FC = () => {
               {/* Do I need home here as well? */}
               <Route path="/home" element={<HomeScreen />} />
               {/* <Route path="/play" element={<PlaybackScreen />} /> */}
-              <Route path="/privacy" element={<PrivacyScreen />} />
               <Route path="/about" element={<AboutScreen />} />
               <Route path="/about/welcome" element={<AboutUsScreen />} />
               <Route path="/about/privacy" element={<AboutPrivacy />} />

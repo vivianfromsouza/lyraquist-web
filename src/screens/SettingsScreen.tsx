@@ -140,7 +140,7 @@ export default function SettingsScreen() {
                   flex: 1,
                   resizeMode: "contain",
                   marginBottom: 7,
-                  marginLeft:-19
+                  marginLeft: -19,
                 }}
               />
             </View>
@@ -160,7 +160,7 @@ export default function SettingsScreen() {
               marginTop: 30,
             }}
           >
-             {/*<View style={{justifyContent:'center'}}>
+            {/*<View style={{justifyContent:'center'}}>
              <View style={{}} />
                <SimpleLineIcons
                 style={{ marginLeft: 30 }}
@@ -171,7 +171,11 @@ export default function SettingsScreen() {
               <SimpleLineIcon name="icon-user" size="medium"  />
               </View>*/}
             <View
-              style={{ marginLeft: 30, justifyContent:'center', alignItems:'center' }}
+              style={{
+                marginLeft: 30,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
               accessibilityLabel="profileInfo"
               accessible={true}
             >
@@ -181,7 +185,6 @@ export default function SettingsScreen() {
                 accessible={true}
               >
                 {name}
-                
               </Text>
               <Text
                 style={{ fontSize: 20, fontWeight: "bold", color: "#303248" }}
@@ -189,9 +192,10 @@ export default function SettingsScreen() {
                 accessible={true}
               >
                 {email}
-                
               </Text>
-              <Text style={{ color: "gray", marginTop:2 }}>View Profile Information</Text>
+              <Text style={{ color: "gray", marginTop: 2 }}>
+                View Profile Information
+              </Text>
             </View>
             {/* <MaterialIcons
               style={{ alignSelf: "flex-end", marginLeft: 80 }}
@@ -252,35 +256,6 @@ export default function SettingsScreen() {
               marginRight: "auto",
             }}
           />
-          {/* THE PRIVACY & SOCIAL SECTION */}
-          <Pressable
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginRight: "auto",
-              marginLeft: "auto",
-              marginTop: 25,
-            }}
-            onPress={() => navigate("/privacy")}
-          >
-            <Text
-              style={{
-                marginLeft: 25,
-                fontSize: 20,
-                fontWeight: "bold",
-                color: "#303248",
-              }}
-            >
-              Privacy and Socials
-            </Text>
-            {/* <MaterialIcons
-              style={{ alignSelf: "flex-end", marginLeft: 127 }}
-              name="keyboard-arrow-right"
-              size={40}
-              color="#303248"
-            /> */}
-            <KeyboardArrowRightIcon />
-          </Pressable>
           <View
             style={{
               borderBottomColor: "gray",
@@ -350,7 +325,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height:'91vh'
+    height: "91vh",
   },
   introSect: {
     flex: 1,
@@ -385,7 +360,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     position: "absolute",
     marginLeft: 20,
-    marginBottom: 70
+    marginBottom: 70,
   },
   logOut: {
     borderRadius: 15,
