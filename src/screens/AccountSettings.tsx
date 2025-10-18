@@ -92,9 +92,14 @@ export default function AccountSettings() {
           toast(
             "Password changed successfully! You will now need to sign-in again with your new password."
           );
-          navigate("/login");
 
-          handleSignOut();
+          setTimeout(() => {
+            handleSignOut();
+            navigate("/login");
+        }, 4000);
+
+          // handleSignOut();
+          // navigate("/login");
         })
         .catch((error) => {
           toast(
@@ -131,7 +136,9 @@ export default function AccountSettings() {
 
   async function changeTargetLanguage() {
     if (newTargetLang != undefined && newTargetLang != targetLang) {
-      const langCode = languages.find((l) => l.language === newTargetLang)?.code;
+      const langCode = languages.find(
+        (l) => l.language === newTargetLang
+      )?.code;
       await UserReaderWriter.setTargetLanguage(langCode);
       setPrefLang(newTargetLang);
 
@@ -216,41 +223,6 @@ export default function AccountSettings() {
             <View style={{ flex: 1 }}></View>
           </View>
           <Text style={styles.title}>Account Settings</Text>
-        </View>
-
-        <View>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              marginHorizontal: 20,
-              marginTop: 20,
-              color: "#ff4a2a",
-            }}
-          >
-            Account Info
-          </Text>
-          <View style={styles.border}>
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                Account Type:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "#303248",
-                  fontWeight: "bold",
-                }}
-              >
-                Full Access
-              </Text>
-            </View>
-          </View>
         </View>
 
         <View>
