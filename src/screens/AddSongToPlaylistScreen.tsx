@@ -14,8 +14,8 @@ import CreateNewPlaylistForm from "../components/CreateNewPlaylistForm";
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();
   const location = useLocation();
-  const songItem = location.state.item;
-  const songURL = songItem["spotifyURL"].split(":")[2];
+  const songItem = location?.state?.item || "";
+  const songURL = songItem["spotifyURL"]?.split(":")[2] || "";
   console.log(songItem);
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<string>("");

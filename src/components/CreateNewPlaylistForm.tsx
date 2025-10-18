@@ -10,24 +10,25 @@ const CreateNewPlaylistForm = ({ songItem }) => {
   const navigate = useNavigate();
   const [newPlaylistName, setNewPlaylistName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const songURL = songItem["spotifyURL"].split(":")[2];
+  const songURL = songItem["spotifyURL"]?.split(":")[2] || "";
   const [imageURL, setImageURL] = useState<string>();
 
   async function createPlaylist(
     description = "",
     imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8ZaSSfYdj9o0Q-S0XPOkSOpTdbQPPpKC2g&s"
   ) {
-    console.log("createPlaylist called");
     const newPlaylistId = await PlaylistReaderWriter.createPlaylist(
       newPlaylistName,
       description,
       imageURL
     );
 
-    if (!(await SongReaderWriter.isSongInDB(songURL))) {
-      await SongReaderWriter.addSongToDBFromSongCard(songItem);
+    if (songURL !== "") {
+      if (!(await SongReaderWriter.isSongInDB(songURL))) {
+        await SongReaderWriter.addSongToDBFromSongCard(songItem);
+      }
+      await RecordReaderWriter.addSongToRecords(songURL, newPlaylistId);
     }
-    await RecordReaderWriter.addSongToRecords(songURL, newPlaylistId);
     navigate(-1);
   }
 
@@ -108,7 +109,7 @@ const CreateNewPlaylistForm = ({ songItem }) => {
         style={styles.button}
         accessibilityLabel="addconfirm"
       >
-        <Text style={styles.buttonText}>Add Song</Text>
+        <Text style={styles.buttonText}>Create Playlist</Text>
       </Pressable>
     </>
   );

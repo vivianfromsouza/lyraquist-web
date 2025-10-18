@@ -221,7 +221,7 @@ const HomeScreen: React.FC = () => {
 
         // whenever a song is added or deleted, the home screen will update with new set of songs
         const handleRecordInserts = (payload) => {
-          console.log(payload)
+          console.log(payload);
           getSongs();
         };
 
@@ -436,7 +436,52 @@ const HomeScreen: React.FC = () => {
           </View>
 
           <View style={styles.savedSect}>
-            <Text style={styles.header}>My Playlists</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginRight: 20,
+              }}
+            >
+              <Text
+                style={{
+                  paddingLeft: 20,
+                  paddingTop: 20,
+                  fontSize: getFontSize(25),
+                  fontWeight: "bold",
+                  color: "#303248",
+                  marginBottom: 10,
+                }}
+              >
+                My Playlists
+              </Text>
+              <Pressable
+                onPress={() => navigate("/playlist/create", {})}
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 20,
+                  alignItems: "center",
+                  paddingTop: 15,
+                }}
+              >
+                <PlusCircleOutlined
+                  style={{ marginRight: 5, color: "#303248" }}
+                />
+                <Text
+                  style={{
+                    fontSize: getFontSize(15),
+                    color: "#303248",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Add New Playlist
+                </Text>
+              </Pressable>
+            </View>
+            <Text style={styles.noteText}>
+              Save songs in playlists for quick access here!
+            </Text>
             <ScrollView horizontal style={{ marginRight: 20, marginLeft: 20 }}>
               {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
               {/*TODO: THE SHOWHORIZONTALSCROLLINDICATOR doesnt work anymore */}
@@ -521,12 +566,6 @@ const HomeScreen: React.FC = () => {
                   paddingTop: 15,
                 }}
               >
-                {/* <AntDesign
-                name="pluscircleo"
-                size={19}
-                color="#303248"
-                style={{ marginRight: 5 }}
-              /> */}
                 <PlusCircleOutlined
                   style={{ marginRight: 5, color: "#303248" }}
                 />

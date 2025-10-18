@@ -36,6 +36,7 @@ import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
 import { useLocalStorage } from "usehooks-ts";
 import LyricsToScreen from "./screens/LyricsToScreen";
+import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
 
 const PrivateRoutes = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -44,10 +45,7 @@ const PrivateRoutes = () => {
 
 const App: React.FC = () => {
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-  const [value] = useLocalStorage(
-    "isLoggedIn",
-    isLoggedIn || "false"
-  );
+  const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
 
   useEffect(() => {
     console.log("useLocalStorage value:", value);
@@ -74,7 +72,7 @@ const App: React.FC = () => {
               <Route
                 path="/about/third-party"
                 element={<AboutThirdPartyScreen />}
-              /> 
+              />
               <Route path="/about/feedback" element={<FeedbackScreen />} />
               <Route path="/account" element={<AccountSettings />} />
               <Route path="/settings" element={<SettingsScreen />} />
@@ -99,8 +97,19 @@ const App: React.FC = () => {
               <Route path="/workbook/newWord" element={<NewWordScreen />} />
               {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
               <Route path="/playlist" element={<PlaylistInfoScreen />} />
-              <Route path="/playlist/addSong" element={<AddSongToPlaylistScreen />} />
-              <Route path ="/play/lyrics" element={<LyricsToScreen currentTrack={""} />} />
+              <Route
+                path="/playlist/addSong"
+                element={<AddSongToPlaylistScreen />}
+              />
+              <Route
+                path="/playlist/create"
+                element={<CreateNewPlaylistForm songItem={""} />}
+              />
+
+              <Route
+                path="/play/lyrics"
+                element={<LyricsToScreen currentTrack={""} />}
+              />
             </Route>
 
             <Route
