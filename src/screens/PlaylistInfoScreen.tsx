@@ -124,12 +124,12 @@ function PlaylistInfoScreen() {
 
   return (
     <>
-      <View style={{ backgroundColor: "#e8e1db", flex: 1 }}>
+      <View style={{ backgroundColor: "#e8e1db", flex: 1, height:'80vh'}}>
         <ToastContainer />
 
         <View
           style={{
-            paddingTop: 50,
+            paddingTop: 30,
             backgroundColor: "#ECC516",
             paddingBottom: 15,
             borderBottomLeftRadius: 15,
@@ -157,7 +157,7 @@ function PlaylistInfoScreen() {
             </Text>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Pressable onPress={() => playPlaylist(playlistURL)}>
+              <Pressable onPress={() => playPlaylist(playlistURL)} style={{fontSize:35, marginRight:20}}>
                 <PlayCircleFilled />
               </Pressable>
 
@@ -199,7 +199,7 @@ function PlaylistInfoScreen() {
                 paddingRight: 15,
               }}
             >
-              <InfoCircleOutlined />
+              <InfoCircleOutlined style={{marginRight:5}}/>
 
               <Text
                 style={{
@@ -235,7 +235,7 @@ function PlaylistInfoScreen() {
           >
             <Text style={{ color: "gray", marginRight: 30 }}>Liked</Text>
 
-            <Text style={{ color: "gray" }}>Delete</Text>
+            <Text style={{ color: "gray", }}>Delete</Text>
           </View>
         </View>
 
@@ -275,15 +275,16 @@ function PlaylistInfoScreen() {
             marginLeft: 35,
             alignItems: "center",
             paddingTop: 15,
+            marginBottom:20
           }}
           accessibilityLabel="addWord"
           accessible={true}
         >
-          <PlusCircleOutlined />
+          <PlusCircleOutlined style={{marginRight:5}}/>
           <Text style={{ fontSize: 20, color: "gray" }}>Add New Song</Text>
         </Pressable>
 
-        <Text>{"\n\n\n\n"}</Text>
+        {/*<Text>{"\n\n\n\n"}</Text>*/}
       </View>
     </>
   );
