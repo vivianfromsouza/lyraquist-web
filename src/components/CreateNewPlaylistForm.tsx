@@ -1,10 +1,11 @@
 import { Text, View, Pressable } from "react-native-web";
-import { StyleSheet, TextInput } from "react-native";
+import { TextInput } from "react-native";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
+import playlistStyles from "../styles/PlaylistStyles";
 
 const CreateNewPlaylistForm = ({ songItem }) => {
   const navigate = useNavigate();
@@ -106,33 +107,13 @@ const CreateNewPlaylistForm = ({ songItem }) => {
           createPlaylist(description, imageURL);
         }}
         testID="add-song"
-        style={styles.button}
+        style={playlistStyles.button}
         accessibilityLabel="addconfirm"
       >
-        <Text style={styles.buttonText}>Create Playlist</Text>
+        <Text style={playlistStyles.buttonText}>Create Playlist</Text>
       </Pressable>
     </>
   );
 };
 
 export default CreateNewPlaylistForm;
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "#303248",
-    marginVertical: 6,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginTop: 20,
-    borderRadius: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: "80%",
-  },
-  buttonText: {
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 20,
-    color: "#edc525",
-  },
-});

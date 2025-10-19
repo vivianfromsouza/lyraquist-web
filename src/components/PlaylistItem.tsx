@@ -5,6 +5,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import FeatherIcon from "feather-icons-react";
 import { toast } from "react-toastify";
+import playlistStyles from "../styles/PlaylistStyles";
 
 const PlaylistItem = ({ item, playlistURL }) => {
   const { playPlaylist } = usePlayer();
@@ -56,54 +57,32 @@ const PlaylistItem = ({ item, playlistURL }) => {
           playPlaylist(playlistURL, "spotify:track:" + item.spotifyURL)
         }
       >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginHorizontal: 30,
-            marginVertical: 7,
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={playlistStyles.playlistItemEntry}>
+          <View style={playlistStyles.playlistImageContainer}>
             <Image
               testID="playlist-item-image"
-              style={{ width: 50, height: 50, borderRadius: 5 }}
+              style={playlistStyles.playlistItemImage}
               source={{ uri: item.imageURL }}
             />
             <View style={{ paddingLeft: 5 }}>
               <Text
                 testID="playlist-item-name"
                 numberOfLines={1}
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 14,
-                  maxWidth: 190,
-                }}
+                style={playlistStyles.playlistItemName}
               >
                 {item["name"]}
               </Text>
               <Text
                 testID="playlist-item-artist"
                 numberOfLines={1}
-                style={{
-                  maxWidth: 190,
-                  color: "grey",
-                }}
+                style={playlistStyles.playlistItemArtist}
               >
                 {item["artist"]}
               </Text>
             </View>
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "30%",
-              alignItems: "center",
-            }}
-          >
+          <View style={playlistStyles.playlistItemLike}>
             {item.isLiked ? (
               <Pressable
                 testID="liked-icon"
@@ -123,23 +102,13 @@ const PlaylistItem = ({ item, playlistURL }) => {
             <Pressable
               testID="delete-icon"
               onPress={() => deleteSongAlert(item.recordID)}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginRight: 5,
-              }}
+              style={playlistStyles.playlistLikeIcon}
             >
               <FeatherIcon icon="x-circle" />
             </Pressable>
           </View>
         </View>
-        <View
-          style={{
-            borderBottomColor: "gray",
-            borderBottomWidth: 0.5,
-            marginHorizontal: 30,
-          }}
-        />
+        <View style={playlistStyles.playlistItemBorder} />
       </Pressable>
     </>
   );

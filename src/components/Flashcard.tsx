@@ -2,7 +2,7 @@
 // Built based on this link: https://nabendu82.medium.com/build-a-flashcard-quiz-with-react-c1cb96e3a1e8
 import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
-import flashcardStyles from "../styles/Flashcard"
+import flashcardStyles from "../styles/FlashcardStyles"
 
 const Flashcard = ({ wordItem }) => {
   const [flip, setFlip] = useState(false);
