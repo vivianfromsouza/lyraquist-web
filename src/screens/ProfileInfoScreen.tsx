@@ -122,7 +122,7 @@ export default function ProfileInfoScreen() {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 60,
+              marginTop: 30,
               marginLeft: 20,
               marginRight: 20,
             }}
@@ -139,9 +139,9 @@ export default function ProfileInfoScreen() {
                 style={{}}
                 name="arrow-back"
                 size={40}
-                color="#e8e1db"
+                color=
               /> */}
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+              <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={yellowLogo as ImageSourcePropType}
@@ -159,8 +159,8 @@ export default function ProfileInfoScreen() {
         </View>
 
         <View style={{ alignItems: "center", marginTop: 40 }}>
-          <View style={styles.circle} />
-          {/* <SimpleLineIcons
+          {/*View style={styles.circle} />
+           <SimpleLineIcons
             style={{ position: "absolute", marginTop: 12 }}
             name="user"
             size={80}
@@ -173,7 +173,7 @@ export default function ProfileInfoScreen() {
           style={{
             fontSize: 25,
             fontWeight: "bold",
-            marginHorizontal: 20,
+            marginHorizontal: 70,
             marginTop: 20,
             color: "#ff4a2a",
           }}
@@ -226,11 +226,12 @@ export default function ProfileInfoScreen() {
         </View>
         <Pressable
           style={{
-            marginRight: 10,
+            //marginRight: 10,
             backgroundColor: "#ff4a2a",
-            marginStart: 250,
+            //marginStart: 250,
             borderRadius: 10,
             marginTop: 5,
+            marginHorizontal:100
           }}
           onPress={changeUsername}
           accessibilityLabel="changeName"
@@ -245,7 +246,7 @@ export default function ProfileInfoScreen() {
               marginVertical: 3,
             }}
           >
-            Change name
+            Change Name
           </Text>
         </Pressable>
 
@@ -253,7 +254,7 @@ export default function ProfileInfoScreen() {
           style={{
             fontSize: 25,
             fontWeight: "bold",
-            marginHorizontal: 20,
+            marginHorizontal: 70,
             marginTop: 20,
             color: "#ff4a2a",
           }}
@@ -264,7 +265,7 @@ export default function ProfileInfoScreen() {
           <View
             style={[
               styles.rows,
-              { paddingRight: 10, gap: 10, marginRight: 112 },
+              { paddingRight: 10, gap: 10,},
             ]}
           >
             <Text
@@ -311,11 +312,12 @@ export default function ProfileInfoScreen() {
         </View>
         <Pressable
           style={{
-            marginRight: 10,
+            //marginRight: 10,
             backgroundColor: "#ff4a2a",
-            marginStart: 250,
+            //marginStart: 250,
             borderRadius: 10,
             marginTop: 5,
+            marginHorizontal:100
           }}
           onPress={changeEmail}
         >
