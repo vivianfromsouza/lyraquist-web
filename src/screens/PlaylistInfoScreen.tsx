@@ -37,6 +37,7 @@ function PlaylistInfoScreen() {
   const [searchTerm, setSearchTerm] = useState("");
   const { playPlaylist } = usePlayer();
 
+
   useEffect(() => {
     try {
       getAllSongsFromPlaylist(playUID);
@@ -76,11 +77,13 @@ function PlaylistInfoScreen() {
     });
   }
 
+  
+
   const deletePlaylistAlert = () => {
     toast(
       "Are you Sure? Deleting this playlist will remove its data. It will not be retrievable once deleted.",
       { closeButton: deleteAlertButton }
-    );
+    )
   };
 
   const deleteAlertButton = () => {
@@ -89,12 +92,14 @@ function PlaylistInfoScreen() {
         <button
           onClick={() => console.log("Cancel Pressed")}
           className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+          style={{width:200, marginRight:5, marginLeft:10, borderRadius:5}}
         >
           Cancel
         </button>
         <button
           onClick={deletePlaylist}
           className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+          style={{width: 190, marginLeft:10, borderRadius:5}}
         >
           Delete
         </button>
