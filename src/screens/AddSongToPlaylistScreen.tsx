@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 // Worked on by: Vivian D'Souza, Ashley Bickham
-import { SafeAreaView, View, Text, StyleSheet, Pressable } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet, Pressable, } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
@@ -10,6 +10,7 @@ import { Dropdown } from "primereact/dropdown";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
 import CreateNewPlaylistForm from "../components/CreateNewPlaylistForm";
+import { ScrollView } from "react-native-web";
 
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();
@@ -43,11 +44,12 @@ function AddSongToPlaylistScreen() {
   }, [selectedPlaylist, selectedPlaylistId]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
+      
       <View
         style={{
           backgroundColor: "#5bc8a6",
-          paddingTop: 45,
+          paddingTop: 20,
           borderBottomLeftRadius: 15,
           borderBottomRightRadius: 15,
           paddingBottom: 15,
@@ -58,12 +60,12 @@ function AddSongToPlaylistScreen() {
           <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
         </Pressable>
         <Text testID="add-song-title" style={styles.title}>
-          Add song to playlist
+          Add Song to Playlist
         </Text>
       </View>
       <View
         testID="playlist-dropdown"
-        style={{ flexDirection: "row", marginLeft: 20, paddingTop: 10 }}
+        style={{ marginLeft: 20, paddingTop: 30, width:'15%', justifyContent:'center', alignSelf:'center', flexDirection:"row"}}
       >
         <Text style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}>
           {" "}
@@ -89,6 +91,7 @@ function AddSongToPlaylistScreen() {
           placeholder={selectedPlaylist || "Select a Playlist"}
           className="w-full md:w-14rem"
           test-id="playlist-dropdown"
+          style={{ fontSize:20}}
         />
       </View>
 
@@ -105,7 +108,8 @@ function AddSongToPlaylistScreen() {
           <Text style={styles.buttonText}>Add Song</Text>
         </Pressable>
       )}
-    </SafeAreaView>
+     
+    </ScrollView>
   );
 }
 
@@ -113,6 +117,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:'80vh'
   },
   title: {
     fontSize: 30,
@@ -159,7 +164,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    marginTop: 20,
+    marginTop: 150,
     borderRadius: 10,
     marginLeft: "auto",
     marginRight: "auto",
