@@ -34,11 +34,14 @@ const CreateNewPlaylistForm = ({ songItem }) => {
 
   return (
     <>
+    <View style={{flex:1,backgroundColor: "#e8e1db", height:'80vh'}}>
       <Text
         testID="playlist-name-label"
         style={{
-          fontSize: 20,
-          color: "gray",
+          fontSize: 30,
+          color: "#303248",
+          margin:10,
+          fontWeight:'bold'
         }}
       >
         New Playlist Name:
@@ -52,11 +55,12 @@ const CreateNewPlaylistForm = ({ songItem }) => {
           borderColor: "gray",
           marginTop: 15,
           marginBottom: 20,
+          marginHorizontal:10
         }}
       >
         <TextInput
           testID="playlist-name-input"
-          placeholder="New Playlist Name"
+          placeholder="Enter New Playlist Name"
           value={newPlaylistName}
           onChangeText={(text) => setNewPlaylistName(text)}
           style={{ fontSize: 20, color: "gray" }}
@@ -67,6 +71,7 @@ const CreateNewPlaylistForm = ({ songItem }) => {
         style={{
           fontSize: 20,
           color: "gray",
+          marginLeft:10
         }}
       >
         Description:
@@ -80,19 +85,20 @@ const CreateNewPlaylistForm = ({ songItem }) => {
           borderColor: "gray",
           marginTop: 15,
           marginBottom: 20,
+          marginHorizontal:10
         }}
       >
         <TextInput
           testID="description-input"
-          placeholder="Enter description"
-          placeholderTextColor={"white"}
+          placeholder="Enter Description"
+          placeholderTextColor={"grey"}
           editable
           value={description}
           onChangeText={(text) => setDescription(text)}
           style={{ fontSize: 20, color: "gray" }}
         />
       </View>
-      <View>
+      <View style={{marginLeft:10, marginBottom:10}}>
         <input
           test-id="image-input"
           type="file"
@@ -111,6 +117,7 @@ const CreateNewPlaylistForm = ({ songItem }) => {
       >
         <Text style={styles.buttonText}>Create Playlist</Text>
       </Pressable>
+      </View>
     </>
   );
 };
