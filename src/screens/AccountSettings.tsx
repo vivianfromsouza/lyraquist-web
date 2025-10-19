@@ -185,7 +185,7 @@ export default function AccountSettings() {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 60,
+              marginTop: 30,
               marginLeft: 20,
               marginRight: 20,
             }}
@@ -372,16 +372,29 @@ export default function AccountSettings() {
             <View style={styles.rows}>
               <View style={styles.divider} />
             </View>
-
+            <View style={styles.rows}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "gray",
+                }}
+              >
+                New Language:
+              </Text>
+            <View style={{marginHorizontal:10, alignSelf:'flex-end'}}>
             <Dropdown
               value={newPrefLang}
               onChange={(e) => setNewPrefLang(e.value)}
+              
               options={languages}
               optionLabel="language"
               optionValue="language"
               placeholder="Select a language"
               className="w-full md:w-14rem"
+              style={styles.dropdown}
             />
+            </View>
+            </View>
           </View>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <Pressable
@@ -450,7 +463,16 @@ export default function AccountSettings() {
             <View style={styles.rows}>
               <View style={styles.divider} />
             </View>
-
+<View style={styles.rows}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "gray",
+                }}
+              >
+                New Language:
+              </Text>
+            <View style={{marginHorizontal:10, alignSelf:'flex-end'}}>
             <Dropdown
               value={newTargetLang}
               onChange={(e) => setNewTargetLang(e.value)}
@@ -460,6 +482,8 @@ export default function AccountSettings() {
               placeholder="Select a language"
               className="w-full md:w-14rem"
             />
+            </View>
+            </View>
           </View>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <Pressable
@@ -591,15 +615,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   dropdown: {
-    textAlign: "center",
-    paddingLeft: 10,
-    height: 35,
-    borderColor: "rgba(183, 193, 189, 0.9)",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    marginBottom: 20,
-    marginHorizontal: 10,
+    marginRight:4,
+    
   },
+  
   placeholderStyle: {
     fontSize: 16,
     color: "gray",
@@ -615,4 +634,5 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+  
 });
