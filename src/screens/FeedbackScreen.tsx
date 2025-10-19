@@ -36,6 +36,7 @@ export default function FeedbackScreen() {
         style={{
           flex: 1,
           backgroundColor: "#e8e1db",
+          height:'80vh'
         }}
       >
         <View
@@ -50,7 +51,7 @@ export default function FeedbackScreen() {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 60,
+              marginTop: 30,
               marginLeft: 20,
               marginRight: 20,
             }}
@@ -133,7 +134,8 @@ export default function FeedbackScreen() {
                 borderRadius: 10,
                 flex: 1,
                 marginTop: 10,
-                paddingLeft: 10,
+                padding:10,
+                marginBottom:10
               }}
             >
               <TextInput
@@ -145,9 +147,11 @@ export default function FeedbackScreen() {
                 style={{
                   fontSize: 15,
                   color: "gray",
-                  marginBottom: 10,
+                  //marginBottom: 10,
                   paddingTop: 5,
                   paddingRight: 5,
+                  backgroundColor:'white',
+                  borderRadius:10
                 }}
                 textAlignVertical="top"
                 placeholder="Type here"

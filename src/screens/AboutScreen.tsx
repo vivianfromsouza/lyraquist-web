@@ -25,7 +25,7 @@ export default function AboutScreen() {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 60,
+              marginTop: 30,
               marginLeft: 20,
               marginRight: 20,
             }}
@@ -57,6 +57,7 @@ export default function AboutScreen() {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
+            marginHorizontal:20, marginRight:50
           }}
           onPress={() => navigate("/about/welcome")}
         >
@@ -89,6 +90,7 @@ export default function AboutScreen() {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
+            marginHorizontal:20, marginRight:50
           }}
           onPress={() => navigate("/about/privacy")}
         >
@@ -121,6 +123,7 @@ export default function AboutScreen() {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
+            marginHorizontal:20, marginRight:50
           }}
           onPress={() => navigate("/about/terms")}
         >
@@ -153,6 +156,7 @@ export default function AboutScreen() {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
+            marginHorizontal:20, marginRight:50
           }}
           onPress={() => navigate("/about/third-party")}
         >
@@ -185,6 +189,7 @@ export default function AboutScreen() {
             alignItems: "center",
             marginTop: 25,
             justifyContent: "space-between",
+            marginHorizontal:20, marginRight:50
           }}
           onPress={() => navigate("/about/feedback")}
         >
@@ -221,6 +226,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height:'80vh'
   },
   title: {
     textAlign: "center",

@@ -27,7 +27,7 @@ export default function AboutUsScreen() {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 60,
+              marginTop: 20,
               marginLeft: 20,
               marginRight: 20,
             }}
@@ -137,6 +137,7 @@ export default function AboutUsScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#e8e1db",
+    height:'80vh'
   },
   title: {
     textAlign: "center",
