@@ -17,15 +17,17 @@ export default async function singleTranslation(req, res) {
     return res.status(400).json({ error: "Missing parameters." });
   }
 
-  const app_id = "d23ee800";
-  const app_key = "46621eea6f88172a3a972b4b6f620946";
+  const app_id = process.env.VITE_OXFORD_APP_ID;
+  const app_key = process.env.VITE_OXFORD_APP_KEY;
+
   const url =
     "https://od-api-sandbox.oxforddictionaries.com/api/v2/translations/" +
     fromLang +
     "/" +
     toLang +
     "/" +
-    word.toLowerCase() + "?fields=translations,pronunciations";
+    word.toLowerCase() +
+    "?fields=translations,pronunciations";
 
   if (req.method === "OPTIONS") {
     res.status(200).end();

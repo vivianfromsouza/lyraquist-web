@@ -4,23 +4,24 @@ import {
   StyleSheet,
   Modal,
   TextInput,
-  Alert,
   PixelRatio,
 } from "react-native";
 import { Pressable } from "react-native-web";
-import { Dropdown } from "primereact/dropdown";
+import DropDownPicker from "react-native-dropdown-picker";
 import { useEffect, useRef, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
 import UserReaderWriter from "../services/UserReaderWriter";
 import DictionaryService from "../services/DictionaryService";
+import { toast, ToastContainer } from "react-toastify";
+import WordReaderWriter from "../services/WordReaderWriter";
+import { languages } from "../constants/ProjectConstants";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
-const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
-  const [workbookItems] = useState<any>([]);
-  const [bookUID, setbookUID] = useState<string>();
+const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
+  const [bookUID, setbookUID] = useState<any>();
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
@@ -28,6 +29,10 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [workbooks, setWorkbooks] = useState<any>([]);
 
   console.log(workbookName);
   console.log(setPronunciation);
@@ -46,8 +51,8 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
     );
 
     const translation =
-      translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-        ?.senses?.[0]?.translations?.[0]?.text ?? "";
+      (await translationResponse?.results?.[0]?.lexicalEntries?.[0]
+        ?.entries?.[0]?.senses?.[0]?.translations?.[0]?.text) ?? "";
 
     setTranslation(translation);
 
@@ -73,9 +78,21 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
     );
   }
 
+  async function getWorkbooks() {
+    await WorkbookReaderWriter.getWorkbooks().then((workbooks) => {
+      const workbooksToDropdown = [{}];
+      workbooks.map((book) => {
+        workbooksToDropdown.push({ label: book.name, value: book.book_id });
+      });
+      workbooksToDropdown.push({ label: "Create a Workbook", value: "0" });
+      setWorkbooks(workbooksToDropdown);
+    });
+  }
+
   useEffect(() => {
+    getWorkbooks();
+
     getEntryDetails();
-    console.log(pronunciation);
   }, [pronunciation]);
 
   return (
@@ -161,8 +178,21 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
             </Text>
           </View>
 
-          <Dropdown
-            options={workbookItems}
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={workbooks}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setWorkbooks}
+            onSelectItem={(item) => {
+              setbookUID(item.value);
+              setWorkbookName(item.label);
+            }}
+          />
+
+          {/* <Dropdown
+            options={workbooks}
             value={bookUID}
             onChange={(e) => {
               setbookUID(e.value.uid);
@@ -170,8 +200,8 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
             }}
             optionLabel="name"
             placeholder="Choose a workbook"
-            className="w-full md:w-14rem"
-          />
+            className="w-full md:w-14rem p-dropdown-panel"
+          /> */}
           {/* renders a TextInput when "create own workbook" option is chosen */}
           {bookUID === "0" && (
             <View
@@ -223,73 +253,70 @@ const WordModal = ({ openModal, setOpenModal, word, songLang }) => {
                 paddingHorizontal: 5,
               }}
               onPress={async () => {
-                let newWorkbookBool = false;
                 if (bookUID == "" || bookUID === undefined) {
-                  Alert.alert("Please choose a workbook to add the word to!");
-                } else {
-                  if (bookUID == "0") {
-                    const workbooks = await WorkbookReaderWriter.getWorkbooks();
-                    const workbookExists = workbooks.some(
-                      (workbook) => workbook.name === newWorkbookName
+                  toast("Please choose a workbook to add the word to!");
+                } else if (bookUID === "0") {
+                  console.log(workbooks);
+                  const workbookExists = workbooks.some(
+                    (workbook) => workbook.label === newWorkbookName
+                  );
+                  if (workbookExists) {
+                    toast(
+                      "Workbook with this name already exists. Please choose a different name."
                     );
-                    if (workbookExists) {
-                      Alert.alert(
-                        "Workbook with this name already exists. Please choose a different name."
-                      );
-                    } else {
-                      // const newBookUID =
-                      //   await WorkbookReaderWriter.createWorkbook(
-                      //     newWorkbookName.trim(),
-                      //     ""
-                      //   );
-                      // WordReaderWriter.addWord(
-                      //   savedWord.word,
-                      //   savedWord.TLWord,
-                      //   newBookUID,
-                      //   songLang,
-                      //   savedWord.POS,
-                      //   name,
-                      //   false
-                      // );
-                      // Alert.alert(
-                      //   "New word added!.",
-                      //   '"' +
-                      //     savedWord.word +
-                      //     '" ' +
-                      //     "added to " +
-                      //     newWorkbookName +
-                      //     " workbook."
-                      // );
-                      // newWorkbookBool = true;
-                    }
                   } else {
-                    // WordReaderWriter.addWord(
-                    //   savedWord.word,
-                    //   savedWord.TLWord,
-                    //   bookUID,
-                    //   songLang,
-                    //   savedWord.POS,
-                    //   name,
-                    //   false
-                    // );
-                    // newWorkbookBool = false;
+                    const newBookUID =
+                      await WorkbookReaderWriter.createWorkbook(
+                        newWorkbookName.trim(),
+                        ""
+                      );
+                    WordReaderWriter.addWord(
+                      word,
+                      translation,
+                      newBookUID,
+                      songLang,
+                      pos,
+                      songName,
+                      false
+                    );
+                    toast(
+                      "New word added!." +
+                        '"' +
+                        word +
+                        '" ' +
+                        "added to " +
+                        newWorkbookName +
+                        " workbook."
+                    );
                   }
+                } else {
+                  const language = languages.find(
+                    (l) => l.code === songLang
+                  )?.language;
 
-                  if (!newWorkbookBool) {
-                    // Alert.alert(
-                    //   "New word added!.",
-                    //   '"' +
-                    //     savedWord.word +
-                    //     '" ' +
-                    //     "added to " +
-                    //     workbookName +
-                    //     " workbook."
-                    // );
-                  }
+                  WordReaderWriter.addWord(
+                    word,
+                    translation,
+                    bookUID,
+                    language,
+                    pos,
+                    songName,
+                    false
+                  );
+                  toast(
+                    "New word added!." +
+                      '"' +
+                      word +
+                      '" ' +
+                      "added to " +
+                      newWorkbookName +
+                      " workbook."
+                  );
                 }
               }}
             >
               <Text style={styles.modalButtons}> Save </Text>
+              <ToastContainer />
             </Pressable>
           </View>
         </View>
@@ -337,6 +364,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     color: "white",
+    zIndex: 100000,
   },
   placeholderStyle: {
     fontSize: getFontSize(20),

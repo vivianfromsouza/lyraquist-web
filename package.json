@@ -36,6 +36,7 @@
     "react-dom": "19.2.0",
     "react-ionicons": "^4.2.1",
     "react-multi-carousel": "^2.8.5",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-web": "^0.21.1",
     "react-range": "^1.10.0",
     "react-range-slider-input": "^3.2.1",
