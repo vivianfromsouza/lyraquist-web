@@ -4,3 +4,8 @@ export const languages = [
   { language: "French", code: "fr" },
   { language: "German", code: "de" },
 ];
+
+export const dropdownLanguages = languages.map((lang) => ({
+  label: lang.language,
+  value: lang.code,
+}));

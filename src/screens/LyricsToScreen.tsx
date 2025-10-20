@@ -223,17 +223,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginHorizontal: 5,
   },
-  dropdown: {
-    textAlign: "center",
-    paddingLeft: 10,
-    height: 35,
-    width: 325,
-    borderColor: "rgba(183, 193, 189, 0.9)",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    color: "white",
-  },
   placeholderStyle: {
     fontSize: getFontSize(20),
     color: "white",
