@@ -89,6 +89,65 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
     });
   }
 
+  async function addWordToWorkbook() {
+    if (bookUID == "" || bookUID === undefined) {
+      toast("Please choose a workbook to add the word to!");
+    } else if (bookUID === "0") {
+      const workbookExists = workbooks.some(
+        (workbook) => workbook.label === newWorkbookName
+      );
+      if (workbookExists) {
+        toast(
+          "Workbook with this name already exists. Please choose a different name."
+        );
+      } else {
+        const newBookUID = await WorkbookReaderWriter.createWorkbook(
+          newWorkbookName.trim(),
+          ""
+        );
+        WordReaderWriter.addWord(
+          word,
+          translation,
+          newBookUID,
+          songLang,
+          pos,
+          songName,
+          false
+        );
+        toast(
+          "New word added!." +
+            '"' +
+            word +
+            '" ' +
+            "added to " +
+            newWorkbookName +
+            " workbook."
+        );
+      }
+    } else {
+      const language = languages.find((l) => l.code === songLang)?.language;
+
+      WordReaderWriter.addWord(
+        word,
+        translation,
+        bookUID,
+        language,
+        pos,
+        songName,
+        false
+      );
+      toast(
+        "New word added!." +
+          '"' +
+          word +
+          '" ' +
+          "added to " +
+          newWorkbookName +
+          " workbook."
+      );
+    }
+  }
+
   useEffect(() => {
     getWorkbooks();
 
@@ -191,18 +250,6 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
             }}
           />
 
-          {/* <Dropdown
-            options={workbooks}
-            value={bookUID}
-            onChange={(e) => {
-              setbookUID(e.value.uid);
-              setWorkbookName(e.value.name);
-            }}
-            optionLabel="name"
-            placeholder="Choose a workbook"
-            className="w-full md:w-14rem p-dropdown-panel"
-          /> */}
-          {/* renders a TextInput when "create own workbook" option is chosen */}
           {bookUID === "0" && (
             <View
               style={{
@@ -252,68 +299,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
                 borderRadius: 12,
                 paddingHorizontal: 5,
               }}
-              onPress={async () => {
-                if (bookUID == "" || bookUID === undefined) {
-                  toast("Please choose a workbook to add the word to!");
-                } else if (bookUID === "0") {
-                  console.log(workbooks);
-                  const workbookExists = workbooks.some(
-                    (workbook) => workbook.label === newWorkbookName
-                  );
-                  if (workbookExists) {
-                    toast(
-                      "Workbook with this name already exists. Please choose a different name."
-                    );
-                  } else {
-                    const newBookUID =
-                      await WorkbookReaderWriter.createWorkbook(
-                        newWorkbookName.trim(),
-                        ""
-                      );
-                    WordReaderWriter.addWord(
-                      word,
-                      translation,
-                      newBookUID,
-                      songLang,
-                      pos,
-                      songName,
-                      false
-                    );
-                    toast(
-                      "New word added!." +
-                        '"' +
-                        word +
-                        '" ' +
-                        "added to " +
-                        newWorkbookName +
-                        " workbook."
-                    );
-                  }
-                } else {
-                  const language = languages.find(
-                    (l) => l.code === songLang
-                  )?.language;
-
-                  WordReaderWriter.addWord(
-                    word,
-                    translation,
-                    bookUID,
-                    language,
-                    pos,
-                    songName,
-                    false
-                  );
-                  toast(
-                    "New word added!." +
-                      '"' +
-                      word +
-                      '" ' +
-                      "added to " +
-                      newWorkbookName +
-                      " workbook."
-                  );
-                }
-              }}
+              onPress={addWordToWorkbook}
             >
               <Text style={styles.modalButtons}> Save </Text>
               <ToastContainer />
