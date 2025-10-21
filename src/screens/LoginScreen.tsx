@@ -151,7 +151,7 @@ const LoginScreen: React.FC = () => {
           style={{
             alignSelf: "flex-start",
             justifyContent: "flex-start",
-            marginTop: 60,
+            marginTop: 30,
             marginLeft: 20,
           }}
           onPress={() => navigate("/")}
@@ -165,7 +165,7 @@ const LoginScreen: React.FC = () => {
               style={styles.circle}
               source={fullLogo as ImageSourcePropType}
             />
-            <Text>LYRAQUIST</Text>
+            <Text style ={{marginTop:5, fontWeight:'bold', color:"#303248", fontSize:20}}>LYRAQUIST</Text>
 
             <View
               style={{
@@ -173,7 +173,7 @@ const LoginScreen: React.FC = () => {
                 marginVertical: 3,
                 borderWidth: 1,
                 alignItems: "center",
-                borderColor: "#e8e1db",
+                borderColor: "#303248",
                 borderRadius: 10,
                 alignSelf: "center",
               }}
@@ -186,7 +186,7 @@ const LoginScreen: React.FC = () => {
                   marginLeft: 4,
                 }}
               >
-                <EmailOutlinedIcon />
+                <EmailOutlinedIcon style={{color:"#303248"}}/>
                 {/* 
                 <MaterialCommunityIcons
                   style={{ marginLeft: 5 }}
@@ -213,7 +213,7 @@ const LoginScreen: React.FC = () => {
                 marginVertical: 3,
                 borderWidth: 1,
                 alignItems: "center",
-                borderColor: "#e8e1db",
+                borderColor: "#303248",
                 borderRadius: 10,
                 alignSelf: "center",
               }}
@@ -232,7 +232,7 @@ const LoginScreen: React.FC = () => {
                   size={24}
                   color="#e8e1db"
                 /> */}
-                <LockOutlinedIcon />
+                <LockOutlinedIcon style={{color:"#303248"}}/>
                 <TextInput
                   accessibilityLabel="password"
                   placeholder="Password                                         "
@@ -260,15 +260,19 @@ const LoginScreen: React.FC = () => {
             <Text> Log In </Text>
           </Pressable> */}
         </View>
-      </View>
-      <button
+        <View style={{marginHorizontal:590, marginBottom:90}}>
+        <button
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         onClick={handleLyraquistLogIn}
+        style={{fontSize:18, borderRadius:7, backgroundColor:"#303248", color:"#e8e1db", padding:10}}
       >
         <ToastContainer />
         Login
       </button>
+      </View>
+      </View>
+      
     </>
     // <>
     //   <div className="bg-green w-full h-96 absolute top-0 left-0 z-0 bg-hero"></div>
@@ -333,6 +337,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#edc526",
+    height:'100vh'
   },
   content: {
     flex: 1,
@@ -348,7 +353,7 @@ const styles = StyleSheet.create({
   circle: {
     height: 190,
     width: 190,
-    marginBottom: -30,
+    marginBottom: 0,
   },
   title: {
     marginTop: 20,

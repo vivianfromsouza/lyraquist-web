@@ -1,5 +1,6 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { useNavigate } from "react-router-dom";
+import playlistStyles from "../styles/PlaylistStyles";
 
 const PlaylistCard = ({ item }) => {
   const navigate = useNavigate();
@@ -9,25 +10,15 @@ const PlaylistCard = ({ item }) => {
         onPress={() => navigate("/playlist", { state: item })}
         style={{ margin: 10 }}
       >
-        <View
-          style={{ backgroundColor: "white", elevation: 8, borderRadius: 5 }}
-        >
+        <View>
           <Image
             testID="playlist-image"
-            style={{ width: 130, height: 130, borderRadius: 5 }}
+            style={playlistStyles.playlistCardImage}
             source={{ uri: item.image_url }}
           />
         </View>
         <View style={{ width: 130 }}>
-          <Text
-            numberOfLines={1}
-            style={{
-              fontSize: 13,
-              fontWeight: "500",
-              color: "black",
-              marginTop: 10,
-            }}
-          >
+          <Text numberOfLines={1} style={playlistStyles.playlistCardName}>
             {item?.name}
           </Text>
         </View>

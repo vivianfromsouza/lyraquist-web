@@ -169,7 +169,7 @@ export default function SignUpScreen() {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 60,
+              marginTop: 30,
               marginLeft: 20,
               marginRight: 20,
             }}
@@ -252,7 +252,7 @@ export default function SignUpScreen() {
       size={24}
       color="gray"
     /> */}
-          <FontAwesomeIcon icon={faUserCircle} />
+          <FontAwesomeIcon icon={faUserCircle} style={{marginLeft:5}} />
 
           <Image
             source={divider as ImageSourcePropType}
@@ -298,7 +298,7 @@ export default function SignUpScreen() {
       size={25}
       color="gray"
     /> */}
-          <EmailOutlinedIcon />
+          <EmailOutlinedIcon style={{marginLeft:5}}/>
           <Image
             source={divider as ImageSourcePropType}
             style={{ height: 25 }}
@@ -342,7 +342,7 @@ export default function SignUpScreen() {
       size={25}
       color="gray"
     /> */}
-          <MarkEmailReadOutlinedIcon />
+          <MarkEmailReadOutlinedIcon style={{marginLeft:5}}/>
           <Image
             source={divider as ImageSourcePropType}
             style={{ height: 25 }}
@@ -368,7 +368,7 @@ export default function SignUpScreen() {
         {/* PASSWORD */}
         <Text
           style={{
-            marginHorizontal: 20,
+            marginHorizontal: 70,
             fontSize: getFontSize(12),
             color: "#ff4a2a",
           }}
@@ -401,7 +401,7 @@ export default function SignUpScreen() {
       size={24}
       color="gray"
     /> */}
-            <LockOutlinedIcon />
+            <LockOutlinedIcon style={{marginLeft:5}}/>
             <Image
               source={divider as ImageSourcePropType}
               style={{ height: 25 }}
@@ -463,7 +463,7 @@ export default function SignUpScreen() {
       size={24}
       color="gray"
     /> */}
-            <LockPersonOutlinedIcon />
+            <LockPersonOutlinedIcon style={{marginLeft:5}}/>
             <Image
               source={divider as ImageSourcePropType}
               style={{ height: 25 }}
@@ -505,7 +505,7 @@ export default function SignUpScreen() {
         </View>
 
         <View style={{ marginHorizontal: 20, zIndex: 10001 }}>
-          <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
+          <Text style={{ fontSize: getFontSize(17), color: "black", fontWeight:'bold' }}>
             Preferred Language
           </Text>
           <Text style={styles.noteText}>
@@ -525,7 +525,7 @@ export default function SignUpScreen() {
         </View>
 
         <View style={{ marginHorizontal: 20,  zIndex: 10000}}>
-          <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
+          <Text style={{ fontSize: getFontSize(17), color: "black", fontWeight:'bold' }}>
             Target Language
           </Text>
           <Text style={styles.noteText}>
@@ -550,7 +550,7 @@ export default function SignUpScreen() {
             marginHorizontal: 20,
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "center",
+            //justifyContent: "center",
           }}
         >
           {/* <BouncyCheckbox
@@ -602,15 +602,19 @@ export default function SignUpScreen() {
             Sign Up
           </Text>
         </Pressable> */}
-      </ScrollView>
-      <button
+        <View style={{marginHorizontal:450, marginBottom:30}}>
+        <button
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         onClick={signUp}
+        style={{fontSize:20, borderRadius:5, backgroundColor:"#303248", color:"#e8e1db", fontWeight:'bold'}}
       >
         <ToastContainer />
         Sign Up
       </button>
+      </View>
+      </ScrollView>
+      
     </>
   );
 }
