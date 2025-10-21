@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
-
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
 import CreateNewPlaylistForm from "../components/CreateNewPlaylistForm";

@@ -18,22 +18,26 @@ import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
-import { Dropdown } from "primereact/dropdown";
+// import { Dropdown } from "primereact/dropdown";
+import DropDownPicker from "react-native-dropdown-picker";
+
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
-import { languages } from "../constants/ProjectConstants";
+import { dropdownLanguages, languages } from "../constants/ProjectConstants";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
   // const location = useLocation();
   // const { setIsLoggedIn } = location.state;
+  const [openPref, setOpenPref] = useState(false);
+  const [openTarget, setOpenTarget] = useState(false);
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [prefLang, setPrefLang] = useState<string>();
   const [targetLang, setTargetLang] = useState<string>();
-  const [newPrefLang, setNewPrefLang] = useState<string>();
-  const [newTargetLang, setNewTargetLang] = useState<string>();
+  const [newPrefLang, setNewPrefLang] = useState<any>();
+  const [newTargetLang, setNewTargetLang] = useState<any>();
   const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
@@ -119,9 +123,11 @@ export default function AccountSettings() {
 
   async function changePreferredLanguage() {
     if (newPrefLang != undefined && newPrefLang != prefLang) {
-      const langCode = languages.find((l) => l.language === newPrefLang)?.code;
-      await UserReaderWriter.setPreferredLanguage(langCode);
-      setPrefLang(newPrefLang);
+      const langName = languages.find((l) => l.code === newPrefLang)?.language;
+      console.log("newLang", langName);
+
+      await UserReaderWriter.setPreferredLanguage(newPrefLang);
+      setPrefLang(langName);
 
       toast(
         "Success! Preferred Language successfully changed to: " + newPrefLang
@@ -131,9 +137,11 @@ export default function AccountSettings() {
 
   async function changeTargetLanguage() {
     if (newTargetLang != undefined && newTargetLang != targetLang) {
-      const langCode = languages.find((l) => l.language === newTargetLang)?.code;
-      await UserReaderWriter.setTargetLanguage(langCode);
-      setPrefLang(newTargetLang);
+      const langName = languages.find(
+        (l) => l.code === newTargetLang
+      )?.language;
+      await UserReaderWriter.setTargetLanguage(newTargetLang);
+      setPrefLang(langName);
 
       toast(
         "Success! Target Language successfully changed to: " + newTargetLang
@@ -333,7 +341,7 @@ export default function AccountSettings() {
           </View>
         </View>
 
-        <View>
+        <View style={{zIndex: 10000}}>
           <Text
             style={{
               fontSize: 25,
@@ -381,28 +389,30 @@ export default function AccountSettings() {
               >
                 New Language:
               </Text>
-            <View style={{marginHorizontal:10, alignSelf:'flex-end'}}>
-            <Dropdown
-              value={newPrefLang}
-              onChange={(e) => setNewPrefLang(e.value)}
-              
-              options={languages}
-              optionLabel="language"
-              optionValue="language"
-              placeholder="Select a language"
-              className="w-full md:w-14rem"
-              style={styles.dropdown}
-            />
-            </View>
+              <View style={{ marginHorizontal: 10, alignSelf: "flex-end" }}>
+                <DropDownPicker
+                  open={openPref}
+                  value={newPrefLang}
+                  items={dropdownLanguages}
+                  setOpen={setOpenPref}
+                  setValue={setNewPrefLang}
+                />
+              </View>
             </View>
           </View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: -10,
+            }}
+          >
             <Pressable
               style={{
                 backgroundColor: "#ff4a2a",
                 borderRadius: 10,
                 marginTop: 5,
-                marginBottom: 30,
+                marginBottom: 80,
                 width: "80%",
               }}
               onPress={() => {
@@ -424,7 +434,7 @@ export default function AccountSettings() {
           </View>
         </View>
 
-        <View>
+        <View style={{ zIndex: 10000 }}>
           <Text
             style={{
               fontSize: 25,
@@ -463,7 +473,7 @@ export default function AccountSettings() {
             <View style={styles.rows}>
               <View style={styles.divider} />
             </View>
-<View style={styles.rows}>
+            <View style={styles.rows}>
               <Text
                 style={{
                   fontSize: 20,
@@ -472,20 +482,24 @@ export default function AccountSettings() {
               >
                 New Language:
               </Text>
-            <View style={{marginHorizontal:10, alignSelf:'flex-end'}}>
-            <Dropdown
-              value={newTargetLang}
-              onChange={(e) => setNewTargetLang(e.value)}
-              options={languages}
-              optionLabel="language"
-              optionValue="language"
-              placeholder="Select a language"
-              className="w-full md:w-14rem"
-            />
-            </View>
+              <View style={{ marginHorizontal: 10, alignSelf: "flex-end" }}>
+                <DropDownPicker
+                  open={openTarget}
+                  value={newTargetLang}
+                  items={dropdownLanguages}
+                  setOpen={setOpenTarget}
+                  setValue={setNewTargetLang}
+                />
+              </View>
             </View>
           </View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: -100,
+            }}
+          >
             <Pressable
               style={{
                 backgroundColor: "#ff4a2a",
@@ -615,10 +629,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   dropdown: {
-    marginRight:4,
-    
+    marginRight: 4,
   },
-  
+
   placeholderStyle: {
     fontSize: 16,
     color: "gray",
@@ -634,5 +647,4 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
-  
 });
