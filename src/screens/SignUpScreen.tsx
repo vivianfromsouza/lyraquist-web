@@ -31,13 +31,11 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import { ToastContainer, toast } from "react-toastify";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { Dropdown } from "primereact/dropdown";
-import { dropdownLanguages, languages } from "../constants/ProjectConstants";
+import { dropdownLanguages } from "../constants/ProjectConstants";
 import "react-datepicker/dist/react-datepicker.css";
-//setting up pixelRatio, font scale is based off device size
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
@@ -54,7 +52,7 @@ export default function SignUpScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [preferredLanguage, setPreferredLanguage] = useState<any>();
-  const [targetLanguage, setTargetLanguage] = useState<string>();
+  const [targetLanguage, setTargetLanguage] = useState<any>();
 
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
 
@@ -506,7 +504,7 @@ export default function SignUpScreen() {
           </View>
         </View>
 
-        <View style={{ marginHorizontal: 20 }}>
+        <View style={{ marginHorizontal: 20, zIndex: 10001 }}>
           <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
             Preferred Language
           </Text>
@@ -526,7 +524,7 @@ export default function SignUpScreen() {
           />
         </View>
 
-        <View style={{ marginHorizontal: 20 }}>
+        <View style={{ marginHorizontal: 20,  zIndex: 10000}}>
           <Text style={{ fontSize: getFontSize(17), color: "gray" }}>
             Target Language
           </Text>
@@ -538,7 +536,7 @@ export default function SignUpScreen() {
 
           <DropDownPicker
             open={openTarget}
-            value={preferredLanguage}
+            value={targetLanguage}
             items={dropdownLanguages}
             setOpen={setOpenTarget}
             setValue={setTargetLanguage}
@@ -574,7 +572,9 @@ export default function SignUpScreen() {
             }}
           />
 
-          <Text style={{ fontSize: getFontSize(12), color: "gray" }}>
+          <Text
+            style={{ fontSize: getFontSize(12), color: "gray", zIndex: -40 }}
+          >
             I have read and agree to the terms and conditions.{" "}
           </Text>
         </View>
