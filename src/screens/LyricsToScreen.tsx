@@ -53,12 +53,12 @@ export default function LyricsToScreen({ currentTrack }) {
 
   async function getTranslation(lyricsResponse) {
     await getUserPrefLang();
-    TranslationService.getTranslationAllLyrics(
-      lyricsResponse,
-      "en").then((response) => {
+    TranslationService.getTranslationAllLyrics(lyricsResponse, "en").then(
+      (response) => {
         setTranslation(response.data[0].translations[0].text);
         setFromLang(response.data[0].detectedLanguage.language);
-      })
+      }
+    );
   }
 
   useEffect(() => {
@@ -113,14 +113,17 @@ export default function LyricsToScreen({ currentTrack }) {
 
         <Text>{"\n\n"}</Text>
       </ScrollView>
-      {openModal && (
-        <WordModal
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          word={clickedWord}
-          songLang={fromLang}
-        ></WordModal>
-      )}
+      <View style={styles.saveWordModal}>
+        {openModal && (
+          <WordModal
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            word={clickedWord}
+            songLang={fromLang}
+            songName={currentTrack.name}
+          ></WordModal>
+        )}
+      </View>
     </View>
   );
 
@@ -210,24 +213,15 @@ const styles = StyleSheet.create({
     fontSize: getFontSize(25),
   },
   closeModal: {},
-  saveWordModal: {},
+  saveWordModal: {
+    zIndex: -10,
+  },
   modalButtons: {
     alignContent: "flex-end",
     color: "white",
     fontWeight: "bold",
     fontSize: 20,
     marginHorizontal: 5,
-  },
-  dropdown: {
-    textAlign: "center",
-    paddingLeft: 10,
-    height: 35,
-    width: 325,
-    borderColor: "rgba(183, 193, 189, 0.9)",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    color: "white",
   },
   placeholderStyle: {
     fontSize: getFontSize(20),

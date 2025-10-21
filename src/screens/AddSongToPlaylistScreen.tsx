@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 // Worked on by: Vivian D'Souza, Ashley Bickham
-import { SafeAreaView, View, Text, StyleSheet, Pressable, } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import { useEffect, useState } from "react";
-import { Dropdown } from "primereact/dropdown";
+import DropDownPicker from "react-native-dropdown-picker";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
 import CreateNewPlaylistForm from "../components/CreateNewPlaylistForm";
@@ -17,35 +17,42 @@ function AddSongToPlaylistScreen() {
   const location = useLocation();
   const songItem = location?.state?.item || "";
   const songURL = songItem["spotifyURL"]?.split(":")[2] || "";
+  const [open, setOpen] = useState(false);
+
   console.log(songItem);
 
-  const [selectedPlaylist, setSelectedPlaylist] = useState<string>("");
-  const [selectedPlaylistId, setSelectedPlaylistId] = useState<string>("");
+  const [selectedPlaylist, setSelectedPlaylist] = useState<any>("");
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState<any>("");
   const [playlistItems, setPlaylistItems] = useState<any[]>([]);
 
   async function addSong() {
     if (!(await SongReaderWriter.isSongInDB(songURL))) {
       await SongReaderWriter.addSongToDBFromSongCard(songItem);
     }
-    await RecordReaderWriter.addSongToRecords(songURL, selectedPlaylistId);
+    await RecordReaderWriter.addSongToRecords(songURL, selectedPlaylist);
     navigate(-1);
   }
 
+  async function fetchPlaylists() {
+    await PlaylistReaderWriter.getMyPlaylists().then((playlists) => {
+      const playlistsToDropdown = [{}];
+      playlists.map((playlist) => {
+        playlistsToDropdown.push({
+          label: playlist.name,
+          value: playlist.playlist_id,
+        });
+      });
+      playlistsToDropdown.push({ label: "Create a Playlist", value: "0" });
+      setPlaylistItems(playlistsToDropdown);
+    });
+  }
+
   useEffect(() => {
-    async function fetchPlaylists() {
-      const myPlaylists = await PlaylistReaderWriter.getMyPlaylists();
-      const list = [
-        ...myPlaylists,
-        { name: "Create New Playlist", playlist_id: "0" },
-      ];
-      setPlaylistItems(list);
-    }
     fetchPlaylists();
   }, [selectedPlaylist, selectedPlaylistId]);
 
   return (
     <ScrollView style={styles.container}>
-      
       <View
         style={{
           backgroundColor: "#5bc8a6",
@@ -65,7 +72,15 @@ function AddSongToPlaylistScreen() {
       </View>
       <View
         testID="playlist-dropdown"
-        style={{ marginLeft: 20, paddingTop: 30, width:'15%', justifyContent:'center', alignSelf:'center', flexDirection:"row"}}
+        style={{
+          marginLeft: 20,
+          paddingTop: 30,
+          width: "15%",
+          justifyContent: "center",
+          alignSelf: "center",
+          flexDirection: "row",
+          zIndex: 10000,
+        }}
       >
         <Text style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}>
           {" "}
@@ -78,24 +93,20 @@ function AddSongToPlaylistScreen() {
             color: "gray",
           }}
         ></Text>
-        <Dropdown
+        <DropDownPicker
+          open={open}
           value={selectedPlaylist}
-          onChange={(e) => {
-            setSelectedPlaylist(e.value.name);
-            setSelectedPlaylistId(e.value.playlist_id);
-            console.log(e.value);
-            console.log(e.value.playlist_id);
-          }}
-          options={playlistItems}
-          optionLabel="name"
-          placeholder={selectedPlaylist || "Select a Playlist"}
-          className="w-full md:w-14rem"
-          test-id="playlist-dropdown"
-          style={{ fontSize:20}}
+          setValue={setSelectedPlaylist}
+          setItems={setPlaylistItems}
+          items={playlistItems}
+          setOpen={setOpen}
+          placeholder="Select a language"
+          zIndex={6000}
+          zIndexInverse={100000}
         />
       </View>
 
-      {selectedPlaylist === "Create New Playlist" ? (
+      {selectedPlaylist === "0" ? (
         <CreateNewPlaylistForm songItem={songItem} />
       ) : (
         <Pressable
@@ -108,7 +119,6 @@ function AddSongToPlaylistScreen() {
           <Text style={styles.buttonText}>Add Song</Text>
         </Pressable>
       )}
-     
     </ScrollView>
   );
 }
@@ -117,7 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height:'80vh'
+    height: "80vh",
   },
   title: {
     fontSize: 30,

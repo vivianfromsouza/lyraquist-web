@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 // import { firebase } from "@react-native-firebase/auth";
-
+import DropDownPicker from "react-native-dropdown-picker";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -31,18 +31,17 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import { ToastContainer, toast } from "react-toastify";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { Dropdown } from "primereact/dropdown";
-import { languages } from "../constants/ProjectConstants";
+import { dropdownLanguages } from "../constants/ProjectConstants";
 import "react-datepicker/dist/react-datepicker.css";
-//setting up pixelRatio, font scale is based off device size
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+const windowWidth = Dimensions.get("window").width;
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
   // const auth = getAuth();
-
+  const [open, setOpen] = useState(false);
+  const [openTarget, setOpenTarget] = useState(false);
   const [name, setName] = useState<string | undefined>("");
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string | undefined>("");
@@ -52,8 +51,8 @@ export default function SignUpScreen() {
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [preferredLanguage, setPreferredLanguage] = useState<string>();
-  const [targetLanguage, setTargetLanguage] = useState<string>();
+  const [preferredLanguage, setPreferredLanguage] = useState<any>();
+  const [targetLanguage, setTargetLanguage] = useState<any>();
 
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
 
@@ -95,9 +94,10 @@ export default function SignUpScreen() {
         "Couldn't create account. Passwords don't match. Please try again."
       );
     } else if (targetLanguage === preferredLanguage) {
-      toast("Preferred and target language cannot be the same. Please try again.");
-    }
-     else createProfile();
+      toast(
+        "Preferred and target language cannot be the same. Please try again."
+      );
+    } else createProfile();
   }
 
   const createProfile = () => {
@@ -504,7 +504,7 @@ export default function SignUpScreen() {
           </View>
         </View>
 
-        <View style={{ marginHorizontal: 20 }}>
+        <View style={{ marginHorizontal: 20, zIndex: 10001 }}>
           <Text style={{ fontSize: getFontSize(17), color: "black", fontWeight:'bold' }}>
             Preferred Language
           </Text>
@@ -514,19 +514,17 @@ export default function SignUpScreen() {
             language
           </Text>
 
-          <Dropdown
+          <DropDownPicker
+            open={open}
             value={preferredLanguage}
-            onChange={(e) => setPreferredLanguage(e.value)}
-            options={languages}
-            optionLabel="language"
-            optionValue="code"
+            items={dropdownLanguages}
+            setOpen={setOpen}
+            setValue={setPreferredLanguage}
             placeholder="Select a language"
-            className="w-full md:w-14rem"
-            style={{width:'21vh', marginBottom:70}}
           />
         </View>
 
-        <View style={{ marginHorizontal: 20 }}>
+        <View style={{ marginHorizontal: 20,  zIndex: 10000}}>
           <Text style={{ fontSize: getFontSize(17), color: "black", fontWeight:'bold' }}>
             Target Language
           </Text>
@@ -536,15 +534,13 @@ export default function SignUpScreen() {
             will be provided in your target language.
           </Text>
 
-          <Dropdown
+          <DropDownPicker
+            open={openTarget}
             value={targetLanguage}
-            onChange={(e) => setTargetLanguage(e.value)}
-            options={languages}
-            optionLabel="language"
-            optionValue="code"
+            items={dropdownLanguages}
+            setOpen={setOpenTarget}
+            setValue={setTargetLanguage}
             placeholder="Select a language"
-            className="w-full md:w-14rem"
-            style={{width:'21vh', marginBottom:70}}
           />
         </View>
 
@@ -576,7 +572,9 @@ export default function SignUpScreen() {
             }}
           />
 
-          <Text style={{ fontSize: getFontSize(12), color: "gray" }}>
+          <Text
+            style={{ fontSize: getFontSize(12), color: "gray", zIndex: -40 }}
+          >
             I have read and agree to the terms and conditions.{" "}
           </Text>
         </View>

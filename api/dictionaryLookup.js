@@ -5,13 +5,18 @@ export default async function dictionaryLookup(req, res) {
   const { fromLang } = req.query;
 
   if (!word) {
-    return res.status(400).json({ error: 'Word parameter is required.' });
+    return res.status(400).json({ error: "Word parameter is required." });
   }
 
-  const app_id = "d23ee800";
-  const app_key = "46621eea6f88172a3a972b4b6f620946";
+  const app_id = process.env.VITE_OXFORD_APP_ID;
+  const app_key = process.env.VITE_OXFORD_APP_KEY;
+
   const url =
-    "https://od-api-sandbox.oxforddictionaries.com/api/v2/words/" + fromLang + "?q=" + word.toLowerCase() + "&fields=definitions,pronunciations";
+    "https://od-api-sandbox.oxforddictionaries.com/api/v2/words/" +
+    fromLang +
+    "?q=" +
+    word.toLowerCase() +
+    "&fields=definitions,pronunciations";
   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -26,7 +31,7 @@ export default async function dictionaryLookup(req, res) {
       headers: {
         app_id: app_id,
         app_key: app_key,
-      }
+      },
     });
 
     const data = await response.json();
