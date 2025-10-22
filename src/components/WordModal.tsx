@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Modal, TextInput } from "react-native";
+import { Text, View, Modal, TextInput } from "react-native";
 import { Pressable } from "react-native-web";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useEffect, useRef, useState } from "react";
