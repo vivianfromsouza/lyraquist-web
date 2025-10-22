@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -37,29 +37,43 @@ import { PlayerProvider } from "./context/PlayerContext";
 import { useLocalStorage } from "usehooks-ts";
 import LyricsToScreen from "./screens/LyricsToScreen";
 import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
+import LocalFirebaseClient from "./services/firebase/LocalFirebaseClient";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+
+const auth = getAuth(LocalFirebaseClient);
 
 const PrivateRoutes = () => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  return isLoggedIn == "true" ? <Outlet /> : <Navigate to="/login" />;
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
 const App: React.FC = () => {
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
   const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
+  const [user, setUser] = useState<User | null>(auth.currentUser);
 
   useEffect(() => {
-    console.log("useLocalStorage value:", value);
-    // This effect will run after the component mounts and after every update.
-    // Simulate an async operation
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+    return unsubscribe;
   }, [value]);
 
   return (
-    <PlayerProvider>
-      <FirebaseProvider>
+    <FirebaseProvider>
+      <PlayerProvider>
         <BrowserRouter>
           <Routes>
             <Route element={<PrivateRoutes />}>
-              {/* Do I need home here as well? */}
               <Route path="/home" element={<HomeScreen />} />
               {/* <Route path="/play" element={<PlaybackScreen />} /> */}
               <Route path="/about" element={<AboutScreen />} />
@@ -114,7 +128,13 @@ const App: React.FC = () => {
 
             <Route
               index
-              element={value === "false" ? <StartScreen /> : <HomeScreen />}
+              element={
+                user !== null ? (
+                  <HomeScreen />
+                ) : (
+                  <StartScreen />
+                )
+              }
             />
             <Route path="/signUp" element={<SignUpScreen />} />
             <Route path="/login" element={<LoginScreen />} />
@@ -122,9 +142,8 @@ const App: React.FC = () => {
           </Routes>
         </BrowserRouter>
 
-        {/* {localStorage.getItem("isLoggedIn") == "true" ? <Player /> : <></>} */}
-      </FirebaseProvider>
-    </PlayerProvider>
+      </PlayerProvider>
+    </FirebaseProvider>
   );
 };
 

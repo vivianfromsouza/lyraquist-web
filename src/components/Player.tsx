@@ -16,6 +16,8 @@ import LyricsToScreen from "../screens/LyricsToScreen";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
+import { getAuth, User } from "firebase/auth";
+import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -41,7 +43,8 @@ const Player = () => {
   const [device_id, setDeviceId] = useState("abc");
 
   const isLoggedIn = localStorage.getItem("isLoggedIn");
-  const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
+  const auth = getAuth(LocalFirebaseClient);
+  const [value] = useState<User | null>(auth.currentUser);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -372,9 +375,9 @@ const Player = () => {
       setActive(false);
       pausePlayback();
     }
-  }, [isLoggedIn]);
+  }, [value]);
 
-  if (value === "false") {
+  if (value === null) {
     return <> </>;
   } else if (!is_active) {
     return (
