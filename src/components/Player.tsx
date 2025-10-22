@@ -16,6 +16,7 @@ import LyricsToScreen from "../screens/LyricsToScreen";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
+import playerStyles from "../styles/PlayerStyles";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -24,8 +25,8 @@ const Player = () => {
     nextTrack: async () => {},
     previousTrack: async () => {},
     setVolume: async () => {},
-    // Add other methods as needed
   };
+
   const [authCode, setAuthCode] = useState<string | null>("");
   const [accessCode, setAccessCode] = useState<string | null>("");
   const [is_paused, setPaused] = useState(true);
@@ -102,7 +103,6 @@ const Player = () => {
 
   async function toggleShuffle() {
     TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
       axios({
         url:
           "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
@@ -127,9 +127,8 @@ const Player = () => {
   async function transferPlayback(device_id: string) {
     console.log("TRANSFERRING PLAYBACK");
     await TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
       axios({
-        url: "https://api.spotify.com/v1/me/player", // Remove "&limit=1"
+        url: "https://api.spotify.com/v1/me/player",
         method: "PUT",
         headers: {
           authorization: "Bearer " + accessCode,
@@ -151,9 +150,8 @@ const Player = () => {
   async function pausePlayback() {
     console.log("ENDING PLAYBACK");
     TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
       axios({
-        url: "https://api.spotify.com/v1/me/player/pause", // Remove "&limit=1"
+        url: "https://api.spotify.com/v1/me/player/pause",
         method: "PUT",
         headers: {
           authorization: "Bearer " + accessCode,
@@ -170,29 +168,6 @@ const Player = () => {
         });
     });
   }
-
-  // async function playSong(songId: string) {
-  //   TokenReaderWriter.getAccessToken().then((accessCode) => {
-  //     // Makes request to Spotify API for song search
-  //     axios({
-  //       url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
-  //       method: "PUT",
-  //       headers: {
-  //         authorization: "Bearer " + accessCode,
-  //       },
-  //       data: {
-  //         device_ids: [device_id],
-  //         uris: [songId], // keeps it off if it's paused
-  //       },
-  //     })
-  //       .then(async (res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         return err;
-  //       });
-  //   });
-  // }
 
   function calculateDurationInSecs(duration_ms) {
     const seconds = parseInt(Math.floor(duration_ms / 1000).toFixed(2));
@@ -235,7 +210,6 @@ const Player = () => {
     getAccessCode();
   }, []);
 
-  // this is running x2....
   useEffect(() => {
     let accessToken = "";
 
@@ -247,14 +221,9 @@ const Player = () => {
       document.body.appendChild(script);
 
       window.onSpotifyWebPlaybackSDKReady = async () => {
-        // const accessToken = localStorage.getItem("access_code");
-
-        console.log("INNER ACCESS:" + accessToken);
-
         const player = new window.Spotify.Player({
           name: "Web Playback SDK",
           getOAuthToken: async (cb) => {
-            console.log("LET US CHECK REFRESH");
             await checkRefreshNeeded(new Date()).then(async (response) => {
               if (response === "true") {
                 TokenReaderWriter.getRefreshToken().then(
@@ -272,7 +241,6 @@ const Player = () => {
             });
 
             cb(accessToken);
-            console.log("AUTHING YET AGAIN");
           },
           volume: 0.5,
         });
@@ -322,10 +290,6 @@ const Player = () => {
             }
           });
 
-          // console.log("song changed");
-          // console.log(state.track_window.current_track);
-
-          // setTrack(track);
           if (!state) {
             return;
           }
@@ -354,13 +318,10 @@ const Player = () => {
         intervalRef.current = setInterval(async () => {
           const state = await player.getCurrentState();
           if (state) {
-            // state.position is the current playback position in ms
             setCurrentTime(calculateDurationInSecs(state.position));
             setSeekPosition(state.position);
-
-            // You can update your state here if needed
           }
-        }, 1000); // Poll every second
+        }, 1000);
 
         player.connect();
         return () => {
@@ -381,12 +342,7 @@ const Player = () => {
       <>
         <div className="container">
           <div className="main-wrapper">
-            {/* <b>
-              {" "}
-              Instance not active. Transfer your playback using your Spotify app{" "}
-            </b> */}
-
-            <View style={styles.loading}>
+            <View style={playerStyles.loading}>
               <ActivityIndicator size="large" color="#303248" />
             </View>
           </div>
@@ -396,61 +352,42 @@ const Player = () => {
   } else {
     return (
       <>
-        <div className="container" style={{ backgroundColor: "#303248" }}>
+        <div className="container" style={playerStyles.container}>
           <div className="main-wrapper">
-            <View
-              style={{
-                flexDirection: "row",
-                marginRight: 10,
-                marginLeft: 10,
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginTop: 10,
-                }}
-              >
+            <View style={playerStyles.wrapper}>
+              <View style={playerStyles.albumText}>
                 <img
                   src={current_track.album.images[0].url}
                   className="now-playing__cover"
                   alt=""
-                  style={{ height: 70, width: 70, marginBottom: 10 }}
+                  style={playerStyles.albumCover}
                 />
                 <View style={{ marginLeft: 10 }}>
                   <div
                     className="now-playing__name"
-                    style={{ fontWeight: "bold", color: "#e8e1db" }}
+                    style={playerStyles.trackText}
                   >
                     {current_track.name}
                   </div>
                   <div
                     className="now-playing__artist"
-                    style={{ color: "#e8e1db" }}
+                    style={playerStyles.artistText}
                   >
                     {current_track.artists[0].name}
                   </div>
                 </View>
               </View>
-              <View style={{ justifyContent: "center", marginRight: 30 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
+              <View style={playerStyles.seekbar}>
+                <View style={playerStyles.seekbarControls}>
                   <div
                     className="now-playing__artist"
-                    style={{ fontSize: 15, color: "#e8e1db" }}
+                    style={playerStyles.timeText}
                   >
                     {currentTime}
                   </div>
                   <div
                     className="now-playing__artist"
-                    style={{ fontSize: 15, color: "#e8e1db" }}
+                    style={playerStyles.timeText}
                   >
                     {totalTime}
                   </div>
@@ -521,33 +458,18 @@ const Player = () => {
                   </button>
                 </div>
               </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginRight: 20,
-                }}
-              >
-                <h4 style={{ marginRight: 5, color: "#e8e1db" }}>
-                  Current Volume:{" "}
-                </h4>
+              <View style={playerStyles.volume}>
+                <h4 style={playerStyles.volumeText}>Current Volume: </h4>
                 {volume}
               </View>
             </View>
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <View style={playerStyles.lyrics}>
               <button
                 className="btn-spotify"
                 onClick={() => {
                   openLyrics();
                 }}
-                style={{
-                  marginRight: 30,
-                  marginBottom: 10,
-                  fontWeight: "bold",
-                  backgroundColor: "#edc526",
-                  borderRadius: 5,
-                  fontSize: 15,
-                }}
+                style={playerStyles.lyricsButton}
               >
                 Open Lyrics
               </button>
@@ -561,7 +483,7 @@ const Player = () => {
                 Open Translation
               </button> */}
             </View>
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <View style={playerStyles.lyricsScroll}>
               {isLyricsOpen && (
                 <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
               )}
@@ -578,14 +500,5 @@ const Player = () => {
     );
   }
 };
-
-const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e8e1db",
-  },
-});
 
 export default Player;
