@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import privacyStyles from "../styles/PrivacyStyles";
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
+
 export default function AboutPrivacyScreen() {
   const navigate = useNavigate();
 

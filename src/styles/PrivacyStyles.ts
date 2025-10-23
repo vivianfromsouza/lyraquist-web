@@ -6,6 +6,7 @@ const privacyStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e8e1db",
     height: "80vh",
+    // width: "100%"
   },
   title: {
     textAlign: "center",
@@ -17,26 +18,24 @@ const privacyStyles = StyleSheet.create({
   },
   introSect: {
     flex: 1,
-    width: windowWidth + 100,
+    width: windowWidth,
     padding: 30,
     backgroundColor: "#edc526",
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
   },
   circle: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    marginTop: 20,
-    backgroundColor: "#303248",
+    height: 190,
+    width: 190,
+    marginBottom: -30,
   },
   backArrow: { alignSelf: "center", flex: 1 },
   banner: {
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
     marginTop: 30,
-    marginLeft: 20,
-    marginRight: 20,
+    // marginLeft: 20,
+    // marginRight: 20,
   },
   logo: {
     height: 60,
