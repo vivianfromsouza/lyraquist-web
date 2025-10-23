@@ -3,8 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
-  Dimensions,
   Pressable,
   Image,
 } from "react-native";
@@ -13,44 +11,16 @@ import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import { useNavigate } from "react-router-dom";
-const windowWidth = Dimensions.get("window").width;
+import aboutStyles from "../styles/AboutStyles";
+import LyraquistHeader from "../components/LyraquistHeader";
+
 export default function AboutScreen() {
   const navigate = useNavigate();
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <View style={styles.introSect}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
-            <Pressable
-              style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigate(-1)}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={blueLogo as ImageSourcePropType}
-              style={{
-                height: 60,
-                alignSelf: "center",
-                flex: 1,
-                resizeMode: "contain",
-                marginBottom: 7,
-              }}
-            />
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <Text style={styles.title}>About Lyraquist</Text>
-        </View>
-
+      <ScrollView style={aboutStyles.container}>
+        <LyraquistHeader title="About Lyraquist" logo={blueLogo}/>
         <Pressable
           style={{
             flexDirection: "row",
@@ -222,32 +192,3 @@ export default function AboutScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e8e1db",
-    height:'80vh'
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    marginTop: 0,
-    marginBottom: 20,
-    color: "#303248",
-  },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#edc526",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  circle: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    marginTop: 20,
-    backgroundColor: "#303248",
-  },
-});

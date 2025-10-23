@@ -14,8 +14,9 @@ import blueLogo from "../assets/blue_small.png";
 import { ArrowBackOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import LyraquistHeader from "../components/LyraquistHeader";
 
-const windowWidth = Dimensions.get("window").width; 
+const windowWidth = Dimensions.get("window").width;
 export default function FeedbackScreen() {
   const navigate = useNavigate();
 
@@ -36,57 +37,10 @@ export default function FeedbackScreen() {
         style={{
           flex: 1,
           backgroundColor: "#e8e1db",
-          height:'80vh'
+          height: "80vh",
         }}
       >
-        <View
-          style={{
-            width: windowWidth,
-            backgroundColor: "#edc526",
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
-            <Pressable
-              style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigate(-1)}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={blueLogo as ImageSourcePropType}
-              style={{
-                height: 60,
-                alignSelf: "center",
-                flex: 1,
-                resizeMode: "contain",
-                marginBottom: 7,
-              }}
-            />
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 30,
-              fontWeight: "bold",
-              marginTop: 13,
-              marginBottom: 15,
-              color: "#303248",
-            }}
-          >
-            Feedback
-          </Text>
-        </View>
+        <LyraquistHeader title="Feedback" logo={blueLogo} />
 
         <View
           style={{
@@ -134,8 +88,8 @@ export default function FeedbackScreen() {
                 borderRadius: 10,
                 flex: 1,
                 marginTop: 10,
-                padding:10,
-                marginBottom:10
+                padding: 10,
+                marginBottom: 10,
               }}
             >
               <TextInput
@@ -150,8 +104,8 @@ export default function FeedbackScreen() {
                   //marginBottom: 10,
                   paddingTop: 5,
                   paddingRight: 5,
-                  backgroundColor:'white',
-                  borderRadius:10
+                  backgroundColor: "white",
+                  borderRadius: 10,
                 }}
                 textAlignVertical="top"
                 placeholder="Type here"

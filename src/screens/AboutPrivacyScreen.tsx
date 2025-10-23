@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import privacyStyles from "../styles/PrivacyStyles";
+import LyraquistHeader from "../components/LyraquistHeader";
 
 export default function AboutPrivacyScreen() {
   const navigate = useNavigate();
@@ -20,24 +21,7 @@ export default function AboutPrivacyScreen() {
   return (
     <>
       <ScrollView style={privacyStyles.container}>
-        <View style={privacyStyles.introSect}>
-          <View
-            style={privacyStyles.banner}
-          >
-            <Pressable
-              style={privacyStyles.backArrow}
-              onPress={() => navigate(-1)}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={blueLogo as ImageSourcePropType}
-              style={privacyStyles.logo}
-            />
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <Text style={privacyStyles.title}>Privacy Policy</Text>
-        </View>
+        <LyraquistHeader title="Privacy Policy" logo={blueLogo} />
         <Text style={privacyStyles.firstPara}>
           Upon using this application, users are requested to sign into their
           Spotify account. We will have access to the following user data from

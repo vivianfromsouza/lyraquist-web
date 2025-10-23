@@ -8,18 +8,15 @@ import {
   Dimensions,
   Pressable,
   TextInput,
-  Image,
 } from "react-native";
-import { ArrowBackOutline } from "react-ionicons";
-
 import UserReaderWriter from "../services/UserReaderWriter";
 import { getAuth, updateEmail } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
-import { ImageSourcePropType } from "react-native";
-import yellowLogo from "../assets/yellow_small.png";
+import redLogo from "../assets/red_small.png";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
+import LyraquistHeader from "../components/LyraquistHeader";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ProfileInfoScreen() {
@@ -71,7 +68,7 @@ export default function ProfileInfoScreen() {
         .catch((error) => {
           // An error occurred
           // ...
-          console.log(error)
+          console.log(error);
         });
     } else {
       toast(
@@ -117,46 +114,7 @@ export default function ProfileInfoScreen() {
   return (
     <>
       <ScrollView style={styles.full}>
-        <View style={styles.introSect}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
-            <Pressable
-              style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigate(-1)}
-              accessibilityLabel="backToSettings"
-              accessible={true}
-            >
-              <ToastContainer />
-
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color=
-              /> */}
-              <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={yellowLogo as ImageSourcePropType}
-              style={{
-                height: 60,
-                alignSelf: "center",
-                flex: 1,
-                resizeMode: "contain",
-                marginBottom: 7,
-              }}
-            />
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <Text style={styles.title}>Profile Information</Text>
-        </View>
+        <LyraquistHeader title="Profile Information" logo={redLogo} />
 
         <View style={{ alignItems: "center", marginTop: 40 }}>
           {/*View style={styles.circle} />
@@ -231,7 +189,7 @@ export default function ProfileInfoScreen() {
             //marginStart: 250,
             borderRadius: 10,
             marginTop: 5,
-            marginHorizontal:100
+            marginHorizontal: 100,
           }}
           onPress={changeUsername}
           accessibilityLabel="changeName"
@@ -262,12 +220,7 @@ export default function ProfileInfoScreen() {
           Email
         </Text>
         <View style={styles.border}>
-          <View
-            style={[
-              styles.rows,
-              { paddingRight: 10, gap: 10,},
-            ]}
-          >
+          <View style={[styles.rows, { paddingRight: 10, gap: 10 }]}>
             <Text
               style={{
                 fontSize: 20,
@@ -317,7 +270,7 @@ export default function ProfileInfoScreen() {
             //marginStart: 250,
             borderRadius: 10,
             marginTop: 5,
-            marginHorizontal:100
+            marginHorizontal: 100,
           }}
           onPress={changeEmail}
         >

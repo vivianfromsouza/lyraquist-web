@@ -24,6 +24,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import { dropdownLanguages, languages } from "../constants/ProjectConstants";
+import LyraquistHeader from "../components/LyraquistHeader";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
@@ -188,44 +189,7 @@ export default function AccountSettings() {
   return (
     <>
       <ScrollView style={styles.full}>
-        <View style={styles.introSect}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
-            <Pressable
-              style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigate(-1)}
-            >
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#e8e1db"
-              /> */}
-
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={redLogo as ImageSourcePropType}
-              style={{
-                height: 60,
-                alignSelf: "center",
-                flex: 1,
-                resizeMode: "contain",
-                marginBottom: 7,
-              }}
-            />
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <Text style={styles.title}>Account Settings</Text>
-        </View>
-
+        <LyraquistHeader title="Account Settings" logo={redLogo} />
         <View>
           <Text
             style={{
@@ -341,7 +305,7 @@ export default function AccountSettings() {
           </View>
         </View>
 
-        <View style={{zIndex: 10000}}>
+        <View style={{ zIndex: 10000 }}>
           <Text
             style={{
               fontSize: 25,

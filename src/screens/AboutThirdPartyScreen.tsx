@@ -1,57 +1,21 @@
 // Worked on by: Siri Avula
 import {
-  View,
   Text,
   ScrollView,
   StyleSheet,
   Dimensions,
-  Pressable,
   Linking,
-  Image,
 } from "react-native";
-import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
-import { ArrowBackOutline } from "react-ionicons";
-import { useNavigate } from "react-router-dom";
+import LyraquistHeader from "../components/LyraquistHeader";
 
 const windowWidth = Dimensions.get("window").width;
 
 export default function AboutThirdPartyScreen() {
-  const navigate = useNavigate();
-
   return (
     <>
       <ScrollView style={styles.container}>
-        <View style={styles.introSect}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
-            <Pressable
-              style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigate(-1)}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={blueLogo as ImageSourcePropType}
-              style={{
-                height: 60,
-                alignSelf: "center",
-                flex: 1,
-                resizeMode: "contain",
-                marginBottom: 7,
-              }}
-            />
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <Text style={styles.title}>Third Party</Text>
-        </View>
+        <LyraquistHeader title="Third Party" logo={blueLogo} />
         <Text style={{ fontSize: 15, margin: 13, marginTop: 20 }}>
           We used the following application programming interfaces (APIs):
           Spotify Web Player SDK, Spotify Web API, LRCLIB, Azure Translator, and
@@ -125,7 +89,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height:'80vh'
+    height: "80vh",
   },
   title: {
     textAlign: "center",
