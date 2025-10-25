@@ -62,7 +62,6 @@ function FlashcardScreen() {
     <View style={flashcardStyles.container}>
       <TouchableOpacity
         onPress={() => navigate(-1)}
-        style={{ marginLeft: 20, marginTop: 20 }}
       >
         <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
       </TouchableOpacity>

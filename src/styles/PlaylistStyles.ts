@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 const playlistStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#e8e1db",
+    height: "80vh",
+  },
   button: {
     backgroundColor: "#303248",
     marginVertical: 6,
@@ -72,6 +77,29 @@ const playlistStyles = StyleSheet.create({
     borderBottomColor: "gray",
     borderBottomWidth: 0.5,
     marginHorizontal: 30,
+  },
+  addToPlaylistHeader: {
+    backgroundColor: "#5bc8a6",
+    paddingTop: 20,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    paddingBottom: 15,
+    paddingLeft: 20,
+  },
+  addToPlaylistTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
+    marginTop: 20,
+  },
+  addToPlaylistDropdown: {
+    marginLeft: 20,
+    paddingTop: 30,
+    width: "15%",
+    justifyContent: "center",
+    alignSelf: "center",
+    flexDirection: "row",
+    zIndex: 10000,
   },
 });
 
