@@ -117,6 +117,28 @@ const aboutStyles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 30,
   },
+  menuEntry: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 25,
+    marginHorizontal: 20,
+    marginRight: 50,
+  },
+  menuBorder: {
+    borderBottomColor: "gray",
+    borderBottomWidth: 0.5,
+    marginTop: 25,
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  menuText: {
+    paddingLeft: 40,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#303248",
+  },
 });
 
 export default aboutStyles;

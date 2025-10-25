@@ -14,174 +14,49 @@ export default function AboutScreen() {
       <ScrollView style={aboutStyles.container}>
         <LyraquistHeader title="About Lyraquist" logo={blueLogo} />
         <Pressable
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 25,
-            marginHorizontal: 20,
-            marginRight: 50,
-          }}
+          style={aboutStyles.menuEntry}
           onPress={() => navigate("/about/welcome")}
         >
-          <Text
-            style={{
-              paddingLeft: 40,
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "#303248",
-            }}
-          >
-            About Us{" "}
-          </Text>
+          <Text style={aboutStyles.menuText}>About Us </Text>
           <KeyboardArrowRightIcon />
         </Pressable>
 
-        <View
-          style={{
-            borderBottomColor: "gray",
-            borderBottomWidth: 0.5,
-            marginTop: 25,
-            width: "90%",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        />
+        <View style={aboutStyles.menuBorder} />
         <Pressable
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 25,
-            marginHorizontal: 20,
-            marginRight: 50,
-          }}
+          style={aboutStyles.menuEntry}
           onPress={() => navigate("/about/privacy")}
         >
-          <Text
-            style={{
-              paddingLeft: 40,
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "#303248",
-            }}
-          >
-            Privacy Policy{" "}
-          </Text>
+          <Text style={aboutStyles.menuText}>Privacy Policy </Text>
           <KeyboardArrowRightIcon />
         </Pressable>
-        <View
-          style={{
-            borderBottomColor: "gray",
-            borderBottomWidth: 0.5,
-            marginTop: 25,
-            width: "90%",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        />
+        <View style={aboutStyles.menuBorder} />
 
         <Pressable
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 25,
-            marginHorizontal: 20,
-            marginRight: 50,
-          }}
+          style={aboutStyles.menuEntry}
           onPress={() => navigate("/about/terms")}
         >
-          <Text
-            style={{
-              paddingLeft: 40,
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "#303248",
-            }}
-          >
-            Terms & Conditions{" "}
-          </Text>
+          <Text style={aboutStyles.menuText}>Terms & Conditions </Text>
           <KeyboardArrowRightIcon />
         </Pressable>
 
-        <View
-          style={{
-            borderBottomColor: "gray",
-            borderBottomWidth: 0.5,
-            marginTop: 25,
-            width: "90%",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        />
+        <View style={aboutStyles.menuBorder} />
         <Pressable
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 25,
-            marginHorizontal: 20,
-            marginRight: 50,
-          }}
+          style={aboutStyles.menuEntry}
           onPress={() => navigate("/about/third-party")}
         >
-          <Text
-            style={{
-              paddingLeft: 40,
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "#303248",
-            }}
-          >
-            Third-Party Software
-          </Text>
+          <Text style={aboutStyles.menuText}>Third-Party Software</Text>
           <KeyboardArrowRightIcon />
         </Pressable>
-        <View
-          style={{
-            borderBottomColor: "gray",
-            borderBottomWidth: 0.5,
-            marginTop: 25,
-            width: "90%",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        />
+        <View style={aboutStyles.menuBorder} />
 
         <Pressable
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 25,
-            justifyContent: "space-between",
-            marginHorizontal: 20,
-            marginRight: 50,
-          }}
+          style={aboutStyles.menuEntry}
           onPress={() => navigate("/about/feedback")}
         >
-          <Text
-            style={{
-              paddingLeft: 40,
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "#303248",
-            }}
-          >
-            Send us Feedback
-          </Text>
+          <Text style={aboutStyles.menuText}>Send us Feedback</Text>
           <KeyboardArrowRightIcon />
         </Pressable>
-        <View
-          style={{
-            borderBottomColor: "gray",
-            borderBottomWidth: 0.5,
-            marginTop: 25,
-            width: "90%",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        />
+        <View style={aboutStyles.menuBorder} />
 
         <Text>{"\n\n\n"}</Text>
       </ScrollView>

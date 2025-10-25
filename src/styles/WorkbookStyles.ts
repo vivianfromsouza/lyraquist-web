@@ -1,7 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
-
 const workbookStyles = StyleSheet.create({
   icon: {
     elevation: 8,
