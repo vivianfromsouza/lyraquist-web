@@ -61,6 +61,11 @@ const settingStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  settingCol: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+  },
   border: {
     borderRadius: 10,
     borderWidth: 2,
@@ -121,7 +126,7 @@ const settingStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   zIndexValue: {
-    zIndex: 10000
+    zIndex: 10000,
   },
 });
 

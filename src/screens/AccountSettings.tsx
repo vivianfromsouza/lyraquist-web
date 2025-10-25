@@ -4,34 +4,22 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
-  Dimensions,
   Pressable,
   TextInput,
-  Image,
-  Settings,
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
-// import auth from "@react-native-firebase/auth";
 import { getAuth, updatePassword } from "firebase/auth";
-import { ArrowBackOutline } from "react-ionicons";
-import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
-// import { Dropdown } from "primereact/dropdown";
 import DropDownPicker from "react-native-dropdown-picker";
-
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import { dropdownLanguages, languages } from "../constants/ProjectConstants";
 import LyraquistHeader from "../components/LyraquistHeader";
 import settingStyles from "../styles/SettingStyles";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
-  // const location = useLocation();
-  // const { setIsLoggedIn } = location.state;
   const [openPref, setOpenPref] = useState(false);
   const [openTarget, setOpenTarget] = useState(false);
   const [name, setName] = useState<string>();
