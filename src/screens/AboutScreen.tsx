@@ -1,14 +1,6 @@
 // Worked on by: Siri Avula
-import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  Image,
-} from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { ArrowBackOutline } from "react-ionicons";
-import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import { useNavigate } from "react-router-dom";
 import aboutStyles from "../styles/AboutStyles";
@@ -20,14 +12,15 @@ export default function AboutScreen() {
   return (
     <>
       <ScrollView style={aboutStyles.container}>
-        <LyraquistHeader title="About Lyraquist" logo={blueLogo}/>
+        <LyraquistHeader title="About Lyraquist" logo={blueLogo} />
         <Pressable
           style={{
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
-            marginHorizontal:20, marginRight:50
+            marginHorizontal: 20,
+            marginRight: 50,
           }}
           onPress={() => navigate("/about/welcome")}
         >
@@ -60,7 +53,8 @@ export default function AboutScreen() {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
-            marginHorizontal:20, marginRight:50
+            marginHorizontal: 20,
+            marginRight: 50,
           }}
           onPress={() => navigate("/about/privacy")}
         >
@@ -93,7 +87,8 @@ export default function AboutScreen() {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
-            marginHorizontal:20, marginRight:50
+            marginHorizontal: 20,
+            marginRight: 50,
           }}
           onPress={() => navigate("/about/terms")}
         >
@@ -126,7 +121,8 @@ export default function AboutScreen() {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 25,
-            marginHorizontal:20, marginRight:50
+            marginHorizontal: 20,
+            marginRight: 50,
           }}
           onPress={() => navigate("/about/third-party")}
         >
@@ -159,7 +155,8 @@ export default function AboutScreen() {
             alignItems: "center",
             marginTop: 25,
             justifyContent: "space-between",
-            marginHorizontal:20, marginRight:50
+            marginHorizontal: 20,
+            marginRight: 50,
           }}
           onPress={() => navigate("/about/feedback")}
         >
@@ -191,4 +188,3 @@ export default function AboutScreen() {
     </>
   );
 }
-

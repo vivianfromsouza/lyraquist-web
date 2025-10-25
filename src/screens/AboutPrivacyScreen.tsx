@@ -1,23 +1,10 @@
 // Worked on by: Siri Avula
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-  Image,
-} from "react-native";
-import { ArrowBackOutline } from "react-ionicons";
-import { useNavigate } from "react-router-dom";
-import { ImageSourcePropType } from "react-native";
+import { Text, ScrollView } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import privacyStyles from "../styles/PrivacyStyles";
 import LyraquistHeader from "../components/LyraquistHeader";
 
 export default function AboutPrivacyScreen() {
-  const navigate = useNavigate();
-
   return (
     <>
       <ScrollView style={privacyStyles.container}>

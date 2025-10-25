@@ -3,47 +3,30 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
-  Dimensions,
-  Pressable,
   Image,
 } from "react-native";
-import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import largeLogo from "../assets/Full_Logo.png";
-import { useNavigate } from "react-router-dom";
 import LyraquistHeader from "../components/LyraquistHeader";
-
-const windowWidth = Dimensions.get("window").width;
+import aboutStyles from "../styles/AboutStyles";
 
 export default function AboutUsScreen() {
-  const navigate = useNavigate();
-
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView style={aboutStyles.container}>
         <LyraquistHeader title="About Lyraquist" logo={blueLogo} />
 
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View style={aboutStyles.imageHader}>
           <Image
-            style={styles.circle}
+            style={aboutStyles.circle}
             source={largeLogo as ImageSourcePropType}
           />
-          <Text style={{ marginTop: 18, fontSize: 20, fontWeight: "bold" }}>
-            Welcome to Lyraquist!
-          </Text>
+          <Text style={aboutStyles.welcomeHeading}>Welcome to Lyraquist!</Text>
         </View>
-        <View style={{ marginHorizontal: 20, marginTop: 10 }}>
-          {/* <Text style={{ fontSize: 15 }}>
-            We are so happy you have decided to start your language learning
-            journey with Lyraquist! Here, you have the opportunity to learn
-            lanaguages a more natural way: through music.
-          </Text> */}
-          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
-            What is Lyraquist?
-          </Text>
-          <Text style={{ fontSize: 15 }}>
+        <View style={aboutStyles.margin}>
+          <Text style={aboutStyles.questionHeading}>What is Lyraquist?</Text>
+          <Text style={aboutStyles.paragraph}>
             Lyraquist is a language learning app that uses music to help users
             learn new languages in a fun and engaging way. You can study
             flashcards and write sentences over and over, but sometimes all it
@@ -52,10 +35,10 @@ export default function AboutUsScreen() {
             different contexts, but it also exposes you to the culture the
             language comes from.
           </Text>
-          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
+          <Text style={aboutStyles.questionHeading}>
             What was the inspiration behind Lyraquist?
           </Text>
-          <Text style={{ fontSize: 15 }}>
+          <Text style={aboutStyles.paragraph}>
             All of us have tried learning other langauges at some point, and
             part of our interest/motivation for doing so was music or media in
             that language. Many of us also did a study abroad semester during
@@ -64,34 +47,30 @@ export default function AboutUsScreen() {
             potential connection between music and language learning.
           </Text>
 
-          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
+          <Text style={aboutStyles.questionHeading}>
             Why was Lyraquist created?
           </Text>
-          <Text style={{ fontSize: 15 }}>
+          <Text style={aboutStyles.paragraph}>
             The original Lyraquist project was created to satisfy our senior
             capstone project at the University of South Carolina. Since then,
             the project has been reworked to be used as a learning tool in a
             local elementary school.
           </Text>
 
-          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
+          <Text style={aboutStyles.questionHeading}>
             How was Lyraquist created?
           </Text>
-          <Text style={{ fontSize: 15 }}>
+          <Text style={aboutStyles.paragraph}>
             Our project started off as an Android app built using React Native
             and various API servies for translation, music, lyrics, and storage.
             The app has since been reworked into a website built using ReactJS.
           </Text>
-          <Text style={{ fontSize: 20, marginTop: 10, fontWeight: "bold" }}>
-            The Contributors
-          </Text>
-          <Text style={{ fontSize: 15, marginTop: 10 }}>
+          <Text style={aboutStyles.questionHeading}>The Contributors</Text>
+          <Text style={aboutStyles.paragraph}>
             Lyraquist 2.0 (the website): Vivian D'Souza and Mahi Patel <br />
             Lyraquist 1.0 (the original app): Siri Avula, Vivian D'Souza, Ashley
             Bickham, Mahi Patel, Tanvi Singh
           </Text>
-
-          <Text style={{ fontSize: 15 }} />
         </View>
 
         <Text>{"\n\n\n"}</Text>
@@ -99,30 +78,3 @@ export default function AboutUsScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#e8e1db",
-    height: "80vh",
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    marginTop: 0,
-    marginBottom: 15,
-    color: "#303248",
-  },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#edc526",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  circle: {
-    height: 190,
-    width: 190,
-    marginBottom: -30,
-  },
-});
