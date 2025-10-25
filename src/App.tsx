@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import SignUpScreen from "./screens/SignUpScreen";
 import LoginScreen from "./screens/LoginScreen";
-import SpotifyAuthScreen from "./screens/SpotifyAuthScreen";
 import HomeScreen from "./screens/HomeScreen";
 // import PlaybackScreen from "./screens/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
@@ -142,7 +141,6 @@ const App: React.FC = () => {
             />
             <Route path="/signUp" element={<SignUpScreen />} />
             <Route path="/login" element={<LoginScreen />} />
-            <Route path="/spotifyAuth" element={<SpotifyAuthScreen />} />
           </Routes>
         </BrowserRouter>
 
