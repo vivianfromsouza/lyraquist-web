@@ -9,6 +9,7 @@ import {
   Pressable,
   TextInput,
   Image,
+  Settings,
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 // import auth from "@react-native-firebase/auth";
@@ -25,6 +26,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import { dropdownLanguages, languages } from "../constants/ProjectConstants";
 import LyraquistHeader from "../components/LyraquistHeader";
+import settingStyles from "../styles/SettingStyles";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function AccountSettings() {
@@ -49,7 +51,6 @@ export default function AccountSettings() {
       //   console.log("Change received!", payload);
       //   getPrefLang();
       // };
-
       getPrefLang();
       getTargetLang();
       // LocalSupabaseClient.channel("users")
@@ -59,12 +60,6 @@ export default function AccountSettings() {
       //     handleUserInserts
       //   )
       //   .subscribe();
-
-      // db()
-      //   .ref("/users/" + auth().currentUser.uid + "/preferredLanguage/")
-      //   .on("value", () => {
-      //     getPrefLang();
-      //   });
     } catch (err) {
       console.log(err);
     }
@@ -156,7 +151,6 @@ export default function AccountSettings() {
     });
   }
 
-  // modal prompting user to confirm delete
   const deleteAlert = () => {
     toast(
       name +
@@ -188,83 +182,35 @@ export default function AccountSettings() {
 
   return (
     <>
-      <ScrollView style={styles.full}>
+      <ScrollView style={settingStyles.container}>
         <LyraquistHeader title="Account Settings" logo={redLogo} />
         <View>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              marginHorizontal: 20,
-              marginTop: 20,
-              color: "#ff4a2a",
-            }}
-          >
-            Account Info
-          </Text>
-          <View style={styles.border}>
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                Account Type:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "#303248",
-                  fontWeight: "bold",
-                }}
-              >
-                Full Access
-              </Text>
+          <Text style={settingStyles.settingTitle}>Account Info</Text>
+          <View style={settingStyles.border}>
+            <View style={settingStyles.settingRow}>
+              <Text style={settingStyles.settingText}>Account Type: </Text>
             </View>
           </View>
         </View>
 
         <View>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              marginHorizontal: 20,
-              marginTop: 20,
-              color: "#ff4a2a",
-            }}
-          >
-            Password
-          </Text>
-          <View style={styles.border}>
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                New Password:
-              </Text>
+          <Text style={settingStyles.settingTitle}>Password</Text>
+          <View style={settingStyles.border}>
+            <View style={settingStyles.settingRow}>
+              <Text style={settingStyles.settingText}>New Password:</Text>
               <TextInput
                 placeholder="Type Here"
                 value={password}
                 onChangeText={setPassword}
                 autoCapitalize="none"
                 secureTextEntry
-                style={{ fontSize: 20, color: "gray" }}
+                style={settingStyles.settingText}
               />
             </View>
-            <View style={styles.divider} />
+            <View style={settingStyles.divider} />
 
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
+            <View style={settingStyles.settingRow}>
+              <Text style={settingStyles.settingText}>
                 Confirm new Password:
               </Text>
               <TextInput
@@ -273,87 +219,41 @@ export default function AccountSettings() {
                 onChangeText={setConfirmPassword}
                 autoCapitalize="none"
                 secureTextEntry
-                style={{ fontSize: 20, color: "gray" }}
+                style={settingStyles.settingText}
               />
             </View>
           </View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View style={settingStyles.btnContainer}>
             <Pressable
-              style={{
-                backgroundColor: "#ff4a2a",
-                borderRadius: 10,
-                marginTop: 5,
-                marginBottom: 30,
-                width: "80%",
-              }}
+              style={settingStyles.settingsButton}
               onPress={changePassword}
             >
               <ToastContainer />
 
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  color: "#e8e1db",
-                  marginVertical: 3,
-                }}
-              >
-                Change Password
-              </Text>
+              <Text style={settingStyles.settingsBtnText}>Change Password</Text>
             </Pressable>
           </View>
         </View>
 
-        <View style={{ zIndex: 10000 }}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              marginHorizontal: 20,
-              marginTop: 20,
-              color: "#ff4a2a",
-            }}
-          >
-            Preferred Language
-          </Text>
-          <View style={styles.border}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 10,
-              }}
-            >
+        <View style={settingStyles.zIndexValue}>
+          <Text style={settingStyles.settingTitle}>Preferred Language</Text>
+          <View style={settingStyles.border}>
+            <View style={settingStyles.settingCol}>
+              <Text style={settingStyles.settingText}>Current Language:</Text>
               <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                Current Language:
-              </Text>
-              <Text
-                style={{ fontSize: 20, color: "#303248", fontWeight: "bold" }}
+                style={settingStyles.currentTxt}
                 accessibilityLabel="preferredLanguage"
                 accessible={true}
               >
                 {prefLang}
               </Text>
             </View>
-            <View style={styles.rows}>
-              <View style={styles.divider} />
-            </View>
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                New Language:
-              </Text>
-              <View style={{ marginHorizontal: 10, alignSelf: "flex-end" }}>
+            <View style={settingStyles.settingRow} />
+            <View style={settingStyles.divider} />
+
+            <View style={settingStyles.settingRow}>
+              <Text style={settingStyles.settingText}>New Language:</Text>
+              <View>
                 <DropDownPicker
                   open={openPref}
                   value={newPrefLang}
@@ -364,89 +264,37 @@ export default function AccountSettings() {
               </View>
             </View>
           </View>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: -10,
-            }}
-          >
+          <View style={settingStyles.btnContainer}>
             <Pressable
-              style={{
-                backgroundColor: "#ff4a2a",
-                borderRadius: 10,
-                marginTop: 5,
-                marginBottom: 80,
-                width: "80%",
-              }}
+              style={settingStyles.settingsButton}
               onPress={() => {
                 changePreferredLanguage();
               }}
             >
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  color: "#e8e1db",
-                  marginVertical: 3,
-                }}
-              >
-                Change Langauge
-              </Text>
+              <Text style={settingStyles.settingsBtnText}>Change Langauge</Text>
             </Pressable>
           </View>
         </View>
 
-        <View style={{ zIndex: 10000 }}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              marginHorizontal: 20,
-              marginTop: 20,
-              color: "#ff4a2a",
-            }}
-          >
-            Target Language
-          </Text>
-          <View style={styles.border}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 10,
-              }}
-            >
+        <View style={settingStyles.zIndexValue}>
+          <Text style={settingStyles.settingTitle}>Target Language</Text>
+          <View style={settingStyles.border}>
+            <View style={settingStyles.settingCol}>
+              <Text style={settingStyles.settingText}>Current Language:</Text>
               <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                Current Language:
-              </Text>
-              <Text
-                style={{ fontSize: 20, color: "#303248", fontWeight: "bold" }}
+                style={settingStyles.currentTxt}
                 accessibilityLabel="targetLanguage"
                 accessible={true}
               >
                 {targetLang}
               </Text>
             </View>
-            <View style={styles.rows}>
-              <View style={styles.divider} />
-            </View>
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                New Language:
-              </Text>
-              <View style={{ marginHorizontal: 10, alignSelf: "flex-end" }}>
+            <View style={settingStyles.settingRow} />
+            <View style={settingStyles.divider} />
+
+            <View style={settingStyles.settingRow}>
+              <Text style={settingStyles.settingText}>New Language:</Text>
+              <View>
                 <DropDownPicker
                   open={openTarget}
                   value={newTargetLang}
@@ -457,75 +305,30 @@ export default function AccountSettings() {
               </View>
             </View>
           </View>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: -100,
-            }}
-          >
+          <View style={settingStyles.btnContainer}>
             <Pressable
-              style={{
-                backgroundColor: "#ff4a2a",
-                borderRadius: 10,
-                marginTop: 5,
-                marginBottom: 30,
-                width: "80%",
-              }}
+              style={settingStyles.settingsButton}
               onPress={() => {
                 changeTargetLanguage();
               }}
             >
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  color: "#e8e1db",
-                  marginVertical: 3,
-                }}
-              >
-                Change Langauge
-              </Text>
+              <Text style={settingStyles.settingsBtnText}>Change Langauge</Text>
             </Pressable>
           </View>
         </View>
 
         <View>
-          <View style={styles.divider} />
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              marginHorizontal: 20,
-              marginTop: 20,
-              color: "#ff4a2a",
-            }}
-          >
-            Account Deletion
-          </Text>
-          <Text
-            style={{
-              marginHorizontal: 20,
-              color: "#ff4a2a",
-              marginBottom: 10,
-            }}
-          >
+          <Text style={settingStyles.settingTitle}>Account Deletion</Text>
+          <Text style={settingStyles.alertText}>
             Deleting your Account will remove all data from the app. Your data
             will NOT be retrievable.
           </Text>
-          <Pressable
-            style={{
-              marginHorizontal: 50,
-              borderRadius: 20,
-              backgroundColor: "#ff4a2a",
-              marginTop: 20,
-            }}
-            onPress={deleteAlert}
-          >
+          <Pressable style={settingStyles.deleteButton} onPress={deleteAlert}>
             {/* <ToastContainer closeButton={deleteAlertButton} /> */}
 
-            <Text style={styles.deleteAccount}>Delete My Account</Text>
+            <Text style={settingStyles.deleteButtonText}>
+              Delete My Account
+            </Text>
           </Pressable>
         </View>
         <Text>{"\n\n\n\n\n"}</Text>
@@ -533,82 +336,3 @@ export default function AccountSettings() {
     </>
   );
 }
-const styles = StyleSheet.create({
-  full: {
-    flex: 1,
-    backgroundColor: "#e8e1db",
-    height: "91vh",
-  },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginBottom: 20,
-  },
-  circle: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    borderColor: "#303248",
-    borderWidth: 2,
-    marginTop: -15,
-  },
-  rows: {
-    flexDirection: "row",
-    marginHorizontal: 10,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  border: {
-    borderRadius: 10,
-    borderWidth: 2,
-    marginHorizontal: 10,
-    borderColor: "gray",
-    paddingVertical: 10,
-  },
-  divider: {
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-    paddingTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  deleteAccount: {
-    marginVertical: 10,
-    textAlign: "center",
-    backgroundColor: "#ff4a2a",
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginHorizontal: 30,
-    borderRadius: 20,
-  },
-  dropdown: {
-    marginRight: 4,
-  },
-
-  placeholderStyle: {
-    fontSize: 16,
-    color: "gray",
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
-});
