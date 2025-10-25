@@ -8,42 +8,32 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  Pressable,
   Dimensions,
   ActivityIndicator,
 } from "react-native";
 import { ArrowBackOutline, SearchOutline } from "react-ionicons";
-// import DisplayPlaylistService from "../services/DisplayPlaylist";
-// TODO: REIMPLEMENT DISPLAYPLAYLISTSERVICE
-import { StarFilled, StarOutlined } from "@ant-design/icons";
 import LanguageReaderWriter from "../services/LanguageReaderWriter";
 import { useNavigate } from "react-router-dom";
 import DisplayPlaylistService from "../services/DisplayPlaylist";
 import SongCard from "../components/Song";
+import LikeButton from "../components/LikeButton";
 
 // Destructuring to get SCREEN_HEIGHT from Dimensions
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-// Functional component for FrenchScreen
-export default function FrenchScreen() {
-  // State variables
-  const [searchTerm, setSearchTerm] = useState(""); // Search term state
-  const [searchResults, setSearchResults] = useState<any[] | null>([]); // Search results state
-  const [isLoading, setIsLoading] = useState(true); // Loading state
-  const [starred, setStarred] = useState(false); // State for starred language
-  const [saved, setSaved] = useState(false); // State for saved language
-  // const [loadingScreen, isLoadingScreen] = useState(true); // State for loading screen
+export default function LanguageScreen({ albumId, language }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<any[] | null>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const albumId = "66JJFBtXNd77jLE7Cm6rGo"; // ID of the playlist
+  //   const albumId = "1aUgRQqdbCliLVgktVY1yG";
   const navigate = useNavigate();
 
   // Function to handle search
   const handleSearch = async (text) => {
     try {
       setSearchTerm(text);
-      // Fetch playlist data
       const playlistData = await DisplayPlaylistService.getPlaylist(albumId);
-      // Filter and format search results
 
       const formattedData = playlistData
         .filter(
@@ -64,9 +54,8 @@ export default function FrenchScreen() {
           album: item.track.album.name,
           duration: item.track.duration_ms,
         }));
+
       setSearchResults(formattedData);
-      // isLoadingScreen(false); // Done loading screen
-      // setIsLoading(false);
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
@@ -74,92 +63,17 @@ export default function FrenchScreen() {
     }
   };
 
-  // Effect hook to run once on component mount
   useEffect(() => {
-    checkStar(); // Check if French language is starred
-    handleSearch(""); // Initial search with empty string
+    handleSearch("");
   }, []);
 
-  // Function to render each search result item
-  const renderSearchResultItem = ({ item }) => (
-    <SongCard item={item} />
+  const renderSearchResultItem = ({ item }) => <SongCard item={item} />;
 
-    // <TouchableOpacity
-    //   onPress={() => navigate("Play", { state: item })}
-    //   style={{
-    //     flex: 1,
-    //     flexDirection: "row",
-    //     alignItems: "center",
-    //     justifyContent: "space-between",
-    //     padding: 10,
-    //   }}
-    // >
-    //   <View style={{ flex: 1 }}>
-    //     <Image
-    //       source={{ uri: item.imageURL }}
-    //       style={{ width: "100%", aspectRatio: 1 }}
-    //     />
-    //     <Text
-    //       numberOfLines={1}
-    //       style={{ fontWeight: "bold", fontSize: 14, color: "black" }}
-    //     >
-    //       {item.name}
-    //     </Text>
-    //     <Text style={{ color: "#989898" }}>Artist: {item.artist}</Text>
-    //   </View>
-    // </TouchableOpacity>
-  );
-
-  async function checkStar() {
-    if (await LanguageReaderWriter.isLanguageStarred("French")) {
-      setStarred(true);
-      setSaved(true);
-    }
-  }
-
-  const handleLike = async () => {
-    if (!starred) {
-      if (!saved) {
-        LanguageReaderWriter.addLanguages("French"); // Add French language to starred
-      } else {
-        console.log("language is already starred");
-      }
-      setStarred((isStarred) => !isStarred);
-    } else {
-      LanguageReaderWriter.deleteLangauge("French"); // Remove French language from starred
-      setSaved(false);
-      setStarred((isStarred) => !isStarred);
-    }
-  };
-
-  // Component for like button
-  const LikeButton = () => {
-    return (
-      <Pressable onPress={handleLike} style={{fontSize:30, color:"#edc526", marginBottom:7, marginLeft:25}}>
-        {starred ? <StarFilled size={30} color={"#edc526"}/> : <StarOutlined size={30} />}
-
-        {/* <AntDesign
-          name={starred ? "star" : "staro"}
-          size={32}
-          color={starred ? "#edc526" : "black"}
-        /> */}
-      </Pressable>
-    );
-  };
-
-  // Function to handle navigation to trending French
-  // const handleTrendingFrench = () => {
-  //   navigate("TrendingFrench");
-  // };
-
-  // Rendering the screen based on loading state
   if (!isLoading) {
     return (
       <>
         <View style={styles.container}>
-          {/* Blue section */}
           <View style={styles.blueSection}>
-            {/* Back Button */}
             <TouchableOpacity
               onPress={() => navigate(-1)}
               style={styles.backButton}
@@ -167,16 +81,14 @@ export default function FrenchScreen() {
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </TouchableOpacity>
 
-            {/* Search Bar */}
             <View style={styles.searchBar}>
               <TextInput
                 style={styles.searchInput}
-                placeholder="Search French"
+                placeholder={"Search " + language}
                 value={searchTerm}
                 onChangeText={handleSearch}
               />
               <SearchOutline color={"#00000"} height="30px" width="30px" />
-              {/* <Ionicons name="search" size={24} color="#989898" /> */}
             </View>
           </View>
 
@@ -188,46 +100,44 @@ export default function FrenchScreen() {
               marginRight: 10,
             }}
           >
-            These are Lyraquist's recommended French songs. If you are looking
+            These are Lyraquist's recommended Spanish songs. If you are looking
             for a song not on this page, use the general search tab.
           </Text>
 
-          {/* Trending French Button
-          <TouchableOpacity
-            onPress={handleTrendingFrench}
-            style={styles.languageButton}
-          >
-            <Text style={styles.buttonText}>Trending in French</Text>
-          </TouchableOpacity> */}
-
-          {/* Display French */}
           <View
-          style={{
-            flexDirection: "row",
-            justifyContent:'center',
-            alignItems:'center',
-            marginLeft: 10,
-            marginRight: 30,
-            marginTop: 15,
-          }}
-        >
-          <Text style={{ fontSize: 30, fontWeight: "bold", marginBottom: 10 }}>
-            French
-          </Text>
-          <LikeButton />
-        </View>
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: 10,
+              marginRight: 30,
+              marginTop: 15,
+            }}
+          >
+            <Text
+              style={{ fontSize: 30, fontWeight: "bold", marginBottom: 10 }}
+            >
+              {language}
+            </Text>
+            <LikeButton language={language} />
+          </View>
 
           {searchResults!.length == 0 && (
             <View
               style={{
                 marginTop: 50,
                 alignItems: "center",
+                justifyContent: "center",
+                marginRight: 30,
+                marginLeft: 30,
               }}
             >
               <Text
                 style={{
                   fontSize: 15,
                   fontWeight: "bold",
+                  marginRight: 30,
+                  marginLeft: 30,
                 }}
               >
                 Sorry! No results for this search.
@@ -235,19 +145,17 @@ export default function FrenchScreen() {
             </View>
           )}
 
-          {/* FlatList to display search results */}
           <FlatList
             data={searchResults}
             keyExtractor={(item) => item.spotifyURL}
             renderItem={renderSearchResultItem}
-            numColumns={7} // Displaying two columns
-            style={{marginRight:30, marginLeft:30, marginBottom:30}}
+            numColumns={7}
+            style={{ marginRight: 30, marginLeft: 30, marginBottom: 10 }}
           />
         </View>
       </>
     );
   } else {
-    // Loading screen
     return (
       <ScrollView style={styles.container}>
         <View style={styles.blueSection}>
@@ -260,12 +168,11 @@ export default function FrenchScreen() {
           <View style={styles.searchBar}>
             <TextInput
               style={styles.searchInput}
-              placeholder="Search French"
+              placeholder={"Search " + langsuage}
               value={searchTerm}
               onChangeText={handleSearch}
             />
-            <SearchOutline color={"#00000"} height="25px" width="25px" />
-            {/* <Ionicons name="search" size={24} color="#989898" /> */}
+            <SearchOutline color={"#00000"} height="250px" width="250px" />
           </View>
         </View>
         <View style={styles.loading}>
@@ -276,10 +183,9 @@ export default function FrenchScreen() {
   }
 }
 
-// Styles for the components
 const styles = StyleSheet.create({
   container: {
-    height: '91vh',
+    height: "91vh",
     backgroundColor: "#e8e1db",
   },
   blueSection: {
@@ -307,7 +213,7 @@ const styles = StyleSheet.create({
     color: "#000",
     paddingHorizontal: 10,
   },
-  FrenchText: {
+  SpanishText: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
