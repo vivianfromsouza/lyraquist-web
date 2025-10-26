@@ -1,17 +1,13 @@
 // Worked on by: Vivian D'Souza
 import {
   ScrollView,
-  Dimensions,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   View,
   Image,
-  PixelRatio,
   TouchableOpacity,
 } from "react-native";
-// import { firebase } from "@react-native-firebase/auth";
 import DropDownPicker from "react-native-dropdown-picker";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
@@ -33,13 +29,10 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { dropdownLanguages } from "../constants/ProjectConstants";
 import "react-datepicker/dist/react-datepicker.css";
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / fontScale;
-const windowWidth = Dimensions.get("window").width;
+import signupStyles from "../styles/SignupStyles";
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
-  // const auth = getAuth();
   const [open, setOpen] = useState(false);
   const [openTarget, setOpenTarget] = useState(false);
   const [name, setName] = useState<string | undefined>("");
@@ -80,11 +73,8 @@ export default function SignUpScreen() {
       toast(
         "Error: Name, email, password,preferred language, and target language fields are required. Please check these fields and try again"
       );
-      // return false;
     } else if (isTermsChecked != true) {
-      // checks to see if terms and conditions were agreed to
       toast("Error: Please agree to Terms and Conditions.");
-      // return false;
     } else if (email != confirmEmail) {
       toast(
         "Couldn't create account. Email and confirm email field don't match. Please try again."
@@ -105,7 +95,6 @@ export default function SignUpScreen() {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-          // Signed up
           const user = userCredential.user;
           if (user) {
             await UserReaderWriter.createProfile(
@@ -128,14 +117,12 @@ export default function SignUpScreen() {
           const errorMessage = error.message;
           console.log(errorCode);
           console.log(errorMessage);
-          // if the user supplied an invalid email
           if (errorMessage.toString().includes("invalid-email")) {
             toast(
               "Could not make account. Please re-check your email address and try again."
             );
           }
 
-          // if the user supplied an invalid password
           if (errorMessage.toString().includes("weak-password")) {
             console.log("pswd too short");
             toast(
@@ -156,109 +143,36 @@ export default function SignUpScreen() {
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <View
-          style={{
-            backgroundColor: "#edc526",
-            width: windowWidth,
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
+      <ScrollView style={signupStyles.container}>
+        <View style={signupStyles.header}>
+          <View style={signupStyles.logo}>
             <Pressable
-              style={{ alignSelf: "center", flex: 1 }}
+              style={signupStyles.arrowLocation}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons style={{}} name="arrow-back" size={40} color="#303248" /> */}
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
               source={blueLogo as ImageSourcePropType}
-              style={{
-                height: 60,
-                alignSelf: "center",
-                flex: 1,
-                resizeMode: "contain",
-                marginBottom: 7,
-              }}
+              style={signupStyles.logoImage}
             />
-            <View style={{ flex: 1 }}></View>
+            <View style={signupStyles.flexView}></View>
           </View>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: getFontSize(30),
-              fontWeight: "bold",
-              color: "#303248",
-              marginBottom: 10,
-            }}
-          >
-            Sign Up
-          </Text>
+          <Text style={signupStyles.title}>Sign Up</Text>
         </View>
-        <Text
-          style={{
-            marginHorizontal: 20,
-            fontSize: getFontSize(25),
-            fontWeight: "bold",
-            marginTop: 10,
-            marginBottom: 5,
-          }}
-        >
-          Set up your profile
-        </Text>
-        <Text
-          style={{
-            marginHorizontal: 20,
-            fontSize: getFontSize(15),
-            marginBottom: 30,
-          }}
-        >
+        <Text style={signupStyles.sectionTitle}>Set up your profile</Text>
+        <Text style={signupStyles.sectionTxt}>
           Create an account so you can start your language learning journey
           through music
         </Text>
-        {/* FULL NAME */}
-        <View
-          style={{
-            marginTop: 5,
-            marginVertical: 3,
-            borderWidth: 0.5,
-            alignItems: "center",
-            borderColor: "#AAAAAA",
-            borderRadius: 10,
-            alignSelf: "center",
-            marginRight: "auto",
-            marginLeft: "auto",
-            width: "90%",
-            flexDirection: "row",
-            paddingEnd: 60,
-            bottom: 15,
-            gap: 10,
-            paddingVertical: 3,
-          }}
-        >
-          {/* <FontAwesome
-      style={{ marginLeft: 5 }}
-      name="user-circle-o"
-      size={24}
-      color="gray"
-    /> */}
-          <FontAwesomeIcon icon={faUserCircle} style={{marginLeft:5}} />
+        <View style={signupStyles.userLocation}>
+          <FontAwesomeIcon icon={faUserCircle} style={signupStyles.userIcon} />
 
-          <Image
-            source={divider as ImageSourcePropType}
-            style={{ height: 25 }}
-          />
-          <TouchableOpacity onPress={() => setName(name)} style={{ flex: 1 }}>
+          <Image source={divider as ImageSourcePropType} />
+          <TouchableOpacity
+            onPress={() => setName(name)}
+            style={signupStyles.inputFlex}
+          >
             <TextInput
               placeholder="Full Name"
               placeholderTextColor="gray"
@@ -266,7 +180,7 @@ export default function SignUpScreen() {
               onChangeText={setName}
               autoCapitalize="none"
               inputMode="text"
-              style={{ fontSize: getFontSize(17) }}
+              style={signupStyles.inputText}
               accessibilityLabel="nameInput"
               accessible={true}
             />
@@ -274,36 +188,13 @@ export default function SignUpScreen() {
         </View>
 
         {/* EMAIL */}
-        <View
-          style={{
-            marginTop: 5,
-            marginVertical: 3,
-            borderWidth: 0.5,
-            alignItems: "center",
-            borderColor: "#AAAAAA",
-            borderRadius: 10,
-            alignSelf: "center",
-            marginRight: "auto",
-            marginLeft: "auto",
-            width: "90%",
-            flexDirection: "row",
-            paddingEnd: 60,
-            gap: 10,
-            paddingVertical: 3,
-          }}
-        >
-          {/* <MaterialCommunityIcons
-      style={{ marginLeft: 5 }}
-      name="email-outline"
-      size={25}
-      color="gray"
-    /> */}
-          <EmailOutlinedIcon style={{marginLeft:5}}/>
-          <Image
-            source={divider as ImageSourcePropType}
-            style={{ height: 25 }}
-          />
-          <TouchableOpacity onPress={() => setEmail(email)} style={{ flex: 1 }}>
+        <View style={signupStyles.userLocation}>
+          <EmailOutlinedIcon style={signupStyles.userIcon} />
+          <Image source={divider as ImageSourcePropType} />
+          <TouchableOpacity
+            onPress={() => setEmail(email)}
+            style={signupStyles.inputFlex}
+          >
             <TextInput
               placeholder="Email"
               placeholderTextColor="gray"
@@ -311,45 +202,18 @@ export default function SignUpScreen() {
               onChangeText={setEmail}
               autoCapitalize="none"
               inputMode="email"
-              style={{ fontSize: getFontSize(17) }}
+              style={signupStyles.inputText}
               accessibilityLabel="emailInput"
               accessible={true}
             />
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            marginBottom: 20,
-            marginTop: 5,
-            marginVertical: 3,
-            borderWidth: 0.5,
-            alignItems: "center",
-            borderColor: "#AAAAAA",
-            borderRadius: 10,
-            alignSelf: "center",
-            marginRight: "auto",
-            marginLeft: "auto",
-            width: "90%",
-            flexDirection: "row",
-            paddingEnd: 60,
-            gap: 10,
-            paddingVertical: 3,
-          }}
-        >
-          {/* <MaterialCommunityIcons
-      style={{ marginLeft: 7 }}
-      name="email-check-outline"
-      size={25}
-      color="gray"
-    /> */}
-          <MarkEmailReadOutlinedIcon style={{marginLeft:5}}/>
-          <Image
-            source={divider as ImageSourcePropType}
-            style={{ height: 25 }}
-          />
+        <View style={signupStyles.userLocation}>
+          <MarkEmailReadOutlinedIcon style={signupStyles.userIcon} />
+          <Image source={divider as ImageSourcePropType} />
           <TouchableOpacity
             onPress={() => setConfirmEmail(confirmEmail)}
-            style={{ flex: 1 }}
+            style={signupStyles.inputFlex}
           >
             <TextInput
               placeholder="Confirm Email"
@@ -358,57 +222,23 @@ export default function SignUpScreen() {
               onChangeText={setConfirmEmail}
               autoCapitalize="none"
               inputMode="email"
-              style={{ fontSize: getFontSize(17) }}
+              style={signupStyles.inputText}
               accessibilityLabel="confirmEmailInput"
               accessible={true}
             />
           </TouchableOpacity>
         </View>
 
-        {/* PASSWORD */}
-        <Text
-          style={{
-            marginHorizontal: 70,
-            fontSize: getFontSize(12),
-            color: "#ff4a2a",
-          }}
-        >
+        <Text style={signupStyles.alertTxt}>
           *Password must be 6 characters long
         </Text>
-        <View
-          style={{
-            marginTop: 5,
-            marginVertical: 3,
-            borderWidth: 0.5,
-            alignItems: "center",
-            borderColor: "#AAAAAA",
-            borderRadius: 10,
-            alignSelf: "center",
-            marginRight: "auto",
-            marginLeft: "auto",
-            width: "90%",
-            flexDirection: "row",
-            paddingEnd: 60,
-            gap: 10,
-            paddingVertical: 3,
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            {/* <MaterialIcons
-      style={{ marginLeft: 7 }}
-      name="lock-outline"
-      size={24}
-      color="gray"
-    /> */}
-            <LockOutlinedIcon style={{marginLeft:5}}/>
-            <Image
-              source={divider as ImageSourcePropType}
-              style={{ height: 25 }}
-            />
+        <View style={signupStyles.passwordLocation}>
+          <View style={signupStyles.passwordIcon}>
+            <LockOutlinedIcon />
+            <Image source={divider as ImageSourcePropType} />
             <TouchableOpacity
               onPress={() => setPassword(password)}
-              style={{ flex: 1 }}
+              style={signupStyles.inputFlex}
             >
               <TextInput
                 placeholder="Password"
@@ -416,11 +246,7 @@ export default function SignUpScreen() {
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
-                style={{
-                  fontSize: getFontSize(17),
-                  width: "90%",
-                  paddingRight: 13,
-                }}
+                style={signupStyles.passwordTxt}
                 accessibilityLabel="passInput"
                 accessible={true}
               />
@@ -436,64 +262,27 @@ export default function SignUpScreen() {
             </Pressable>
           </View>
         </View>
-        <View
-          style={{
-            marginBottom: 20,
-            marginTop: 5,
-            marginVertical: 3,
-            borderWidth: 0.5,
-            alignItems: "center",
-            borderColor: "#AAAAAA",
-            borderRadius: 10,
-            alignSelf: "center",
-            marginRight: "auto",
-            marginLeft: "auto",
-            width: "90%",
-            flexDirection: "row",
-            paddingEnd: 60,
-            gap: 10,
-            paddingVertical: 3,
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            {/* <MaterialCommunityIcons
-      style={{ marginLeft: 7 }}
-      name="lock-check-outline"
-      size={24}
-      color="gray"
-    /> */}
-            <LockPersonOutlinedIcon style={{marginLeft:5}}/>
-            <Image
-              source={divider as ImageSourcePropType}
-              style={{ height: 25 }}
-            />
-            <TouchableOpacity onPress={() => setName(name)} style={{ flex: 1 }}>
+        <View style={signupStyles.passwordLocation}>
+          <View style={signupStyles.passwordIcon}>
+            <LockPersonOutlinedIcon />
+            <Image source={divider as ImageSourcePropType} />
+            <TouchableOpacity
+              onPress={() => setName(name)}
+              style={signupStyles.inputFlex}
+            >
               <TextInput
                 placeholder="Confirm Password"
                 placeholderTextColor="gray"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 secureTextEntry={!showConfirmPassword}
-                style={{
-                  fontSize: getFontSize(17),
-                  width: "90%",
-                  paddingRight: 13,
-                }}
+                style={signupStyles.passwordTxt}
                 accessibilityLabel="confirmPassInput"
                 accessible={true}
               />
             </TouchableOpacity>
           </View>
           <View>
-            {/* <MaterialCommunityIcons
-      name={showConfirmPassword ? "eye-off" : "eye"}
-      size={24}
-      color="gray"
-      style={{}}
-      onPress={toggleShowConfirmPassword}
-    /> */}
-
             <Pressable onPress={toggleShowConfirmPassword}>
               {showPassword ? (
                 <VisibilityOffOutlinedIcon />
@@ -504,11 +293,9 @@ export default function SignUpScreen() {
           </View>
         </View>
 
-        <View style={{ marginHorizontal: 20, zIndex: 10001 }}>
-          <Text style={{ fontSize: getFontSize(17), color: "black", fontWeight:'bold' }}>
-            Preferred Language
-          </Text>
-          <Text style={styles.noteText}>
+        <View style={signupStyles.prefLangVisibility}>
+          <Text style={signupStyles.langHeader}>Preferred Language</Text>
+          <Text style={signupStyles.noteText}>
             This is the language you are most familiar with. Songs will be
             translated into this language and word definitions pulled for this
             language
@@ -524,11 +311,9 @@ export default function SignUpScreen() {
           />
         </View>
 
-        <View style={{ marginHorizontal: 20,  zIndex: 10000}}>
-          <Text style={{ fontSize: getFontSize(17), color: "black", fontWeight:'bold' }}>
-            Target Language
-          </Text>
-          <Text style={styles.noteText}>
+        <View style={signupStyles.targetLangVisibility}>
+          <Text style={signupStyles.langHeader}>Target Language</Text>
+          <Text style={signupStyles.noteText}>
             This is the language you are trying to learn at the moment. When you
             listen to music in your preferred language, lyrics and definitions
             will be provided in your target language.
@@ -544,24 +329,7 @@ export default function SignUpScreen() {
           />
         </View>
 
-        {/* ACCEPT TERMS & POLICIES */}
-        <View
-          style={{
-            marginHorizontal: 20,
-            flexDirection: "row",
-            alignItems: "center",
-            //justifyContent: "center",
-          }}
-        >
-          {/* <BouncyCheckbox
-      id="terms"
-      onPress={(isChecked: boolean) => {
-        setIsTermsChecked(true);
-      }}
-      fillColor="#5bc8a6"
-      accessibilityLabel="conditions"
-      accessible={true}
-    /> */}
+        <View style={signupStyles.checkboxLocation}>
           <Checkbox
             value="checkedA"
             inputProps={{
@@ -572,101 +340,23 @@ export default function SignUpScreen() {
             }}
           />
 
-          <Text
-            style={{ fontSize: getFontSize(12), color: "gray", zIndex: -40 }}
-          >
+          <Text style={signupStyles.checkboxTxt}>
             I have read and agree to the terms and conditions.{" "}
           </Text>
         </View>
-        {/* SIGN UP BUTTON *. THIS BUTTON DOESNT WORK WITH TOAST + SIGNUP ACTION, why?/}
-        {/* <Pressable
-          onClick={signUp}
-          style={{
-            marginHorizontal: 20,
-            backgroundColor: "#edc526",
-            borderRadius: 10,
-            marginTop: 20,
-          }}
-          accessibilityLabel="signupButton"
-          accessible={true}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              marginVertical: 8,
-              fontWeight: "bold",
-              fontSize: getFontSize(20),
-              color: "#303248",
-            }}
+
+        <View style={{ marginHorizontal: 450, marginBottom: 30 }}>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={signUp}
+            style={signupStyles.signupBtn}
           >
+            <ToastContainer />
             Sign Up
-          </Text>
-        </Pressable> */}
-        <View style={{marginHorizontal:450, marginBottom:30}}>
-        <button
-        type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        onClick={signUp}
-        style={{fontSize:20, borderRadius:5, backgroundColor:"#303248", color:"#e8e1db", fontWeight:'bold'}}
-      >
-        <ToastContainer />
-        Sign Up
-      </button>
-      </View>
+          </button>
+        </View>
       </ScrollView>
-      
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e8e1db",
-  },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginBottom: 1,
-  },
-  dropdown: {
-    textAlign: "center",
-    paddingLeft: 10,
-    height: 35,
-    borderColor: "rgba(183, 193, 189, 0.9)",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    marginBottom: 20,
-  },
-  placeholderStyle: {
-    fontSize: getFontSize(16),
-    color: "gray",
-  },
-  selectedTextStyle: {
-    fontSize: getFontSize(16),
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: getFontSize(16),
-  },
-  noteText: {
-    paddingLeft: 5,
-    fontSize: getFontSize(12),
-    color: "gray",
-    textAlign: "left",
-    marginBottom: 7,
-  },
-});
