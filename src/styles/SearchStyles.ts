@@ -84,6 +84,39 @@ const searchStyles = StyleSheet.create({
   },
   placeholderTxt: { paddingLeft: 20 },
   noSearchTxt: { flex: 1, height: 100, backgroundColor: "#e8e1db" },
+  languagesTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  languagesContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+  },
+  languageItem: {
+    alignItems: "center",
+  },
+  playlistImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 20,
+    marginBottom: 5,
+  },
+  languageText: {
+    fontWeight: "bold",
+  },
+  loading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e8e1db",
+  },
 });
 
 export default searchStyles;
