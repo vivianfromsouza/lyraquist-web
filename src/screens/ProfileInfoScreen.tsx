@@ -4,7 +4,6 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
   Dimensions,
   Pressable,
   TextInput,
@@ -17,12 +16,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LyraquistHeader from "../components/LyraquistHeader";
+import profileStyles from "../styles/ProfileStyles";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ProfileInfoScreen() {
   const navigate = useNavigate();
-  // const location = useLocation();
-  // const { setIsLoggedIn } = location.state;
   const [name, setName] = useState<string>("");
   const [newName, setNewName] = useState<string>("");
   const [email, setEmail] = useState<string>();
@@ -31,22 +28,8 @@ export default function ProfileInfoScreen() {
   const auth = getAuth(LocalFirebaseClient);
   const { handleSignOut } = useFirebase();
 
-  // function handleSignOut() {
-  //   signOut(auth)
-  //     .then(() => {
-  //       navigate("/login");
-  //       console.log("SIGNED OUT");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  // calls UserReaderWriter to write username change to DB
   async function changeUsername() {
-    if (newName === undefined || newName.trim() == "") {
-      /*DO NOTHING*/
-    } else {
+    if (newName !== undefined && newName.trim() !== "") {
       await UserReaderWriter.writeUserName(newName.trim()).then(() => {
         setName(newName.trim());
         toast("Username changed successfully!");
@@ -54,7 +37,6 @@ export default function ProfileInfoScreen() {
     }
   }
 
-  // calls UserReaderWriter to write email change to DB
   async function changeEmail() {
     if (newEmail.includes("@")) {
       updateEmail(auth.currentUser!, newEmail.trim())
@@ -66,8 +48,6 @@ export default function ProfileInfoScreen() {
           handleSignOut();
         })
         .catch((error) => {
-          // An error occurred
-          // ...
           console.log(error);
         });
     } else {
@@ -79,11 +59,6 @@ export default function ProfileInfoScreen() {
 
   useEffect(() => {
     try {
-      // const handleUserInserts = (payload) => {
-      //   getUserName();
-      //   getEmail();
-      // };
-
       getUserName();
       getEmail();
 
@@ -113,145 +88,61 @@ export default function ProfileInfoScreen() {
 
   return (
     <>
-      <ScrollView style={styles.full}>
+      <ScrollView style={profileStyles.full}>
         <LyraquistHeader title="Profile Information" logo={redLogo} />
-
-        <View style={{ alignItems: "center", marginTop: 40 }}>
-          {/*View style={styles.circle} />
-           <SimpleLineIcons
-            style={{ position: "absolute", marginTop: 12 }}
-            name="user"
-            size={80}
-            color="#303248"
-          /> */}
-          {/* <SimpleLineIcon name="minus" /> */}
-        </View>
-
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "bold",
-            marginHorizontal: 70,
-            marginTop: 20,
-            color: "#ff4a2a",
-          }}
-        >
-          User Name
-        </Text>
-        <View style={styles.border}>
-          <View style={styles.rows}>
+        <View style={profileStyles.spacer}></View>
+        <Text style={profileStyles.settingTitle}>User Name</Text>
+        <View style={profileStyles.border}>
+          <View style={profileStyles.rows}>
+            <Text style={profileStyles.settingTxt}>Current Name:</Text>
             <Text
-              style={{
-                fontSize: 20,
-                color: "gray",
-              }}
-            >
-              Current Name:
-            </Text>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "#303248",
-                fontWeight: "bold",
-              }}
+              style={profileStyles.currValue}
               accessibilityLabel="currentName"
               accessible={true}
             >
               {name}
             </Text>
           </View>
-          <View style={styles.divider} />
-          <View style={styles.rows}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "gray",
-              }}
-            >
-              New Name:
-            </Text>
+          <View style={profileStyles.divider} />
+          <View style={profileStyles.rows}>
+            <Text style={profileStyles.settingTxt}>New Name:</Text>
             <TextInput
               placeholder="Type Here"
               value={newName}
               onChangeText={setNewName}
               autoCapitalize="none"
               inputMode="text"
-              style={{ fontSize: 20, color: "gray", marginBottom: 10 }}
+              style={profileStyles.settingTxt}
               accessibilityLabel="nameInput"
               accessible={true}
             />
           </View>
         </View>
         <Pressable
-          style={{
-            //marginRight: 10,
-            backgroundColor: "#ff4a2a",
-            //marginStart: 250,
-            borderRadius: 10,
-            marginTop: 5,
-            marginHorizontal: 100,
-          }}
+          style={profileStyles.button}
           onPress={changeUsername}
           accessibilityLabel="changeName"
           accessible={true}
         >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              textAlign: "center",
-              color: "#e8e1db",
-              marginVertical: 3,
-            }}
-          >
-            Change Name
-          </Text>
+          <Text style={profileStyles.buttonTxt}>Change Name</Text>
         </Pressable>
 
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "bold",
-            marginHorizontal: 70,
-            marginTop: 20,
-            color: "#ff4a2a",
-          }}
-        >
-          Email
-        </Text>
-        <View style={styles.border}>
-          <View style={[styles.rows, { paddingRight: 10, gap: 10 }]}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "gray",
-              }}
-            >
-              Current Email:
-            </Text>
+        <Text style={profileStyles.settingTitle}>Email</Text>
+        <View style={profileStyles.border}>
+          <View style={profileStyles.rows}>
+            <Text style={profileStyles.settingTxt}>Current Email:</Text>
             <Text
               numberOfLines={1}
-              style={{
-                fontSize: 20,
-                color: "#303248",
-                fontWeight: "bold",
-              }}
+              style={profileStyles.currValue}
               accessibilityLabel="currentEmail"
               accessible={true}
             >
               {email}
             </Text>
           </View>
-          <View style={styles.divider} />
-          <View style={styles.rows}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "gray",
-              }}
-            >
-              New Email:
-            </Text>
+          <View style={profileStyles.divider} />
+          <View style={profileStyles.rows}>
+            <Text style={profileStyles.settingTxt}>New Email:</Text>
             <TextInput
               numberOfLines={1}
               placeholder="Type Here"
@@ -259,86 +150,15 @@ export default function ProfileInfoScreen() {
               onChangeText={setNewEmail}
               autoCapitalize="none"
               inputMode="email"
-              style={{ fontSize: 20, color: "gray", marginBottom: 10 }}
+              style={profileStyles.settingTxt}
             />
           </View>
         </View>
-        <Pressable
-          style={{
-            //marginRight: 10,
-            backgroundColor: "#ff4a2a",
-            //marginStart: 250,
-            borderRadius: 10,
-            marginTop: 5,
-            marginHorizontal: 100,
-          }}
-          onPress={changeEmail}
-        >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              textAlign: "center",
-              color: "#e8e1db",
-              marginVertical: 3,
-            }}
-          >
-            Change Email
-          </Text>
+        <Pressable style={profileStyles.button} onPress={changeEmail}>
+          <Text style={profileStyles.buttonTxt}>Change Email</Text>
         </Pressable>
         <Text>{"\n\n\n\n\n"}</Text>
       </ScrollView>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  full: {
-    flex: 1,
-    backgroundColor: "#e8e1db",
-  },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginBottom: 20,
-  },
-  circle: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    borderColor: "#303248",
-    borderWidth: 2,
-    marginTop: -15,
-  },
-  rows: {
-    flexDirection: "row",
-    marginHorizontal: 10,
-    marginTop: 5,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  border: {
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "gray",
-    width: "90%",
-    marginRight: "auto",
-    marginLeft: "auto",
-  },
-  divider: {
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-    marginTop: 10,
-    marginLeft: 15,
-    marginRight: 15,
-  },
-});
