@@ -128,6 +128,55 @@ const settingStyles = StyleSheet.create({
   zIndexValue: {
     zIndex: 10000,
   },
+  logOut: {
+    borderRadius: 15,
+    overflow: "hidden",
+    marginTop: 20,
+    textAlign: "center",
+    backgroundColor: "#ff4a2a",
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#e8e1db",
+    marginHorizontal: 100,
+  },
+  menuDivider: {
+    borderBottomColor: "gray",
+    borderBottomWidth: 0.5,
+    marginTop: 25,
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  viewProfile: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: "auto",
+    marginLeft: "auto",
+    marginTop: 30,
+  },
+  viewProfileTitle: {
+    marginLeft: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  usernameText: { fontSize: 20, fontWeight: "bold", color: "#303248" },
+  profileSubtitle: {
+    color: "gray",
+    marginTop: 2,
+  },
+  menuOptions: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: "auto",
+    marginLeft: "auto",
+    marginTop: 25,
+  },
+  menuOptionsTxt: {
+    marginLeft: 25,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#303248",
+  },
 });
 
 export default settingStyles;
