@@ -16,7 +16,7 @@ const settingStyles = StyleSheet.create({
     color: "#e8e1db",
   },
   introSect: {
-    flex: 1,
+    // flex: 1,
     width: windowWidth,
     backgroundColor: "#303248",
     borderBottomLeftRadius: 15,

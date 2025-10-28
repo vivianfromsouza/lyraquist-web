@@ -1,13 +1,6 @@
 // Worked on by: Vivian D'Souza
 import { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  Dimensions,
-  Pressable,
-  TextInput,
-} from "react-native";
+import { View, Text, ScrollView, Pressable, TextInput } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { getAuth, updateEmail } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
