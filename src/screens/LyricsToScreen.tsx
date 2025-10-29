@@ -18,6 +18,8 @@ export default function LyricsToScreen({ currentTrack }) {
   const [openModal, setOpenModal] = React.useState(false);
   const [clickedWord, setClickedWord] = React.useState("");
 
+  console.log(prefLang);
+
   async function getUserPrefLang() {
     await UserReaderWriter.getPreferredLanguage().then((DBPrefLang) => {
       if (DBPrefLang.toLowerCase() == "english") {

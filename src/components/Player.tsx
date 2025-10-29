@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import axios from "axios";
 import {
   checkRefreshNeeded,

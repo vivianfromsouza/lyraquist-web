@@ -88,22 +88,22 @@ function WorkbookInfoScreen() {
       ]
     );
 
-  const deleteWordAlert = (word) =>
-    Alert.alert(
-      "Are you Sure?",
-      "This word will be removed from this workbook if deleted.",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          onPress: () => deleteWord(word["word_id"]),
-        },
-      ]
-    );
+  // const deleteWordAlert = (word) =>
+  //   Alert.alert(
+  //     "Are you Sure?",
+  //     "This word will be removed from this workbook if deleted.",
+  //     [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => console.log("Cancel Pressed"),
+  //         style: "cancel",
+  //       },
+  //       {
+  //         text: "Delete",
+  //         onPress: () => deleteWord(word["word_id"]),
+  //       },
+  //     ]
+  //   );
 
   function deleteWorkbook() {
     WorkbookReaderWriter.deleteWorkbook(bookUID);
