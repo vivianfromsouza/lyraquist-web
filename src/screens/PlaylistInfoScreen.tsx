@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   FlatList,
   Alert,
   Pressable,
-  Dimensions,
   TextInput,
 } from "react-native";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -22,8 +20,7 @@ import { usePlayer } from "../context/PlayerContext";
 import { toast, ToastContainer } from "react-toastify";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import PlaylistItem from "../components/PlaylistItem";
-
-const windowWidth = Dimensions.get("window").width;
+import playlistStyles from "../styles/PlaylistStyles";
 
 function PlaylistInfoScreen() {
   const navigate = useNavigate();
@@ -36,7 +33,6 @@ function PlaylistInfoScreen() {
   const description = playlistItem.description;
   const [searchTerm, setSearchTerm] = useState("");
   const { playPlaylist } = usePlayer();
-
 
   useEffect(() => {
     try {
@@ -61,9 +57,7 @@ function PlaylistInfoScreen() {
 
   async function getAllSongsFromPlaylist(playUID) {
     await RecordReaderWriter.getAllPlaylistSongs(playUID).then((mySongs) => {
-      const playItems: PlayItem[] = mySongs!.map((song) => (
-        console.log("song", song.songs),
-        {
+      const playItems: PlayItem[] = mySongs!.map((song) => ({
         artist: song.songs["artist"],
         spotifyURL: song.songs["spotify_url"],
         imageURL: song.songs["image_url"],
@@ -77,13 +71,11 @@ function PlaylistInfoScreen() {
     });
   }
 
-  
-
   const deletePlaylistAlert = () => {
     toast(
       "Are you Sure? Deleting this playlist will remove its data. It will not be retrievable once deleted.",
       { closeButton: deleteAlertButton }
-    )
+    );
   };
 
   const deleteAlertButton = () => {
@@ -92,14 +84,19 @@ function PlaylistInfoScreen() {
         <button
           onClick={() => console.log("Cancel Pressed")}
           className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-          style={{width:200, marginRight:5, marginLeft:10, borderRadius:5}}
+          style={{
+            width: 200,
+            marginRight: 5,
+            marginLeft: 10,
+            borderRadius: 5,
+          }}
         >
           Cancel
         </button>
         <button
           onClick={deletePlaylist}
           className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-          style={{width: 190, marginLeft:10, borderRadius:5}}
+          style={{ width: 190, marginLeft: 10, borderRadius: 5 }}
         >
           Delete
         </button>
@@ -113,7 +110,6 @@ function PlaylistInfoScreen() {
     navigate("/home");
   }
 
-  // Filter the word list based on the search term
   const filteredWordList = renSongList
     ? renSongList.filter(
         (song) =>
@@ -124,40 +120,30 @@ function PlaylistInfoScreen() {
 
   return (
     <>
-      <View style={{ backgroundColor: "#e8e1db", flex: 1, height:'80vh'}}>
+      <View style={playlistStyles.background}>
         <ToastContainer />
-
-        <View
-          style={{
-            paddingTop: 30,
-            backgroundColor: "#ECC516",
-            paddingBottom: 15,
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
-          }}
-        >
-          <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
+        <View style={playlistStyles.header}>
+          <Pressable
+            onPress={() => navigate(-1)}
+            style={playlistStyles.arrowLocation}
+          >
             <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
           </Pressable>
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginRight: 20,
-            }}
-          >
+          <View style={playlistStyles.controlsLocation}>
             <Text
-              style={styles.title}
+              style={playlistStyles.title}
               accessibilityLabel="workbookTitle"
               accessible={true}
             >
               {name}
             </Text>
 
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Pressable onPress={() => playPlaylist(playlistURL)} style={{fontSize:35, marginRight:20}}>
+            <View style={playlistStyles.playLocation}>
+              <Pressable
+                onPress={() => playPlaylist(playlistURL)}
+                style={playlistStyles.playBtn}
+              >
                 <PlayCircleFilled />
               </Pressable>
 
@@ -168,9 +154,9 @@ function PlaylistInfoScreen() {
           </View>
         </View>
 
-        <View style={styles.searchBar}>
+        <View style={playlistStyles.searchBar}>
           <TextInput
-            style={styles.searchInput}
+            style={playlistStyles.searchInput}
             placeholder="Search playlist"
             value={searchTerm}
             onChangeText={setSearchTerm}
@@ -180,155 +166,59 @@ function PlaylistInfoScreen() {
           <SearchOutline />
         </View>
 
-        <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
-          <Text style={{ fontSize: 18, paddingBottom: 5, color: "gray" }}>
-            Description
-          </Text>
-          <View
-            style={{
-              backgroundColor: "#e8e1db",
-              borderRadius: 10,
-              elevation: 5,
-            }}
-          >
-            <View
-              style={{
-                borderRadius: 10,
-                flexDirection: "row",
-                alignItems: "center",
-                paddingRight: 15,
-              }}
-            >
-              <InfoCircleOutlined style={{marginRight:5}}/>
-
-              <Text
-                style={{
-                  marginVertical: 10,
-                  fontSize: 18,
-                  marginRight: 20,
-                }}
-                accessibilityLabel="description"
-                accessible={true}
-              >
-                {description}
-              </Text>
-            </View>
+        <View style={playlistStyles.descLocation}>
+          <Text style={playlistStyles.descTitle}>Description</Text>
+          <View style={playlistStyles.descTxtLocation}>
+            <InfoCircleOutlined />
+            <Text accessibilityLabel="description" accessible={true}>
+              {description}
+            </Text>
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginHorizontal: 30,
-            paddingTop: 15,
-            marginRight: 40,
-          }}
-        >
-          <Text style={{ color: "gray", marginLeft: 5 }}>Song</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "30%",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ color: "gray", marginRight: 30 }}>Liked</Text>
-
-            <Text style={{ color: "gray", }}>Delete</Text>
+        <View style={playlistStyles.colTitles}>
+          <Text style={playlistStyles.colText}>Song</Text>
+          <View style={playlistStyles.colLocation}>
+            <Text style={playlistStyles.colText}>Liked</Text>
+            <Text style={playlistStyles.colText}>Delete</Text>
           </View>
         </View>
 
         <FlatList
           scrollEnabled={true}
           showsVerticalScrollIndicator={true}
-          style={{ flex: 1 }}
           data={filteredWordList}
           accessibilityLabel="songs"
           accessible={true}
           numColumns={1}
           renderItem={({ item }) => {
-            return <PlaylistItem item={item} playlistURL={playlistURL} key={item.spotifyURL} />;
+            return (
+              <PlaylistItem
+                item={item}
+                playlistURL={playlistURL}
+                key={item.spotifyURL}
+              />
+            );
           }}
         />
 
         {renSongList === null && (
-          <Text
-            style={{
-              textAlign: "left",
-              paddingBottom: 240,
-              color: "gray",
-              fontSize: 15,
-              fontWeight: "bold",
-              paddingLeft: 30,
-              paddingRight: 30,
-            }}
-          >
+          <Text style={playlistStyles.noResults}>
             Add songs to this playlist!
           </Text>
         )}
 
         <Pressable
           onPress={() => navigate("/Search")}
-          style={{
-            flexDirection: "row",
-            marginLeft: 35,
-            alignItems: "center",
-            paddingTop: 15,
-            marginBottom:20
-          }}
-          accessibilityLabel="addWord"
+          style={playlistStyles.addSongBtn}
+          accessibilityLabel="addSong"
           accessible={true}
         >
-          <PlusCircleOutlined style={{marginRight:5}}/>
-          <Text style={{ fontSize: 20, color: "gray" }}>Add New Song</Text>
+          <PlusCircleOutlined style={playlistStyles.addSongIcon} />
+          <Text style={playlistStyles.addSongTxt}>Add New Song</Text>
         </Pressable>
-
-        {/*<Text>{"\n\n\n\n"}</Text>*/}
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    textAlign: "left",
-    fontSize: 35,
-    fontWeight: "800",
-    marginLeft: 20,
-    paddingTop: 15,
-    color: "white",
-  },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    borderRadius: 15,
-    paddingBottom: 30,
-  },
-  searchBar: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    marginHorizontal: 20,
-    paddingHorizontal: 15,
-    marginTop: 20,
-    alignItems: "center",
-  },
-  searchInput: {
-    flex: 1,
-    color: "#000",
-    paddingHorizontal: 10,
-  },
-  loading: {
-    marginTop: 50,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e8e1db",
-  },
-});
 
 export default PlaylistInfoScreen;

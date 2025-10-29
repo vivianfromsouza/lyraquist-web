@@ -8,14 +8,10 @@ import {
 } from "react-router-dom";
 import SignUpScreen from "./screens/SignUpScreen";
 import LoginScreen from "./screens/LoginScreen";
-import SpotifyAuthScreen from "./screens/SpotifyAuthScreen";
 import HomeScreen from "./screens/HomeScreen";
 // import PlaybackScreen from "./screens/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
 import AboutScreen from "./screens/AboutScreen";
-import FrenchScreen from "./screens/FrenchScreen";
-import GermanScreen from "./screens/GermanScreen";
-import SpanishScreen from "./screens/SpanishScreen";
 import SearchLanguageScreen from "./screens/SearchLanguageScreen";
 import SearchScreen from "./screens/SearchScreen";
 import NewWorkbookScreen from "./screens/NewWorkbookScreen";
@@ -37,6 +33,7 @@ import { PlayerProvider } from "./context/PlayerContext";
 import { useLocalStorage } from "usehooks-ts";
 import LyricsToScreen from "./screens/LyricsToScreen";
 import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
+import LanguageScreen from "./screens/LanguageScreen";
 
 const PrivateRoutes = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -77,9 +74,35 @@ const App: React.FC = () => {
               <Route path="/account" element={<AccountSettings />} />
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/profile" element={<ProfileInfoScreen />} />
-              <Route path="/language/french" element={<FrenchScreen />} />
-              <Route path="/language/german" element={<GermanScreen />} />
-              <Route path="/language/spanish" element={<SpanishScreen />} />
+              <Route
+                path="/language/german"
+                element={
+                  <LanguageScreen
+                    albumId={"6zLZxgKlwFf3C755i2Phmx"}
+                    language={"German"}
+                  />
+                }
+              />
+
+              <Route
+                path="/language/french"
+                element={
+                  <LanguageScreen
+                    albumId={"66JJFBtXNd77jLE7Cm6rGo"}
+                    language={"French"}
+                  />
+                }
+              />
+
+              <Route
+                path="/language/spanish"
+                element={
+                  <LanguageScreen
+                    albumId={"1aUgRQqdbCliLVgktVY1yG"}
+                    language={"Spanish"}
+                  />
+                }
+              />
               <Route
                 path="SearchLanguages"
                 element={<SearchLanguageScreen />}
@@ -118,7 +141,6 @@ const App: React.FC = () => {
             />
             <Route path="/signUp" element={<SignUpScreen />} />
             <Route path="/login" element={<LoginScreen />} />
-            <Route path="/spotifyAuth" element={<SpotifyAuthScreen />} />
           </Routes>
         </BrowserRouter>
 

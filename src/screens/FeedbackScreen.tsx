@@ -1,24 +1,18 @@
 import {
-  Dimensions,
   Text,
   View,
   Pressable,
-  Image,
   TextInput,
   ScrollView,
 } from "react-native";
 import { useState } from "react";
 import FeedbackReaderWriter from "../services/FeedbackReaderWriter";
-import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
-import { ArrowBackOutline } from "react-ionicons";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import LyraquistHeader from "../components/LyraquistHeader";
+import aboutStyles from "../styles/AboutStyles";
 
-const windowWidth = Dimensions.get("window").width; 
 export default function FeedbackScreen() {
-  const navigate = useNavigate();
-
   const [feedback, setFeedback] = useState<string>("");
 
   async function submitFeedback() {
@@ -32,150 +26,38 @@ export default function FeedbackScreen() {
 
   return (
     <>
-      <ScrollView
-        style={{
-          flex: 1,
-          backgroundColor: "#e8e1db",
-          height:'80vh'
-        }}
-      >
-        <View
-          style={{
-            width: windowWidth,
-            backgroundColor: "#edc526",
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-              marginLeft: 20,
-              marginRight: 20,
-            }}
-          >
-            <Pressable
-              style={{ alignSelf: "center", flex: 1 }}
-              onPress={() => navigate(-1)}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={blueLogo as ImageSourcePropType}
-              style={{
-                height: 60,
-                alignSelf: "center",
-                flex: 1,
-                resizeMode: "contain",
-                marginBottom: 7,
-              }}
-            />
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 30,
-              fontWeight: "bold",
-              marginTop: 13,
-              marginBottom: 15,
-              color: "#303248",
-            }}
-          >
-            Feedback
-          </Text>
-        </View>
+      <ScrollView style={aboutStyles.container}>
+        <LyraquistHeader title="Feedback" logo={blueLogo} />
 
-        <View
-          style={{
-            paddingTop: 30,
-            justifyContent: "center",
-            marginHorizontal: 30,
-            flex: 1,
-            paddingBottom: 100,
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 17,
-              color: "#303248",
-            }}
-          >
+        <View>
+          <Text style={aboutStyles.feedbackHeading}>
             We are so thankful that you have decided to use our app for your
             language learning needs!
           </Text>
-          <Text
-            style={{
-              paddingTop: 9,
-              textAlign: "center",
-            }}
-          >
+          <Text style={aboutStyles.paragraph}>
             To keep us informed on how to improve the app, please gives us any
             feedback you may have. Our team will review the request and see what
             we can do.
           </Text>
-          <View style={{ paddingTop: 20, flex: 1 }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 15,
-                color: "#303248",
-              }}
-            >
-              Enter Feedback Here:
-            </Text>
-            <View
-              style={{
-                borderWidth: 1,
-                borderRadius: 10,
-                flex: 1,
-                marginTop: 10,
-                padding:10,
-                marginBottom:10
-              }}
-            >
+          <View>
+            <Text style={aboutStyles.feedbackLabel}>Enter Feedback Here:</Text>
+            <View style={aboutStyles.feedbackContainer}>
               <TextInput
                 editable
                 multiline
                 numberOfLines={15}
                 onChangeText={(text) => setFeedback(text)}
                 value={feedback}
-                style={{
-                  fontSize: 15,
-                  color: "gray",
-                  //marginBottom: 10,
-                  paddingTop: 5,
-                  paddingRight: 5,
-                  backgroundColor:'white',
-                  borderRadius:10
-                }}
+                style={aboutStyles.feedbackInput}
                 textAlignVertical="top"
                 placeholder="Type here"
               />
             </View>
             <Pressable
               onPress={submitFeedback}
-              style={{
-                backgroundColor: "#303248",
-                padding: 10,
-                marginTop: 12,
-                borderRadius: 10,
-              }}
+              style={aboutStyles.feedbackButton}
             >
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  color: "#e8e1db",
-                }}
-              >
-                Submit Feedback
-              </Text>
+              <Text style={aboutStyles.feedbackBtnText}>Submit Feedback</Text>
               <ToastContainer />
             </Pressable>
           </View>

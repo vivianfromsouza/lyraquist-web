@@ -1,11 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  Modal,
-  TextInput,
-  PixelRatio,
-} from "react-native";
+import { Text, View, Modal, TextInput } from "react-native";
 import { Pressable } from "react-native-web";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useEffect, useRef, useState } from "react";
@@ -16,9 +9,7 @@ import DictionaryService from "../services/DictionaryService";
 import { toast, ToastContainer } from "react-toastify";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
-
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / fontScale;
+import wordStyles from "../styles/WordStyles";
 
 const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   const [bookUID, setbookUID] = useState<any>();
@@ -156,50 +147,17 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
 
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
-      <View style={styles.modalbg}>
-        <View style={styles.modalforefront}>
-          <View
-            style={{
-              backgroundColor: "rgba(91,200,166,0.15)",
-              padding: 10,
-              borderRadius: 10,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+      <View style={wordStyles.modalbg}>
+        <View style={wordStyles.modalforefront}>
+          <View style={wordStyles.modalTextBackground}>
             <View>
-              <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-                <Text
-                  style={{
-                    fontStyle: "italic",
-                    fontSize: 25,
-                    color: "white",
-                  }}
-                >
-                  in {"songLang"}:{" "}
-                </Text>
-                <Text
-                  style={{ fontWeight: "bold", fontSize: 35, color: "white" }}
-                >
-                  {word}
-                </Text>
+              <View style={wordStyles.modalText}>
+                <Text style={wordStyles.originalLabel}>in {"songLang"}: </Text>
+                <Text style={wordStyles.originalText}>{word}</Text>
               </View>
-              <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-                <Text
-                  style={{
-                    fontStyle: "italic",
-                    fontSize: 20,
-                    color: "white",
-                  }}
-                >
-                  in {"prefLang"}:{" "}
-                </Text>
-                <Text
-                  style={{ fontWeight: "bold", fontSize: 35, color: "white" }}
-                >
-                  {translation}
-                </Text>
+              <View style={wordStyles.modalText}>
+                <Text style={wordStyles.prefLabel}>in {"prefLang"}: </Text>
+                <Text style={wordStyles.originalText}>{translation}</Text>
                 {/* <Text
                   style={{
                     fontWeight: "bold",
@@ -221,20 +179,15 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
                   audioRef.current.play();
                 }
               }}
-              style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <Text style={{ fontSize: 10, color: "white" }}>
-                Press to Dictate
-              </Text>
+              <Text style={wordStyles.dictate}>Press to Dictate</Text>
 
               <audio ref={audioRef} src={pronunciation} />
             </Pressable>
           </View>
           <View style={{ padding: 10 }}>
-            <Text style={{ fontSize: 20, color: "white" }}>{definition}</Text>
-            <Text style={{ fontSize: 15, color: "gray", fontStyle: "italic" }}>
-              {pos}
-            </Text>
+            <Text style={wordStyles.definition}>{definition}</Text>
+            <Text style={wordStyles.pos}>{pos}</Text>
           </View>
 
           <DropDownPicker
@@ -251,24 +204,13 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           />
 
           {bookUID === "0" && (
-            <View
-              style={{
-                borderWidth: 0.5,
-                padding: 6,
-                paddingLeft: 8,
-                borderRadius: 5,
-                borderColor: "gray",
-                marginTop: 10,
-                marginHorizontal: 14,
-              }}
-            >
+            <View style={wordStyles.newWorkbookInput}>
               <TextInput
                 placeholder="Enter new workbook name"
                 placeholderTextColor={"white"}
                 editable
                 value={newWorkbookName}
                 onChangeText={(text) => setNewWorkbookName(text)}
-                style={{ color: "white", fontSize: 15 }}
               />
             </View>
           )}
@@ -283,25 +225,15 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           >
             <Pressable
               onPress={() => setOpenModal(false)}
-              style={{
-                backgroundColor: "#edc526",
-                padding: 10,
-                borderRadius: 12,
-                paddingHorizontal: 5,
-              }}
+              style={wordStyles.closeButton}
             >
-              <Text style={styles.modalButtons}> Close </Text>
+              <Text style={wordStyles.modalButtons}> Close </Text>
             </Pressable>
             <Pressable
-              style={{
-                backgroundColor: "#ff4a2a",
-                padding: 10,
-                borderRadius: 12,
-                paddingHorizontal: 5,
-              }}
+              style={wordStyles.saveButton}
               onPress={addWordToWorkbook}
             >
-              <Text style={styles.modalButtons}> Save </Text>
+              <Text style={wordStyles.modalButtons}> Save </Text>
               <ToastContainer />
             </Pressable>
           </View>
@@ -312,57 +244,3 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
 };
 
 export default WordModal;
-
-const styles = StyleSheet.create({
-  modalbg: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-  },
-  modalforefront: {
-    backgroundColor: "#303248",
-    padding: 15,
-    borderRadius: 15,
-    borderWidth: 10,
-    borderColor: "#5bc8a6",
-  },
-  modalText: {
-    color: "white",
-    fontSize: getFontSize(25),
-  },
-  closeModal: {},
-  saveWordModal: {},
-  modalButtons: {
-    alignContent: "flex-end",
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 20,
-    marginHorizontal: 5,
-  },
-  dropdown: {
-    textAlign: "center",
-    paddingLeft: 10,
-    height: 35,
-    width: 325,
-    borderColor: "rgba(183, 193, 189, 0.9)",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    color: "white",
-    zIndex: 100000,
-  },
-  placeholderStyle: {
-    fontSize: getFontSize(20),
-    color: "white",
-  },
-  selectedTextStyle: {
-    fontSize: getFontSize(20),
-    color: "white",
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-    color: "white",
-  },
-});

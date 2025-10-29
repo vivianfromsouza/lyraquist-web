@@ -8,19 +8,13 @@ import fullLogo from "../assets/Full_Logo.png";
 import { ImageSourcePropType } from "react-native";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import {
-  Pressable,
-  TextInput,
-  View,
-  Image,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { Pressable, TextInput, View, Image, Text } from "react-native";
 import {
   getSpotifyAccessCode,
   getSpotifyAuthCode,
   redirectToSpotifyAuthorize,
 } from "../services/spotifyAuth";
+import loginStyles from "../styles/LoginStyles";
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -30,17 +24,15 @@ const LoginScreen: React.FC = () => {
   const handleLyraquistLogIn = async (event: {
     preventDefault: () => void;
   }) => {
-    event.preventDefault(); // Prevents default form submission
+    event.preventDefault();
 
     if (email && password) {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user.uid;
           localStorage.setItem("current_user", user);
           redirectToSpotifyAuthorize();
-          //navigate("/SpotifyAuth");
         })
         .catch((error) => {
           const errorMessage = error.message;
@@ -146,54 +138,23 @@ const LoginScreen: React.FC = () => {
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={loginStyles.container}>
         <Pressable
-          style={{
-            alignSelf: "flex-start",
-            justifyContent: "flex-start",
-            marginTop: 30,
-            marginLeft: 20,
-          }}
+          style={loginStyles.arrowLocation}
           onPress={() => navigate("/")}
         >
-          {/* <Ionicons style={{}} name="arrow-back" size={42} color="#e8e1db" /> */}
           <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
         </Pressable>
-        <View style={styles.content}>
-          <View style={styles.info}>
+        <View style={loginStyles.content}>
+          <View style={loginStyles.info}>
             <Image
-              style={styles.circle}
+              style={loginStyles.circle}
               source={fullLogo as ImageSourcePropType}
             />
-            <Text style ={{marginTop:5, fontWeight:'bold', color:"#303248", fontSize:20}}>LYRAQUIST</Text>
-
-            <View
-              style={{
-                marginTop: 5,
-                marginVertical: 3,
-                borderWidth: 1,
-                alignItems: "center",
-                borderColor: "#303248",
-                borderRadius: 10,
-                alignSelf: "center",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginVertical: 5,
-                  alignItems: "center",
-                  marginLeft: 4,
-                }}
-              >
-                <EmailOutlinedIcon style={{color:"#303248"}}/>
-                {/* 
-                <MaterialCommunityIcons
-                  style={{ marginLeft: 5 }}
-                  name="email-outline"
-                  size={25}
-                  color="#e8e1db"
-                /> */}
+            <Text style={loginStyles.title}>LYRAQUIST</Text>
+            <View style={loginStyles.inputOutline}>
+              <View style={loginStyles.inputPadding}>
+                <EmailOutlinedIcon style={loginStyles.icon} />
                 <TextInput
                   accessibilityLabel="username"
                   placeholder="Email                                         "
@@ -202,37 +163,14 @@ const LoginScreen: React.FC = () => {
                   onChangeText={setEmail}
                   autoCapitalize="none"
                   inputMode="email"
-                  style={{ marginHorizontal: 10, fontSize: 17, width: "100%" }}
+                  style={loginStyles.inputTxt}
                 />
               </View>
             </View>
 
-            <View
-              style={{
-                marginTop: 5,
-                marginVertical: 3,
-                borderWidth: 1,
-                alignItems: "center",
-                borderColor: "#303248",
-                borderRadius: 10,
-                alignSelf: "center",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginVertical: 5,
-                  alignItems: "center",
-                  marginLeft: 4,
-                }}
-              >
-                {/* <Feather
-                  style={{ marginLeft: 5 }}
-                  name="lock"
-                  size={24}
-                  color="#e8e1db"
-                /> */}
-                <LockOutlinedIcon style={{color:"#303248"}}/>
+            <View style={loginStyles.inputOutline}>
+              <View style={loginStyles.inputPadding}>
+                <LockOutlinedIcon style={loginStyles.icon} />
                 <TextInput
                   accessibilityLabel="password"
                   placeholder="Password                                         "
@@ -240,136 +178,26 @@ const LoginScreen: React.FC = () => {
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry
-                  style={{ marginHorizontal: 10, fontSize: 17, width: "100%" }}
+                  style={loginStyles.inputTxt}
                 />
               </View>
             </View>
           </View>
-          {/* THIS WONT WORK WITH TOAST NOTIFICATIONS. <Pressable
-            style={{
-              marginTop: 5,
-              marginVertical: 3,
-              alignItems: "center",
-              backgroundColor: "#ff4a2a",
-              borderRadius: 10,
-              alignSelf: "center",
-            }}
-            accessibilityLabel="loginButton"
-            onPress={handleLyraquistLogIn}
-          >
-            <Text> Log In </Text>
-          </Pressable> */}
         </View>
-        <View style={{marginHorizontal:590, marginBottom:90}}>
-        <button
-        type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        onClick={handleLyraquistLogIn}
-        style={{fontSize:18, borderRadius:7, backgroundColor:"#303248", color:"#e8e1db", padding:10}}
-      >
-        <ToastContainer />
-        Login
-      </button>
+        <View style={loginStyles.loginLocation}>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={handleLyraquistLogIn}
+            style={loginStyles.loginBtn}
+          >
+            <ToastContainer />
+            Login
+          </button>
+        </View>
       </View>
-      </View>
-      
     </>
-    // <>
-    //   <div className="bg-green w-full h-96 absolute top-0 left-0 z-0 bg-hero"></div>
-    //   <section className="z-10 relative h-screen flex flex-col justify-center items-center">
-    //     <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-    //       <h1 className="mb-8 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
-    //         Login
-    //       </h1>
-
-    //       <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center">
-    //         <form className="max-w-sm mx-auto">
-    //           <div className="mb-5">
-    //             <label
-    //               htmlFor="email"
-    //               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-    //             >
-    //               Your email
-    //             </label>
-    //             <input
-    //               type="email"
-    //               id="email"
-    //               value={email}
-    //               onChange={(e) => setEmail(e.target.value)}
-    //               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    //               placeholder=""
-    //               required
-    //             />
-    //           </div>
-    //           <div className="mb-5">
-    //             <label
-    //               htmlFor="password"
-    //               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-    //             >
-    //               Your password
-    //             </label>
-    //             <input
-    //               type="password"
-    //               id="password"
-    //               value={password}
-    //               onChange={(e) => setPassword(e.target.value)}
-    //               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    //               required
-    //             />
-    //           </div>
-    //           <button
-    //             type="submit"
-    //             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    //             onClick={handleLyraquistLogIn}
-    //           >
-    //             <ToastContainer />
-    //             Login
-    //           </button>
-    //         </form>
-    //       </div>
-    //     </div>
-    //   </section>
-    // </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#edc526",
-    height:'100vh'
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  info: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    marginHorizontal: 100,
-  },
-  circle: {
-    height: 190,
-    width: 190,
-    marginBottom: 0,
-  },
-  title: {
-    marginTop: 20,
-    fontSize: 30,
-    fontWeight: "900",
-    color: "#303248",
-    marginBottom: 15,
-  },
-  logIn: {
-    marginTop: 5,
-    textAlign: "center",
-    flexDirection: "row",
-    backgroundColor: "#ff4a2a",
-    borderRadius: 20,
-    alignSelf: "center",
-  },
-});
 
 export default LoginScreen;

@@ -44,7 +44,6 @@ vi.mock("../context/PlayerContext", async () => {
     usePlayer: () => ({
       playSong: mockPlaySong,
       playPlaylist: mockPlayPlaylist,
-      pausePlayback: vi.fn(),
       isPaused: false,
       isActive: true,
       currentTrack: null,

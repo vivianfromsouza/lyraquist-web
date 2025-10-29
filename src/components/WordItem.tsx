@@ -1,22 +1,12 @@
-import { StyleSheet, Text, Pressable} from 'react-native';
+import {Text, Pressable} from 'react-native';
+import wordStyles from '../styles/WordStyles';
 
 const WordItem = ({item}) => {
     return (
         <Pressable >
-            <Text style={styles.word}>{item["word"]}</Text>
-            <Text style={styles.translation}>{item["translation"]}</Text>
+            <Text style={wordStyles.word}>{item["word"]}</Text>
+            <Text style={wordStyles.translation}>{item["translation"]}</Text>
         </Pressable>
     )
 }
 export default WordItem
-
-const styles = StyleSheet.create({
-    word:{
-        margin: 5,
-        fontSize: 20,
-        fontWeight:'bold'
-    },
-    translation:{
-        marginLeft: 5
-    }
-})

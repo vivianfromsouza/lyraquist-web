@@ -6,7 +6,6 @@ import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 interface PlayerContextType {
   playSong: (songId: string) => void;
   playPlaylist: (playlistId: string, offset?: string) => void;
-  pausePlayback: () => void;
   isPaused: boolean;
   isActive: boolean;
   currentTrack: any;
@@ -20,16 +19,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isPaused] = useState(true);
   const [isActive] = useState(false);
   const [currentTrack] = useState(null);
-  // const [deviceId, setDeviceId] = useState("abc");
 
-  // Define the functions you want to expose globally
   const playSong = (songId: string) => {
-    // Call the playSong function from Player.tsx
-    console.log("Playing song with ID:", songId);
     TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
       axios({
-        url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
+        url: "https://api.spotify.com/v1/me/player/play",
         method: "PUT",
         headers: {
           authorization: "Bearer " + accessCode,
@@ -49,12 +43,10 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const playPlaylist = (playlistId: string, offset: string = "") => {
-    // Call the playSong function from Player.tsx
     console.log("Playing playlist with ID:", playlistId);
     TokenReaderWriter.getAccessToken().then((accessCode) => {
-      // Makes request to Spotify API for song search
       axios({
-        url: "https://api.spotify.com/v1/me/player/play", // Remove "&limit=1"
+        url: "https://api.spotify.com/v1/me/player/play",
         method: "PUT",
         headers: {
           authorization: "Bearer " + accessCode,
@@ -74,42 +66,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const pausePlayback = () => {
-    console.log("Pausing playback");
-    // Add logic to pause playback
-  };
-
-  // const toggleShuffle = (isShuffled: boolean) => {
-  //   console.log("Toggling shuffle");
-  //   TokenReaderWriter.getAccessToken().then((accessCode) => {
-  //     // Makes request to Spotify API for song search
-  //     axios({
-  //       url:
-  //         "https://api.spotify.com/v1/me/player/shuffle?state=" + !isShuffled,
-  //       method: "PUT",
-  //       headers: {
-  //         authorization: "Bearer " + accessCode,
-  //       },
-  //       data: {
-  //         state: !isShuffled,
-  //         device_ids: [localStorage.getItem("device_id")], // use local storage for now?
-  //       },
-  //     })
-  //       .then(async (res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         return err;
-  //       });
-  //   });
-  // };
-
   return (
     <PlayerContext.Provider
       value={{
         playSong,
         playPlaylist,
-        pausePlayback,
         isPaused,
         isActive,
         currentTrack,
