@@ -8,7 +8,7 @@ import {
   refresh,
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
-import { useLocalStorage } from "usehooks-ts";
+// import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 // import RecordReaderWriter from "../services/RecordReaderWriter";
@@ -42,7 +42,7 @@ const Player = () => {
   const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  // const isLoggedIn = localStorage.getItem("isLoggedIn");
   const auth = getAuth(LocalFirebaseClient);
   const [value] = useState<User | null>(auth.currentUser);
 
