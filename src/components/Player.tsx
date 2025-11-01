@@ -8,7 +8,7 @@ import {
   refresh,
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
-import { useLocalStorage } from "usehooks-ts";
+// import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
 import LyricsToScreen from "../screens/LyricsToScreen";
 // import RecordReaderWriter from "../services/RecordReaderWriter";
@@ -16,6 +16,8 @@ import LyricsToScreen from "../screens/LyricsToScreen";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
+import { getAuth, User } from "firebase/auth";
+import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -40,8 +42,9 @@ const Player = () => {
   const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
+  // const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const auth = getAuth(LocalFirebaseClient);
+  const [value] = useState<User | null>(auth.currentUser);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -372,9 +375,9 @@ const Player = () => {
       setActive(false);
       pausePlayback();
     }
-  }, [isLoggedIn]);
+  }, [value]);
 
-  if (value === "false") {
+  if (value === null) {
     return <> </>;
   } else if (!is_active) {
     return (
