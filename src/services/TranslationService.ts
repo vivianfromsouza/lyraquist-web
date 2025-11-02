@@ -2,6 +2,8 @@ import axios from "axios";
 import { franc } from 'franc';
 import { iso6393 } from 'iso-639-3';
 
+const API_BASE = import.meta.env.VITE_API_BASE ?? ""; // set VITE_API_BASE=http://localhost:3000 for local vercel dev
+
 const TranslationService = {
   async getTranslationAllLyrics(lyrics, toLanguage): Promise<string> {
     if (lyrics == undefined || "") {
@@ -39,7 +41,7 @@ const TranslationService = {
 
   async getSingleTranslation(word, fromLang, toLang): Promise<string> {
     return axios(
-      "http://localhost:3000/api/singleTranslation?fromLang=" +
+      `${API_BASE}/api/singleTranslation?fromLang=` +
         fromLang +
         "&toLang=" +
         toLang +
