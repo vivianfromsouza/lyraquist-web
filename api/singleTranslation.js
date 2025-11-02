@@ -17,8 +17,11 @@ export default async function singleTranslation(req, res) {
     return res.status(400).json({ error: "Missing parameters." });
   }
 
-  const app_id = process.env.VITE_OXFORD_APP_ID;
-  const app_key = process.env.VITE_OXFORD_APP_KEY;
+  const app_id = process.env.OXFORD_APP_ID;
+  const app_key = process.env.OXFORD_APP_KEY;
+
+  console.log("id:", app_id);
+  console.log("Key:", app_key);
 
   const url =
     "https://od-api-sandbox.oxforddictionaries.com/api/v2/translations/" +

@@ -1,6 +1,8 @@
 import axios from "axios";
 import LanguageDetect from "languagedetect";
 
+const API_BASE = import.meta.env.VITE_LOCAL_BASE ?? ""; 
+
 const TranslationService = {
   async getTranslationAllLyrics(lyrics, toLanguage): Promise<any> {
     if (lyrics == undefined || "") {
@@ -35,8 +37,9 @@ const TranslationService = {
   },
 
   async getSingleTranslation(word, fromLang, toLang): Promise<any> {
+    console.log("API", API_BASE);
     return axios(
-      "http://localhost:3000/api/singleTranslation?fromLang=" +
+     `${API_BASE}/api/singleTranslation?fromLang=` +
         fromLang +
         "&toLang=" +
         toLang +

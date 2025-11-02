@@ -38,44 +38,53 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   console.log(setPronunciation);
 
   async function getEntryDetails() {
-    let prefLang = await UserReaderWriter.getPreferredLanguage();
+    try {
+      let prefLang = await UserReaderWriter.getPreferredLanguage();
 
-    if (prefLang === songLang) {
-      prefLang = await UserReaderWriter.getTargetLanguage();
-    }
+      if (prefLang === songLang) {
+        prefLang = await UserReaderWriter.getTargetLanguage();
+      }
 
-    const translationResponse = await TranslationService.getSingleTranslation(
-      word,
-      songLang,
-      prefLang
-    );
-
-    const translation =
-      (await translationResponse?.results?.[0]?.lexicalEntries?.[0]
-        ?.entries?.[0]?.senses?.[0]?.translations?.[0]?.text) ?? "";
-
-    setTranslation(translation);
-
-    if (songLang === "en") {
-      setPronunciation(
-        translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-          ?.pronunciations?.[0]?.audioFile ?? ""
+      const translationResponse = await TranslationService.getSingleTranslation(
+        word,
+        songLang,
+        prefLang
       );
+
+      setTranslation(
+        translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+          ?.senses?.[0]?.translations?.[0]?.text ?? ""
+      );
+
+      const translationResult =
+        (await translationResponse?.results?.[0]?.lexicalEntries?.[0]
+          ?.entries?.[0]?.senses?.[0]?.translations?.[0]?.text) ?? "";
+
+      // only call definition after we have a translation
+      const definitionResponse = await DictionaryService.getDefinition(
+        translationResult,
+        prefLang
+      );
+
+      setDefinition(
+        definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+          ?.senses?.[0]?.definitions?.[0] ?? ""
+      );
+      setPos(
+        definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
+          ?.text ?? ""
+      );
+
+      // set pronunciation last (so useSound / audio init can react)
+      if (songLang === "en") {
+        setPronunciation(
+          translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+            ?.pronunciations?.[0]?.audioFile ?? ""
+        );
+      }
+    } catch (err) {
+      console.error("getEntryDetails error", err);
     }
-
-    const definitionResponse = await DictionaryService.getDefinition(
-      translation,
-      prefLang
-    );
-
-    setDefinition(
-      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-        ?.senses?.[0]?.definitions?.[0] ?? ""
-    );
-    setPos(
-      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
-        ?.text ?? ""
-    );
   }
 
   async function getWorkbooks() {
@@ -152,7 +161,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
     getWorkbooks();
 
     getEntryDetails();
-  }, [pronunciation]);
+  }, [openModal, word, songLang]);
 
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>

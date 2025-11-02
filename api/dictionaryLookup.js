@@ -8,8 +8,8 @@ export default async function dictionaryLookup(req, res) {
     return res.status(400).json({ error: "Word parameter is required." });
   }
 
-  const app_id = process.env.VITE_OXFORD_APP_ID;
-  const app_key = process.env.VITE_OXFORD_APP_KEY;
+  const app_id = process.env.OXFORD_APP_ID;
+  const app_key = process.env.OXFORD_APP_KEY;
 
   const url =
     "https://od-api-sandbox.oxforddictionaries.com/api/v2/words/" +
