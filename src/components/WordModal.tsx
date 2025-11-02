@@ -33,13 +33,11 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [workbooks, setWorkbooks] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
 
   console.log(workbookName);
   console.log(setPronunciation);
 
   async function getEntryDetails() {
-    setLoading(true);
     try {
       let prefLang = await UserReaderWriter.getPreferredLanguage();
 
@@ -86,8 +84,6 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
       }
     } catch (err) {
       console.error("getEntryDetails error", err);
-    } finally {
-      setLoading(false);
     }
   }
 
