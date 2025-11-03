@@ -1,7 +1,7 @@
 import axios from "axios";
 import LanguageDetect from "languagedetect";
 
-const API_BASE = import.meta.env.VITE_LOCAL_BASE ?? ""; 
+const API_BASE = import.meta.env.VITE_LOCAL_BASE ?? "";
 
 const TranslationService = {
   async getTranslationAllLyrics(lyrics, toLanguage): Promise<any> {
@@ -39,7 +39,7 @@ const TranslationService = {
   async getSingleTranslation(word, fromLang, toLang): Promise<any> {
     console.log("API", API_BASE);
     return axios(
-     `${API_BASE}/api/singleTranslation?fromLang=` +
+      `${API_BASE}/api/singleTranslation?fromLang=` +
         fromLang +
         "&toLang=" +
         toLang +
@@ -64,9 +64,46 @@ const TranslationService = {
 
     const detectedLang = langDetector.detect(word, 1);
 
-    console.log("detected lang;", detectedLang)
+    console.log("detected lang;", detectedLang);
 
     return detectedLang[0][0].toString();
+  },
+  async filterTranslationData(data): Promise<string> {
+    const allTranslations = data.results.flatMap((result) =>
+      result.lexicalEntries.flatMap((lexicalEntry) =>
+        lexicalEntry.entries.flatMap((entry) => {
+          const entryTranslations = entry.translations
+            ? entry.translations.map((t) => t.text)
+            : [];
+
+          const senseTranslations = entry.senses
+            ? entry.senses.flatMap((sense) => {
+                const directSenseTranslations = sense.translations
+                  ? sense.translations.map((t) => t.text)
+                  : [];
+
+                const subsenseTranslations = sense.subsenses
+                  ? sense.subsenses.flatMap((subsense) =>
+                      subsense.translations.map((t) => t.text)
+                    )
+                  : [];
+
+                return [...directSenseTranslations, ...subsenseTranslations];
+              })
+            : [];
+
+          return [...entryTranslations, ...senseTranslations];
+        })
+      )
+    );
+
+    // Filter out any undefined or empty strings
+    const validTranslations = allTranslations.filter((t) => t);
+
+    // --- STEP 2: Limit the Array to the First Three Elements ---
+    const firstThreeTranslations = validTranslations.slice(0, 3);
+
+    return firstThreeTranslations;
   },
 };
 
