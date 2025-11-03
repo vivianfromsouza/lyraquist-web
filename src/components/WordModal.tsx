@@ -67,6 +67,13 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
             ?.text ?? ""
         );
+
+        if (songLang === "en") {
+        setPronunciation(
+          translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+            ?.pronunciations?.[0]?.audioFile ?? ""
+        );
+      }
       });
 
       // await TranslationService.filterTranslationData(translationResponse).then(
@@ -93,12 +100,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
       //   TranslationService.filterTranslationData(translationResponse);
 
       // set pronunciation last (so useSound / audio init can react)
-      if (songLang === "en") {
-        setPronunciation(
-          translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-            ?.pronunciations?.[0]?.audioFile ?? ""
-        );
-      }
+      
     } catch (err) {
       console.error("getEntryDetails error", err);
     }
