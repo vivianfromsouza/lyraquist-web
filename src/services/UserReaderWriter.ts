@@ -17,7 +17,6 @@ const UserReaderWriter = {
     userId: string,
     name: string,
     email: string,
-    password: string,
     preferredLanguage: string,
     targetLanguage: string
   ): Promise<boolean> {
@@ -26,7 +25,6 @@ const UserReaderWriter = {
       current_track: "1kCewNSs909Xj1naXr36X8",
       email: email,
       name: name,
-      password: password,
       preferred_language: preferredLanguage,
       target_language: targetLanguage,
       spotify_user: "",
