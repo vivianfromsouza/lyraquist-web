@@ -22,15 +22,13 @@ export default function SearchScreen() {
 
   const handleSearch = async () => {
     try {
-      setIsLoading(true); // Set loading state to true
+      setIsLoading(true);
       if (searchTerm.trim() === "") {
-        setSearchResults([]); // If search term is empty, clear search results
+        setSearchResults([]);
         return;
       }
-      // Fetch search results from Spotify
       const searchResultsData = await SearchSpotify.searchForSong(searchTerm);
       if (searchResultsData && searchResultsData.length > 0) {
-        // Format search results data
         const formattedData = searchResultsData.map((item) => ({
           artist:
             item.artists.length > 0 ? item.artists[0].name : "Unknown Artist",
@@ -59,7 +57,16 @@ export default function SearchScreen() {
   };
 
   useEffect(() => {
-    handleSearch();
+    const timer = setTimeout(() => {
+      if (searchTerm.trim() === "") {
+        setSearchResults([]);
+        return;
+      }
+
+      handleSearch();
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [searchTerm]);
 
   const renderSearchResultItem = ({ item }) => <SongCard item={item} />;
