@@ -45,43 +45,61 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
         prefLang = await UserReaderWriter.getTargetLanguage();
       }
 
-      const translationResponse = await TranslationService.getSingleTranslation(
+      await TranslationService.getSingleTranslation(
         word,
         songLang,
         prefLang
-      );
+      ).then(async (translationResponse) => {
+        const filteredTranslations =
+          await TranslationService.filterTranslationData(translationResponse);
+        setTranslation(filteredTranslations[0] ?? "");
 
-      setTranslation(
-        translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-          ?.senses?.[0]?.translations?.[0]?.text ?? ""
-      );
+        const definitionResponse = await DictionaryService.getDefinition(
+          filteredTranslations[0],
+          prefLang
+        );
 
-      const translationResult =
-        (await translationResponse?.results?.[0]?.lexicalEntries?.[0]
-          ?.entries?.[0]?.senses?.[0]?.translations?.[0]?.text) ?? "";
+        setDefinition(
+          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+            ?.senses?.[0]?.definitions?.[0] ?? ""
+        );
+        setPos(
+          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
+            ?.text ?? ""
+        );
 
-      // only call definition after we have a translation
-      const definitionResponse = await DictionaryService.getDefinition(
-        translationResult,
-        prefLang
-      );
+        if (songLang === "en") {
+          setPronunciation(
+            translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+              ?.pronunciations?.[0]?.audioFile ?? ""
+          );
+        }
+      });
 
-      setDefinition(
-        definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-          ?.senses?.[0]?.definitions?.[0] ?? ""
-      );
-      setPos(
-        definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
-          ?.text ?? ""
-      );
+      // await TranslationService.filterTranslationData(translationResponse).then(
+      //   async (filteredTranslations) => {
+      //     setTranslation(filteredTranslations[0] ?? "");
+
+      //     const definitionResponse = await DictionaryService.getDefinition(
+      //       filteredTranslations[0],
+      //       prefLang
+      //     );
+
+      //     setDefinition(
+      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+      //         ?.senses?.[0]?.definitions?.[0] ?? ""
+      //     );
+      //     setPos(
+      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]
+      //         ?.lexicalCategory?.text ?? ""
+      //     );
+      //   }
+      // );
+
+      // const filteredTranslations =
+      //   TranslationService.filterTranslationData(translationResponse);
 
       // set pronunciation last (so useSound / audio init can react)
-      if (songLang === "en") {
-        setPronunciation(
-          translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-            ?.pronunciations?.[0]?.audioFile ?? ""
-        );
-      }
     } catch (err) {
       console.error("getEntryDetails error", err);
     }
