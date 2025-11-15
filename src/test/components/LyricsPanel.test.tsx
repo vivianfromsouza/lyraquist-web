@@ -5,13 +5,6 @@ import { PlayerProvider } from "../../context/PlayerContext";
 
 const mockPlaySong = vi.fn();
 
-const mockLyricsResponse = {
-  // shape should match what LyricsPanel expects; adjust fields if necessary
-  lyrics: "these are the mock lyrics\nline two words",
-  language: "en",
-  synced: [], // or whatever the component expects
-};
-
 vi.mock("../../services/LyricsService", () => {
   return {
     __esModule: true,
@@ -22,7 +15,6 @@ vi.mock("../../services/LyricsService", () => {
 });
 
 vi.mock("../../context/PlayerContext", () => {
-  // simple synchronous mock — safe for hoisting
   return {
     __esModule: true,
     PlayerProvider: ({ children }: any) => children,
@@ -37,7 +29,6 @@ vi.mock("../../context/PlayerContext", () => {
     }),
   };
 });
-// minimal firebase mocks if component imports them
 vi.mock("firebase/app", () => ({
   initializeApp: vi.fn(() => ({ name: "mocked-app" })),
   getApps: vi.fn(() => [{ name: "mocked-app" }]),

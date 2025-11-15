@@ -35,7 +35,7 @@ import FlashcardScreen from "./screens/FlashcardsScreen";
 import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
 import { useLocalStorage } from "usehooks-ts";
-import LyricsToScreen from "./screens/LyricsToScreen";
+import LyricsPanel from "./components/LyricsPanel";
 import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
 import LocalFirebaseClient from "./services/firebase/LocalFirebaseClient";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
@@ -122,7 +122,7 @@ const App: React.FC = () => {
 
               <Route
                 path="/play/lyrics"
-                element={<LyricsToScreen currentTrack={""} />}
+                element={<LyricsPanel currentTrack={""} />}
               />
             </Route>
 
