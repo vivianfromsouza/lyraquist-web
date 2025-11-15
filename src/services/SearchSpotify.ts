@@ -4,14 +4,15 @@ import axios from "axios";
 import { refresh, checkRefreshNeeded } from "../services/spotifyAuth";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
 import LeoProfanity from "leo-profanity";
+import { profanity } from "../constants/ProjectConstants";
 
 const SearchSpotify = {
   async searchForSong(title: string): Promise<any> {
     const filter = LeoProfanity;
+    filter.add(profanity);
     const isProfanity = filter.check(title);
 
     if (isProfanity === true) {
-      console.log("Profanity detected in search term.");
       return [];
     }
 
