@@ -15,7 +15,7 @@ import {
 import UserReaderWriter from "../services/UserReaderWriter";
 import LyricsService from "../services/LyricsService";
 import TranslationService from "../services/TranslationService";
-import WordModal from "../components/WordModal";
+import WordModal from "./WordModal";
 
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
@@ -25,7 +25,7 @@ const getFontSize = (size) => size / fontScale;
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 // page contents, runs through on each render of page
-export default function LyricsToScreen({ currentTrack }) {
+export default function LyricsPanel({ currentTrack }) {
   //grabbing Song information from song playback
   const playlistItem = currentTrack;
   // songLang determined by examining song lyrics with detect later
@@ -63,7 +63,7 @@ export default function LyricsToScreen({ currentTrack }) {
 
   useEffect(() => {
     getLyrics();
-  }, []);
+  }, [currentTrack]);
 
   return (
     <View style={styles.container}>

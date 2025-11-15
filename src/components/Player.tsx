@@ -10,7 +10,7 @@ import {
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 // import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
-import LyricsToScreen from "../screens/LyricsToScreen";
+import LyricsPanel from "../components/LyricsPanel";
 // import RecordReaderWriter from "../services/RecordReaderWriter";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -566,7 +566,7 @@ const Player = () => {
             </View>
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
               {isLyricsOpen && (
-                <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
+                <LyricsPanel currentTrack={current_track}></LyricsPanel>
               )}
 
               {/* {isTranslationOpen && (
