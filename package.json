@@ -29,6 +29,7 @@
     "franc": "^6.2.0",
     "iso-639-3": "^3.0.1",
     "languagedetect": "^2.0.0",
+    "leo-profanity": "^1.8.0",
     "primereact": "^10.9.2",
     "react": "19.2.0",
     "react-art": "^19.1.0",
