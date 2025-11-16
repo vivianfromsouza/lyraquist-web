@@ -13,8 +13,6 @@ import {
 import { ArrowBackOutline } from "react-ionicons";
 
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth, updateEmail } from "firebase/auth";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
 import { useNavigate } from "react-router-dom";
@@ -30,8 +28,6 @@ export default function ProfileInfoScreen() {
   const [newName, setNewName] = useState<string>("");
   const [email, setEmail] = useState<string>();
   const [newEmail, setNewEmail] = useState<string>("");
-
-  const auth = getAuth(LocalFirebaseClient);
   const { handleSignOut } = useFirebase();
 
   // function handleSignOut() {
@@ -60,19 +56,35 @@ export default function ProfileInfoScreen() {
   // calls UserReaderWriter to write email change to DB
   async function changeEmail() {
     if (newEmail.includes("@")) {
-      updateEmail(auth.currentUser!, newEmail.trim())
+      await UserReaderWriter.writeUserEmail(newEmail.trim())
         .then(() => {
           toast(
             "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
           );
-          navigate("/login");
-          handleSignOut();
+
+          setTimeout(() => {
+            handleSignOut();
+            navigate("/login");
+          }, 4000);
         })
         .catch((error) => {
-          // An error occurred
-          // ...
-          console.log(error)
+          console.log(error);
         });
+      // updateEmail(auth.currentUser!, newEmail.trim())
+      //   .then(() => {
+      //     toast(
+      //       "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
+      //     );
+      //     navigate("/login");
+      //     handleSignOut();
+      //   })
+      //   .catch((error) => {
+      //     // An error occurred
+      //     // ...
+      //     console.log(error)
+      //   });
+      // navigate("/login");
+      // handleSignOut();
     } else {
       toast(
         "Invalid email address. Please check the email field and try again."
@@ -231,7 +243,7 @@ export default function ProfileInfoScreen() {
             //marginStart: 250,
             borderRadius: 10,
             marginTop: 5,
-            marginHorizontal:100
+            marginHorizontal: 100,
           }}
           onPress={changeUsername}
           accessibilityLabel="changeName"
@@ -262,12 +274,7 @@ export default function ProfileInfoScreen() {
           Email
         </Text>
         <View style={styles.border}>
-          <View
-            style={[
-              styles.rows,
-              { paddingRight: 10, gap: 10,},
-            ]}
-          >
+          <View style={[styles.rows, { paddingRight: 10, gap: 10 }]}>
             <Text
               style={{
                 fontSize: 20,
@@ -317,7 +324,7 @@ export default function ProfileInfoScreen() {
             //marginStart: 250,
             borderRadius: 10,
             marginTop: 5,
-            marginHorizontal:100
+            marginHorizontal: 100,
           }}
           onPress={changeEmail}
         >

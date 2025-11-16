@@ -10,7 +10,6 @@ import SignUpScreen from "./screens/SignUpScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SpotifyAuthScreen from "./screens/SpotifyAuthScreen";
 import HomeScreen from "./screens/HomeScreen";
-// import PlaybackScreen from "./screens/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
 import AboutScreen from "./screens/AboutScreen";
 import FrenchScreen from "./screens/FrenchScreen";
@@ -32,6 +31,8 @@ import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
+import ReauthCredentialsScreen from "./screens/ReauthCredentialsScreen";
+import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
 import { useLocalStorage } from "usehooks-ts";
@@ -91,6 +92,15 @@ const App: React.FC = () => {
               <Route path="/account" element={<AccountSettings />} />
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/profile" element={<ProfileInfoScreen />} />
+              <Route
+                path="/settings/reauth"
+                element={<ReauthCredentialsScreen />}
+              />
+              <Route
+                path="/settings/change-password"
+                element={<ChangePasswordScreen />}
+              />
+
               <Route path="/language/french" element={<FrenchScreen />} />
               <Route path="/language/german" element={<GermanScreen />} />
               <Route path="/language/spanish" element={<SpanishScreen />} />
@@ -128,20 +138,13 @@ const App: React.FC = () => {
 
             <Route
               index
-              element={
-                user !== null ? (
-                  <HomeScreen />
-                ) : (
-                  <StartScreen />
-                )
-              }
+              element={user !== null ? <HomeScreen /> : <StartScreen />}
             />
             <Route path="/signUp" element={<SignUpScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/spotifyAuth" element={<SpotifyAuthScreen />} />
           </Routes>
         </BrowserRouter>
-
       </PlayerProvider>
     </FirebaseProvider>
   );
