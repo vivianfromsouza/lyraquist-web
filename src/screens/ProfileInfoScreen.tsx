@@ -13,8 +13,6 @@ import {
 import { ArrowBackOutline } from "react-ionicons";
 
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth } from "firebase/auth";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
 import { useNavigate } from "react-router-dom";
