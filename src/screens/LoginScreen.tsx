@@ -40,7 +40,6 @@ const LoginScreen: React.FC = () => {
           const user = userCredential.user.uid;
           localStorage.setItem("current_user", user);
           redirectToSpotifyAuthorize();
-          //navigate("/SpotifyAuth");
         })
         .catch((error) => {
           const errorMessage = error.message;

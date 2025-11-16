@@ -86,39 +86,7 @@ export default function AccountSettings() {
   }
 
   async function changePassword() {
-    if (password!.trim().length < 6) {
-      toast(
-        "Password is too short. Password must be at least 6 characters long."
-      );
-    } else if (password == confirmPassword) {
-      updatePassword(auth.currentUser!, password)
-        .then(() => {
-          toast(
-            "Password changed successfully! You will now need to sign-in again with your new password."
-          );
-          navigate("/login");
-
-          handleSignOut();
-        })
-        .catch((error) => {
-          toast(
-            "Could not change password. Need recent login. Please log out, sign in, and try again."
-          );
-          console.log("Error changing password: ", error);
-        });
-
-      // await UserReaderWriter.writeUserPassword(password!.trim()).then(
-      //   (result) => {
-      //     if (result) {
-      //       toast(
-      //         "Password changed successfully! You will now need to sign-in again with your new password."
-      //       );
-      //     }
-      //   }
-      // );
-    } else {
-      toast("Passwords don't match. Please try again.");
-    }
+    navigate("/settings/reauth");
   }
 
   async function changePreferredLanguage() {
@@ -155,7 +123,6 @@ export default function AccountSettings() {
     });
   }
 
-  // modal prompting user to confirm delete
   const deleteAlert = () => {
     toast(
       name +
@@ -202,13 +169,6 @@ export default function AccountSettings() {
               style={{ alignSelf: "center", flex: 1 }}
               onPress={() => navigate(-1)}
             >
-              {/* <Ionicons
-                style={{}}
-                name="arrow-back"
-                size={40}
-                color="#e8e1db"
-              /> */}
-
               <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
             </Pressable>
             <Image
@@ -271,48 +231,9 @@ export default function AccountSettings() {
               color: "#ff4a2a",
             }}
           >
-            Password
+            Change Password
           </Text>
-          <View style={styles.border}>
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                New Password:
-              </Text>
-              <TextInput
-                placeholder="Type Here"
-                value={password}
-                onChangeText={setPassword}
-                autoCapitalize="none"
-                secureTextEntry
-                style={{ fontSize: 20, color: "gray" }}
-              />
-            </View>
-            <View style={styles.divider} />
 
-            <View style={styles.rows}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "gray",
-                }}
-              >
-                Confirm new Password:
-              </Text>
-              <TextInput
-                placeholder="Type Here"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                autoCapitalize="none"
-                secureTextEntry
-                style={{ fontSize: 20, color: "gray" }}
-              />
-            </View>
-          </View>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <Pressable
               style={{
@@ -341,7 +262,7 @@ export default function AccountSettings() {
           </View>
         </View>
 
-        <View style={{zIndex: 10000}}>
+        <View style={{ zIndex: 10000 }}>
           <Text
             style={{
               fontSize: 25,

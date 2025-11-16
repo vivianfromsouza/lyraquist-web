@@ -1,8 +1,4 @@
-import {
-  deleteUser,
-  getAuth,
-  verifyBeforeUpdateEmail,
-} from "firebase/auth";
+import { deleteUser, getAuth, verifyBeforeUpdateEmail } from "firebase/auth";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import LocalFirebaseClient from "./firebase/LocalFirebaseClient";
 import { getDatabase, ref, set } from "firebase/database";
@@ -60,21 +56,24 @@ const UserReaderWriter = {
   },
 
   async writeUserEmail(newEmail: string) {
-    verifyBeforeUpdateEmail(auth.currentUser!, newEmail)
-      .then(async () => {
-        const { error } = await LocalSupabaseClient.from("users")
-          .update({ email: newEmail })
-          .eq("user_id", currentUser);
-        console.log(error);
-        console.log("email sent");
-        return true;
-      })
-      .catch((error: string) => {
-        console.log(error);
-        return false;
-      });
+    try {
+      await verifyBeforeUpdateEmail(auth.currentUser!, newEmail);
+      console.log("Verification email sent");
 
-    return true;
+      const { error } = await LocalSupabaseClient.from("users")
+        .update({ email: newEmail })
+        .eq("user_id", currentUser);
+
+      if (error) {
+        console.log("Supabase error:", error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.log("Error updating email:", error);
+      return false;
+    }
   },
 
   // async writeUserPassword(newPassword: string) {
@@ -106,7 +105,7 @@ const UserReaderWriter = {
     return data["preferred_language"];
   },
 
-  async setPreferredLanguage(lang: (string | undefined)) {
+  async setPreferredLanguage(lang: string | undefined) {
     const { error } = await LocalSupabaseClient.from("users")
       .update({ preferred_language: lang })
       .eq("user_id", currentUser);
@@ -122,7 +121,7 @@ const UserReaderWriter = {
     return data["target_language"];
   },
 
-    async setTargetLanguage(lang: string | undefined) {
+  async setTargetLanguage(lang: string | undefined) {
     const { error } = await LocalSupabaseClient.from("users")
       .update({ target_language: lang })
       .eq("user_id", currentUser);
@@ -192,9 +191,9 @@ const UserReaderWriter = {
         console.log("User deleted successfully");
       })
       .catch((error) => {
-       console.log("Error deleting user:", error);
+        console.log("Error deleting user:", error);
       });
-      
+
     const response = await LocalSupabaseClient.from("users")
       .delete()
       .eq("user_id", currentUser);
