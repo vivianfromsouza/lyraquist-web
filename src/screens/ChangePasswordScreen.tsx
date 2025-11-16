@@ -10,11 +10,7 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  updatePassword,
-} from "firebase/auth";
+import { getAuth, updatePassword } from "firebase/auth";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";

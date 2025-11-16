@@ -10,28 +10,18 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  updatePassword,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { useFirebase } from "../services/firebase/FirebaseContext";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ReauthCredentialsScreen() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>();
-
-  const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
-  const { handleSignOut } = useFirebase();
 
   async function authenticate() {
     if (email && password) {

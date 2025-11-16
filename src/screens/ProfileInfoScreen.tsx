@@ -13,14 +13,13 @@ import {
 import { ArrowBackOutline } from "react-ionicons";
 
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth, updateEmail } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { ImageSourcePropType } from "react-native";
 import yellowLogo from "../assets/yellow_small.png";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
-import { User } from "feather-icons-react";
 
 const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ProfileInfoScreen() {
@@ -31,8 +30,6 @@ export default function ProfileInfoScreen() {
   const [newName, setNewName] = useState<string>("");
   const [email, setEmail] = useState<string>();
   const [newEmail, setNewEmail] = useState<string>("");
-
-  const auth = getAuth(LocalFirebaseClient);
   const { handleSignOut } = useFirebase();
 
   // function handleSignOut() {

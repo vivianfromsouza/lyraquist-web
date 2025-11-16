@@ -7,12 +7,11 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
-  TextInput,
   Image,
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 // import auth from "@react-native-firebase/auth";
-import { getAuth, updatePassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { ArrowBackOutline } from "react-ionicons";
 import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
@@ -32,13 +31,10 @@ export default function AccountSettings() {
   const [openPref, setOpenPref] = useState(false);
   const [openTarget, setOpenTarget] = useState(false);
   const [name, setName] = useState<string>();
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>();
   const [prefLang, setPrefLang] = useState<string>();
   const [targetLang, setTargetLang] = useState<string>();
   const [newPrefLang, setNewPrefLang] = useState<any>();
   const [newTargetLang, setNewTargetLang] = useState<any>();
-  const auth = getAuth(LocalFirebaseClient);
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
 
