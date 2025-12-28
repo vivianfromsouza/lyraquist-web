@@ -11,6 +11,8 @@ import {
 } from "../constants/SpotifyConstants";
 import { toast } from "react-toastify";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
+import SpotifyPlaylist from "./SpotifyPlaylist";
+import PlaylistReaderWriter from "./PlaylistReaderWriter";
 
 // Function to redirect to Spotify authorization page
 export const redirectToSpotifyAuthorize = async () => {
@@ -33,9 +35,6 @@ export const redirectToSpotifyAuthorize = async () => {
   authUrl.search = new URLSearchParams(params).toString();
   // Redirect to Spotify authorization page
   window.location.href = authUrl.toString();
-  console.log(
-    "Redirecting to Spotify authorization page...:" + authUrl.toString()
-  );
 };
 
 export const getSpotifyAuthCode = async () => {
@@ -88,7 +87,6 @@ export const getSpotifyAccessCode = async () => {
     data: {},
   })
     .then(async (response) => {
-      console.log("RETRIEVING...");
       console.log(response.data.access_token);
       accessCode = response.data.access_token;
 

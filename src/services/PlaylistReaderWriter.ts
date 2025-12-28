@@ -15,6 +15,14 @@ const PlaylistReaderWriter = {
     return data;
   },
 
+  async getMyPlaylistNames() {
+    const { data } = await LocalSupabaseClient.from("playlists")
+      .select("name")
+      .eq("user_id", currentUser)
+      .throwOnError();
+    return data;
+  },
+
   async createPlaylist(
     playlistName: string,
     description = "",

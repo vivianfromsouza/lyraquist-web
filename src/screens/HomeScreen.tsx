@@ -29,6 +29,7 @@ import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
+import SpotifyPlaylist from "../services/SpotifyPlaylist";
 
 let counter = 0;
 // TODO: FIx font sizing here
@@ -44,7 +45,6 @@ const HomeScreen: React.FC = () => {
   const [savedSongs, setSavedSongs] = useState<any[] | null>([]);
   const [workbooksList, setWorkbooksList] = useState<any[] | null>([]);
   const [loadingScreen, setLoadingScreen] = useState(false); // only one that you set it to false initially
-
   const { currentUser } = useFirebase();
 
   const navigate = useNavigate();
@@ -52,7 +52,6 @@ const HomeScreen: React.FC = () => {
 
   function getUsername() {
     // setLoadingScreen(true);
-
     UserReaderWriter.getUserName().then((name) => setUsername(name));
   }
 
@@ -89,6 +88,30 @@ const HomeScreen: React.FC = () => {
     counter += 1;
     // isLoading(false);
     // setLoadingScreen(false);
+  }
+  async function syncPlaylists() {
+    await SpotifyPlaylist.getUserPlaylists().then(async (playlists) => {
+      const lyraquistPlaylists =
+        await PlaylistReaderWriter.getMyPlaylistNames();
+      const spotifyPlaylists = playlists;
+      const notInLyrquist = spotifyPlaylists.filter((spoPlaylist) => {
+        return !lyraquistPlaylists.some(
+          (lyrPlaylist) => lyrPlaylist.name === spoPlaylist["name"]
+        );
+      });
+
+      let list = "";
+      for (list in notInLyrquist) {
+        await PlaylistReaderWriter.createPlaylistFromSpotify(
+          notInLyrquist[list]
+        ).then(async (playID) => {
+          await SpotifyPlaylist.downloadSongsDetails(
+            playID,
+            notInLyrquist[list]["id"]
+          );
+        });
+      }
+    });
   }
 
   async function getSongs() {
@@ -129,12 +152,6 @@ const HomeScreen: React.FC = () => {
     const value = window.localStorage.getItem("isLoggedIn");
     console.log(value ? JSON.parse(value) : null);
   });
-
-  // useEffect(() => {
-  //   console.log("once");
-  //   getSpotifyAuthCode();
-  //   getSpotifyAccessCode();
-  // }, []);
 
   useEffect(() => {
     if (currentUser) {
@@ -205,19 +222,20 @@ const HomeScreen: React.FC = () => {
         //   )
         //   .subscribe();
 
-        // const handlePlaylistInserts = (payload) => {
-        //   getPlaylists();
-        // };
+        const handlePlaylistInserts = (payload) => {
+          getPlaylists();
+        };
 
         getPlaylists();
+        syncPlaylists();
 
-        // LocalSupabaseClient.channel("playlists")
-        //   .on(
-        //     "postgres_changes",
-        //     { event: "INSERT", schema: "public", table: "playlists" },
-        //     handlePlaylistInserts
-        //   )
-        //   .subscribe((status) => console.log("P:" + status));
+        LocalSupabaseClient.channel("playlists")
+          .on(
+            "postgres_changes",
+            { event: "INSERT", schema: "public", table: "playlists" },
+            handlePlaylistInserts
+          )
+          .subscribe((status) => console.log("P:" + status));
 
         // whenever a song is added or deleted, the home screen will update with new set of songs
         const handleRecordInserts = (payload) => {
@@ -235,11 +253,28 @@ const HomeScreen: React.FC = () => {
           )
           .subscribe((status) => console.log(status));
 
-        // UserReaderWriter.getCurrentTrackDetails().then((track) => {
-        //   console.log("CURR TRACK:");
-        //   console.log(track);
-        // });
-        // setLoadingScreen(false);
+        UserReaderWriter.getSpotifyUserId();
+
+        // SpotifyPlaylist.getUserPlaylists().then(
+        //   async (playlists) => {
+        //     console.log("from spotify", playlists);
+        //     // for (let i = 0; i < playlists.length(); i++) {
+        //     //   const isInPlaylistDB = await PlaylistReaderWriter.isPlaylistInDB(
+        //     //     playlists[i].id
+        //     //   );
+        //     //   if (!isInPlaylistDB) {
+        //     //     const playID = await PlaylistReaderWriter.createPlaylistFromSpotify(
+        //     //       playlists[i]
+        //     //     );
+        //     //     console.log(playlists[i].name);
+        //     //     await SpotifyPlaylist.downloadSongsDetails(
+        //     //       playID,
+        //     //       playlists[i].id
+        //     //     );
+        //     //   }
+        //     // }
+        //   }
+        // );
       } catch (err) {
         console.log(err);
       }

@@ -2,6 +2,7 @@ import { deleteUser, getAuth, verifyBeforeUpdateEmail } from "firebase/auth";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import LocalFirebaseClient from "./firebase/LocalFirebaseClient";
 import { getDatabase, ref, set } from "firebase/database";
+import { faSignLanguage } from "@fortawesome/free-solid-svg-icons";
 
 const currentUser = localStorage.getItem("current_user");
 const auth = getAuth(LocalFirebaseClient);
@@ -163,10 +164,11 @@ const UserReaderWriter = {
   async getSpotifyUserId() {
     const { data, error } = await LocalSupabaseClient.from("users")
       .select("spotify_user")
-      .eq("user_id", currentUser);
+      .eq("user_id", currentUser)
+      .single();
+      console.log("data", data)
     console.log(error);
-
-    return data!["spotify_user"];
+    return data;
   },
 
   async writeSpotifyUserId(spotifyUser: string) {
