@@ -58,8 +58,9 @@ const PrivateRoutes = () => {
 };
 
 const App: React.FC = () => {
-  const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-  const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
+    // const { isAuthenticated, loading } = useFirebaseAuth();
+
+  // const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
   const [user, setUser] = useState<User | null>(auth.currentUser);
 
   useEffect(() => {
@@ -67,11 +68,11 @@ const App: React.FC = () => {
       setUser(firebaseUser);
     });
     return unsubscribe;
-  }, [value]);
+  }, []);
 
   return (
     <FirebaseProvider>
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={user !== null}>
         <BrowserRouter>
           <Routes>
             <Route element={<PrivateRoutes />}>

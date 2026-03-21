@@ -10,12 +10,13 @@ interface PlayerContextType {
   isPaused: boolean;
   isActive: boolean;
   currentTrack: any;
+  isAuthenticated: boolean;
 }
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
-export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
+export const PlayerProvider: React.FC<{ children: React.ReactNode, isAuthenticated: boolean }> = ({
+  children, isAuthenticated
 }) => {
   const [isPaused] = useState(true);
   const [isActive] = useState(false);
@@ -113,10 +114,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         isPaused,
         isActive,
         currentTrack,
+        isAuthenticated
       }}
     >
       {children}
-      <Player /> {/* Render the Player component */}
+      {isAuthenticated && <Player />}
     </PlayerContext.Provider>
   );
 };
