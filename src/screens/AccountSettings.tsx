@@ -12,8 +12,7 @@ import UserReaderWriter from "../services/UserReaderWriter";
 //   Image,
 // } from "react-native";
 // import auth from "@react-native-firebase/auth";
-import { ArrowBackOutline } from "react-ionicons";
-import { ImageSourcePropType } from "react-native";
+
 import redLogo from "../assets/red_small.png";
 import { useNavigate } from "react-router-dom";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -195,34 +194,11 @@ export default function AccountSettings() {
           </View>
         </View>
 
-<<<<<<< HEAD
         <View style={settingStyles.zIndexValue}>
           <Text style={settingStyles.settingTitle}>Preferred Language</Text>
           <View style={settingStyles.border}>
             <View style={settingStyles.settingCol}>
               <Text style={settingStyles.settingText}>Current Language:</Text>
-=======
-        <View style={{ zIndex: 10000 }}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              marginHorizontal: 20,
-              marginTop: 20,
-              color: "#ff4a2a",
-            }}
-          >
-            Preferred Language
-          </Text>
-          <View style={styles.border}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 10,
-              }}
-            >
->>>>>>> main
               <Text
                 style={settingStyles.currentTxt}
                 accessibilityLabel="preferredLanguage"
