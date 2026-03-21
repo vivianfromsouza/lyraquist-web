@@ -8,9 +8,13 @@ import {
   TextInput,
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth, updatePassword } from "firebase/auth";
+// import { getAuth, updatePassword } from "firebase/auth";
+//   Image,
+// } from "react-native";
+// import auth from "@react-native-firebase/auth";
+import { ArrowBackOutline } from "react-ionicons";
+import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
 import DropDownPicker from "react-native-dropdown-picker";
 import { toast, ToastContainer } from "react-toastify";
@@ -23,13 +27,13 @@ export default function AccountSettings() {
   const [openPref, setOpenPref] = useState(false);
   const [openTarget, setOpenTarget] = useState(false);
   const [name, setName] = useState<string>();
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>();
   const [prefLang, setPrefLang] = useState<string>();
   const [targetLang, setTargetLang] = useState<string>();
   const [newPrefLang, setNewPrefLang] = useState<any>();
   const [newTargetLang, setNewTargetLang] = useState<any>();
-  const auth = getAuth(LocalFirebaseClient);
+  const [password, setPassword] = useState<any>();
+  const [confirmPassword, setConfirmPassword] = useState<any>();
+
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
 
@@ -70,39 +74,7 @@ export default function AccountSettings() {
   }
 
   async function changePassword() {
-    if (password!.trim().length < 6) {
-      toast(
-        "Password is too short. Password must be at least 6 characters long."
-      );
-    } else if (password == confirmPassword) {
-      updatePassword(auth.currentUser!, password)
-        .then(() => {
-          toast(
-            "Password changed successfully! You will now need to sign-in again with your new password."
-          );
-          navigate("/login");
-
-          handleSignOut();
-        })
-        .catch((error) => {
-          toast(
-            "Could not change password. Need recent login. Please log out, sign in, and try again."
-          );
-          console.log("Error changing password: ", error);
-        });
-
-      // await UserReaderWriter.writeUserPassword(password!.trim()).then(
-      //   (result) => {
-      //     if (result) {
-      //       toast(
-      //         "Password changed successfully! You will now need to sign-in again with your new password."
-      //       );
-      //     }
-      //   }
-      // );
-    } else {
-      toast("Passwords don't match. Please try again.");
-    }
+    navigate("/settings/reauth");
   }
 
   async function changePreferredLanguage() {
@@ -223,11 +195,34 @@ export default function AccountSettings() {
           </View>
         </View>
 
+<<<<<<< HEAD
         <View style={settingStyles.zIndexValue}>
           <Text style={settingStyles.settingTitle}>Preferred Language</Text>
           <View style={settingStyles.border}>
             <View style={settingStyles.settingCol}>
               <Text style={settingStyles.settingText}>Current Language:</Text>
+=======
+        <View style={{ zIndex: 10000 }}>
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              marginHorizontal: 20,
+              marginTop: 20,
+              color: "#ff4a2a",
+            }}
+          >
+            Preferred Language
+          </Text>
+          <View style={styles.border}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 10,
+              }}
+            >
+>>>>>>> main
               <Text
                 style={settingStyles.currentTxt}
                 accessibilityLabel="preferredLanguage"

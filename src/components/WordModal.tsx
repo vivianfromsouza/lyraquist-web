@@ -29,44 +29,71 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   console.log(setPronunciation);
 
   async function getEntryDetails() {
-    let prefLang = await UserReaderWriter.getPreferredLanguage();
+    try {
+      let prefLang = await UserReaderWriter.getPreferredLanguage();
 
-    if (prefLang === songLang) {
-      prefLang = await UserReaderWriter.getTargetLanguage();
+      if (prefLang === songLang) {
+        prefLang = await UserReaderWriter.getTargetLanguage();
+      }
+
+      await TranslationService.getSingleTranslation(
+        word,
+        songLang,
+        prefLang
+      ).then(async (translationResponse) => {
+        const filteredTranslations =
+          await TranslationService.filterTranslationData(translationResponse);
+        setTranslation(filteredTranslations[0] ?? "");
+
+        const definitionResponse = await DictionaryService.getDefinition(
+          filteredTranslations[0],
+          prefLang
+        );
+
+        setDefinition(
+          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+            ?.senses?.[0]?.definitions?.[0] ?? ""
+        );
+        setPos(
+          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
+            ?.text ?? ""
+        );
+
+        if (songLang === "en") {
+          setPronunciation(
+            translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+              ?.pronunciations?.[0]?.audioFile ?? ""
+          );
+        }
+      });
+
+      // await TranslationService.filterTranslationData(translationResponse).then(
+      //   async (filteredTranslations) => {
+      //     setTranslation(filteredTranslations[0] ?? "");
+
+      //     const definitionResponse = await DictionaryService.getDefinition(
+      //       filteredTranslations[0],
+      //       prefLang
+      //     );
+
+      //     setDefinition(
+      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
+      //         ?.senses?.[0]?.definitions?.[0] ?? ""
+      //     );
+      //     setPos(
+      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]
+      //         ?.lexicalCategory?.text ?? ""
+      //     );
+      //   }
+      // );
+
+      // const filteredTranslations =
+      //   TranslationService.filterTranslationData(translationResponse);
+
+      // set pronunciation last (so useSound / audio init can react)
+    } catch (err) {
+      console.error("getEntryDetails error", err);
     }
-
-    const translationResponse = await TranslationService.getSingleTranslation(
-      word,
-      songLang,
-      prefLang
-    );
-
-    const translation =
-      (await translationResponse?.results?.[0]?.lexicalEntries?.[0]
-        ?.entries?.[0]?.senses?.[0]?.translations?.[0]?.text) ?? "";
-
-    setTranslation(translation);
-
-    if (songLang === "en") {
-      setPronunciation(
-        translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-          ?.pronunciations?.[0]?.audioFile ?? ""
-      );
-    }
-
-    const definitionResponse = await DictionaryService.getDefinition(
-      translation,
-      prefLang
-    );
-
-    setDefinition(
-      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-        ?.senses?.[0]?.definitions?.[0] ?? ""
-    );
-    setPos(
-      definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
-        ?.text ?? ""
-    );
   }
 
   async function getWorkbooks() {
@@ -143,7 +170,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
     getWorkbooks();
 
     getEntryDetails();
-  }, [pronunciation]);
+  }, [openModal, word, songLang]);
 
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>

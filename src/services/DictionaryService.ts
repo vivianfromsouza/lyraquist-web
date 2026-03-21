@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const API_BASE = import.meta.env.VITE_LOCAL_BASE ?? "";
+
 const DictionaryService = {
   async getDefinition(word, fromLang): Promise<any> {
     return axios(
-      "http://localhost:3000/api/dictionaryLookup?word=" +
+      `${API_BASE}/api/dictionaryLookup?word=` +
         word +
         "&fromLang=" +
         fromLang

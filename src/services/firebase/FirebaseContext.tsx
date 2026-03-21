@@ -20,32 +20,20 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<string>();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useLocalStorage("isLoggedIn", "false");
-  console.log(value)
-
-  // function login(email, password) {
-  //   return signInWithEmailAndPassword(auth, email, password);
-  // }
+  // console.log(value);
 
   function handleSignOut() {
     signOut(auth)
       .then(() => {
         setValue("false");
 
-        console.log("SIGNED OUT");
         localStorage.setItem("isLoggedIn", "false");
+        console.log("SIGNED OUT", value);
       })
       .catch((error) => {
         console.log(error);
       });
   }
-
-  //   function signUp(email, password) {
-  //     return auth.createUserWithEmailAndPassword(email, password);
-  //   }
-
-  // function getUser() {
-  //   return auth.currentUser;
-  // }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {

@@ -101,7 +101,6 @@ export default function SignUpScreen() {
               auth.currentUser!.uid,
               name!.trim(),
               email!.trim(),
-              password!.trim(),
               preferredLanguage!,
               targetLanguage!
             );

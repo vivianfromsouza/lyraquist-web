@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -9,7 +9,6 @@ import {
 import SignUpScreen from "./screens/SignUpScreen";
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen";
-// import PlaybackScreen from "./screens/PlaybackScreen";
 import { FirebaseProvider } from "./services/firebase/FirebaseContext";
 import AboutScreen from "./screens/AboutScreen";
 import SearchLanguageScreen from "./screens/SearchLanguageScreen";
@@ -28,35 +27,51 @@ import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
+import ReauthCredentialsScreen from "./screens/ReauthCredentialsScreen";
+import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
-import { useLocalStorage } from "usehooks-ts";
-import LyricsToScreen from "./screens/LyricsToScreen";
+import LyricsPanel from "./components/LyricsPanel";
 import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
 import LanguageScreen from "./screens/LanguageScreen";
+import LocalFirebaseClient from "./services/firebase/LocalFirebaseClient";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+
+const auth = getAuth(LocalFirebaseClient);
 
 const PrivateRoutes = () => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  return isLoggedIn == "true" ? <Outlet /> : <Navigate to="/login" />;
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
 const App: React.FC = () => {
-  const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-  const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
+    // const { isAuthenticated, loading } = useFirebaseAuth();
+
+  // const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
+  const [user, setUser] = useState<User | null>(auth.currentUser);
 
   useEffect(() => {
-    console.log("useLocalStorage value:", value);
-    // This effect will run after the component mounts and after every update.
-    // Simulate an async operation
-  }, [value]);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+    return unsubscribe;
+  }, []);
 
   return (
-    <PlayerProvider>
-      <FirebaseProvider>
+    <FirebaseProvider>
+      <PlayerProvider isAuthenticated={user !== null}>
         <BrowserRouter>
           <Routes>
             <Route element={<PrivateRoutes />}>
-              {/* Do I need home here as well? */}
               <Route path="/home" element={<HomeScreen />} />
               {/* <Route path="/play" element={<PlaybackScreen />} /> */}
               <Route path="/about" element={<AboutScreen />} />
@@ -104,6 +119,18 @@ const App: React.FC = () => {
                 }
               />
               <Route
+                path="/settings/reauth"
+                element={<ReauthCredentialsScreen />}
+              />
+              <Route
+                path="/settings/change-password"
+                element={<ChangePasswordScreen />}
+              />
+
+              <Route path="/language/french" element={<LanguageScreen albumId={"3eZtF5y5PJX4YpexhHC8dG"} language={"french"}/>} />
+              <Route path="/language/german" element={<LanguageScreen albumId={"6zLZxgKlwFf3C755i2Phmx"} language={"german"}/>} />
+              <Route path="/language/spanish" element={<LanguageScreen albumId={"1aUgRQqdbCliLVgktVY1yG"} language={"spanish"}/>} />
+              <Route
                 path="SearchLanguages"
                 element={<SearchLanguageScreen />}
               />
@@ -131,22 +158,20 @@ const App: React.FC = () => {
 
               <Route
                 path="/play/lyrics"
-                element={<LyricsToScreen currentTrack={""} />}
+                element={<LyricsPanel currentTrack={""} />}
               />
             </Route>
 
             <Route
               index
-              element={value === "false" ? <StartScreen /> : <HomeScreen />}
+              element={user !== null ? <HomeScreen /> : <StartScreen />}
             />
             <Route path="/signUp" element={<SignUpScreen />} />
             <Route path="/login" element={<LoginScreen />} />
           </Routes>
         </BrowserRouter>
-
-        {/* {localStorage.getItem("isLoggedIn") == "true" ? <Player /> : <></>} */}
-      </FirebaseProvider>
-    </PlayerProvider>
+      </PlayerProvider>
+    </FirebaseProvider>
   );
 };
 

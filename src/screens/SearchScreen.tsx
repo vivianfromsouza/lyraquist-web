@@ -56,7 +56,16 @@ export default function SearchScreen() {
   };
 
   useEffect(() => {
-    handleSearch();
+    const timer = setTimeout(() => {
+      if (searchTerm.trim() === "") {
+        setSearchResults([]);
+        return;
+      }
+
+      handleSearch();
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [searchTerm]);
 
   const renderSearchResultItem = ({ item }) => <SongCard item={item} />;

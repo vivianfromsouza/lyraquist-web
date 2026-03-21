@@ -8,15 +8,17 @@ import {
   refresh,
 } from "../services/spotifyAuth";
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
-import { useLocalStorage } from "usehooks-ts";
+// import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
-import LyricsToScreen from "../screens/LyricsToScreen";
+import LyricsPanel from "../components/LyricsPanel";
 // import RecordReaderWriter from "../services/RecordReaderWriter";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import playerStyles from "../styles/PlayerStyles";
+import { getAuth, User } from "firebase/auth";
+import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -41,8 +43,9 @@ const Player = () => {
   const [player, setPlayer] = useState<PlayerType>(defaultPlayer);
   const [device_id, setDeviceId] = useState("abc");
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
+  // const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const auth = getAuth(LocalFirebaseClient);
+  const [value] = useState<User | null>(auth.currentUser);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -333,9 +336,9 @@ const Player = () => {
       setActive(false);
       pausePlayback();
     }
-  }, [isLoggedIn]);
+  }, [value]);
 
-  if (value === "false") {
+  if (value === null) {
     return <> </>;
   } else if (!is_active) {
     return (
@@ -485,7 +488,7 @@ const Player = () => {
             </View>
             <View style={playerStyles.lyricsScroll}>
               {isLyricsOpen && (
-                <LyricsToScreen currentTrack={current_track}></LyricsToScreen>
+                <LyricsPanel currentTrack={current_track}></LyricsPanel>
               )}
 
               {/* {isTranslationOpen && (

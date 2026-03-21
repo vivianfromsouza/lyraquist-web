@@ -9,3 +9,5 @@ export const dropdownLanguages = languages.map((lang) => ({
   label: lang.language,
   value: lang.code,
 }));
+
+export const profanity = ["fuc"];

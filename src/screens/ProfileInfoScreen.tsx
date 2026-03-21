@@ -2,8 +2,6 @@
 import { useState, useEffect } from "react";
 import { View, Text, ScrollView, Pressable, TextInput } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
-import { getAuth, updateEmail } from "firebase/auth";
-import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import redLogo from "../assets/red_small.png";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,8 +15,6 @@ export default function ProfileInfoScreen() {
   const [newName, setNewName] = useState<string>("");
   const [email, setEmail] = useState<string>();
   const [newEmail, setNewEmail] = useState<string>("");
-
-  const auth = getAuth(LocalFirebaseClient);
   const { handleSignOut } = useFirebase();
 
   async function changeUsername() {
@@ -32,17 +28,35 @@ export default function ProfileInfoScreen() {
 
   async function changeEmail() {
     if (newEmail.includes("@")) {
-      updateEmail(auth.currentUser!, newEmail.trim())
+      await UserReaderWriter.writeUserEmail(newEmail.trim())
         .then(() => {
           toast(
             "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
           );
-          navigate("/login");
-          handleSignOut();
+
+          setTimeout(() => {
+            handleSignOut();
+            navigate("/login");
+          }, 4000);
         })
         .catch((error) => {
           console.log(error);
         });
+      // updateEmail(auth.currentUser!, newEmail.trim())
+      //   .then(() => {
+      //     toast(
+      //       "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
+      //     );
+      //     navigate("/login");
+      //     handleSignOut();
+      //   })
+      //   .catch((error) => {
+      //     // An error occurred
+      //     // ...
+      //     console.log(error)
+      //   });
+      // navigate("/login");
+      // handleSignOut();
     } else {
       toast(
         "Invalid email address. Please check the email field and try again."

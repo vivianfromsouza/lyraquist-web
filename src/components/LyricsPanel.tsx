@@ -62,7 +62,7 @@ export default function LyricsToScreen({ currentTrack }) {
 
   useEffect(() => {
     getLyrics();
-  }, []);
+  }, [currentTrack]);
 
   return (
     <View style={lyricsStyles.container}>
