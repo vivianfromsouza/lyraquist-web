@@ -23,8 +23,6 @@ function AddSongToPlaylistScreen() {
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>("");
   const [playlistItems, setPlaylistItems] = useState<any[]>([]);
 
-  console.log(setSelectedPlaylistId)
-
   async function addSong() {
     if (!(await SongReaderWriter.isSongInDB(songURL))) {
       await SongReaderWriter.addSongToDBFromSongCard(songItem);

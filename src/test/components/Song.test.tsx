@@ -83,7 +83,7 @@ const mockSong = {
 describe("SongCard", () => {
   beforeEach(() => {
     render(
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={true}>
         <SongCard item={mockSong} />
       </PlayerProvider>
     );

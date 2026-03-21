@@ -101,7 +101,7 @@ describe("PlaylistItem", () => {
 
   it("renders PlaylistItem", () => {
     render(
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={true}>
         <PlaylistItem
           item={mockPlaylistItem}
           playlistURL={"spotify:playlist:12345"}
@@ -117,7 +117,7 @@ describe("PlaylistItem", () => {
 
   it("likes the song", async () => {
     render(
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={true}>
         <PlaylistItem
           item={mockPlaylistItem}
           playlistURL={"spotify:playlist:12345"}
@@ -134,7 +134,7 @@ describe("PlaylistItem", () => {
 
   it("deletes the song from playlist", async () => {
     render(
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={true}>
         <PlaylistItem
           item={mockPlaylistItem}
           playlistURL={"spotify:playlist:12345"}
@@ -147,7 +147,7 @@ describe("PlaylistItem", () => {
   
   it("unlikes the song", async () => {
     render(
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={true}>
         <PlaylistItem
           item={mockPlaylistItemLiked}
           playlistURL={"spotify:playlist:12345"}
