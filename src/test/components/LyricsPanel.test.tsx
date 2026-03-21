@@ -60,7 +60,7 @@ const mockCurrentTrack = {
 describe("LyricsPanel", () => {
   beforeEach(() => {
     render(
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={true}>
         <LyricsPanel currentTrack={mockCurrentTrack} />
       </PlayerProvider>
     );

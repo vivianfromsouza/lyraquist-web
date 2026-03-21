@@ -9,7 +9,7 @@ describe("Player", () => {
   it("renders Player component", () => {
     render(<Player />);
     <FirebaseProvider>
-      <PlayerProvider>
+      <PlayerProvider isAuthenticated={true}>
         <BrowserRouter>
           <Player />
         </BrowserRouter>

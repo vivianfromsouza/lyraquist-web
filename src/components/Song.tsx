@@ -2,48 +2,31 @@ import { Text, View, Image, Pressable } from "react-native-web";
 import { usePlayer } from "../context/PlayerContext";
 import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined";
 import { useNavigate } from "react-router-dom";
+import songStyles from "../styles/SongStyles";
 
 const SongCard = ({ item }) => {
   const { playSong } = usePlayer();
   const navigate = useNavigate();
 
   return (
-    <View style={{ marginLeft: 4 }}>
+    <View style={songStyles.card}>
       <Pressable
         testID="play-song"
         onPress={() => playSong(item.spotifyURL)}
-        style={{ margin: 10 }}
+        style={{ }}
       >
-        <View
-          style={{ backgroundColor: "white", elevation: 8, borderRadius: 5 }}
-        >
+        <View>
           <Image
             testID="song-image"
-            style={{ width: 130, height: 130, borderRadius: 5 }}
+            style={songStyles.art}
             source={{ uri: item.imageURL }}
           />
         </View>
         <View style={{ width: 130 }}>
-          <Text
-            numberOfLines={1}
-            style={{
-              fontSize: 13,
-              fontWeight: "500",
-              color: "black",
-              marginTop: 10,
-            }}
-          >
+          <Text numberOfLines={1} style={songStyles.name}>
             {item?.name}
           </Text>
-          <Text
-            numberOfLines={1}
-            style={{
-              fontSize: 13,
-              fontWeight: "500",
-              color: "black",
-              marginTop: 1,
-            }}
-          >
+          <Text numberOfLines={1} style={songStyles.artist}>
             {item?.artist}
           </Text>
         </View>
@@ -53,12 +36,7 @@ const SongCard = ({ item }) => {
               state: { item },
             })
           }
-          style={{
-            flexDirection: "row",
-            marginLeft: 20,
-            alignItems: "center",
-            paddingTop: 15,
-          }}
+          style={songStyles.addButton}
         >
           <PlusCircleOutlined />
         </Pressable>

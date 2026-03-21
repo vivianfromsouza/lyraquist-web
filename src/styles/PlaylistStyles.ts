@@ -1,6 +1,12 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+const windowWidth = Dimensions.get("window").width;
 
 const playlistStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#e8e1db",
+    height: "80vh",
+  },
   button: {
     backgroundColor: "#303248",
     marginVertical: 6,
@@ -73,6 +79,124 @@ const playlistStyles = StyleSheet.create({
     borderBottomWidth: 0.5,
     marginHorizontal: 30,
   },
+  addToPlaylistHeader: {
+    backgroundColor: "#5bc8a6",
+    paddingTop: 20,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    paddingBottom: 15,
+    paddingLeft: 20,
+  },
+  addToPlaylistTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
+    marginTop: 20,
+  },
+  addToPlaylistDropdown: {
+    marginLeft: 20,
+    paddingTop: 30,
+    width: "15%",
+    justifyContent: "center",
+    alignSelf: "center",
+    flexDirection: "row",
+    zIndex: 10000,
+  },
+  title: {
+    textAlign: "left",
+    fontSize: 35,
+    fontWeight: "800",
+    marginLeft: 20,
+    paddingTop: 15,
+    color: "white",
+  },
+  introSect: {
+    flex: 1,
+    width: windowWidth,
+    backgroundColor: "#303248",
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    borderRadius: 15,
+    paddingBottom: 30,
+  },
+  searchBar: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 15,
+    marginTop: 20,
+    alignItems: "center",
+  },
+  searchInput: {
+    flex: 1,
+    color: "#000",
+    paddingHorizontal: 10,
+  },
+  loading: {
+    marginTop: 50,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e8e1db",
+  },
+  background: { backgroundColor: "#e8e1db", flex: 1, height: "80vh" },
+  header: {
+    paddingTop: 30,
+    backgroundColor: "#ECC516",
+    paddingBottom: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  arrowLocation: { marginLeft: 20 },
+  controlsLocation: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginRight: 20,
+  },
+  playLocation: { flexDirection: "row", alignItems: "center" },
+  playBtn: { fontSize: 35, marginRight: 20 },
+  descLocation: { marginHorizontal: 20, marginVertical: 10 },
+  descTitle: { fontSize: 18, paddingBottom: 5, color: "gray" },
+  descTxtLocation: {
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 15,
+  },
+  colTitles: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 30,
+    paddingTop: 15,
+    marginRight: 40,
+  },
+  colLocation: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "30%",
+    alignItems: "center",
+  },
+  colText: { color: "gray" },
+  noResults: {
+    textAlign: "left",
+    paddingBottom: 240,
+    color: "gray",
+    fontSize: 15,
+    fontWeight: "bold",
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  addSongBtn: {
+    flexDirection: "row",
+    marginLeft: 35,
+    alignItems: "center",
+    paddingTop: 15,
+    marginBottom: 20,
+  },
+  addSongIcon: { marginRight: 5 },
+  addSongTxt: { fontSize: 20, color: "gray" },
 });
 
 export default playlistStyles;

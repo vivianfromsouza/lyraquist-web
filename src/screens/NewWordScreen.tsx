@@ -4,11 +4,10 @@ import {
   SafeAreaView,
   View,
   Text,
-  StyleSheet,
   Pressable,
   TextInput,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -19,6 +18,8 @@ import { ArrowBackOutline } from "react-ionicons";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { useLocation, useNavigate } from "react-router-dom";
+import wordStyles from "../styles/WordStyles";
+import newBookStyles from "../styles/NewBookStyles";
 
 function NewWordScreen() {
   const navigate = useNavigate();
@@ -32,9 +33,6 @@ function NewWordScreen() {
   const [language, setLanguage] = useState<string>("");
   const [partOfSpeech, setPartOfSpeech] = useState<string>("");
 
-  /*adds word to the current workbook
-  provides user feedback after completion and on invalid inputs
-  */
   async function addWord() {
     if (newWord === undefined || newWord.trim() == "") {
       Alert.alert("Choose a word to add to the workbook!");
@@ -59,119 +57,64 @@ function NewWordScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          backgroundColor: "#5bc8a6",
-          paddingTop: 45,
-          borderBottomLeftRadius: 15,
-          borderBottomRightRadius: 15,
-          paddingBottom: 15,
-          paddingLeft: 20,
-        }}
-      >
-        {/* Back Button */}
-        {/* Back Button */}
-        <TouchableOpacity
-          onPress={() => navigate(-1)}
-            style={{marginRight: 10,marginTop:0}}
-          >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+    <SafeAreaView style={wordStyles.container}>
+      <View style={wordStyles.header}>
+        <TouchableOpacity onPress={() => navigate(-1)}>
+          <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
         </TouchableOpacity>
-        <Text style={styles.title}>New Word</Text>
+        <Text style={wordStyles.title}>New Word</Text>
       </View>
-      <View style={{ flexDirection: "row", marginLeft: 20, paddingTop: 10 }}>
-        <Text style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}>
-          Workbook:{" "}
-        </Text>
-        <Text
-          style={{
-            fontSize: 18,
-            marginLeft: 3,
-            fontWeight: "bold",
-            color: "gray",
-          }}
-        >
-          {name}
-        </Text>
+      <View style={wordStyles.bookNameLocation}>
+        <Text style={wordStyles.bookNameTitle}>Workbook: </Text>
+        <Text style={wordStyles.bookNameTxt}>{name}</Text>
       </View>
 
-      <View style={styles.inputContainer}>
-        {/* <FontAwesome
-          name="book"
-          size={80}
-          color="black"
-          style={{ marginRight: 18 }}
-        /> */}
-        <FontAwesomeIcon icon={faBook} style={{fontSize:70, marginRight: 30}}/>
+      <View style={wordStyles.inputContainer}>
+        <FontAwesomeIcon icon={faBook} style={newBookStyles.bookIcon} />
 
-        <View style={styles.inputWrapper}>
-          <View style={styles.inputRow}>
-            {/* <MaterialCommunityIcons
-              name="alphabet-latin"
-              size={24}
-              color="black"
-              style={styles.icon}
-            /> */}
+        <View style={wordStyles.inputWrapper}>
+          <View style={wordStyles.inputRow}>
             <AbcIcon />
             <TextInput
               placeholder="New Word"
               value={newWord}
               onChangeText={(newtext) => setNewWord(newtext)}
-              style={styles.input}
+              style={wordStyles.input}
               accessibilityLabel="newWord"
               accessible={true}
             />
           </View>
-          <View style={styles.inputRow}>
-            {/* <MaterialIcons
-              name="translate"
-              size={24}
-              color="black"
-              style={styles.icon}
-            /> */}
+          <View style={wordStyles.inputRow}>
             <TranslateIcon />
             <TextInput
               placeholder="New Word Translation"
               value={translation}
               onChangeText={setTranslation}
-              style={styles.input}
+              style={wordStyles.input}
               accessibilityLabel="newTranslation"
               accessible={true}
             />
           </View>
 
-          <View style={styles.inputRow}>
-            {/* <MaterialIcons
-              name="language"
-              size={24}
-              color="black"
-              style={styles.icon}
-            /> */}
+          <View style={wordStyles.inputRow}>
             <LanguageIcon />
             <TextInput
               placeholder="Language"
               value={language}
               onChangeText={setLanguage}
-              style={styles.input}
+              style={wordStyles.input}
               accessibilityLabel="newLanguage"
               accessible={true}
             />
           </View>
 
-          <View style={styles.inputRow}>
-            {/* <MaterialIcons
-              name="psychology"
-              size={24}
-              color="black"
-              style={styles.icon}
-            /> */}
+          <View style={wordStyles.inputRow}>
             <PsychologyIcon />
             <TextInput
               placeholder="Part of Speech"
               value={partOfSpeech}
               onChangeText={setPartOfSpeech}
-              style={styles.input}
+              style={wordStyles.input}
               accessibilityLabel="newPartOfSpeech"
               accessible={true}
             />
@@ -180,80 +123,14 @@ function NewWordScreen() {
       </View>
       <Pressable
         onPress={addWord}
-        style={styles.button}
+        style={wordStyles.button}
         accessibilityLabel="addconfirm"
         accessible={true}
       >
-        <Text style={styles.buttonText}>Add Word</Text>
+        <Text style={wordStyles.buttonText}>Add Word</Text>
       </Pressable>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e8e1db",
-    height:'91vh'
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "white",
-    marginTop: 20,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    marginVertical: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: "90%",
-    alignItems: "center",
-  },
-  inputWrapper: {
-    flex: 1,
-  },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 0.5,
-    paddingVertical: 5,
-    marginBottom: 10,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  input: {
-    fontSize: 18,
-    flex: 1,
-    marginLeft:8
-  },
-  wordInputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 0.5,
-    marginBottom: 20,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: "90%",
-  },
-  button: {
-    backgroundColor: "#303248",
-    marginVertical: 6,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginTop: 20,
-    borderRadius: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: "80%",
-  },
-  buttonText: {
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 20,
-    color: "#edc525",
-  },
-});
 
 export default NewWordScreen;

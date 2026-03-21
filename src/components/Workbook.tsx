@@ -2,6 +2,7 @@ import { View, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import workbookStyles from "../styles/WorkbookStyles";
 
 const Workbook = ({ item }) => {
   // const colors = ["#5bc8a6", "#edc526", "#ff4a2a", "#303248"];
@@ -29,18 +30,13 @@ const Workbook = ({ item }) => {
       }
       style={{ margin: 10 }}
     >
-      <View testID="workbook-icon" style={{ elevation: 8 }}>
-        <FontAwesomeIcon icon={faBook} style={{fontSize:75}}/>
+      <View testID="workbook-icon" style={workbookStyles.icon}>
+        <FontAwesomeIcon icon={faBook}/>
       </View>
-      <View style={{ width: 80 }}>
+      <View>
         <Text
           numberOfLines={1}
-          style={{
-            fontSize: 13,
-            fontWeight: "500",
-            color: "black",
-            marginTop: 10,
-          }}
+          style={workbookStyles.name}
         >
           {" "}
           {item?.name}{" "}
