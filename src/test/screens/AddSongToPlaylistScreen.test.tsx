@@ -1,12 +1,12 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";
-import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
-import RecordReaderWriter from "../services/RecordReaderWriter";
-import SongReaderWriter from "../services/SongReaderWriter";
-import AddSongToPlaylistScreen from "../screens/AddSongToPlaylistScreen";
+import PlaylistReaderWriter from "../../services/PlaylistReaderWriter";
+import RecordReaderWriter from "../../services/RecordReaderWriter";
+import SongReaderWriter from "../../services/SongReaderWriter";
+import AddSongToPlaylistScreen from "../../screens/AddSongToPlaylistScreen";
 import { BrowserRouter } from "react-router-dom";
-import { mockSong, mockPlaylists } from "./Test.consts.js";
+import { mockSong, mockPlaylists } from ".././Test.consts.js";
 
 const mockNavigate = vi.fn();
 

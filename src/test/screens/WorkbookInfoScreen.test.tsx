@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { page } from "@vitest/browser/context";
 import { render } from "@testing-library/react";
-import WorkbookInfoScreen from "../screens/WorkbookInfoScreen";
+import WorkbookInfoScreen from "../../screens/WorkbookInfoScreen";
 import { BrowserRouter } from "react-router-dom";
 
 vi.mock("react-router-dom", async () => {
