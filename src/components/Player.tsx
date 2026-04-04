@@ -10,7 +10,7 @@ import {
 import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 // import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
-import LyricsPanel from "../components/LyricsPanel";
+import LyricsPanel from "./LyricsToScreen";
 // import RecordReaderWriter from "../services/RecordReaderWriter";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";

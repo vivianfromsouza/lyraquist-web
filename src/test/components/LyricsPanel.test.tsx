@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import LyricsPanel from "../../components/LyricsPanel";
+import LyricsPanel from "../../components/LyricsToScreen";
 import { vi, describe, it, beforeEach, afterEach, expect } from "vitest";
 import { PlayerProvider } from "../../context/PlayerContext";
 

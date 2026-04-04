@@ -32,6 +32,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
     try {
       let prefLang = await UserReaderWriter.getPreferredLanguage();
 
+      // ex, if prefLang is English and song in English, then we translate to Spanish
       if (prefLang === songLang) {
         prefLang = await UserReaderWriter.getTargetLanguage();
       }
