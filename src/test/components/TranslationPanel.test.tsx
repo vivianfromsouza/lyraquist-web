@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import LyricsPanel from "../../components/LyricsPanel";
+import TranslationPanel from "../../components/TranslationPanel";
 import { vi, describe, it, beforeEach, afterEach, expect } from "vitest";
 
 vi.mock("../components/WordModal", () => ({
@@ -20,15 +20,15 @@ const mockCurrentTrack = {
   spotifyURL: "spotify:track:123",
 };
 
-const mockLyrics = "these are the mock lyrics\nline two words";
-const mockFromLang = "en";
+const mockTranslation = "estas son las letras simuladas\nlínea dos palabras";
+const mockPrefLang = "es";
 
-describe("LyricsPanel", () => {
+describe("TranslationPanel", () => {
   beforeEach(() => {
     render(
-      <LyricsPanel
-        lyrics={mockLyrics}
-        fromLang={mockFromLang}
+      <TranslationPanel
+        translation={mockTranslation}
+        prefLang={mockPrefLang}
         currentTrack={mockCurrentTrack}
       />,
     );
@@ -39,41 +39,40 @@ describe("LyricsPanel", () => {
     vi.clearAllMocks();
   });
 
-  it("renders lyrics words", () => {
-    expect(screen.getByText("these")).toBeInTheDocument();
-    expect(screen.getByText("are")).toBeInTheDocument();
-    expect(screen.getByText("the")).toBeInTheDocument();
-    expect(screen.getByText("mock")).toBeInTheDocument();
-    expect(screen.getByText("lyrics")).toBeInTheDocument();
-    expect(screen.getByText("line")).toBeInTheDocument();
-    expect(screen.getByText("two")).toBeInTheDocument();
-    expect(screen.getByText("words")).toBeInTheDocument();
+  it("renders translation words", () => {
+    expect(screen.getByText("estas")).toBeInTheDocument();
+    expect(screen.getByText("son")).toBeInTheDocument();
+    expect(screen.getByText("letras")).toBeInTheDocument();
+    expect(screen.getByText("simuladas")).toBeInTheDocument();
+    expect(screen.getByText("línea")).toBeInTheDocument();
+    expect(screen.getByText("dos")).toBeInTheDocument();
+    expect(screen.getByText("palabras")).toBeInTheDocument();
   });
 
   it("opens WordModal when a word is pressed", () => {
-    const wordElement = screen.getByText("these");
+    const wordElement = screen.getByText("estas");
     fireEvent.click(wordElement);
 
     expect(screen.getAllByRole("presentation")).toHaveLength(2);
-    expect(screen.getAllByText("these")).toHaveLength(2);
+    expect(screen.getAllByText("estas")).toHaveLength(2);
   });
 
   it("trims punctuation from clicked word", () => {
     // Add a word with punctuation to the mock
-    const lyricsWithPunc = "these, are! the (mock) lyrics";
+    const translationWithPunc = "estas, son! las (letras) simuladas";
     render(
-      <LyricsPanel
-        lyrics={lyricsWithPunc}
-        fromLang={mockFromLang}
+      <TranslationPanel
+        translation={translationWithPunc}
+        prefLang={mockPrefLang}
         currentTrack={mockCurrentTrack}
       />,
     );
 
-    const wordElement = screen.getByText("these,");
+    const wordElement = screen.getByText("estas,");
     fireEvent.click(wordElement);
 
     expect(screen.getAllByRole("presentation")).toHaveLength(2);
-    expect(screen.getAllByText("these")).toHaveLength(2);
+    expect(screen.getAllByText("estas")).toHaveLength(2);
   });
 
   it("does not render WordModal initially", () => {

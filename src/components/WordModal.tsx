@@ -174,8 +174,8 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   }, [openModal, word, songLang]);
 
   return (
-    <Modal visible={openModal} animationType="slide" transparent={true}>
-      <View style={wordStyles.modalbg}>
+    <Modal  visible={openModal} animationType="slide" transparent={true}>
+      <View data-testid="word-modal" style={wordStyles.modalbg}>
         <View style={wordStyles.modalforefront}>
           <View style={wordStyles.modalTextBackground}>
             <View>

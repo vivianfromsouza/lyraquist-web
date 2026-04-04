@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Worked on by: Ashley Bickham and Siri Avula
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import LyricsService from "../services/LyricsService";
