@@ -3,14 +3,18 @@ import { Text, TouchableHighlight, View, ScrollView } from "react-native";
 import WordModal from "./WordModal";
 import lyricsStyles from "../styles/LyricsStyles";
 
-export default function LyricsPanel({ lyrics, fromLang, currentTrack }) {
+export default function TranslationPanel({
+  translation,
+  prefLang,
+  currentTrack,
+}) {
   const [openModal, setOpenModal] = useState(false);
   const [clickedWord, setClickedWord] = useState("");
 
   return (
     <>
       <ScrollView>
-        {lyrics.split("\n").map((line, lineIdx) => (
+        {translation.split("\n").map((line, lineIdx) => (
           <View key={lineIdx} style={lyricsStyles.lineFormat}>
             {line.split(" ").map((word, wordIdx) => (
               <TouchableHighlight
@@ -39,7 +43,7 @@ export default function LyricsPanel({ lyrics, fromLang, currentTrack }) {
             openModal={openModal}
             setOpenModal={setOpenModal}
             word={clickedWord}
-            songLang={fromLang}
+            songLang={prefLang}
             songName={currentTrack.name}
           ></WordModal>
         )}

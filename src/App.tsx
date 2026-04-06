@@ -31,7 +31,7 @@ import ReauthCredentialsScreen from "./screens/ReauthCredentialsScreen";
 import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
-import LyricsPanel from "./components/LyricsPanel";
+import LyricsPanel from "./components/LyricsToScreen";
 import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
 import LanguageScreen from "./screens/LanguageScreen";
 import LocalFirebaseClient from "./services/firebase/LocalFirebaseClient";

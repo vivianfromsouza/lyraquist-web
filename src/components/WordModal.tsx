@@ -32,6 +32,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
     try {
       let prefLang = await UserReaderWriter.getPreferredLanguage();
 
+      // ex, if prefLang is English and song in English, then we translate to Spanish
       if (prefLang === songLang) {
         prefLang = await UserReaderWriter.getTargetLanguage();
       }
@@ -173,8 +174,8 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   }, [openModal, word, songLang]);
 
   return (
-    <Modal visible={openModal} animationType="slide" transparent={true}>
-      <View style={wordStyles.modalbg}>
+    <Modal  visible={openModal} animationType="slide" transparent={true}>
+      <View data-testid="word-modal" style={wordStyles.modalbg}>
         <View style={wordStyles.modalforefront}>
           <View style={wordStyles.modalTextBackground}>
             <View>
