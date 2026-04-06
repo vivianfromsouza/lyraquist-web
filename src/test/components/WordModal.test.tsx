@@ -1,7 +1,6 @@
 import {
   render,
   screen,
-  fireEvent,
   waitFor,
   cleanup,
 } from "@testing-library/react";
@@ -92,7 +91,7 @@ vi.mock("react-toastify", () => ({
 
 vi.mock("react-native-dropdown-picker", () => ({
   __esModule: true,
-  default: ({ open, value, items, setOpen, setValue, setItems }) => (
+  default: ({ open, items, setOpen, setValue }) => (
     <div data-testid="dropdown">
       <button onClick={() => setOpen(!open)}>Toggle Dropdown</button>
       {open && (
