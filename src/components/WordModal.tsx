@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
 import UserReaderWriter from "../services/UserReaderWriter";
-import DictionaryService from "../services/DictionaryService";
 import { toast, ToastContainer } from "react-toastify";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
@@ -37,61 +36,27 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
         prefLang = await UserReaderWriter.getTargetLanguage();
       }
 
-      await TranslationService.getSingleTranslation(
+      await TranslationService.lexicalaTranslation(
         word,
         songLang,
-        prefLang
-      ).then(async (translationResponse) => {
-        const filteredTranslations =
-          await TranslationService.filterTranslationData(translationResponse);
-        setTranslation(filteredTranslations[0] ?? "");
-
-        const definitionResponse = await DictionaryService.getDefinition(
-          filteredTranslations[0],
-          prefLang
-        );
-
-        setDefinition(
-          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-            ?.senses?.[0]?.definitions?.[0] ?? ""
-        );
-        setPos(
-          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
-            ?.text ?? ""
-        );
-
-        if (songLang === "en") {
-          setPronunciation(
-            translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-              ?.pronunciations?.[0]?.audioFile ?? ""
-          );
+      ).then((response) => {
+        if (
+          response &&
+          typeof response === "object" &&
+          response.results &&
+          response.results.length > 0
+        ) {
+          console.log("First result:", response.results[0].senses[0]);
+          setPos(response.results[0].headword.pos);
+          setDefinition(response.results[0].senses[0].definition);
+          setTranslation(response.results[0].senses[0].translations[prefLang].text);
+        } else {
+          setPos("");
+          setDefinition("Definition not available");
+          setTranslation("");
         }
       });
 
-      // await TranslationService.filterTranslationData(translationResponse).then(
-      //   async (filteredTranslations) => {
-      //     setTranslation(filteredTranslations[0] ?? "");
-
-      //     const definitionResponse = await DictionaryService.getDefinition(
-      //       filteredTranslations[0],
-      //       prefLang
-      //     );
-
-      //     setDefinition(
-      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-      //         ?.senses?.[0]?.definitions?.[0] ?? ""
-      //     );
-      //     setPos(
-      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]
-      //         ?.lexicalCategory?.text ?? ""
-      //     );
-      //   }
-      // );
-
-      // const filteredTranslations =
-      //   TranslationService.filterTranslationData(translationResponse);
-
-      // set pronunciation last (so useSound / audio init can react)
     } catch (err) {
       console.error("getEntryDetails error", err);
     }
@@ -113,16 +78,16 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
       toast("Please choose a workbook to add the word to!");
     } else if (bookUID === "0") {
       const workbookExists = workbooks.some(
-        (workbook) => workbook.label === newWorkbookName
+        (workbook) => workbook.label === newWorkbookName,
       );
       if (workbookExists) {
         toast(
-          "Workbook with this name already exists. Please choose a different name."
+          "Workbook with this name already exists. Please choose a different name.",
         );
       } else {
         const newBookUID = await WorkbookReaderWriter.createWorkbook(
           newWorkbookName.trim(),
-          ""
+          "",
         );
         WordReaderWriter.addWord(
           word,
@@ -131,7 +96,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           songLang,
           pos,
           songName,
-          false
+          false,
         );
         toast(
           "New word added!." +
@@ -140,7 +105,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
             '" ' +
             "added to " +
             newWorkbookName +
-            " workbook."
+            " workbook.",
         );
       }
     } else {
@@ -153,7 +118,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
         language,
         pos,
         songName,
-        false
+        false,
       );
       toast(
         "New word added!." +
@@ -162,7 +127,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           '" ' +
           "added to " +
           newWorkbookName +
-          " workbook."
+          " workbook.",
       );
     }
   }
@@ -174,7 +139,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   }, [openModal, word, songLang]);
 
   return (
-    <Modal  visible={openModal} animationType="slide" transparent={true}>
+    <Modal visible={openModal} animationType="slide" transparent={true}>
       <View data-testid="word-modal" style={wordStyles.modalbg}>
         <View style={wordStyles.modalforefront}>
           <View style={wordStyles.modalTextBackground}>

@@ -1,7 +1,4 @@
 import axios from "axios";
-import LanguageDetect from "languagedetect";
-
-const API_BASE = import.meta.env.VITE_LOCAL_BASE ?? "";
 
 const TranslationService = {
   async getTranslationAllLyrics(lyrics, toLanguage): Promise<any> {
@@ -36,16 +33,20 @@ const TranslationService = {
     return translationResponse;
   },
 
-  async getSingleTranslation(word, fromLang, toLang): Promise<any> {
-    console.log("API", API_BASE);
-    return axios(
-      `${API_BASE}/api/singleTranslation?fromLang=` +
+  async lexicalaTranslation(word, fromLang): Promise<any> {
+    return axios({
+      url:
+        "https://lexicala1.p.rapidapi.com/search-entries?text=" +
+        word.toLowerCase() +
+        "&language=" +
         fromLang +
-        "&toLang=" +
-        toLang +
-        "&word=" +
-        word
-    )
+        "&analyzed=true" +
+        "&morph=true",
+      headers: {
+        "x-rapidapi-host": import.meta.env.LEXICALA_HOST,
+        "x-rapidapi-key": import.meta.env.VITE_LEXICALA_KEY,
+      },
+    })
       .then((response) => {
         return response.data;
       })
@@ -53,58 +54,7 @@ const TranslationService = {
         console.error("Frontend failed to fetch from local API:", error);
         return "Translation unavailable.";
       });
-  },
-  async detectLanguage(word): Promise<string> {
-    if (!word || word.trim().length === 0) {
-      return "";
-    }
-
-    const langDetector = new LanguageDetect();
-    langDetector.setLanguageType("iso2");
-
-    const detectedLang = langDetector.detect(word, 1);
-
-    console.log("detected lang;", detectedLang);
-
-    return detectedLang[0][0].toString();
-  },
-  async filterTranslationData(data): Promise<string> {
-    const allTranslations = data.results.flatMap((result) =>
-      result.lexicalEntries.flatMap((lexicalEntry) =>
-        lexicalEntry.entries.flatMap((entry) => {
-          const entryTranslations = entry.translations
-            ? entry.translations.map((t) => t.text)
-            : [];
-
-          const senseTranslations = entry.senses
-            ? entry.senses.flatMap((sense) => {
-                const directSenseTranslations = sense.translations
-                  ? sense.translations.map((t) => t.text)
-                  : [];
-
-                const subsenseTranslations = sense.subsenses
-                  ? sense.subsenses.flatMap((subsense) =>
-                      subsense.translations.map((t) => t.text)
-                    )
-                  : [];
-
-                return [...directSenseTranslations, ...subsenseTranslations];
-              })
-            : [];
-
-          return [...entryTranslations, ...senseTranslations];
-        })
-      )
-    );
-
-    // Filter out any undefined or empty strings
-    const validTranslations = allTranslations.filter((t) => t);
-
-    // --- STEP 2: Limit the Array to the First Three Elements ---
-    const firstThreeTranslations = validTranslations.slice(0, 3);
-
-    return firstThreeTranslations;
-  },
+  }
 };
 
 export default TranslationService;

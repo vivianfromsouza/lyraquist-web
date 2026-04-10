@@ -68,10 +68,11 @@ export default defineConfig({
   resolve: {
     extensions: extensions,
     alias: {
-      "react-native": "react-native-web",      
+      "react-native": "react-native-web",
     },
   },
   optimizeDeps: {
+    exclude: ["@hg0428/diverse-lemmas"],
     esbuildOptions: {
       supported: { "top-level-await": true },
       resolveExtensions: extensions,
