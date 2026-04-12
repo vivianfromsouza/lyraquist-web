@@ -43,8 +43,8 @@ const TranslationService = {
         "&analyzed=true" +
         "&morph=true",
       headers: {
-        "x-rapidapi-host": import.meta.env.LEXICALA_HOST,
-        "x-rapidapi-key": import.meta.env.VITE_LEXICALA_KEY,
+        "x-rapidapi-host": import.meta.env.VITE_LEXICALA_HOST,
+        "x-rapidapi-key": import.meta.env.VITE_LEXICALA_APP_KEY,
       },
     })
       .then((response) => {

@@ -10,7 +10,7 @@ import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
 import wordStyles from "../styles/WordStyles";
 
-const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
+const WordModal = ({ openModal, setOpenModal, word, fromLang, toLang, songName }) => {
   const [bookUID, setbookUID] = useState<any>();
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
@@ -28,17 +28,18 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
   console.log(setPronunciation);
 
   async function getEntryDetails() {
+    console.log("Getting entry details for word:", word, "from language:", fromLang);
     try {
-      let prefLang = await UserReaderWriter.getPreferredLanguage();
+      const prefLang = await UserReaderWriter.getPreferredLanguage();
 
-      // ex, if prefLang is English and song in English, then we translate to Spanish
-      if (prefLang === songLang) {
-        prefLang = await UserReaderWriter.getTargetLanguage();
-      }
+      //ex, if prefLang is English and song in English, then we translate to Spanish
+      // if (prefLang === fromLang) {
+      //   prefLang = await UserReaderWriter.getTargetLanguage();
+      // }
 
       await TranslationService.lexicalaTranslation(
         word,
-        songLang,
+        fromLang,
       ).then((response) => {
         if (
           response &&
@@ -49,7 +50,8 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           console.log("First result:", response.results[0].senses[0]);
           setPos(response.results[0].headword.pos);
           setDefinition(response.results[0].senses[0].definition);
-          setTranslation(response.results[0].senses[0].translations[prefLang].text);
+          setTranslation(response.results[0].senses[0].translations[toLang].text);
+          // setTranslation(response.results[0].senses[0].translations[`${fromLang}`].text);
         } else {
           setPos("");
           setDefinition("Definition not available");
@@ -93,7 +95,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           word,
           translation,
           newBookUID,
-          songLang,
+          fromLang,
           pos,
           songName,
           false,
@@ -109,7 +111,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
         );
       }
     } else {
-      const language = languages.find((l) => l.code === songLang)?.language;
+      const language = languages.find((l) => l.code === fromLang)?.language;
 
       WordReaderWriter.addWord(
         word,
@@ -136,7 +138,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
     getWorkbooks();
 
     getEntryDetails();
-  }, [openModal, word, songLang]);
+  }, [openModal, word, fromLang]);
 
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
@@ -145,11 +147,11 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           <View style={wordStyles.modalTextBackground}>
             <View>
               <View style={wordStyles.modalText}>
-                <Text style={wordStyles.originalLabel}>in {"songLang"}: </Text>
+                <Text style={wordStyles.originalLabel}>word: </Text>
                 <Text style={wordStyles.originalText}>{word}</Text>
               </View>
               <View style={wordStyles.modalText}>
-                <Text style={wordStyles.prefLabel}>in {"prefLang"}: </Text>
+                <Text style={wordStyles.prefLabel}>translation: </Text>
                 <Text style={wordStyles.originalText}>{translation}</Text>
                 {/* <Text
                   style={{
@@ -166,7 +168,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
             {/*Button for dictation */}
             {/* <audio controls id="player" src="https://audio.oxforddictionaries.com/en/mp3/amazing__gb_1.mp3"></audio>
               return <button onClick={play}>Boop!</button>; */}
-            <Pressable
+            {/* <Pressable
               onPress={() => {
                 if (audioRef.current) {
                   audioRef.current.play();
@@ -176,7 +178,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
               <Text style={wordStyles.dictate}>Press to Dictate</Text>
 
               <audio ref={audioRef} src={pronunciation} />
-            </Pressable>
+            </Pressable> */}
           </View>
           <View style={{ padding: 10 }}>
             <Text style={wordStyles.definition}>{definition}</Text>

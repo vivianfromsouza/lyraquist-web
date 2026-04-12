@@ -6,6 +6,7 @@ import lyricsStyles from "../styles/LyricsStyles";
 export default function TranslationPanel({
   translation,
   prefLang,
+  songLang,
   currentTrack,
 }) {
   const [openModal, setOpenModal] = useState(false);
@@ -43,7 +44,8 @@ export default function TranslationPanel({
             openModal={openModal}
             setOpenModal={setOpenModal}
             word={clickedWord}
-            songLang={prefLang}
+            fromLang={prefLang}
+            toLang={songLang}
             songName={currentTrack.name}
           ></WordModal>
         )}

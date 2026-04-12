@@ -19,8 +19,11 @@ export default function LyricsToScreen({ currentTrack }) {
 
   async function getUserPrefLang() {
     await UserReaderWriter.getPreferredLanguage().then((DBPrefLang) => {
-      if (DBPrefLang.toLowerCase() == "en") {
-        setPrefLang("en");     
+      if (
+        DBPrefLang.toLowerCase() == "en" ||
+        DBPrefLang.toLowerCase() == "english"
+      ) {
+        setPrefLang("en");
       } else if (
         DBPrefLang.toLowerCase() == "es" ||
         DBPrefLang.toLowerCase() == "spanish"
@@ -44,11 +47,11 @@ export default function LyricsToScreen({ currentTrack }) {
 
   async function getTranslation(lyricsResponse) {
     await getUserPrefLang();
-    TranslationService.getTranslationAllLyrics(lyricsResponse, "en").then(
+    TranslationService.getTranslationAllLyrics(lyricsResponse, prefLang).then(
       (response) => {
         setTranslation(response.data[0].translations[0].text);
         setFromLang(response.data[0].detectedLanguage.language);
-      }
+      },
     );
   }
 
@@ -58,10 +61,19 @@ export default function LyricsToScreen({ currentTrack }) {
 
   return (
     <View style={lyricsStyles.container}>
-      <LyricsPanel lyrics={lyrics} fromLang={fromLang} currentTrack={currentTrack} />
-        <Text>TRANSLATION</Text>
-        <TranslationPanel translation={translation} prefLang={prefLang} currentTrack={currentTrack} />
-        <Text>{"\n\n"}</Text>      
+      <LyricsPanel
+        lyrics={lyrics}
+        songLang={fromLang}
+        currentTrack={currentTrack}
+      />
+      <Text>TRANSLATION</Text>
+      <TranslationPanel
+        translation={translation}
+        prefLang={prefLang}
+        songLang={fromLang}
+        currentTrack={currentTrack}
+      />
+      <Text>{"\n\n"}</Text>
     </View>
   );
 }
