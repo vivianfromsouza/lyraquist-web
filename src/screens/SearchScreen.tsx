@@ -78,21 +78,22 @@ export default function SearchScreen() {
             onPress={() => navigate(-1)}
             style={searchStyles.backButton}
           >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
           </TouchableOpacity>
           <View style={searchStyles.searchBar}>
             <TextInput
               style={searchStyles.searchInput}
               placeholder="Search Spotify"
+              placeholderTextColor="rgba(232, 225, 219, 0.4)"
               value={searchTerm}
               onChangeText={(text) => setSearchTerm(text)}
               accessibilityLabel="searchInput"
               accessible={true}
             />
-            <SearchOutline color={"#00000"} height="30px" width="30px" />
+            <SearchOutline color={"rgba(232,225,219,0.6)"} height="22px" width="22px" />
           </View>
         </View>
-        <View style={searchStyles.space} />
+
         <View style={searchStyles.noteAndButtonContainer}>
           <TouchableOpacity
             onPress={() => navigate("/SearchLanguages")}
@@ -101,21 +102,37 @@ export default function SearchScreen() {
             <Text style={searchStyles.buttonText}>Search by Language</Text>
           </TouchableOpacity>
         </View>
+
         {isLoading && (
           <Text style={searchStyles.placeholderTxt}>Searching...</Text>
         )}
-        {searchTerm.trim() !== "" && (
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item) => item.spotifyURL}
-            renderItem={renderSearchResultItem}
-            numColumns={7}
-            contentContainerStyle={searchStyles.flatListContainer}
-            accessibilityLabel="searchResultItem"
-            accessible={true}
-          />
+
+        {searchTerm.trim() !== "" && !isLoading && (
+          <>
+            <View style={searchStyles.sectionHeader}>
+              <Text style={searchStyles.sectionLabel}>Results</Text>
+              <View style={searchStyles.sectionLabelLine} />
+            </View>
+            <FlatList
+              data={searchResults}
+              keyExtractor={(item) => item.spotifyURL}
+              renderItem={renderSearchResultItem}
+              numColumns={7}
+              contentContainerStyle={searchStyles.flatListContainer}
+              accessibilityLabel="searchResultItem"
+              accessible={true}
+            />
+          </>
         )}
-        {searchTerm.trim() == "" && <View style={searchStyles.noSearchTxt} />}
+
+        {searchTerm.trim() === "" && (
+          <View style={searchStyles.emptyState}>
+            <SearchOutline color={"rgba(48,50,72,0.2)"} height="48px" width="48px" />
+            <Text style={searchStyles.emptyStateText}>
+              Search for a song or artist to get started
+            </Text>
+          </View>
+        )}
       </SafeAreaView>
     </>
   );

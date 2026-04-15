@@ -63,75 +63,74 @@ export default function SettingsScreen() {
       <ScrollView style={settingStyles.container}>
         <View>
           <LyraquistHeader title="Settings" logo={redLogo} />
+
+          {/* Profile Card */}
           <Pressable
             onPress={() =>
               navigate("/settings/profile", { state: "isLoggedIn" })
             }
-            style={settingStyles.viewProfile}
+            style={settingStyles.profileCard}
+            accessibilityLabel="profileInfo"
+            accessible={true}
           >
-            <View
-              style={settingStyles.viewProfileTitle}
-              accessibilityLabel="profileInfo"
-              accessible={true}
-            >
+            <View style={settingStyles.profileAvatar}>
+              <Text style={settingStyles.profileAvatarText}>
+                {name?.charAt(0)?.toUpperCase() ?? "?"}
+              </Text>
+            </View>
+            <View style={settingStyles.profileInfo}>
               <Text
-                style={settingStyles.usernameText}
+                style={settingStyles.profileName}
                 accessibilityLabel="name"
                 accessible={true}
               >
                 {name}
               </Text>
               <Text
-                style={settingStyles.usernameText}
+                style={settingStyles.profileEmail}
                 accessibilityLabel="email"
                 accessible={true}
               >
                 {email}
               </Text>
-              <Text style={settingStyles.profileSubtitle}>
-                View Profile Information
-              </Text>
+              <Text style={settingStyles.profileLink}>View Profile</Text>
             </View>
             <KeyboardArrowRightIcon />
           </Pressable>
-          <View style={settingStyles.menuDivider} />
 
-          <Pressable
-            onPress={() => navigate("/account", { state: "isLoggedIn" })}
-            style={settingStyles.menuOptions}
-          >
-            <Text
-              style={settingStyles.menuOptionsTxt}
+          {/* Menu Card */}
+          <View style={settingStyles.menuCard}>
+            <Pressable
+              onPress={() => navigate("/account", { state: "isLoggedIn" })}
+              style={settingStyles.menuRow}
               accessibilityLabel="accountSettings"
               accessible={true}
             >
-              Account Settings
-            </Text>
-
-            <KeyboardArrowRightIcon />
-          </Pressable>
-          <View style={settingStyles.menuDivider} />
-
-          <Pressable
-            style={settingStyles.menuOptions}
-            onPress={() => navigate("/about")}
-          >
-            <Text style={settingStyles.menuOptionsTxt}>
-              About Us & Feedback
-            </Text>
-
-            <KeyboardArrowRightIcon />
-          </Pressable>
-          <View style={settingStyles.menuDivider} />
-          <Pressable onPress={logout} style={{ padding: 20 }}>
-            <Text
-              style={settingStyles.logOut}
-              accessibilityLabel="logOut"
-              accessible={true}
+              <Text style={settingStyles.menuRowText}>Account Settings</Text>
+              <KeyboardArrowRightIcon />
+            </Pressable>
+            <View style={settingStyles.menuInternalDivider} />
+            <Pressable
+              style={settingStyles.menuRow}
+              onPress={() => navigate("/about")}
             >
-              Log out
-            </Text>
-          </Pressable>
+              <Text style={settingStyles.menuRowText}>About Us & Feedback</Text>
+              <KeyboardArrowRightIcon />
+            </Pressable>
+          </View>
+
+          {/* Log Out */}
+          <View style={settingStyles.logOutContainer}>
+            <Pressable onPress={logout}>
+              <Text
+                style={settingStyles.logOut}
+                accessibilityLabel="logOut"
+                accessible={true}
+              >
+                Log Out
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </ScrollView>
     </>

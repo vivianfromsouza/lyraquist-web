@@ -25,7 +25,7 @@ export default function LyricsPanel({ lyrics, fromLang, currentTrack }) {
                   setOpenModal(true);
                 }}
                 style={lyricsStyles.highlight}
-                underlayColor="#5bc8a6"
+                underlayColor="rgba(237, 197, 38, 0.25)"
               >
                 <Text style={lyricsStyles.lyricsText}>{word}</Text>
               </TouchableHighlight>

@@ -19,6 +19,16 @@ import "react-range-slider-input/dist/style.css";
 import playerStyles from "../styles/PlayerStyles";
 import { getAuth, User } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
+import {
+  StepBackwardOutlined,
+  StepForwardOutlined,
+  PlayCircleOutlined,
+  PauseCircleOutlined,
+  RetweetOutlined,
+  PlusOutlined,
+  MinusOutlined,
+  SoundOutlined,
+} from "@ant-design/icons";
 
 const Player = () => {
   const defaultPlayer: PlayerType = {
@@ -353,11 +363,40 @@ const Player = () => {
       </>
     );
   } else {
+    const iconBtn: React.CSSProperties = {
+      background: "none",
+      border: "none",
+      cursor: "pointer",
+      color: "#e8e1db",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "4px 8px",
+      fontSize: 18,
+      borderRadius: 6,
+    };
+    const playBtn: React.CSSProperties = {
+      ...iconBtn,
+      fontSize: 28,
+      color: "#e8e1db",
+    };
+    const shuffleBtn: React.CSSProperties = {
+      ...iconBtn,
+      color: isShuffled ? "#edc526" : "rgba(232,225,219,0.4)",
+      fontSize: 16,
+    };
+    const volBtn: React.CSSProperties = {
+      ...iconBtn,
+      fontSize: 14,
+      color: "rgba(232,225,219,0.7)",
+    };
+
     return (
       <>
         <div className="container" style={playerStyles.container}>
           <div className="main-wrapper">
             <View style={playerStyles.wrapper}>
+              {/* Left: album art + track info */}
               <View style={playerStyles.albumText}>
                 <img
                   src={current_track.album.images[0].url}
@@ -365,37 +404,22 @@ const Player = () => {
                   alt=""
                   style={playerStyles.albumCover}
                 />
-                <View style={{ marginLeft: 10 }}>
-                  <div
-                    className="now-playing__name"
-                    style={playerStyles.trackText}
-                  >
+                <View style={playerStyles.trackInfo}>
+                  <div style={playerStyles.trackText}>
                     {current_track.name}
                   </div>
-                  <div
-                    className="now-playing__artist"
-                    style={playerStyles.artistText}
-                  >
+                  <div style={playerStyles.artistText}>
                     {current_track.artists[0].name}
                   </div>
                 </View>
               </View>
+
+              {/* Center: seekbar + controls */}
               <View style={playerStyles.seekbar}>
                 <View style={playerStyles.seekbarControls}>
-                  <div
-                    className="now-playing__artist"
-                    style={playerStyles.timeText}
-                  >
-                    {currentTime}
-                  </div>
-                  <div
-                    className="now-playing__artist"
-                    style={playerStyles.timeText}
-                  >
-                    {totalTime}
-                  </div>
+                  <div style={playerStyles.timeText}>{currentTime}</div>
+                  <div style={playerStyles.timeText}>{totalTime}</div>
                 </View>
-
                 <RangeSlider
                   min={0}
                   max={seekDuration}
@@ -405,97 +429,47 @@ const Player = () => {
                   thumbsDisabled={[true, false]}
                   rangeSlideDisabled={true}
                 />
-
-                <div className="now-playing__side">
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      player.previousTrack();
-                    }}
-                  >
-                    &lt;&lt;
+                <View style={playerStyles.controls}>
+                  <button style={shuffleBtn} onClick={toggleShuffle}>
+                    <RetweetOutlined />
                   </button>
-
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      player.togglePlay();
-                    }}
-                  >
-                    {is_paused ? "PLAY" : "PAUSE"}
+                  <button style={iconBtn} onClick={() => player.previousTrack()}>
+                    <StepBackwardOutlined />
                   </button>
-
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      player.nextTrack();
-                    }}
-                  >
-                    &gt;&gt;
+                  <button style={playBtn} onClick={() => player.togglePlay()}>
+                    {is_paused ? <PlayCircleOutlined /> : <PauseCircleOutlined />}
                   </button>
-
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      toggleShuffle();
-                    }}
-                  >
-                    Toggle Shuffle
+                  <button style={iconBtn} onClick={() => player.nextTrack()}>
+                    <StepForwardOutlined />
                   </button>
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      volumeUp();
-                    }}
-                  >
-                    Volume Up
-                  </button>
-
-                  <button
-                    className="btn-spotify"
-                    onClick={() => {
-                      volumeDown();
-                    }}
-                  >
-                    Volume Down
-                  </button>
-                </div>
+                </View>
               </View>
+
+              {/* Right: volume */}
               <View style={playerStyles.volume}>
-                <h4 style={playerStyles.volumeText}>Current Volume: </h4>
-                {volume}
+                <SoundOutlined style={{ color: "rgba(232,225,219,0.5)", fontSize: 14, marginRight: 6 }} />
+                <button style={volBtn} onClick={volumeDown}>
+                  <MinusOutlined />
+                </button>
+                <div style={playerStyles.volumeNum}>{volume}</div>
+                <button style={volBtn} onClick={volumeUp}>
+                  <PlusOutlined />
+                </button>
               </View>
             </View>
+
             <View style={playerStyles.lyrics}>
               <button
-                className="btn-spotify"
-                onClick={() => {
-                  openLyrics();
-                }}
+                onClick={openLyrics}
                 style={playerStyles.lyricsButton}
               >
                 Open Lyrics
               </button>
-
-              {/* <button
-                className="btn-spotify"
-                onClick={() => {
-                  openTranslation();
-                }}
-                style={{ marginBottom:10, fontWeight:'bold', backgroundColor: "#edc526",borderRadius:5, fontSize:15}}>
-                Open Translation
-              </button> */}
             </View>
             <View style={playerStyles.lyricsScroll}>
               {isLyricsOpen && (
                 <LyricsPanel currentTrack={current_track}></LyricsPanel>
               )}
-
-              {/* {isTranslationOpen && (
-                <TranslateScreen></TranslateScreen>
-                // reintroduce later
-                // <TranslateScreen currentTrack={current_track}></TranslateScreen>
-              )} */}
             </View>
           </div>
         </div>

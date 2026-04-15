@@ -1,5 +1,7 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, PixelRatio } from "react-native";
 const windowWidth = Dimensions.get("window").width;
+const fontScale = PixelRatio.getFontScale();
+const getFontSize = (size: number) => size / fontScale;
 
 const settingStyles = StyleSheet.create({
   container: {
@@ -9,18 +11,106 @@ const settingStyles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: 30,
+    fontSize: getFontSize(26),
     fontWeight: "bold",
     marginTop: 0,
     marginBottom: 20,
     color: "#e8e1db",
+    letterSpacing: 0.5,
   },
   introSect: {
-    // flex: 1,
     width: windowWidth,
     backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    paddingBottom: 8,
+  },
+  // Profile card (SettingsScreen)
+  profileCard: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    marginHorizontal: 20,
+    marginTop: 24,
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    shadowColor: "#303248",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  profileAvatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#303248",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 16,
+  },
+  profileAvatarText: {
+    color: "#edc526",
+    fontSize: getFontSize(24),
+    fontWeight: "700",
+  },
+  profileInfo: {
+    flex: 1,
+  },
+  profileName: {
+    fontSize: getFontSize(17),
+    fontWeight: "700",
+    color: "#303248",
+    marginBottom: 2,
+  },
+  profileEmail: {
+    fontSize: getFontSize(13),
+    color: "rgba(48, 50, 72, 0.5)",
+    marginBottom: 6,
+  },
+  profileLink: {
+    fontSize: getFontSize(13),
+    color: "#edc526",
+    fontWeight: "600",
+    letterSpacing: 0.3,
+  },
+  // Menu card (SettingsScreen)
+  menuCard: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    marginHorizontal: 20,
+    marginTop: 20,
+    shadowColor: "#303248",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+    overflow: "hidden",
+  },
+  menuRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 18,
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
+  },
+  menuRowText: {
+    fontSize: getFontSize(16),
+    fontWeight: "600",
+    color: "#303248",
+  },
+  menuInternalDivider: {
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.08)",
+    marginHorizontal: 20,
+  },
+  logOutContainer: {
+    marginHorizontal: 20,
+    marginTop: 24,
+    marginBottom: 40,
+    borderRadius: 14,
+    overflow: "hidden",
+    backgroundColor: "rgba(255, 74, 42, 0.08)",
   },
   circle: {
     height: 150,
@@ -129,53 +219,12 @@ const settingStyles = StyleSheet.create({
     zIndex: 10000,
   },
   logOut: {
-    borderRadius: 15,
-    overflow: "hidden",
-    marginTop: 20,
+    paddingVertical: 16,
     textAlign: "center",
-    backgroundColor: "#ff4a2a",
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginHorizontal: 100,
-  },
-  menuDivider: {
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-    marginTop: 25,
-    width: "90%",
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-  viewProfile: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: "auto",
-    marginLeft: "auto",
-    marginTop: 30,
-  },
-  viewProfileTitle: {
-    marginLeft: 30,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  usernameText: { fontSize: 20, fontWeight: "bold", color: "#303248" },
-  profileSubtitle: {
-    color: "gray",
-    marginTop: 2,
-  },
-  menuOptions: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: "auto",
-    marginLeft: "auto",
-    marginTop: 25,
-  },
-  menuOptionsTxt: {
-    marginLeft: 25,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#303248",
+    fontSize: getFontSize(15),
+    fontWeight: "700",
+    color: "#ff4a2a",
+    letterSpacing: 0.5,
   },
 });
 

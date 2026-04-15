@@ -8,7 +8,6 @@ import {
   TextInput,
 } from "react-native";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { SearchOutline, ArrowBackOutline } from "react-ionicons";
 import FeatherIcon from "feather-icons-react";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
@@ -122,14 +121,15 @@ function PlaylistInfoScreen() {
     <>
       <View style={playlistStyles.background}>
         <ToastContainer />
+
+        {/* Header */}
         <View style={playlistStyles.header}>
           <Pressable
             onPress={() => navigate(-1)}
             style={playlistStyles.arrowLocation}
           >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
           </Pressable>
-
           <View style={playlistStyles.controlsLocation}>
             <Text
               style={playlistStyles.title}
@@ -138,45 +138,57 @@ function PlaylistInfoScreen() {
             >
               {name}
             </Text>
-
             <View style={playlistStyles.playLocation}>
               <Pressable
                 onPress={() => playPlaylist(playlistURL)}
                 style={playlistStyles.playBtn}
               >
-                <PlayCircleFilled />
+                <PlayCircleFilled style={{ fontSize: 28, color: "#edc526" }} />
               </Pressable>
-
               <Pressable onPress={deletePlaylistAlert}>
-                <FeatherIcon icon="x-circle" />
+                <FeatherIcon icon="x-circle" size={22} color="rgba(232,225,219,0.6)" />
               </Pressable>
             </View>
           </View>
         </View>
 
+        {/* Search */}
         <View style={playlistStyles.searchBar}>
           <TextInput
             style={playlistStyles.searchInput}
             placeholder="Search playlist"
+            placeholderTextColor="rgba(48,50,72,0.4)"
             value={searchTerm}
             onChangeText={setSearchTerm}
             accessibilityLabel="playlistSearch"
             accessible={true}
           />
-          <SearchOutline />
+          <SearchOutline color={"rgba(48,50,72,0.4)"} height="20px" width="20px" />
         </View>
 
-        <View style={playlistStyles.descLocation}>
-          <Text style={playlistStyles.descTitle}>Description</Text>
-          <View style={playlistStyles.descTxtLocation}>
-            <InfoCircleOutlined />
-            <Text accessibilityLabel="description" accessible={true}>
+        {/* Description */}
+        {description ? (
+          <View style={playlistStyles.descLocation}>
+            <View style={playlistStyles.sectionHeader}>
+              <Text style={playlistStyles.sectionLabel}>Description</Text>
+              <View style={playlistStyles.sectionLabelLine} />
+            </View>
+            <Text
+              accessibilityLabel="description"
+              accessible={true}
+              style={playlistStyles.descText}
+            >
               {description}
             </Text>
           </View>
+        ) : null}
+
+        {/* Songs section */}
+        <View style={playlistStyles.sectionHeader}>
+          <Text style={playlistStyles.sectionLabel}>Songs</Text>
+          <View style={playlistStyles.sectionLabelLine} />
         </View>
         <View style={playlistStyles.colTitles}>
-          <Text style={playlistStyles.colText}>Song</Text>
           <View style={playlistStyles.colLocation}>
             <Text style={playlistStyles.colText}>Liked</Text>
             <Text style={playlistStyles.colText}>Delete</Text>
@@ -207,13 +219,14 @@ function PlaylistInfoScreen() {
           </Text>
         )}
 
+        {/* Add Song */}
         <Pressable
           onPress={() => navigate("/Search")}
           style={playlistStyles.addSongBtn}
           accessibilityLabel="addSong"
           accessible={true}
         >
-          <PlusCircleOutlined style={playlistStyles.addSongIcon} />
+          <PlusCircleOutlined style={{ color: "#edc526", fontSize: 16 }} />
           <Text style={playlistStyles.addSongTxt}>Add New Song</Text>
         </Pressable>
       </View>

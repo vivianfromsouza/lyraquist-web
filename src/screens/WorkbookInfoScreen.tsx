@@ -11,9 +11,7 @@ import {
 } from "react-native";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import WordItem from "../components/WordItem";
-import { StarFilled, StarOutlined } from "@ant-design/icons";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { StarFilled, StarOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import FeatherIcon from "feather-icons-react";
 
 import WordReaderWriter from "../services/WordReaderWriter";
@@ -128,14 +126,16 @@ function WorkbookInfoScreen() {
     return (
       <>
         <View style={workbookStyles.background}>
+
+          {/* Header */}
           <View style={workbookStyles.header}>
             <View style={workbookStyles.close}>
               <View style={workbookStyles.closeLocation}>
                 <Pressable onPress={() => navigate(-1)}>
                   <ArrowBackOutline
-                    color={"#00000"}
-                    height="30px"
-                    width="30px"
+                    color={"#e8e1db"}
+                    height="25px"
+                    width="25px"
                     style={workbookStyles.arrowBtn}
                   />
                 </Pressable>
@@ -151,40 +151,48 @@ function WorkbookInfoScreen() {
                 onPress={deleteWorkbookAlert}
                 style={workbookStyles.closeBtn}
               >
-                <FeatherIcon icon="x-circle" size={35} />
+                <FeatherIcon icon="x-circle" size={22} color="rgba(232,225,219,0.6)" />
               </Pressable>
             </View>
           </View>
 
+          {/* Search */}
           <View style={workbookStyles.searchBar}>
             <TextInput
               style={workbookStyles.searchInput}
               placeholder="Search Words"
+              placeholderTextColor="rgba(48,50,72,0.4)"
               value={searchTerm}
               onChangeText={setSearchTerm}
               accessibilityLabel="wordSearch"
               accessible={true}
             />
-            <SearchOutline color={"#00000"} height="40px" width="40px" />
+            <SearchOutline color={"rgba(48,50,72,0.4)"} height="20px" width="20px" />
           </View>
 
-          <View style={workbookStyles.descLocation}>
-            <Text style={workbookStyles.descTitle}>Description</Text>
-            <View>
-              <View style={workbookStyles.descIcon}>
-                <InfoCircleOutlined />
-                <Text
-                  style={workbookStyles.descTxt}
-                  accessibilityLabel="description"
-                  accessible={true}
-                >
-                  {description}
-                </Text>
+          {/* Description */}
+          {description ? (
+            <View style={workbookStyles.descLocation}>
+              <View style={workbookStyles.sectionHeader}>
+                <Text style={workbookStyles.sectionLabel}>Description</Text>
+                <View style={workbookStyles.sectionLabelLine} />
               </View>
+              <Text
+                accessibilityLabel="description"
+                accessible={true}
+                style={workbookStyles.descText}
+              >
+                {description}
+              </Text>
             </View>
+          ) : null}
+
+          {/* Words section */}
+          <View style={workbookStyles.sectionHeader}>
+            <Text style={workbookStyles.sectionLabel}>Words</Text>
+            <View style={workbookStyles.sectionLabelLine} />
           </View>
           <View style={workbookStyles.wordCol}>
-            <Text style={workbookStyles.wordColTxt}>Word</Text>
             <View style={workbookStyles.starredCol}>
               <Text style={workbookStyles.starredColTxt}>Starred</Text>
               <Text style={workbookStyles.deleteColTxt}>Delete</Text>
@@ -194,9 +202,7 @@ function WorkbookInfoScreen() {
           <FlatList
             scrollEnabled={true}
             showsVerticalScrollIndicator={true}
-            style={{
-              flex: 1,
-            }}
+            style={{ flex: 1 }}
             data={filteredWordList}
             accessibilityLabel="words"
             accessible={true}
@@ -208,50 +214,19 @@ function WorkbookInfoScreen() {
                     <WordItem item={item} />
                     <View style={workbookStyles.iconCols}>
                       {item.is_starred ? (
-                        <Pressable
-                          onPress={() => starredToNot(item.word_id)}
-                          style={workbookStyles.starIconFilled}
-                        >
-                          <StarFilled />
+                        <Pressable onPress={() => starredToNot(item.word_id)}>
+                          <StarFilled style={{ fontSize: 18, color: "#5bc8a6" }} />
                         </Pressable>
                       ) : (
-                        <Pressable
-                          onPress={() => notToStarred(item.word_id)}
-                          style={workbookStyles.starIconOutline}
-                        >
-                          <StarOutlined />
+                        <Pressable onPress={() => notToStarred(item.word_id)}>
+                          <StarOutlined style={{ fontSize: 18, color: "rgba(48,50,72,0.35)" }} />
                         </Pressable>
                       )}
-
-                      {/* {item !== null && (
-                        <>
-                          {item.isStarred && (
-                            <StarredButton
-                              word={item.wordUID}
-                              accessibilityLabel="starWord"
-                              accessible={true}
-                            />
-                          )}
-                          {!item.isStarred && (
-                            <NotStarredButton
-                              word={item}
-
-                              accessibilityLabel="starWord"
-                              accessible={true}
-                            />
-                          )}
-                        </>
-                      )}
-                      {starredWords === null && (
-                        <>
-                          <NotStarredButton word={item} />
-                        </>
-                      )} */}
                       <Pressable
                         onPress={() => deleteWord(item)}
                         style={workbookStyles.deleteIcon}
                       >
-                        <FeatherIcon icon="x-circle" />
+                        <FeatherIcon icon="x-circle" size={18} color="rgba(48,50,72,0.35)" />
                       </Pressable>
                     </View>
                   </View>
@@ -279,8 +254,7 @@ function WorkbookInfoScreen() {
               accessibilityLabel="addWord"
               accessible={true}
             >
-              <PlusCircleOutlined style={workbookStyles.addBtnIcon} />
-
+              <PlusCircleOutlined style={{ color: "#5bc8a6", fontSize: 16 }} />
               <Text style={workbookStyles.addNewWordTxt}>Add New Word</Text>
             </Pressable>
 
@@ -302,22 +276,17 @@ function WorkbookInfoScreen() {
     );
   } else {
     return (
-      <View>
+      <View style={workbookStyles.background}>
         <View style={workbookStyles.header}>
-          <Pressable onPress={() => navigate(-1)} style={{ marginLeft: 20 }}>
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-          </Pressable>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginRight: 20,
-            }}
-          >
-            <Text style={workbookStyles.title}>{name}</Text>
-            <Pressable onPress={deleteWorkbookAlert}>
-              <FeatherIcon icon="x-circle" />
+          <View style={workbookStyles.close}>
+            <View style={workbookStyles.closeLocation}>
+              <Pressable onPress={() => navigate(-1)}>
+                <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" style={workbookStyles.arrowBtn} />
+              </Pressable>
+              <Text style={workbookStyles.title}>{name}</Text>
+            </View>
+            <Pressable onPress={deleteWorkbookAlert} style={workbookStyles.closeBtn}>
+              <FeatherIcon icon="x-circle" size={22} color="rgba(232,225,219,0.6)" />
             </Pressable>
           </View>
         </View>
@@ -326,10 +295,11 @@ function WorkbookInfoScreen() {
           <TextInput
             style={workbookStyles.searchInput}
             placeholder="Search Words"
+            placeholderTextColor="rgba(48,50,72,0.4)"
             value={searchTerm}
             onChangeText={setSearchTerm}
           />
-          <SearchOutline color={"#00000"} height="250px" width="250px" />
+          <SearchOutline color={"rgba(48,50,72,0.4)"} height="20px" width="20px" />
         </View>
 
         <View style={workbookStyles.loading}>
