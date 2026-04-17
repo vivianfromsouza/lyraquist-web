@@ -41,7 +41,7 @@ const TranslationService = {
         "&language=" +
         fromLang +
         "&analyzed=true" +
-        "&morph=true",
+        "&morph=true&source=global",
       headers: {
         "x-rapidapi-host": import.meta.env.VITE_LEXICALA_HOST,
         "x-rapidapi-key": import.meta.env.VITE_LEXICALA_APP_KEY,

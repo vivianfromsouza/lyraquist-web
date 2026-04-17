@@ -10,7 +10,14 @@ import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
 import wordStyles from "../styles/WordStyles";
 
-const WordModal = ({ openModal, setOpenModal, word, fromLang, toLang, songName }) => {
+const WordModal = ({
+  openModal,
+  setOpenModal,
+  word,
+  fromLang,
+  toLang,
+  songName,
+}) => {
   const [bookUID, setbookUID] = useState<any>();
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
@@ -28,37 +35,80 @@ const WordModal = ({ openModal, setOpenModal, word, fromLang, toLang, songName }
   console.log(setPronunciation);
 
   async function getEntryDetails() {
-    console.log("Getting entry details for word:", word, "from language:", fromLang);
+    console.log(
+      "Getting entry details for word:",
+      word,
+      "from language:",
+      fromLang,
+    );
+    console.log("toLang:", toLang);
+
     try {
       const prefLang = await UserReaderWriter.getPreferredLanguage();
+      const targetLang = await toLang.value;
 
       //ex, if prefLang is English and song in English, then we translate to Spanish
       // if (prefLang === fromLang) {
       //   prefLang = await UserReaderWriter.getTargetLanguage();
       // }
 
-      await TranslationService.lexicalaTranslation(
-        word,
-        fromLang,
-      ).then((response) => {
-        if (
-          response &&
-          typeof response === "object" &&
-          response.results &&
-          response.results.length > 0
-        ) {
-          console.log("First result:", response.results[0].senses[0]);
-          setPos(response.results[0].headword.pos);
-          setDefinition(response.results[0].senses[0].definition);
-          setTranslation(response.results[0].senses[0].translations[toLang].text);
-          // setTranslation(response.results[0].senses[0].translations[`${fromLang}`].text);
-        } else {
-          setPos("");
-          setDefinition("Definition not available");
-          setTranslation("");
-        }
-      });
+      await TranslationService.lexicalaTranslation(word, fromLang).then(
+        (response) => {
+          if (
+            response &&
+            typeof response === "object" &&
+            response.results &&
+            response.results.length > 0
+          ) {
+            console.log("First result:", response.results[0].senses[0]);
+            setPos(response.results[0].headword.pos);
+            setDefinition(response.results[0].senses[0].definition);
 
+            const getEnTranslations = (sense): string[] => {
+              const enNode = sense.translations?.en;
+
+              if (!enNode) return [];
+
+              // If it's already an array, map to get the text
+              if (Array.isArray(enNode)) {
+                return enNode.map((item) => item.text);
+              }
+
+              // If it's a single object, wrap it in an array
+              return [enNode.text];
+            };
+
+            const getTargetTranslation = (result) => {
+              // 1. Look through all senses
+              const senseWithEn = result.senses?.find(
+                (sense) => sense.translations?.[toLang],
+              );
+
+              if (Array.isArray(senseWithEn)) {
+                return senseWithEn.map((item) => item.text);
+              }
+              // 2. Return the text if it exists, otherwise null
+              return senseWithEn?.translations[toLang].text || null;
+            };
+
+            // Usage in your Component:
+            const targetText = getTargetTranslation(response.results[0]);
+
+            console.log("target text:", targetText);
+            // Returns "justificatory" even if sense[0] only had "br" (Portuguese)
+            // setTranslation(
+            //   response.results[0].senses[0].translations[toLang].text
+            //     ? response.results[0].senses[0].translations[toLang].text
+            //     : response.results[0].senses[0].translations[toLang][0].text,
+            // );
+            setTranslation(targetText);
+          } else {
+            setPos("");
+            setDefinition("Definition not available");
+            setTranslation("");
+          }
+        },
+      );
     } catch (err) {
       console.error("getEntryDetails error", err);
     }

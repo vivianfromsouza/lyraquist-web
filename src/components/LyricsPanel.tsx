@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, TouchableHighlight, View, ScrollView } from "react-native";
 import WordModal from "./WordModal";
 import lyricsStyles from "../styles/LyricsStyles";
@@ -7,8 +7,14 @@ import UserReaderWriter from "../services/UserReaderWriter";
 export default function LyricsPanel({ lyrics, songLang, currentTrack }) {
   const [openModal, setOpenModal] = useState(false);
   const [clickedWord, setClickedWord] = useState("");
+  const [prefLang, setPrefLang] = useState("");
 
-  const prefLang = UserReaderWriter.getPreferredLanguage();
+  useEffect(() => {
+    UserReaderWriter.getPreferredLanguage().then((DBPrefLang) => {
+      setPrefLang(DBPrefLang);
+    });
+    console.log("songLang in LyricsPanel:", prefLang);
+  }, [prefLang]);
 
   return (
     <>
