@@ -218,6 +218,161 @@ const settingStyles = StyleSheet.create({
   zIndexValue: {
     zIndex: 10000,
   },
+
+  // ── AccountSettings header ────────────────────────────────────────────────
+  accountHeader: {
+    paddingTop: 20,
+    backgroundColor: "#303248",
+    paddingBottom: 16,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  accountHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+    marginLeft: 16,
+    marginRight: 16,
+  },
+  accountHeaderTitle: {
+    fontSize: getFontSize(24),
+    fontWeight: "800",
+    color: "#e8e1db",
+    marginLeft: 16,
+    paddingTop: 8,
+    flex: 1,
+  },
+
+  // ── Section labels ─────────────────────────────────────────────────────────
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 8,
+  },
+  sectionLabel: {
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: "#5bc8a6",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+  sectionLabelLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.12)",
+    marginLeft: 12,
+  },
+  dangerSectionLabel: {
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: "#ff4a2a",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+
+  // ── White cards ────────────────────────────────────────────────────────────
+  card: {
+    backgroundColor: "white",
+    borderRadius: 16,
+    marginHorizontal: 20,
+    shadowColor: "#303248",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+    overflow: "hidden",
+  },
+  cardRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+  },
+  cardDivider: {
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.08)",
+    marginHorizontal: 16,
+  },
+  cardLabel: {
+    fontSize: getFontSize(14),
+    color: "rgba(48, 50, 72, 0.5)",
+    fontWeight: "500",
+  },
+  cardValue: {
+    fontSize: getFontSize(14),
+    color: "#303248",
+    fontWeight: "700",
+  },
+  cardInput: {
+    fontSize: getFontSize(14),
+    color: "#303248",
+    flex: 1,
+    textAlign: "right",
+  },
+
+  // ── Dropdown ───────────────────────────────────────────────────────────────
+  dropdownWrapper: {
+    marginHorizontal: 20,
+    marginTop: 12,
+    zIndex: 10000,
+  },
+
+  // ── Action buttons ─────────────────────────────────────────────────────────
+  actionBtn: {
+    backgroundColor: "#303248",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    marginTop: 12,
+    borderRadius: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "80%",
+    marginBottom: 4,
+  },
+  actionBtnText: {
+    fontWeight: "700",
+    textAlign: "center",
+    fontSize: getFontSize(15),
+    color: "#5bc8a6",
+    letterSpacing: 0.5,
+  },
+
+  // ── Danger zone ────────────────────────────────────────────────────────────
+  dangerCard: {
+    backgroundColor: "rgba(255, 74, 42, 0.06)",
+    borderRadius: 16,
+    marginHorizontal: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 74, 42, 0.2)",
+  },
+  dangerText: {
+    fontSize: getFontSize(13),
+    color: "rgba(255, 74, 42, 0.8)",
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  deleteBtn: {
+    backgroundColor: "#ff4a2a",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 20,
+    alignItems: "center",
+  },
+  deleteBtnText: {
+    fontWeight: "700",
+    textAlign: "center",
+    fontSize: getFontSize(15),
+    color: "white",
+    letterSpacing: 0.5,
+  },
+  spacer: {
+    height: 40,
+  },
+
   logOut: {
     paddingVertical: 16,
     textAlign: "center",

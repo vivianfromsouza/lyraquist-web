@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 // Worked on by: Vivian D'Souza, Ashley Bickham
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
@@ -50,15 +50,45 @@ function AddSongToPlaylistScreen() {
   }, [selectedPlaylist]);
 
   return (
-    <ScrollView style={playlistStyles.container}>
+    <ScrollView style={playlistStyles.addToPlaylistContainer}>
+      {/* Header */}
       <View style={playlistStyles.addToPlaylistHeader}>
-        <Pressable onPress={() => navigate(-1)} style={{}}>
-          <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-        </Pressable>
-        <Text testID="add-song-title" style={playlistStyles.addToPlaylistTitle}>
-          Add Song to Playlist
-        </Text>
+        <View style={playlistStyles.addToPlaylistHeaderRow}>
+          <Pressable onPress={() => navigate(-1)}>
+            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+          </Pressable>
+          <Text testID="add-song-title" style={playlistStyles.addToPlaylistTitle}>
+            Add to Playlist
+          </Text>
+        </View>
       </View>
+
+      {/* Song info card */}
+      {songItem && (
+        <View style={playlistStyles.songInfoCard}>
+          {songItem.imageURL ? (
+            <Image
+              source={{ uri: songItem.imageURL }}
+              style={playlistStyles.songInfoImage}
+            />
+          ) : null}
+          <View style={playlistStyles.songInfoText}>
+            <Text style={playlistStyles.songInfoName} numberOfLines={1}>
+              {songItem.name}
+            </Text>
+            <Text style={playlistStyles.songInfoArtist} numberOfLines={1}>
+              {songItem.artist}
+            </Text>
+          </View>
+        </View>
+      )}
+
+      {/* Playlist selector */}
+      <View style={playlistStyles.sectionHeader}>
+        <Text style={playlistStyles.sectionLabel}>Select Playlist</Text>
+        <View style={playlistStyles.sectionLabelLine} />
+      </View>
+
       <View
         testID="playlist-dropdown"
         style={playlistStyles.addToPlaylistDropdown}
@@ -70,7 +100,7 @@ function AddSongToPlaylistScreen() {
           setItems={setPlaylistItems}
           items={playlistItems}
           setOpen={setOpen}
-          placeholder="Select a language"
+          placeholder="Choose a playlist..."
           zIndex={6000}
           zIndexInverse={100000}
         />
@@ -82,11 +112,11 @@ function AddSongToPlaylistScreen() {
         <Pressable
           onPress={addSong}
           testID="add-song"
-          style={playlistStyles.button}
+          style={playlistStyles.addToPlaylistBtn}
           accessibilityLabel="addconfirm"
           accessible={true}
         >
-          <Text style={playlistStyles.buttonText}>Add Song</Text>
+          <Text style={playlistStyles.addToPlaylistBtnText}>Add Song</Text>
         </Pressable>
       )}
     </ScrollView>
