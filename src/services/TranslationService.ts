@@ -7,12 +7,12 @@ const TranslationService = {
     }
 
     const lyricsToSend = [{ Text: lyrics }];
-    const lyricsAPI =
+    const translationAPI =
       "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" +
       toLanguage;
 
     const translationResponse: Promise<any> = axios({
-      url: lyricsAPI,
+      url: translationAPI,
       method: "POST",
       headers: {
         Accept: "*/*",
@@ -33,15 +33,83 @@ const TranslationService = {
     return translationResponse;
   },
 
-  async lexicalaTranslation(word, fromLang): Promise<any> {
+  async getIndividualTranslation(word, fromLang, toLanguage): Promise<any> {
+    if (word == undefined || word === "") {
+      return "";
+    }
+
+    const wordToSend = [{ Text: word }];
+    const translationAPI =
+      "https://api.cognitive.microsofttranslator.com/dictionary/lookup?api-version=3.0" + "&from=" + fromLang + "&to=" +
+      toLanguage;
+
+    const translationResponse: Promise<any> = axios({
+      url: translationAPI,
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "Content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": import.meta.env.VITE_TRANSLATE_KEY,
+        "Ocp-Apim-Subscription-Region": import.meta.env.VITE_TRANSLATE_REGION,
+      },
+      data: wordToSend,
+    })
+      .then(async (response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("ERROR WITH TRANSLATION:", err);
+        return "Translation not available for this word.";
+      });
+
+    return translationResponse;
+  },
+
+  async getPOS(word, fromLang, toLanguage): Promise<any> {
+    if (word == undefined || word === "") {
+      return "";
+    }
+
+    const wordToSend = [{ Text: word }];
+    const translationAPI =
+      "https://api.cognitive.microsofttranslator.com/dictionary/lookup?api-version=3.0" + "&from=" + toLanguage + "&to=" +
+      fromLang;
+
+    const translationResponse: Promise<any> = axios({
+      url: translationAPI,
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "Content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": import.meta.env.VITE_TRANSLATE_KEY,
+        "Ocp-Apim-Subscription-Region": import.meta.env.VITE_TRANSLATE_REGION,
+      },
+      data: wordToSend,
+    })
+      .then(async (response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("ERROR WITH TRANSLATION:", err);
+        return "Translation not available for this word.";
+      });
+
+    return translationResponse;
+  },
+
+  async lexicalaTranslation(word, fromLang, pos): Promise<any> {
+
+    if (word == undefined || word === "") {
+      return "";
+    }
+
     return axios({
       url:
         "https://lexicala1.p.rapidapi.com/search-entries?text=" +
         word.toLowerCase() +
         "&language=" +
         fromLang +
-        "&analyzed=true" +
-        "&morph=true&source=global",
+        "&analyzed=true&morph=true&source=global",
       headers: {
         "x-rapidapi-host": import.meta.env.VITE_LEXICALA_HOST,
         "x-rapidapi-key": import.meta.env.VITE_LEXICALA_APP_KEY,

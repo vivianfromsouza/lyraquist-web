@@ -52,63 +52,65 @@ const WordModal = ({
       //   prefLang = await UserReaderWriter.getTargetLanguage();
       // }
 
-      await TranslationService.lexicalaTranslation(word, fromLang).then(
-        (response) => {
-          if (
-            response &&
-            typeof response === "object" &&
-            response.results &&
-            response.results.length > 0
-          ) {
-            console.log("First result:", response.results[0].senses[0]);
-            setPos(response.results[0].headword.pos);
-            setDefinition(response.results[0].senses[0].definition);
+      await TranslationService.getIndividualTranslation(
+        word,
+        fromLang,
+        toLang,
+      ).then(async (response) => {
+        if (response && typeof response === "object") {
+          // const translationText =
+          //   response[0]?.translations?.[targetLang]?.text ||
+          //   "Translation not available for this word.";
+          // setTranslation(translationText);
+          const resolvedPos = (response.data[0].translations[0].posTag == "OTHER") ? "verb" : response.data[0].translations[0].posTag || "";
+          setPos(resolvedPos);
+          // console.log("response:", response.data[0].translations[0].posTag);
+          //setDefinition(response[0]?.translations[0]?.transliteration?.text || "Definition not available");
+          //setPronunciation(response[0]?.translations[0]?.audio?.[0]?.url || "");
+          const lexicalaResponse = await TranslationService.lexicalaTranslation(word, fromLang, resolvedPos);
+              if (
+                lexicalaResponse &&
+                typeof lexicalaResponse === "object" &&
+                lexicalaResponse.results &&
+                lexicalaResponse.results.length > 0
+              ) {
+                const toLangKey = toLang?.value ?? toLang;
+                const getTargetTranslation = (result) => {
+                  const senseWithTranslation = result.senses?.find(
+                    (sense) => sense.translations?.[toLangKey],
+                  );
+                  if (!senseWithTranslation) return null;
+                  const val = senseWithTranslation.translations[toLangKey];
+                  if (Array.isArray(val)) return val.map((item) => item.text).join(", ");
+                  return val?.text || null;
+                };
 
-            const getEnTranslations = (sense): string[] => {
-              const enNode = sense.translations?.en;
+                const topResults = lexicalaResponse.results.slice(0, 3);
 
-              if (!enNode) return [];
+                const definitions = topResults
+                  .map((r) => r.senses?.[0]?.definition)
+                  .filter(Boolean);
+                setDefinition(
+                  definitions.length > 1
+                    ? definitions.map((d, i) => `${i + 1}. ${d}`).join("\n")
+                    : definitions[0] ?? "Definition not available"
+                );
 
-              // If it's already an array, map to get the text
-              if (Array.isArray(enNode)) {
-                return enNode.map((item) => item.text);
+                const translations = topResults
+                  .map((r) => getTargetTranslation(r))
+                  .filter(Boolean);
+                console.log("target translations:", translations);
+                setTranslation(translations.join(" / ") || "");
+              } else {
+                setPos("");
+                setDefinition("Definition not available");
+                setTranslation("");
               }
-
-              // If it's a single object, wrap it in an array
-              return [enNode.text];
-            };
-
-            const getTargetTranslation = (result) => {
-              // 1. Look through all senses
-              const senseWithEn = result.senses?.find(
-                (sense) => sense.translations?.[toLang],
-              );
-
-              if (Array.isArray(senseWithEn)) {
-                return senseWithEn.map((item) => item.text);
-              }
-              // 2. Return the text if it exists, otherwise null
-              return senseWithEn?.translations[toLang].text || null;
-            };
-
-            // Usage in your Component:
-            const targetText = getTargetTranslation(response.results[0]);
-
-            console.log("target text:", targetText);
-            // Returns "justificatory" even if sense[0] only had "br" (Portuguese)
-            // setTranslation(
-            //   response.results[0].senses[0].translations[toLang].text
-            //     ? response.results[0].senses[0].translations[toLang].text
-            //     : response.results[0].senses[0].translations[toLang][0].text,
-            // );
-            setTranslation(targetText);
-          } else {
-            setPos("");
-            setDefinition("Definition not available");
-            setTranslation("");
-          }
-        },
-      );
+        } else {
+          setPos("");
+          setTranslation("Translation not available for this word.");
+        }
+      });
     } catch (err) {
       console.error("getEntryDetails error", err);
     }
