@@ -40,11 +40,13 @@ const playerStyles = StyleSheet.create({
     fontSize: 14,
     color: "#e8e1db",
     letterSpacing: 0.2,
+    fontFamily: "Karla",
   },
   artistText: {
     fontSize: 12,
     color: "rgba(232, 225, 219, 0.6)",
     marginTop: 2,
+    fontFamily: "Karla",
   },
   seekbar: {
     flex: 2,
@@ -59,6 +61,7 @@ const playerStyles = StyleSheet.create({
   timeText: {
     fontSize: 11,
     color: "rgba(232, 225, 219, 0.5)",
+    fontFamily: "Karla",
   },
   controls: {
     flexDirection: "row",
@@ -79,6 +82,7 @@ const playerStyles = StyleSheet.create({
     color: "#e8e1db",
     minWidth: 28,
     textAlign: "center",
+    fontFamily: "Karla",
   },
   lyrics: {
     flexDirection: "row",
@@ -98,6 +102,7 @@ const playerStyles = StyleSheet.create({
     cursor: "pointer",
     color: "#303248",
     letterSpacing: 0.3,
+    fontFamily: "Karla",
   },
   lyricsScroll: {
     flexDirection: "row",

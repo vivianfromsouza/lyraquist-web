@@ -20,6 +20,7 @@ const profileStyles = StyleSheet.create({
     color: "#5bc8a6",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -54,6 +55,7 @@ const profileStyles = StyleSheet.create({
     fontSize: getFontSize(14),
     color: "rgba(48, 50, 72, 0.5)",
     fontWeight: "500",
+    fontFamily: "Karla",
   },
   cardValue: {
     fontSize: getFontSize(14),
@@ -61,12 +63,14 @@ const profileStyles = StyleSheet.create({
     fontWeight: "700",
     maxWidth: "55%",
     textAlign: "right",
+    fontFamily: "Karla",
   },
   cardInput: {
     fontSize: getFontSize(14),
     color: "#303248",
     flex: 1,
     textAlign: "right",
+    fontFamily: "Karla",
   },
   actionBtn: {
     backgroundColor: "#303248",
@@ -84,6 +88,7 @@ const profileStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     color: "#5bc8a6",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
 });
 

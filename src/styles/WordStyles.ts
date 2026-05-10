@@ -9,11 +9,13 @@ const wordStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     fontWeight: "600",
     color: "#303248",
+    fontFamily: "Karla",
   },
   translation: {
     marginLeft: 0,
     fontSize: getFontSize(13),
     color: "rgba(48, 50, 72, 0.5)",
+    fontFamily: "Karla",
   },
   modalbg: {
     flex: 1,
@@ -42,43 +44,51 @@ const wordStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     marginBottom: 6,
+    fontFamily: "Karla",
   },
   originalLabel: {
     fontStyle: "italic",
     fontSize: getFontSize(14),
     color: "rgba(232, 225, 219, 0.55)",
     marginRight: 6,
+    fontFamily: "Karla",
   },
   originalText: {
     fontWeight: "700",
     fontSize: getFontSize(28),
     color: "#e8e1db",
+    fontFamily: "Karla",
   },
   prefLabel: {
     fontStyle: "italic",
     fontSize: getFontSize(14),
     color: "rgba(232, 225, 219, 0.55)",
     marginRight: 6,
+    fontFamily: "Karla",
   },
   prefText: {
     fontWeight: "700",
     fontSize: getFontSize(24),
     color: "#edc526",
+    fontFamily: "Karla",
   },
   dictate: {
     fontSize: getFontSize(11),
     color: "rgba(232, 225, 219, 0.4)",
     marginTop: 8,
+    fontFamily: "Karla",
   },
   definition: {
     fontSize: getFontSize(15),
     color: "rgba(232, 225, 219, 0.8)",
     marginBottom: 4,
+    fontFamily: "Karla",
   },
   pos: {
     fontSize: getFontSize(13),
     color: "rgba(232, 225, 219, 0.4)",
     fontStyle: "italic",
+    fontFamily: "Karla",
   },
   closeModal: {},
   saveWordModal: {},
@@ -87,12 +97,14 @@ const wordStyles = StyleSheet.create({
     fontWeight: "700",
     fontSize: getFontSize(15),
     marginHorizontal: 5,
+    fontFamily: "Karla",
   },
   modalButtonsClose: {
     color: "#e8e1db",
     fontWeight: "600",
     fontSize: getFontSize(15),
     marginHorizontal: 5,
+    fontFamily: "Karla",
   },
   dropdown: {
     textAlign: "center",
@@ -109,10 +121,12 @@ const wordStyles = StyleSheet.create({
   placeholderStyle: {
     fontSize: getFontSize(16),
     color: "white",
+    fontFamily: "Karla",
   },
   selectedTextStyle: {
     fontSize: getFontSize(16),
     color: "white",
+    fontFamily: "Karla",
   },
   iconStyle: {
     width: 20,
@@ -129,6 +143,7 @@ const wordStyles = StyleSheet.create({
     marginHorizontal: 2,
     color: "white",
     fontSize: getFontSize(14),
+    fontFamily: "Karla",
   },
   closeButton: {
     backgroundColor: "rgba(255,255,255,0.1)",
@@ -154,6 +169,7 @@ const wordStyles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
     marginTop: 20,
+    fontFamily: "Karla",
   },
   inputContainer: {
     flexDirection: "row",
@@ -180,6 +196,7 @@ const wordStyles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     marginLeft: 8,
+    fontFamily: "Karla",
   },
   wordInputContainer: {
     flexDirection: "row",
@@ -206,6 +223,7 @@ const wordStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     color: "#edc525",
+    fontFamily: "Karla",
   },
   header: {
     backgroundColor: "#303248",
@@ -216,12 +234,13 @@ const wordStyles = StyleSheet.create({
     paddingLeft: 20,
   },
   bookNameLocation: { flexDirection: "row", marginLeft: 20, paddingTop: 10 },
-  bookNameTitle: { fontSize: 18, fontWeight: "bold", color: "gray" },
+  bookNameTitle: { fontSize: 18, fontWeight: "bold", color: "gray", fontFamily: "Karla" },
   bookNameTxt: {
     fontSize: 18,
     marginLeft: 3,
     fontWeight: "bold",
     color: "gray",
+    fontFamily: "Karla",
   },
 });
 

@@ -26,6 +26,7 @@ const playlistStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: getFontSize(20),
     color: "#edc526",
+    fontFamily: "Karla",
   },
   playlistCardName: {
     fontSize: getFontSize(13),
@@ -33,6 +34,7 @@ const playlistStyles = StyleSheet.create({
     color: "#303248",
     marginTop: 10,
     width: 130,
+    fontFamily: "Karla",
   },
   playlistCardImage: {
     width: 130,
@@ -55,6 +57,7 @@ const playlistStyles = StyleSheet.create({
     marginLeft: 16,
     paddingTop: 8,
     flex: 1,
+    fontFamily: "Karla",
   },
   introSect: {
     flex: 1,
@@ -90,6 +93,7 @@ const playlistStyles = StyleSheet.create({
     paddingTop: 8,
     color: "#e8e1db",
     flex: 1,
+    fontFamily: "Karla",
   },
   controlsLocation: {
     flexDirection: "row",
@@ -119,6 +123,7 @@ const playlistStyles = StyleSheet.create({
     color: "#303248",
     paddingHorizontal: 8,
     fontSize: getFontSize(14),
+    fontFamily: "Karla",
   },
 
   // ── Section label pattern ─────────────────────────────────────────────────
@@ -135,6 +140,7 @@ const playlistStyles = StyleSheet.create({
     color: "#edc526",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -150,6 +156,7 @@ const playlistStyles = StyleSheet.create({
     paddingBottom: 5,
     color: "rgba(48, 50, 72, 0.5)",
     paddingHorizontal: 20,
+    fontFamily: "Karla",
   },
   descText: {
     fontSize: getFontSize(14),
@@ -157,6 +164,7 @@ const playlistStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 8,
     lineHeight: 20,
+    fontFamily: "Karla",
   },
   descTxtLocation: {
     borderRadius: 10,
@@ -186,6 +194,7 @@ const playlistStyles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
 
   // ── Song list items (PlaylistItem.tsx) ────────────────────────────────────
@@ -210,12 +219,14 @@ const playlistStyles = StyleSheet.create({
     fontSize: getFontSize(14),
     maxWidth: 190,
     color: "#303248",
+    fontFamily: "Karla",
   },
   playlistItemArtist: {
     maxWidth: 190,
     color: "rgba(48, 50, 72, 0.5)",
     fontSize: getFontSize(13),
     marginTop: 2,
+    fontFamily: "Karla",
   },
   playlistItemLike: {
     flexDirection: "row",
@@ -275,11 +286,13 @@ const playlistStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     fontWeight: "700",
     color: "#303248",
+    fontFamily: "Karla",
   },
   songInfoArtist: {
     fontSize: getFontSize(13),
     color: "rgba(48,50,72,0.5)",
     marginTop: 3,
+    fontFamily: "Karla",
   },
   addToPlaylistDropdown: {
     marginHorizontal: 20,
@@ -303,6 +316,7 @@ const playlistStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     color: "#edc526",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
 
   // ── Add Song button ───────────────────────────────────────────────────────
@@ -325,6 +339,7 @@ const playlistStyles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.5,
     marginLeft: 6,
+    fontFamily: "Karla",
   },
   noResults: {
     textAlign: "center",
@@ -333,6 +348,7 @@ const playlistStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     fontWeight: "600",
     paddingHorizontal: 30,
+    fontFamily: "Karla",
   },
 });
 

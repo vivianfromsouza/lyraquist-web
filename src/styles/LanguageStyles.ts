@@ -30,15 +30,18 @@ const langStyles = StyleSheet.create({
     flex: 1,
     color: "#000",
     paddingHorizontal: 10,
+    fontFamily: "Karla",
   },
   SpanishText: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 10,
+    fontFamily: "Karla",
   },
   buttonText: {
     fontWeight: "bold",
+    fontFamily: "Karla",
   },
   languageButton: {
     marginTop: 10,
@@ -59,6 +62,7 @@ const langStyles = StyleSheet.create({
   },
   text: {
     margin: 10,
+    fontFamily: "Karla",
   },
   langTitleView: {
     flexDirection: "row",
@@ -72,12 +76,14 @@ const langStyles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     marginBottom: 10,
+    fontFamily: "Karla",
   },
   noResultsText: {
     fontSize: 15,
     fontWeight: "bold",
     marginRight: 30,
     marginLeft: 30,
+    fontFamily: "Karla",
   },
   resultsGrid: { marginRight: 30, marginLeft: 30, marginBottom: 10 },
 });

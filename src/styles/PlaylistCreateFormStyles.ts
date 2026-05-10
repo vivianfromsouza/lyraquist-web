@@ -20,6 +20,7 @@ const createPlaylistStyles = StyleSheet.create({
     color: "#edc526",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -40,6 +41,7 @@ const createPlaylistStyles = StyleSheet.create({
     fontSize: getFontSize(16),
     flex: 1,
     color: "#303248",
+    fontFamily: "Karla",
   },
   imageInputRow: {
     marginHorizontal: 20,
@@ -53,6 +55,7 @@ const createPlaylistStyles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: "uppercase",
     marginBottom: 8,
+    fontFamily: "Karla",
   },
 });
 

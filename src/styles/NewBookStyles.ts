@@ -25,6 +25,7 @@ const newBookStyles = StyleSheet.create({
     marginLeft: 16,
     paddingTop: 8,
     flex: 1,
+    fontFamily: "Karla",
   },
 
   // Section label pattern
@@ -41,6 +42,7 @@ const newBookStyles = StyleSheet.create({
     color: "#5bc8a6",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -73,6 +75,7 @@ const newBookStyles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     color: "#303248",
+    fontFamily: "Karla",
   },
 
   // Word section inputs
@@ -104,6 +107,7 @@ const newBookStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     color: "#5bc8a6",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
 
   // Add word outlined pill button
@@ -126,6 +130,7 @@ const newBookStyles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.5,
     marginLeft: 6,
+    fontFamily: "Karla",
   },
 
   // Remove word outlined pill button
@@ -146,6 +151,7 @@ const newBookStyles = StyleSheet.create({
     color: "rgba(48, 50, 72, 0.5)",
     fontWeight: "700",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
 
   headerSubtitle: {
@@ -154,6 +160,7 @@ const newBookStyles = StyleSheet.create({
     paddingLeft: 20,
     paddingBottom: 8,
     letterSpacing: 0.3,
+    fontFamily: "Karla",
   },
 
   // Kept for NewWordScreen compatibility

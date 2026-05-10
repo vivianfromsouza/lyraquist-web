@@ -21,6 +21,7 @@ const signupStyles = StyleSheet.create({
     fontWeight: "bold",
     color: "#303248",
     marginBottom: 10,
+    fontFamily: "Karla",
   },
   dropdown: {
     textAlign: "center",
@@ -34,9 +35,11 @@ const signupStyles = StyleSheet.create({
   placeholderStyle: {
     fontSize: getFontSize(16),
     color: "gray",
+    fontFamily: "Karla",
   },
   selectedTextStyle: {
     fontSize: getFontSize(16),
+    fontFamily: "Karla",
   },
   iconStyle: {
     width: 20,
@@ -45,6 +48,7 @@ const signupStyles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: getFontSize(16),
+    fontFamily: "Karla",
   },
   noteText: {
     paddingLeft: 5,
@@ -52,6 +56,7 @@ const signupStyles = StyleSheet.create({
     color: "gray",
     textAlign: "left",
     marginBottom: 7,
+    fontFamily: "Karla",
   },
   header: {
     backgroundColor: "#edc526",
@@ -83,11 +88,13 @@ const signupStyles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
     marginBottom: 5,
+    fontFamily: "Karla",
   },
   sectionTxt: {
     marginHorizontal: 20,
     fontSize: getFontSize(15),
     marginBottom: 30,
+    fontFamily: "Karla",
   },
   userLocation: {
     marginTop: 5,
@@ -112,11 +119,13 @@ const signupStyles = StyleSheet.create({
   inputFlex: { flex: 1 },
   inputText: {
     fontSize: getFontSize(17),
+    fontFamily: "Karla",
   },
   alertTxt: {
     marginHorizontal: 70,
     fontSize: getFontSize(12),
     color: "#ff4a2a",
+    fontFamily: "Karla",
   },
   passwordLocation: {
     marginTop: 5,
@@ -143,11 +152,13 @@ const signupStyles = StyleSheet.create({
     fontSize: getFontSize(17),
     width: "90%",
     paddingRight: 13,
+    fontFamily: "Karla",
   },
   langHeader: {
     fontSize: getFontSize(17),
     color: "black",
     fontWeight: "bold",
+    fontFamily: "Karla",
   },
   prefLangVisibility: { marginHorizontal: 20, zIndex: 10001 },
   targetLangVisibility: { marginHorizontal: 20, zIndex: 10000 },
@@ -156,13 +167,14 @@ const signupStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  checkboxTxt: { fontSize: getFontSize(12), color: "gray", zIndex: -40 },
+  checkboxTxt: { fontSize: getFontSize(12), color: "gray", zIndex: -40, fontFamily: "Karla" },
   signupBtn: {
     fontSize: 20,
     borderRadius: 5,
     backgroundColor: "#303248",
     color: "#e8e1db",
     fontWeight: "bold",
+    fontFamily: "Karla",
   },
 });
 

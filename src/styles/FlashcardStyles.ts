@@ -32,11 +32,13 @@ const flashcardStyles = StyleSheet.create({
     color: "#e8e1db",
     marginLeft: 16,
     flex: 1,
+    fontFamily: "Karla",
   },
   headerCount: {
     fontSize: getFontSize(13),
     color: "rgba(232,225,219,0.5)",
     fontWeight: "600",
+    fontFamily: "Karla",
   },
 
   // Cards — word side (initial)
@@ -98,6 +100,7 @@ const flashcardStyles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
 });
 

@@ -17,6 +17,7 @@ const settingStyles = StyleSheet.create({
     marginBottom: 20,
     color: "#e8e1db",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
   introSect: {
     width: windowWidth,
@@ -53,6 +54,7 @@ const settingStyles = StyleSheet.create({
     color: "#edc526",
     fontSize: getFontSize(24),
     fontWeight: "700",
+    fontFamily: "Karla",
   },
   profileInfo: {
     flex: 1,
@@ -62,17 +64,20 @@ const settingStyles = StyleSheet.create({
     fontWeight: "700",
     color: "#303248",
     marginBottom: 2,
+    fontFamily: "Karla",
   },
   profileEmail: {
     fontSize: getFontSize(13),
     color: "rgba(48, 50, 72, 0.5)",
     marginBottom: 6,
+    fontFamily: "Karla",
   },
   profileLink: {
     fontSize: getFontSize(13),
     color: "#edc526",
     fontWeight: "600",
     letterSpacing: 0.3,
+    fontFamily: "Karla",
   },
   // Menu card (SettingsScreen)
   menuCard: {
@@ -98,6 +103,7 @@ const settingStyles = StyleSheet.create({
     fontSize: getFontSize(16),
     fontWeight: "600",
     color: "#303248",
+    fontFamily: "Karla",
   },
   menuInternalDivider: {
     height: 1,
@@ -140,10 +146,12 @@ const settingStyles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 20,
     color: "#ff4a2a",
+    fontFamily: "Karla",
   },
   settingText: {
     fontSize: 20,
     color: "gray",
+    fontFamily: "Karla",
   },
   settingRow: {
     flexDirection: "row",
@@ -180,6 +188,7 @@ const settingStyles = StyleSheet.create({
     color: "#e8e1db",
     marginHorizontal: 30,
     borderRadius: 20,
+    fontFamily: "Karla",
   },
   deleteButton: {
     marginHorizontal: 50,
@@ -200,6 +209,7 @@ const settingStyles = StyleSheet.create({
     textAlign: "center",
     color: "#e8e1db",
     marginVertical: 3,
+    fontFamily: "Karla",
   },
   btnContainer: {
     justifyContent: "center",
@@ -209,11 +219,13 @@ const settingStyles = StyleSheet.create({
     marginHorizontal: 20,
     color: "#ff4a2a",
     marginBottom: 10,
+    fontFamily: "Karla",
   },
   currentTxt: {
     fontSize: 20,
     color: "#303248",
     fontWeight: "bold",
+    fontFamily: "Karla",
   },
   zIndexValue: {
     zIndex: 10000,
@@ -241,6 +253,7 @@ const settingStyles = StyleSheet.create({
     marginLeft: 16,
     paddingTop: 8,
     flex: 1,
+    fontFamily: "Karla",
   },
 
   // ── Section labels ─────────────────────────────────────────────────────────
@@ -257,6 +270,7 @@ const settingStyles = StyleSheet.create({
     color: "#5bc8a6",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -270,6 +284,7 @@ const settingStyles = StyleSheet.create({
     color: "#ff4a2a",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
 
   // ── White cards ────────────────────────────────────────────────────────────
@@ -300,17 +315,20 @@ const settingStyles = StyleSheet.create({
     fontSize: getFontSize(14),
     color: "rgba(48, 50, 72, 0.5)",
     fontWeight: "500",
+    fontFamily: "Karla",
   },
   cardValue: {
     fontSize: getFontSize(14),
     color: "#303248",
     fontWeight: "700",
+    fontFamily: "Karla",
   },
   cardInput: {
     fontSize: getFontSize(14),
     color: "#303248",
     flex: 1,
     textAlign: "right",
+    fontFamily: "Karla",
   },
 
   // ── Dropdown ───────────────────────────────────────────────────────────────
@@ -338,6 +356,7 @@ const settingStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     color: "#5bc8a6",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
 
   // ── Danger zone ────────────────────────────────────────────────────────────
@@ -354,6 +373,7 @@ const settingStyles = StyleSheet.create({
     color: "rgba(255, 74, 42, 0.8)",
     lineHeight: 20,
     marginBottom: 16,
+    fontFamily: "Karla",
   },
   deleteBtn: {
     backgroundColor: "#ff4a2a",
@@ -368,6 +388,7 @@ const settingStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     color: "white",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
   spacer: {
     height: 40,
@@ -380,6 +401,7 @@ const settingStyles = StyleSheet.create({
     fontWeight: "700",
     color: "#ff4a2a",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
 });
 

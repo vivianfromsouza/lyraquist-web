@@ -25,12 +25,14 @@ const songStyles = StyleSheet.create({
     fontWeight: "600",
     color: "#303248",
     marginTop: 8,
+    fontFamily: "Karla",
   },
   artist: {
     fontSize: getFontSize(12),
     fontWeight: "400",
     color: "rgba(48, 50, 72, 0.5)",
     marginTop: 2,
+    fontFamily: "Karla",
   },
   addButton: {
     flexDirection: "row",

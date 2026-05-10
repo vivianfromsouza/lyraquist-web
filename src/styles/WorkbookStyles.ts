@@ -15,6 +15,7 @@ const workbookStyles = StyleSheet.create({
     color: "#303248",
     marginTop: 8,
     width: 80,
+    fontFamily: "Karla",
   },
   introSect: {
     flex: 1,
@@ -53,6 +54,7 @@ const workbookStyles = StyleSheet.create({
     paddingTop: 8,
     color: "#e8e1db",
     flex: 1,
+    fontFamily: "Karla",
   },
   searchBar: {
     flexDirection: "row",
@@ -74,6 +76,7 @@ const workbookStyles = StyleSheet.create({
     color: "#303248",
     paddingHorizontal: 8,
     fontSize: getFontSize(14),
+    fontFamily: "Karla",
   },
 
   // ── Section label pattern ─────────────────────────────────────────────────
@@ -90,6 +93,7 @@ const workbookStyles = StyleSheet.create({
     color: "#5bc8a6",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -105,6 +109,7 @@ const workbookStyles = StyleSheet.create({
     paddingBottom: 5,
     color: "rgba(48, 50, 72, 0.5)",
     paddingHorizontal: 20,
+    fontFamily: "Karla",
   },
   descText: {
     fontSize: getFontSize(14),
@@ -112,6 +117,7 @@ const workbookStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 8,
     lineHeight: 20,
+    fontFamily: "Karla",
   },
   descTxt: {
     marginVertical: 10,
@@ -119,6 +125,7 @@ const workbookStyles = StyleSheet.create({
     marginRight: 20,
     marginLeft: 8,
     color: "rgba(48, 50, 72, 0.65)",
+    fontFamily: "Karla",
   },
   descIcon: {
     borderRadius: 10,
@@ -141,6 +148,7 @@ const workbookStyles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   starredCol: {
     flexDirection: "row",
@@ -155,6 +163,7 @@ const workbookStyles = StyleSheet.create({
     letterSpacing: 0.5,
     textTransform: "uppercase",
     marginRight: 10,
+    fontFamily: "Karla",
   },
   deleteColTxt: {
     color: "rgba(48, 50, 72, 0.4)",
@@ -162,6 +171,7 @@ const workbookStyles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
 
   // ── Word list rows ────────────────────────────────────────────────────────
@@ -199,6 +209,7 @@ const workbookStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     fontWeight: "600",
     paddingHorizontal: 30,
+    fontFamily: "Karla",
   },
 
   // ── Bottom buttons ────────────────────────────────────────────────────────
@@ -221,6 +232,7 @@ const workbookStyles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.5,
     marginLeft: 6,
+    fontFamily: "Karla",
   },
   button: {
     backgroundColor: "#303248",
@@ -239,6 +251,7 @@ const workbookStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     color: "#5bc8a6",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
   loading: {
     marginTop: 50,
