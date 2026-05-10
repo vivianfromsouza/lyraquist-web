@@ -1,10 +1,4 @@
-import {
-  Text,
-  View,
-  Pressable,
-  TextInput,
-  ScrollView,
-} from "react-native";
+import { Text, View, Pressable, TextInput, ScrollView } from "react-native";
 import { useState } from "react";
 import FeedbackReaderWriter from "../services/FeedbackReaderWriter";
 import blueLogo from "../assets/blue_small.png";
@@ -18,51 +12,48 @@ export default function FeedbackScreen() {
   async function submitFeedback() {
     await FeedbackReaderWriter.writeUserFeedback(feedback.trim()).then(() =>
       toast(
-        "Feedback successfully submitted! Thank for helping to make Lyraquist better!"
+        "Feedback successfully submitted! Thank you for helping to make Lyraquist better!"
       )
     );
     setFeedback("");
   }
 
   return (
-    <>
-      <ScrollView style={aboutStyles.container}>
-        <LyraquistHeader title="Feedback" logo={blueLogo} />
+    <ScrollView style={aboutStyles.container}>
+      <LyraquistHeader title="Feedback" logo={blueLogo} />
 
-        <View>
-          <Text style={aboutStyles.feedbackHeading}>
-            We are so thankful that you have decided to use our app for your
-            language learning needs!
-          </Text>
-          <Text style={aboutStyles.paragraph}>
-            To keep us informed on how to improve the app, please gives us any
-            feedback you may have. Our team will review the request and see what
-            we can do.
-          </Text>
-          <View>
-            <Text style={aboutStyles.feedbackLabel}>Enter Feedback Here:</Text>
-            <View style={aboutStyles.feedbackContainer}>
-              <TextInput
-                editable
-                multiline
-                numberOfLines={15}
-                onChangeText={(text) => setFeedback(text)}
-                value={feedback}
-                style={aboutStyles.feedbackInput}
-                textAlignVertical="top"
-                placeholder="Type here"
-              />
-            </View>
-            <Pressable
-              onPress={submitFeedback}
-              style={aboutStyles.feedbackButton}
-            >
-              <Text style={aboutStyles.feedbackBtnText}>Submit Feedback</Text>
-              <ToastContainer />
-            </Pressable>
-          </View>
-        </View>
-      </ScrollView>
-    </>
+      <View style={aboutStyles.qaCard}>
+        <View style={aboutStyles.qaAccent} />
+        <Text style={aboutStyles.feedbackHeading}>
+          We're so glad you're using Lyraquist!
+        </Text>
+        <Text style={aboutStyles.qaAnswer}>
+          To help us improve the app, share any feedback you have below. Our
+          team will review your suggestions and see what we can do.
+        </Text>
+      </View>
+
+      <View style={aboutStyles.feedbackCard}>
+        <Text style={aboutStyles.feedbackLabel}>Your Feedback</Text>
+        <TextInput
+          editable
+          multiline
+          numberOfLines={10}
+          onChangeText={(text) => setFeedback(text)}
+          value={feedback}
+          style={aboutStyles.feedbackInput}
+          textAlignVertical="top"
+          placeholder="Type here…"
+          placeholderTextColor="rgba(48, 50, 72, 0.35)"
+        />
+      </View>
+
+      <Pressable onPress={submitFeedback} style={aboutStyles.feedbackButton}>
+        <Text style={aboutStyles.feedbackBtnText}>Submit Feedback</Text>
+      </Pressable>
+
+      <ToastContainer />
+      <View style={{ height: 40 }} />
+    </ScrollView>
   );
 }

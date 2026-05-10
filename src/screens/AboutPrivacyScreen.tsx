@@ -1,46 +1,65 @@
 // Worked on by: Siri Avula
-import { Text, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import blueLogo from "../assets/blue_small.png";
-import privacyStyles from "../styles/PrivacyStyles";
 import LyraquistHeader from "../components/LyraquistHeader";
+import aboutStyles from "../styles/AboutStyles";
+
+const SPOTIFY_DATA = [
+  "User ID",
+  "User Email",
+  "Playlists",
+  "Currently Playing",
+  "Recently Played",
+];
 
 export default function AboutPrivacyScreen() {
   return (
-    <>
-      <ScrollView style={privacyStyles.container}>
-        <LyraquistHeader title="Privacy Policy" logo={blueLogo} />
-        <Text style={privacyStyles.firstPara}>
+    <ScrollView style={aboutStyles.container}>
+      <LyraquistHeader title="Privacy Policy" logo={blueLogo} />
+
+      <View style={aboutStyles.qaCard}>
+        <View style={aboutStyles.qaAccent} />
+        <Text style={aboutStyles.qaQuestion}>Data Collected from Spotify</Text>
+        <Text style={aboutStyles.qaAnswer}>
           Upon using this application, users are requested to sign into their
-          Spotify account. We will have access to the following user data from
-          Spotify:
-          <ul>
-            <li>User ID</li>
-            <li>User Email</li>
-            <li>Playlists</li>
-            <li>Currently Playing</li>
-            <li>Recently Played</li>
-          </ul>
-          This information will be used only to provide users their own personal
-          experience of using this application. Email, ID, and playlist data
-          will be stored securely in our database to build a functioning user
-          profile in Lyraquist. Lyraquist Account passwords will be encrypted
-          and stored securely in our database.
+          Spotify account. We will have access to the following user data:
         </Text>
+        {SPOTIFY_DATA.map((item) => (
+          <Text key={item} style={[aboutStyles.qaAnswer, { marginTop: 4 }]}>
+            {"  •  "}{item}
+          </Text>
+        ))}
+        <Text style={[aboutStyles.qaAnswer, { marginTop: 12 }]}>
+          This information will be used only to provide your personal experience
+          of using this application. Email, ID, and playlist data will be stored
+          securely in our database to build a functioning user profile in
+          Lyraquist. Account passwords are encrypted and stored securely.
+        </Text>
+      </View>
 
-        <Text style={privacyStyles.para}>
-          Our app will uphold Spotify's established policies, ensuring that user
+      <View style={aboutStyles.qaCard}>
+        <View style={aboutStyles.qaAccent} />
+        <Text style={aboutStyles.qaQuestion}>Spotify Policy Compliance</Text>
+        <Text style={aboutStyles.qaAnswer}>
+          Our app upholds Spotify's established policies, ensuring that user
           data is handled in strict accordance with Spotify Web API guidelines.
-          When users log in with their Spotify accounts, they grant consent for
-          our app to access the necessary data for its functionality. This
-          approach not only aligns with their existing agreements but also
-          prioritizes the safeguarding of a user's privacy.
+          When you log in with your Spotify account, you grant consent for our
+          app to access the necessary data for its functionality. This approach
+          not only aligns with their existing agreements but also prioritizes
+          the safeguarding of your privacy.
         </Text>
+      </View>
 
-        <Text style={privacyStyles.para}>
-          Within our app, users will be unable to access other user's accounts
+      <View style={aboutStyles.qaCard}>
+        <View style={aboutStyles.qaAccent} />
+        <Text style={aboutStyles.qaQuestion}>User Interactions</Text>
+        <Text style={aboutStyles.qaAnswer}>
+          Within our app, users will be unable to access other users' accounts
           or engage in direct communication, eliminating the potential for harm.
         </Text>
-      </ScrollView>
-    </>
+      </View>
+
+      <View style={{ height: 40 }} />
+    </ScrollView>
   );
 }
