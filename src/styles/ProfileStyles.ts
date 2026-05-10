@@ -1,85 +1,90 @@
-import { StyleSheet, Dimensions } from "react-native";
-const windowWidth = Dimensions.get("window").width;
+import { StyleSheet, PixelRatio } from "react-native";
+
+const getFontSize = (size: number) => size / PixelRatio.getFontScale();
 
 const profileStyles = StyleSheet.create({
   full: {
     flex: 1,
     backgroundColor: "#e8e1db",
   },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginBottom: 20,
-  },
-  circle: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    borderColor: "#303248",
-    borderWidth: 2,
-    marginTop: -15,
-  },
-  rows: {
+  sectionHeader: {
     flexDirection: "row",
-    marginHorizontal: 10,
-    marginTop: 5,
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 24,
+    paddingBottom: 8,
+  },
+  sectionLabel: {
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: "#5bc8a6",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+  sectionLabelLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.12)",
+    marginLeft: 12,
+  },
+  card: {
+    backgroundColor: "white",
+    borderRadius: 16,
+    marginHorizontal: 20,
+    shadowColor: "#303248",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+    overflow: "hidden",
+  },
+  cardRow: {
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
   },
-  border: {
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "gray",
-    width: "90%",
-    marginRight: "auto",
-    marginLeft: "auto",
+  cardDivider: {
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.08)",
+    marginHorizontal: 16,
   },
-  divider: {
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-    marginTop: 10,
-    marginLeft: 15,
-    marginRight: 15,
+  cardLabel: {
+    fontSize: getFontSize(14),
+    color: "rgba(48, 50, 72, 0.5)",
+    fontWeight: "500",
   },
-  settingTitle: {
-    fontSize: 25,
-    fontWeight: "bold",
-    marginHorizontal: 70,
-    marginTop: 20,
-    color: "#ff4a2a",
-  },
-  spacer: { alignItems: "center", marginTop: 40 },
-  settingTxt: {
-    fontSize: 20,
-    color: "gray",
-    marginBottom: 10,
-  },
-  currValue: {
-    fontSize: 20,
+  cardValue: {
+    fontSize: getFontSize(14),
     color: "#303248",
-    fontWeight: "bold",
+    fontWeight: "700",
+    maxWidth: "55%",
+    textAlign: "right",
   },
-  button: {
-    backgroundColor: "#ff4a2a",
-    borderRadius: 10,
-    marginTop: 5,
-    marginHorizontal: 100,
+  cardInput: {
+    fontSize: getFontSize(14),
+    color: "#303248",
+    flex: 1,
+    textAlign: "right",
   },
-  buttonTxt: {
-    fontSize: 20,
-    fontWeight: "bold",
+  actionBtn: {
+    backgroundColor: "#303248",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    marginTop: 12,
+    borderRadius: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "80%",
+  },
+  actionBtnText: {
+    fontWeight: "700",
     textAlign: "center",
-    color: "#e8e1db",
-    marginVertical: 3,
+    fontSize: getFontSize(15),
+    color: "#5bc8a6",
+    letterSpacing: 0.5,
   },
 });
+
 export default profileStyles;

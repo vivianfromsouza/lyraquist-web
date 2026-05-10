@@ -1,36 +1,34 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, PixelRatio } from "react-native";
+
 const windowWidth = Dimensions.get("window").width;
+const getFontSize = (size: number) => size / PixelRatio.getFontScale();
 
 const aboutStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height: "80vh",
+  },
+  introSect: {
+    width: windowWidth,
+    backgroundColor: "#edc526",
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    paddingBottom: 8,
+    shadowColor: "#b89a00",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 14,
+    elevation: 10,
   },
   title: {
     textAlign: "center",
-    fontSize: 30,
+    fontSize: getFontSize(26),
     fontWeight: "bold",
     marginTop: 0,
     marginBottom: 20,
     color: "#303248",
-  },
-  introSect: {
-    // flex: 1,
-    width: windowWidth,
-    backgroundColor: "#edc526",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  circle: {
-    height: 190,
-    width: 190,
-    marginBottom: -30,
-    // height: 150,
-    // width: 150,
-    // borderRadius: 100,
-    // marginTop: 20,
-    // backgroundColor: "#303248",
+    letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
   centerDisplay: {
     flexDirection: "row",
@@ -47,97 +45,101 @@ const aboutStyles = StyleSheet.create({
     resizeMode: "contain",
     marginBottom: 7,
   },
-  paragraph: {
-    fontSize: 15,
-    margin: 13,
-    marginTop: 20,
-  },
-  link: {
-    color: "blue",
-    fontSize: 15,
-    marginLeft: 13,
-    marginBottom: 5,
-  },
-  imageHader: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  welcomeHeading: {
-    marginTop: 18,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  questionHeading: { fontSize: 20, marginTop: 10, fontWeight: "bold" },
-  margin: { marginHorizontal: 20, marginTop: 10 },
-  feedbackHeading: {
-    paddingTop: 25,
-    margin: 13,
-    fontWeight: "bold",
-    fontSize: 17,
-    color: "#303248",
-  },
-  feedback: {
-    paddingTop: 20,
-    flex: 1,
-    margin: 13,
-  },
-  feedbackLabel: {
-    fontWeight: "bold",
-    fontSize: 15,
-    color: "#303248",
-    margin: 13,
-  },
-  feedbackContainer: {
-    borderWidth: 1,
-    borderRadius: 10,
-    flex: 1,
-    marginTop: 10,
-    padding: 10,
-    marginBottom: 10,
-    margin: 13,
-  },
-  feedbackInput: {
-    fontSize: 15,
-    color: "gray",
-    paddingTop: 5,
-    paddingRight: 5,
-    backgroundColor: "white",
-    borderRadius: 10,
-  },
-  feedbackBtnText: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#e8e1db",
-  },
-  feedbackButton: {
+
+  // ── Hero card ──────────────────────────────────────────────────────────────
+  heroCard: {
     backgroundColor: "#303248",
-    padding: 10,
-    marginTop: 12,
-    borderRadius: 10,
-    marginBottom: 30,
-  },
-  menuEntry: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 25,
+    borderRadius: 20,
     marginHorizontal: 20,
-    marginRight: 50,
+    marginTop: 24,
+    paddingVertical: 28,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    shadowColor: "#1a1c2e",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
   },
-  menuBorder: {
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-    marginTop: 25,
-    width: "90%",
-    marginLeft: "auto",
-    marginRight: "auto",
+  heroLogo: {
+    height: 100,
+    width: 100,
+    marginBottom: 16,
   },
-  menuText: {
-    paddingLeft: 40,
-    fontSize: 20,
-    fontWeight: "bold",
+  heroTitle: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(22),
+    fontWeight: "800",
+    color: "#edc526",
+    textAlign: "center",
+    letterSpacing: 0.4,
+  },
+  heroSubtitle: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(14),
+    color: "rgba(232, 225, 219, 0.65)",
+    textAlign: "center",
+    marginTop: 6,
+    lineHeight: 20,
+  },
+
+  // ── Q&A cards ──────────────────────────────────────────────────────────────
+  qaCard: {
+    marginHorizontal: 20,
+    marginTop: 16,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(48, 50, 72, 0.1)",
+  },
+  qaQuestion: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(16),
+    fontWeight: "700",
     color: "#303248",
+    marginBottom: 8,
+  },
+  qaAnswer: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(14),
+    color: "rgba(48, 50, 72, 0.7)",
+    lineHeight: 22,
+  },
+  qaAccent: {
+    height: 3,
+    width: 32,
+    backgroundColor: "#edc526",
+    borderRadius: 2,
+    marginBottom: 10,
+  },
+
+  // ── Contributors card ──────────────────────────────────────────────────────
+  contributorsCard: {
+    marginHorizontal: 20,
+    marginTop: 16,
+    paddingBottom: 16,
+  },
+  contributorsTitle: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(16),
+    fontWeight: "700",
+    color: "#303248",
+    marginBottom: 10,
+  },
+  contributorsText: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(14),
+    color: "#303248",
+    lineHeight: 22,
+  },
+  contributorsLabel: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: "rgba(48, 50, 72, 0.55)",
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 4,
+    marginTop: 10,
   },
 });
 

@@ -21,6 +21,7 @@ export default function ProfileInfoScreen() {
     if (newName !== undefined && newName.trim() !== "") {
       await UserReaderWriter.writeUserName(newName.trim()).then(() => {
         setName(newName.trim());
+        setNewName("");
         toast("Username changed successfully!");
       });
     }
@@ -33,7 +34,6 @@ export default function ProfileInfoScreen() {
           toast(
             "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
           );
-
           setTimeout(() => {
             handleSignOut();
             navigate("/login");
@@ -42,21 +42,6 @@ export default function ProfileInfoScreen() {
         .catch((error) => {
           console.log(error);
         });
-      // updateEmail(auth.currentUser!, newEmail.trim())
-      //   .then(() => {
-      //     toast(
-      //       "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
-      //     );
-      //     navigate("/login");
-      //     handleSignOut();
-      //   })
-      //   .catch((error) => {
-      //     // An error occurred
-      //     // ...
-      //     console.log(error)
-      //   });
-      // navigate("/login");
-      // handleSignOut();
     } else {
       toast(
         "Invalid email address. Please check the email field and try again."
@@ -68,19 +53,11 @@ export default function ProfileInfoScreen() {
     try {
       getUserName();
       getEmail();
-
-      // LocalSupabaseClient
-      //   .channel("users")
-      //   .on(
-      //     "postgres_changes",
-      //     { event: "*", schema: "public", table: "users" },
-      //     handleUserInserts
-      //   )
-      //   .subscribe();
     } catch (err) {
       console.log(err);
     }
   }, []);
+
   function getUserName() {
     UserReaderWriter.getUserName().then((userName) => {
       setName(userName);
@@ -94,78 +71,83 @@ export default function ProfileInfoScreen() {
   }
 
   return (
-    <>
-      <ScrollView style={profileStyles.full}>
-        <LyraquistHeader title="Profile Information" logo={redLogo} />
-        <View style={profileStyles.spacer}></View>
-        <Text style={profileStyles.settingTitle}>User Name</Text>
-        <View style={profileStyles.border}>
-          <View style={profileStyles.rows}>
-            <Text style={profileStyles.settingTxt}>Current Name:</Text>
-            <Text
-              style={profileStyles.currValue}
-              accessibilityLabel="currentName"
-              accessible={true}
-            >
-              {name}
-            </Text>
-          </View>
-          <View style={profileStyles.divider} />
-          <View style={profileStyles.rows}>
-            <Text style={profileStyles.settingTxt}>New Name:</Text>
-            <TextInput
-              placeholder="Type Here"
-              value={newName}
-              onChangeText={setNewName}
-              autoCapitalize="none"
-              inputMode="text"
-              style={profileStyles.settingTxt}
-              accessibilityLabel="nameInput"
-              accessible={true}
-            />
-          </View>
-        </View>
-        <Pressable
-          style={profileStyles.button}
-          onPress={changeUsername}
-          accessibilityLabel="changeName"
-          accessible={true}
-        >
-          <Text style={profileStyles.buttonTxt}>Change Name</Text>
-        </Pressable>
+    <ScrollView style={profileStyles.full}>
+      <LyraquistHeader title="Profile Information" logo={redLogo} />
 
-        <Text style={profileStyles.settingTitle}>Email</Text>
-        <View style={profileStyles.border}>
-          <View style={profileStyles.rows}>
-            <Text style={profileStyles.settingTxt}>Current Email:</Text>
-            <Text
-              numberOfLines={1}
-              style={profileStyles.currValue}
-              accessibilityLabel="currentEmail"
-              accessible={true}
-            >
-              {email}
-            </Text>
-          </View>
-          <View style={profileStyles.divider} />
-          <View style={profileStyles.rows}>
-            <Text style={profileStyles.settingTxt}>New Email:</Text>
-            <TextInput
-              numberOfLines={1}
-              placeholder="Type Here"
-              value={newEmail}
-              onChangeText={setNewEmail}
-              autoCapitalize="none"
-              inputMode="email"
-              style={profileStyles.settingTxt}
-            />
-          </View>
+      <View style={profileStyles.sectionHeader}>
+        <Text style={profileStyles.sectionLabel}>Username</Text>
+        <View style={profileStyles.sectionLabelLine} />
+      </View>
+      <View style={profileStyles.card}>
+        <View style={profileStyles.cardRow}>
+          <Text style={profileStyles.cardLabel}>Current Name</Text>
+          <Text
+            style={profileStyles.cardValue}
+            accessibilityLabel="currentName"
+            accessible={true}
+            numberOfLines={1}
+          >
+            {name}
+          </Text>
         </View>
-        <Pressable style={profileStyles.button} onPress={changeEmail}>
-          <Text style={profileStyles.buttonTxt}>Change Email</Text>
-        </Pressable>
-        <Text>{"\n\n\n\n\n"}</Text>
-      </ScrollView>
-    </>
+        <View style={profileStyles.cardDivider} />
+        <View style={profileStyles.cardRow}>
+          <Text style={profileStyles.cardLabel}>New Name</Text>
+          <TextInput
+            placeholder="Type here"
+            value={newName}
+            onChangeText={setNewName}
+            autoCapitalize="none"
+            inputMode="text"
+            style={profileStyles.cardInput}
+            accessibilityLabel="nameInput"
+            accessible={true}
+          />
+        </View>
+      </View>
+      <Pressable
+        style={profileStyles.actionBtn}
+        onPress={changeUsername}
+        accessibilityLabel="changeName"
+        accessible={true}
+      >
+        <Text style={profileStyles.actionBtnText}>Change Name</Text>
+      </Pressable>
+
+      <View style={profileStyles.sectionHeader}>
+        <Text style={profileStyles.sectionLabel}>Email</Text>
+        <View style={profileStyles.sectionLabelLine} />
+      </View>
+      <View style={profileStyles.card}>
+        <View style={profileStyles.cardRow}>
+          <Text style={profileStyles.cardLabel}>Current Email</Text>
+          <Text
+            numberOfLines={1}
+            style={profileStyles.cardValue}
+            accessibilityLabel="currentEmail"
+            accessible={true}
+          >
+            {email}
+          </Text>
+        </View>
+        <View style={profileStyles.cardDivider} />
+        <View style={profileStyles.cardRow}>
+          <Text style={profileStyles.cardLabel}>New Email</Text>
+          <TextInput
+            placeholder="Type here"
+            value={newEmail}
+            onChangeText={setNewEmail}
+            autoCapitalize="none"
+            inputMode="email"
+            style={profileStyles.cardInput}
+          />
+        </View>
+      </View>
+      <Pressable style={profileStyles.actionBtn} onPress={changeEmail}>
+        <Text style={profileStyles.actionBtnText}>Change Email</Text>
+      </Pressable>
+
+      <View style={{ height: 40 }} />
+    </ScrollView>
   );
 }
