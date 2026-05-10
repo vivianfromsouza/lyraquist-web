@@ -5,7 +5,7 @@ const getFontSize = (size: number) => size / fontScale;
 const songStyles = StyleSheet.create({
   card: {
     margin: 8,
-    backgroundColor: "white",
+    backgroundColor: "#f5f0eb",
     borderRadius: 12,
     padding: 10,
     shadowColor: "#303248",
