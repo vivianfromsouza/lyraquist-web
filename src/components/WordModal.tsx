@@ -1,97 +1,113 @@
 import { Text, View, Modal, TextInput } from "react-native";
 import { Pressable } from "react-native-web";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
-import UserReaderWriter from "../services/UserReaderWriter";
-import DictionaryService from "../services/DictionaryService";
 import { toast, ToastContainer } from "react-toastify";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
 import wordStyles from "../styles/WordStyles";
 
-const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
+const WordModal = ({
+  openModal,
+  setOpenModal,
+  word,
+  fromLang,
+  toLang,
+  songName,
+}) => {
   const [bookUID, setbookUID] = useState<any>();
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
-  const [pronunciation, setPronunciation] = useState("");
+  // const [pronunciation, setPronunciation] = useState("");
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
-  const audioRef = useRef<HTMLAudioElement>(null);
+  // const audioRef = useRef<HTMLAudioElement>(null);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [workbooks, setWorkbooks] = useState<any>([]);
 
   console.log(workbookName);
-  console.log(setPronunciation);
 
   async function getEntryDetails() {
+    console.log(
+      "Getting entry details for word:",
+      word,
+      "from language:",
+      fromLang,
+    );
+    console.log("toLang:", toLang);
+
     try {
-      let prefLang = await UserReaderWriter.getPreferredLanguage();
-
-      // ex, if prefLang is English and song in English, then we translate to Spanish
-      if (prefLang === songLang) {
-        prefLang = await UserReaderWriter.getTargetLanguage();
-      }
-
-      await TranslationService.getSingleTranslation(
+      await TranslationService.getIndividualTranslation(
         word,
-        songLang,
-        prefLang
-      ).then(async (translationResponse) => {
-        const filteredTranslations =
-          await TranslationService.filterTranslationData(translationResponse);
-        setTranslation(filteredTranslations[0] ?? "");
-
-        const definitionResponse = await DictionaryService.getDefinition(
-          filteredTranslations[0],
-          prefLang
-        );
-
-        setDefinition(
-          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-            ?.senses?.[0]?.definitions?.[0] ?? ""
-        );
-        setPos(
-          definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.lexicalCategory
-            ?.text ?? ""
-        );
-
-        if (songLang === "en") {
-          setPronunciation(
-            translationResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-              ?.pronunciations?.[0]?.audioFile ?? ""
+        fromLang,
+        toLang,
+      ).then(async (response) => {
+        if (response && typeof response === "object") {
+          // const translationText =
+          //   response[0]?.translations?.[targetLang]?.text ||
+          //   "Translation not available for this word.";
+          // setTranslation(translationText);
+          const resolvedPos =
+            response.data[0].translations[0].posTag == "OTHER"
+              ? "verb"
+              : response.data[0].translations[0].posTag || "";
+          setPos(resolvedPos);
+          // console.log("response:", response.data[0].translations[0].posTag);
+          //setDefinition(response[0]?.translations[0]?.transliteration?.text || "Definition not available");
+          //setPronunciation(response[0]?.translations[0]?.audio?.[0]?.url || "");
+          const lexicalaResponse = await TranslationService.lexicalaDefinition(
+            word,
+            fromLang,
           );
+          if (
+            lexicalaResponse &&
+            typeof lexicalaResponse === "object" &&
+            lexicalaResponse.results &&
+            lexicalaResponse.results.length > 0
+          ) {
+            const toLangKey = toLang?.value ?? toLang;
+            const getTargetTranslation = (result) => {
+              const senseWithTranslation = result.senses?.find(
+                (sense) => sense.translations?.[toLangKey],
+              );
+              if (!senseWithTranslation) return null;
+              const val = senseWithTranslation.translations[toLangKey];
+              if (Array.isArray(val))
+                return val.map((item) => item.text).join(", ");
+              return val?.text || null;
+            };
+
+            const topResults = lexicalaResponse.results.slice(0, 3);
+
+            const definitions = topResults
+              .map((r) => r.senses?.[0]?.definition)
+              .filter(Boolean);
+            setDefinition(
+              definitions.length > 1
+                ? definitions.map((d, i) => `${i + 1}. ${d}`).join("\n")
+                : (definitions[0] ?? "Definition not available"),
+            );
+
+            const translations = topResults
+              .map((r) => getTargetTranslation(r))
+              .filter(Boolean);
+            console.log("target translations:", translations);
+            setTranslation(translations.join(" / ") || "");
+          } else {
+            setPos("");
+            setDefinition("Definition not available");
+            setTranslation("");
+          }
+        } else {
+          setPos("");
+          setTranslation("Translation not available for this word.");
         }
       });
-
-      // await TranslationService.filterTranslationData(translationResponse).then(
-      //   async (filteredTranslations) => {
-      //     setTranslation(filteredTranslations[0] ?? "");
-
-      //     const definitionResponse = await DictionaryService.getDefinition(
-      //       filteredTranslations[0],
-      //       prefLang
-      //     );
-
-      //     setDefinition(
-      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]?.entries?.[0]
-      //         ?.senses?.[0]?.definitions?.[0] ?? ""
-      //     );
-      //     setPos(
-      //       definitionResponse?.results?.[0]?.lexicalEntries?.[0]
-      //         ?.lexicalCategory?.text ?? ""
-      //     );
-      //   }
-      // );
-
-      // const filteredTranslations =
-      //   TranslationService.filterTranslationData(translationResponse);
-
-      // set pronunciation last (so useSound / audio init can react)
     } catch (err) {
       console.error("getEntryDetails error", err);
     }
@@ -113,25 +129,25 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
       toast("Please choose a workbook to add the word to!");
     } else if (bookUID === "0") {
       const workbookExists = workbooks.some(
-        (workbook) => workbook.label === newWorkbookName
+        (workbook) => workbook.label === newWorkbookName,
       );
       if (workbookExists) {
         toast(
-          "Workbook with this name already exists. Please choose a different name."
+          "Workbook with this name already exists. Please choose a different name.",
         );
       } else {
         const newBookUID = await WorkbookReaderWriter.createWorkbook(
           newWorkbookName.trim(),
-          ""
+          "",
         );
         WordReaderWriter.addWord(
           word,
           translation,
           newBookUID,
-          songLang,
+          fromLang,
           pos,
           songName,
-          false
+          false,
         );
         toast(
           "New word added!." +
@@ -140,11 +156,11 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
             '" ' +
             "added to " +
             newWorkbookName +
-            " workbook."
+            " workbook.",
         );
       }
     } else {
-      const language = languages.find((l) => l.code === songLang)?.language;
+      const language = languages.find((l) => l.code === fromLang)?.language;
 
       WordReaderWriter.addWord(
         word,
@@ -153,7 +169,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
         language,
         pos,
         songName,
-        false
+        false,
       );
       toast(
         "New word added!." +
@@ -162,7 +178,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
           '" ' +
           "added to " +
           newWorkbookName +
-          " workbook."
+          " workbook.",
       );
     }
   }
@@ -171,27 +187,29 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
     getWorkbooks();
 
     getEntryDetails();
-  }, [openModal, word, songLang]);
+  }, [openModal, word, fromLang]);
 
   return (
-    <Modal  visible={openModal} animationType="slide" transparent={true}>
+    <Modal visible={openModal} animationType="slide" transparent={true}>
       <View data-testid="word-modal" style={wordStyles.modalbg}>
         <View style={wordStyles.modalforefront}>
           <View style={wordStyles.modalTextBackground}>
             <View>
               <View style={wordStyles.modalText}>
-                <Text style={wordStyles.originalLabel}>original: </Text>
+                <Text style={wordStyles.originalLabel}>word: </Text>
+
                 <Text style={wordStyles.originalText}>{word}</Text>
               </View>
               <View style={wordStyles.modalText}>
                 <Text style={wordStyles.prefLabel}>translation: </Text>
                 <Text style={wordStyles.prefText}>{translation}</Text>
+
               </View>
             </View>
             {/*Button for dictation */}
             {/* <audio controls id="player" src="https://audio.oxforddictionaries.com/en/mp3/amazing__gb_1.mp3"></audio>
               return <button onClick={play}>Boop!</button>; */}
-            <Pressable
+            {/* <Pressable
               onPress={() => {
                 if (audioRef.current) {
                   audioRef.current.play();
@@ -201,7 +219,7 @@ const WordModal = ({ openModal, setOpenModal, word, songLang, songName }) => {
               <Text style={wordStyles.dictate}>Press to Dictate</Text>
 
               <audio ref={audioRef} src={pronunciation} />
-            </Pressable>
+            </Pressable> */}
           </View>
           <View style={{ padding: 10 }}>
             <Text style={wordStyles.definition}>{definition}</Text>

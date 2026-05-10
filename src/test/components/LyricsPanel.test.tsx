@@ -28,7 +28,7 @@ describe("LyricsPanel", () => {
     render(
       <LyricsPanel
         lyrics={mockLyrics}
-        fromLang={mockFromLang}
+        songLang={mockFromLang}
         currentTrack={mockCurrentTrack}
       />,
     );
@@ -64,7 +64,7 @@ describe("LyricsPanel", () => {
     render(
       <LyricsPanel
         lyrics={lyricsWithPunc}
-        fromLang={mockFromLang}
+        songLang={mockFromLang}
         currentTrack={mockCurrentTrack}
       />,
     );

@@ -1,7 +1,4 @@
 import axios from "axios";
-import LanguageDetect from "languagedetect";
-
-const API_BASE = import.meta.env.VITE_LOCAL_BASE ?? "";
 
 const TranslationService = {
   async getTranslationAllLyrics(lyrics, toLanguage): Promise<any> {
@@ -10,12 +7,12 @@ const TranslationService = {
     }
 
     const lyricsToSend = [{ Text: lyrics }];
-    const lyricsAPI =
+    const translationAPI =
       "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" +
       toLanguage;
 
     const translationResponse: Promise<any> = axios({
-      url: lyricsAPI,
+      url: translationAPI,
       method: "POST",
       headers: {
         Accept: "*/*",
@@ -36,16 +33,88 @@ const TranslationService = {
     return translationResponse;
   },
 
-  async getSingleTranslation(word, fromLang, toLang): Promise<any> {
-    console.log("API", API_BASE);
-    return axios(
-      `${API_BASE}/api/singleTranslation?fromLang=` +
+  async getIndividualTranslation(word, fromLang, toLanguage): Promise<any> {
+    if (word == undefined || word === "") {
+      return "";
+    }
+
+    const wordToSend = [{ Text: word }];
+    const translationAPI =
+      "https://api.cognitive.microsofttranslator.com/dictionary/lookup?api-version=3.0" + "&from=" + fromLang + "&to=" +
+      toLanguage;
+
+    const translationResponse: Promise<any> = axios({
+      url: translationAPI,
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "Content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": import.meta.env.VITE_TRANSLATE_KEY,
+        "Ocp-Apim-Subscription-Region": import.meta.env.VITE_TRANSLATE_REGION,
+      },
+      data: wordToSend,
+    })
+      .then(async (response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("ERROR WITH TRANSLATION:", err);
+        return "Translation not available for this word.";
+      });
+
+    return translationResponse;
+  },
+
+  async getPOS(word, fromLang, toLanguage): Promise<any> {
+    if (word == undefined || word === "") {
+      return "";
+    }
+
+    const wordToSend = [{ Text: word }];
+    const translationAPI =
+      "https://api.cognitive.microsofttranslator.com/dictionary/lookup?api-version=3.0" + "&from=" + toLanguage + "&to=" +
+      fromLang;
+
+    const translationResponse: Promise<any> = axios({
+      url: translationAPI,
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "Content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": import.meta.env.VITE_TRANSLATE_KEY,
+        "Ocp-Apim-Subscription-Region": import.meta.env.VITE_TRANSLATE_REGION,
+      },
+      data: wordToSend,
+    })
+      .then(async (response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("ERROR WITH TRANSLATION:", err);
+        return "Translation not available for this word.";
+      });
+
+    return translationResponse;
+  },
+
+  async lexicalaDefinition(word, fromLang): Promise<any> {
+
+    if (word == undefined || word === "") {
+      return "";
+    }
+
+    return axios({
+      url:
+        "https://lexicala1.p.rapidapi.com/search-entries?text=" +
+        word.toLowerCase() +
+        "&language=" +
         fromLang +
-        "&toLang=" +
-        toLang +
-        "&word=" +
-        word
-    )
+        "&analyzed=true&morph=true&source=global",
+      headers: {
+        "x-rapidapi-host": import.meta.env.VITE_LEXICALA_HOST,
+        "x-rapidapi-key": import.meta.env.VITE_LEXICALA_APP_KEY,
+      },
+    })
       .then((response) => {
         return response.data;
       })
@@ -53,58 +122,7 @@ const TranslationService = {
         console.error("Frontend failed to fetch from local API:", error);
         return "Translation unavailable.";
       });
-  },
-  async detectLanguage(word): Promise<string> {
-    if (!word || word.trim().length === 0) {
-      return "";
-    }
-
-    const langDetector = new LanguageDetect();
-    langDetector.setLanguageType("iso2");
-
-    const detectedLang = langDetector.detect(word, 1);
-
-    console.log("detected lang;", detectedLang);
-
-    return detectedLang[0][0].toString();
-  },
-  async filterTranslationData(data): Promise<string> {
-    const allTranslations = data.results.flatMap((result) =>
-      result.lexicalEntries.flatMap((lexicalEntry) =>
-        lexicalEntry.entries.flatMap((entry) => {
-          const entryTranslations = entry.translations
-            ? entry.translations.map((t) => t.text)
-            : [];
-
-          const senseTranslations = entry.senses
-            ? entry.senses.flatMap((sense) => {
-                const directSenseTranslations = sense.translations
-                  ? sense.translations.map((t) => t.text)
-                  : [];
-
-                const subsenseTranslations = sense.subsenses
-                  ? sense.subsenses.flatMap((subsense) =>
-                      subsense.translations.map((t) => t.text)
-                    )
-                  : [];
-
-                return [...directSenseTranslations, ...subsenseTranslations];
-              })
-            : [];
-
-          return [...entryTranslations, ...senseTranslations];
-        })
-      )
-    );
-
-    // Filter out any undefined or empty strings
-    const validTranslations = allTranslations.filter((t) => t);
-
-    // --- STEP 2: Limit the Array to the First Three Elements ---
-    const firstThreeTranslations = validTranslations.slice(0, 3);
-
-    return firstThreeTranslations;
-  },
+  }
 };
 
 export default TranslationService;

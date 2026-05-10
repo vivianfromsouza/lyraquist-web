@@ -39,7 +39,7 @@ const HomeScreen: React.FC = () => {
   const [starredLanguages, setStarredLanguages] = useState<any[] | null>([]);
   const [history, setHistory] = useState<any[] | null>([]);
   const [savedPlaylists, setSavedPlaylists] = useState<any[] | null>([]);
-  const [savedSongs, setSavedSongs] = useState<any[] | null>([]);
+  const [likedSongs, setLikedSongs] = useState<any[] | null>([]);
   const [workbooksList, setWorkbooksList] = useState<any[] | null>([]);
   const [loadingScreen, setLoadingScreen] = useState(false); // only one that you set it to false initially
 
@@ -90,7 +90,7 @@ const HomeScreen: React.FC = () => {
         isLiked: song["is_liked"],
         recordID: song["record_id"],
       }));
-      setSavedSongs(savedSongs);
+      setLikedSongs(savedSongs);
     });
     counter += 1;
   }
@@ -321,17 +321,17 @@ const HomeScreen: React.FC = () => {
           </View>
 
           <View style={homeStyles.savedSect}>
-            <Text style={homeStyles.sectionTitle}>Saved Songs</Text>
+            <Text style={homeStyles.sectionTitle}>Liked Songs</Text>
             <ScrollView horizontal style={homeStyles.hzScroll}>
-              {savedSongs!.length != 0 &&
-                savedSongs!.map((item, index) => (
+              {likedSongs!.length != 0 &&
+                likedSongs!.map((item, index) => (
                   <SongCard item={item} key={index} />
                 ))}
             </ScrollView>
-            {savedSongs!.length == 0 && (
+            {likedSongs!.length == 0 && (
               <View style={{}}>
                 <Text style={homeStyles.noResultsText}>
-                  No Saved Songs Yet...
+                  No Liked Songs Yet...
                 </Text>
               </View>
             )}

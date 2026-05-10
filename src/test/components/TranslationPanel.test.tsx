@@ -29,6 +29,7 @@ describe("TranslationPanel", () => {
       <TranslationPanel
         translation={mockTranslation}
         prefLang={mockPrefLang}
+        songLang={"es"}
         currentTrack={mockCurrentTrack}
       />,
     );
@@ -64,6 +65,7 @@ describe("TranslationPanel", () => {
       <TranslationPanel
         translation={translationWithPunc}
         prefLang={mockPrefLang}
+        songLang={"es"}
         currentTrack={mockCurrentTrack}
       />,
     );

@@ -19,8 +19,11 @@ export default function LyricsToScreen({ currentTrack }) {
 
   async function getUserPrefLang() {
     await UserReaderWriter.getPreferredLanguage().then((DBPrefLang) => {
-      if (DBPrefLang.toLowerCase() == "en") {
-        setPrefLang("en");     
+      if (
+        DBPrefLang.toLowerCase() == "en" ||
+        DBPrefLang.toLowerCase() == "english"
+      ) {
+        setPrefLang("en");
       } else if (
         DBPrefLang.toLowerCase() == "es" ||
         DBPrefLang.toLowerCase() == "spanish"
@@ -43,18 +46,21 @@ export default function LyricsToScreen({ currentTrack }) {
   }
 
   async function getTranslation(lyricsResponse) {
-    await getUserPrefLang();
-    TranslationService.getTranslationAllLyrics(lyricsResponse, "en").then(
-      (response) => {
-        setTranslation(response.data[0].translations[0].text);
-        setFromLang(response.data[0].detectedLanguage.language);
-      }
-    );
+    console.log("prefLang", prefLang);
+    await TranslationService.getTranslationAllLyrics(
+      lyricsResponse,
+      prefLang,
+    ).then((response) => {
+      setTranslation(response.data[0].translations[0].text);
+      setFromLang(response.data[0].detectedLanguage.language);
+    });
   }
 
   useEffect(() => {
+    getUserPrefLang();
+
     getLyrics();
-  }, [currentTrack]);
+  }, [currentTrack, prefLang]);
 
   return (
     <View style={lyricsStyles.container}>
@@ -64,7 +70,11 @@ export default function LyricsToScreen({ currentTrack }) {
             <Text style={lyricsStyles.sectionLabel}>Lyrics</Text>
             <View style={lyricsStyles.sectionLabelLine} />
           </View>
-          <LyricsPanel lyrics={lyrics} fromLang={fromLang} currentTrack={currentTrack} />
+          <LyricsPanel
+            lyrics={lyrics}
+            songLang={fromLang}
+            currentTrack={currentTrack}
+          />
         </View>
         <View style={lyricsStyles.columnDivider} />
         <View style={lyricsStyles.column}>
@@ -72,7 +82,12 @@ export default function LyricsToScreen({ currentTrack }) {
             <Text style={lyricsStyles.sectionLabel}>Translation</Text>
             <View style={lyricsStyles.sectionLabelLine} />
           </View>
-          <TranslationPanel translation={translation} prefLang={prefLang} currentTrack={currentTrack} />
+          <TranslationPanel
+            translation={translation}
+            prefLang={prefLang}
+            songLang={fromLang}
+            currentTrack={currentTrack}
+          />
         </View>
       </View>
     </View>
