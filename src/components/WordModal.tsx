@@ -197,21 +197,13 @@ const WordModal = ({
             <View>
               <View style={wordStyles.modalText}>
                 <Text style={wordStyles.originalLabel}>word: </Text>
+
                 <Text style={wordStyles.originalText}>{word}</Text>
               </View>
               <View style={wordStyles.modalText}>
                 <Text style={wordStyles.prefLabel}>translation: </Text>
-                <Text style={wordStyles.originalText}>{translation}</Text>
-                {/* <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 30,
-                    color: "#edc526",
-                    fontStyle: "italic",
-                  }}
-                >
-                  {pos}
-                </Text> */}
+                <Text style={wordStyles.prefText}>{translation}</Text>
+
               </View>
             </View>
             {/*Button for dictation */}
@@ -271,13 +263,13 @@ const WordModal = ({
               onPress={() => setOpenModal(false)}
               style={wordStyles.closeButton}
             >
-              <Text style={wordStyles.modalButtons}> Close </Text>
+              <Text style={wordStyles.modalButtonsClose}>Close</Text>
             </Pressable>
             <Pressable
               style={wordStyles.saveButton}
               onPress={addWordToWorkbook}
             >
-              <Text style={wordStyles.modalButtons}> Save </Text>
+              <Text style={wordStyles.modalButtons}>Save Word</Text>
               <ToastContainer />
             </Pressable>
           </View>

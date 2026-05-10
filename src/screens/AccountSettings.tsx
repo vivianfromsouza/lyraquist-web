@@ -6,21 +6,16 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
-// import { getAuth, updatePassword } from "firebase/auth";
-//   Image,
-// } from "react-native";
-// import auth from "@react-native-firebase/auth";
-
-import redLogo from "../assets/red_small.png";
 import { useNavigate } from "react-router-dom";
 import DropDownPicker from "react-native-dropdown-picker";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import { dropdownLanguages, languages } from "../constants/ProjectConstants";
-import LyraquistHeader from "../components/LyraquistHeader";
 import settingStyles from "../styles/SettingStyles";
+import { ArrowBackOutline } from "react-ionicons";
 
 export default function AccountSettings() {
   const [openPref, setOpenPref] = useState(false);
@@ -38,19 +33,8 @@ export default function AccountSettings() {
 
   useEffect(() => {
     try {
-      // const handleUserInserts = (payload) => {
-      //   console.log("Change received!", payload);
-      //   getPrefLang();
-      // };
       getPrefLang();
       getTargetLang();
-      // LocalSupabaseClient.channel("users")
-      //   .on(
-      //     "postgres_changes",
-      //     { event: "*", schema: "public", table: "users" },
-      //     handleUserInserts
-      //   )
-      //   .subscribe();
     } catch (err) {
       console.log(err);
     }
@@ -79,14 +63,9 @@ export default function AccountSettings() {
   async function changePreferredLanguage() {
     if (newPrefLang != undefined && newPrefLang != prefLang) {
       const langName = languages.find((l) => l.code === newPrefLang)?.language;
-      console.log("newLang", langName);
-
       await UserReaderWriter.setPreferredLanguage(newPrefLang);
       setPrefLang(langName);
-
-      toast(
-        "Success! Preferred Language successfully changed to: " + newPrefLang
-      );
+      toast("Success! Preferred Language changed to: " + newPrefLang);
     }
   }
 
@@ -97,10 +76,7 @@ export default function AccountSettings() {
       )?.language;
       await UserReaderWriter.setTargetLanguage(newTargetLang);
       setPrefLang(langName);
-
-      toast(
-        "Success! Target Language successfully changed to: " + newTargetLang
-      );
+      toast("Success! Target Language changed to: " + newTargetLang);
     }
   }
 
@@ -109,14 +85,6 @@ export default function AccountSettings() {
       handleSignOut();
     });
   }
-
-  const deleteAlert = () => {
-    toast(
-      name +
-        ", Are you Sure? Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
-      { closeButton: deleteAlertButton }
-    );
-  };
 
   const deleteAlertButton = () => {
     return (
@@ -137,160 +105,157 @@ export default function AccountSettings() {
     );
   };
 
+  const deleteAlert = () => {
+    toast(
+      name +
+        ", Are you Sure? Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
+      { closeButton: deleteAlertButton }
+    );
+  };
+
   setCurrUserValues();
 
   return (
     <>
+      <ToastContainer />
       <ScrollView style={settingStyles.container}>
-        <LyraquistHeader title="Account Settings" logo={redLogo} />
-        <View>
-          <Text style={settingStyles.settingTitle}>Account Info</Text>
-          <View style={settingStyles.border}>
-            <View style={settingStyles.settingRow}>
-              <Text style={settingStyles.settingText}>Account Type: </Text>
-            </View>
-          </View>
-        </View>
 
-        <View>
-          <Text style={settingStyles.settingTitle}>Password</Text>
-          <View style={settingStyles.border}>
-            <View style={settingStyles.settingRow}>
-              <Text style={settingStyles.settingText}>New Password:</Text>
-              <TextInput
-                placeholder="Type Here"
-                value={password}
-                onChangeText={setPassword}
-                autoCapitalize="none"
-                secureTextEntry
-                style={settingStyles.settingText}
-              />
-            </View>
-            <View style={settingStyles.divider} />
-
-            <View style={settingStyles.settingRow}>
-              <Text style={settingStyles.settingText}>
-                Confirm new Password:
-              </Text>
-              <TextInput
-                placeholder="Type Here"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                autoCapitalize="none"
-                secureTextEntry
-                style={settingStyles.settingText}
-              />
-            </View>
-          </View>
-          <View style={settingStyles.btnContainer}>
-            <Pressable
-              style={settingStyles.settingsButton}
-              onPress={changePassword}
-            >
-              <ToastContainer />
-
-              <Text style={settingStyles.settingsBtnText}>Change Password</Text>
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={settingStyles.zIndexValue}>
-          <Text style={settingStyles.settingTitle}>Preferred Language</Text>
-          <View style={settingStyles.border}>
-            <View style={settingStyles.settingCol}>
-              <Text style={settingStyles.settingText}>Current Language:</Text>
-              <Text
-                style={settingStyles.currentTxt}
-                accessibilityLabel="preferredLanguage"
-                accessible={true}
-              >
-                {prefLang}
-              </Text>
-            </View>
-            <View style={settingStyles.settingRow} />
-            <View style={settingStyles.divider} />
-
-            <View style={settingStyles.settingRow}>
-              <Text style={settingStyles.settingText}>New Language:</Text>
-              <View>
-                <DropDownPicker
-                  open={openPref}
-                  value={newPrefLang}
-                  items={dropdownLanguages}
-                  setOpen={setOpenPref}
-                  setValue={setNewPrefLang}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={settingStyles.btnContainer}>
-            <Pressable
-              style={settingStyles.settingsButton}
-              onPress={() => {
-                changePreferredLanguage();
-              }}
-            >
-              <Text style={settingStyles.settingsBtnText}>Change Langauge</Text>
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={settingStyles.zIndexValue}>
-          <Text style={settingStyles.settingTitle}>Target Language</Text>
-          <View style={settingStyles.border}>
-            <View style={settingStyles.settingCol}>
-              <Text style={settingStyles.settingText}>Current Language:</Text>
-              <Text
-                style={settingStyles.currentTxt}
-                accessibilityLabel="targetLanguage"
-                accessible={true}
-              >
-                {targetLang}
-              </Text>
-            </View>
-            <View style={settingStyles.settingRow} />
-            <View style={settingStyles.divider} />
-
-            <View style={settingStyles.settingRow}>
-              <Text style={settingStyles.settingText}>New Language:</Text>
-              <View>
-                <DropDownPicker
-                  open={openTarget}
-                  value={newTargetLang}
-                  items={dropdownLanguages}
-                  setOpen={setOpenTarget}
-                  setValue={setNewTargetLang}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={settingStyles.btnContainer}>
-            <Pressable
-              style={settingStyles.settingsButton}
-              onPress={() => {
-                changeTargetLanguage();
-              }}
-            >
-              <Text style={settingStyles.settingsBtnText}>Change Langauge</Text>
-            </Pressable>
-          </View>
-        </View>
-
-        <View>
-          <Text style={settingStyles.settingTitle}>Account Deletion</Text>
-          <Text style={settingStyles.alertText}>
-            Deleting your Account will remove all data from the app. Your data
-            will NOT be retrievable.
-          </Text>
-          <Pressable style={settingStyles.deleteButton} onPress={deleteAlert}>
-            {/* <ToastContainer closeButton={deleteAlertButton} /> */}
-
-            <Text style={settingStyles.deleteButtonText}>
-              Delete My Account
+        {/* Header */}
+        <View style={settingStyles.accountHeader}>
+          <View style={settingStyles.accountHeaderRow}>
+            <TouchableOpacity onPress={() => navigate(-1)}>
+              <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+            </TouchableOpacity>
+            <Text style={settingStyles.accountHeaderTitle}>
+              Account Settings
             </Text>
+          </View>
+        </View>
+
+        {/* Password */}
+        <View style={settingStyles.sectionHeader}>
+          <Text style={settingStyles.sectionLabel}>Password</Text>
+          <View style={settingStyles.sectionLabelLine} />
+        </View>
+        <View style={settingStyles.card}>
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>New Password</Text>
+            <TextInput
+              placeholder="Enter password"
+              placeholderTextColor="rgba(48,50,72,0.3)"
+              value={password}
+              onChangeText={setPassword}
+              autoCapitalize="none"
+              secureTextEntry
+              style={settingStyles.cardInput}
+            />
+          </View>
+          <View style={settingStyles.cardDivider} />
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>Confirm Password</Text>
+            <TextInput
+              placeholder="Confirm password"
+              placeholderTextColor="rgba(48,50,72,0.3)"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              autoCapitalize="none"
+              secureTextEntry
+              style={settingStyles.cardInput}
+            />
+          </View>
+        </View>
+        <Pressable style={settingStyles.actionBtn} onPress={changePassword}>
+          <Text style={settingStyles.actionBtnText}>Change Password</Text>
+        </Pressable>
+
+        {/* Preferred Language */}
+        <View style={[settingStyles.sectionHeader, { zIndex: 11000 }]}>
+          <Text style={settingStyles.sectionLabel}>Preferred Language</Text>
+          <View style={settingStyles.sectionLabelLine} />
+        </View>
+        <View style={settingStyles.card}>
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>Current</Text>
+            <Text
+              style={settingStyles.cardValue}
+              accessibilityLabel="preferredLanguage"
+              accessible={true}
+            >
+              {prefLang ?? "—"}
+            </Text>
+          </View>
+        </View>
+        <View style={[settingStyles.dropdownWrapper, { zIndex: 11000 }]}>
+          <DropDownPicker
+            open={openPref}
+            value={newPrefLang}
+            items={dropdownLanguages}
+            setOpen={setOpenPref}
+            setValue={setNewPrefLang}
+            placeholder="Select new language..."
+            zIndex={11000}
+            zIndexInverse={1000}
+          />
+        </View>
+        <Pressable
+          style={settingStyles.actionBtn}
+          onPress={changePreferredLanguage}
+        >
+          <Text style={settingStyles.actionBtnText}>Change Language</Text>
+        </Pressable>
+
+        {/* Target Language */}
+        <View style={[settingStyles.sectionHeader, { zIndex: 10000 }]}>
+          <Text style={settingStyles.sectionLabel}>Target Language</Text>
+          <View style={settingStyles.sectionLabelLine} />
+        </View>
+        <View style={settingStyles.card}>
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>Current</Text>
+            <Text
+              style={settingStyles.cardValue}
+              accessibilityLabel="targetLanguage"
+              accessible={true}
+            >
+              {targetLang ?? "—"}
+            </Text>
+          </View>
+        </View>
+        <View style={[settingStyles.dropdownWrapper, { zIndex: 10000 }]}>
+          <DropDownPicker
+            open={openTarget}
+            value={newTargetLang}
+            items={dropdownLanguages}
+            setOpen={setOpenTarget}
+            setValue={setNewTargetLang}
+            placeholder="Select new language..."
+            zIndex={10000}
+            zIndexInverse={2000}
+          />
+        </View>
+        <Pressable
+          style={settingStyles.actionBtn}
+          onPress={changeTargetLanguage}
+        >
+          <Text style={settingStyles.actionBtnText}>Change Language</Text>
+        </Pressable>
+
+        {/* Danger Zone */}
+        <View style={settingStyles.sectionHeader}>
+          <Text style={settingStyles.dangerSectionLabel}>Danger Zone</Text>
+          <View style={settingStyles.sectionLabelLine} />
+        </View>
+        <View style={settingStyles.dangerCard}>
+          <Text style={settingStyles.dangerText}>
+            Deleting your account will permanently remove all your data from the
+            app. This cannot be undone.
+          </Text>
+          <Pressable style={settingStyles.deleteBtn} onPress={deleteAlert}>
+            <Text style={settingStyles.deleteBtnText}>Delete My Account</Text>
           </Pressable>
         </View>
-        <Text>{"\n\n\n\n\n"}</Text>
+
+        <View style={settingStyles.spacer} />
       </ScrollView>
     </>
   );

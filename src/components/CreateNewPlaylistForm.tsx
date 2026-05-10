@@ -6,7 +6,6 @@ import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
 import playlistStyles from "../styles/PlaylistStyles";
-
 import createPlaylistStyles from "../styles/PlaylistCreateFormStyles";
 
 const CreateNewPlaylistForm = ({ songItem }) => {
@@ -36,63 +35,56 @@ const CreateNewPlaylistForm = ({ songItem }) => {
   }
 
   return (
-    <>
-      <View style={createPlaylistStyles.formContainer}>
-        <Text
-          testID="playlist-name-label"
-          style={createPlaylistStyles.label}
-        >
-          New Playlist Name:
-        </Text>
-        <View>
-          <TextInput
-            testID="playlist-name-input"
-            placeholder="Enter New Playlist Name"
-            value={newPlaylistName}
-            onChangeText={(text) => setNewPlaylistName(text)}
-            style={createPlaylistStyles.input}
-          />
-        </View>
-        <Text
-          testID="description-label"
-          style={createPlaylistStyles.label}
-        >
-          Description:
-        </Text>
-        <View>
-          <TextInput
-            testID="description-input"
-            placeholder="Enter Description"
-            placeholderTextColor={"grey"}
-            editable
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-            style={createPlaylistStyles.input}
-          />
-        </View>
-        <View style={createPlaylistStyles.imageInput}>
-          <input
-            test-id="image-input"
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setImageURL(URL.createObjectURL(e.target.files![0]))
-            }
-          />
-        </View>
-        <Pressable
-          onPress={() => {
-            console.log("button pressed");
-            createPlaylist(description, imageURL);
-          }}
-          testID="add-song"
-          style={playlistStyles.button}
-          accessibilityLabel="addconfirm"
-        >
-          <Text style={playlistStyles.buttonText}>Create Playlist</Text>
-        </Pressable>
+    <View style={createPlaylistStyles.formContainer}>
+      {/* Section: New Playlist */}
+      <View style={createPlaylistStyles.sectionHeader}>
+        <Text style={createPlaylistStyles.sectionLabel}>New Playlist</Text>
+        <View style={createPlaylistStyles.sectionLabelLine} />
       </View>
-    </>
+
+      <View style={createPlaylistStyles.inputRow}>
+        <TextInput
+          testID="playlist-name-input"
+          placeholder="Playlist Name"
+          placeholderTextColor="rgba(48,50,72,0.35)"
+          value={newPlaylistName}
+          onChangeText={(text) => setNewPlaylistName(text)}
+          style={createPlaylistStyles.input}
+        />
+      </View>
+
+      <View style={createPlaylistStyles.inputRow}>
+        <TextInput
+          testID="description-input"
+          placeholder="Description"
+          placeholderTextColor="rgba(48,50,72,0.35)"
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+          style={createPlaylistStyles.input}
+        />
+      </View>
+
+      <View style={createPlaylistStyles.imageInputRow}>
+        <Text style={createPlaylistStyles.imageLabel}>Cover Image</Text>
+        <input
+          test-id="image-input"
+          type="file"
+          accept="image/*"
+          onChange={(e) =>
+            setImageURL(URL.createObjectURL(e.target.files![0]))
+          }
+        />
+      </View>
+
+      <Pressable
+        onPress={() => createPlaylist(description, imageURL)}
+        testID="add-song"
+        style={playlistStyles.addToPlaylistBtn}
+        accessibilityLabel="addconfirm"
+      >
+        <Text style={playlistStyles.addToPlaylistBtnText}>Create Playlist</Text>
+      </Pressable>
+    </View>
   );
 };
 

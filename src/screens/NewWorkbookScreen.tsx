@@ -17,7 +17,6 @@ import LanguageIcon from "@mui/icons-material/Language";
 import TranslateIcon from "@mui/icons-material/Translate";
 import AbcIcon from "@mui/icons-material/Abc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import WordReaderWriter from "../services/WordReaderWriter";
@@ -124,108 +123,117 @@ function NewWorkbookScreen() {
 
   return (
     <SafeAreaView style={newBookStyles.container}>
+      {/* Header */}
       <View style={newBookStyles.header}>
         <View style={newBookStyles.titleLocation}>
           <TouchableOpacity
             onPress={() => navigate(-1)}
             style={newBookStyles.arrowLocation}
           >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
           </TouchableOpacity>
-          {newWorkbookName == "" && (
-            <Text style={newBookStyles.title}>New Workbook</Text>
-          )}
-          {newWorkbookName != "" && (
-            <Text style={newBookStyles.title}>{newWorkbookName}</Text>
-          )}
+          <Text style={newBookStyles.title}>
+            {newWorkbookName !== "" ? newWorkbookName : "New Workbook"}
+          </Text>
         </View>
+      </View>
+
+      {/* Section: Workbook Details */}
+      <View style={newBookStyles.sectionHeader}>
+        <Text style={newBookStyles.sectionLabel}>Workbook Details</Text>
+        <View style={newBookStyles.sectionLabelLine} />
       </View>
 
       <View style={newBookStyles.inputContainer}>
-        <FontAwesomeIcon icon={faBook} style={newBookStyles.bookIcon} />
-
-        <View style={newBookStyles.inputWrapper}>
-          <View style={newBookStyles.inputRow}>
-            <FontAwesomeIcon icon={faPencil} style={newBookStyles.pencilIcon} />
-            <TextInput
-              placeholder="New Workbook Name"
-              value={newWorkbookName}
-              onChangeText={(newtext) => setNewWorkbookName(newtext)}
-              style={newBookStyles.input}
-              accessibilityLabel="name"
-              accessible={true}
-            />
-          </View>
-          <View style={newBookStyles.inputRow}>
-            <DescriptionIcon style={newBookStyles.paperIcon} />
-            <TextInput
-              placeholder="New Workbook Description"
-              value={description}
-              onChangeText={setDescription}
-              style={newBookStyles.input}
-              accessibilityLabel="description"
-              accessible={true}
-            />
-          </View>
+        <View style={newBookStyles.inputRow}>
+          <FontAwesomeIcon icon={faPencil} style={newBookStyles.pencilIcon} />
+          <TextInput
+            placeholder="Workbook Name"
+            value={newWorkbookName}
+            onChangeText={(newtext) => setNewWorkbookName(newtext)}
+            style={newBookStyles.input}
+            accessibilityLabel="name"
+            accessible={true}
+          />
+        </View>
+        <View style={newBookStyles.inputRow}>
+          <DescriptionIcon style={newBookStyles.paperIcon} />
+          <TextInput
+            placeholder="Description"
+            value={description}
+            onChangeText={setDescription}
+            style={newBookStyles.input}
+            accessibilityLabel="description"
+            accessible={true}
+          />
         </View>
       </View>
+
+      {/* Add Word toggle */}
       {!addWord && (
         <Pressable
           onPress={() => setAddWord(true)}
           style={newBookStyles.addWordBtn}
         >
           <PlusCircleOutlined style={newBookStyles.addWordIcon} />
-          <Text style={newBookStyles.addWordTxt}>Add Word</Text>
+          <Text style={newBookStyles.addWordTxt}>Add a Word</Text>
         </Pressable>
       )}
+
+      {/* Word fields */}
       {addWord && (
         <View>
-          <Pressable
-            onPress={() => removeWord()}
-            style={newBookStyles.removeWordBtn}
-          >
-            <Text style={newBookStyles.removeWordTxt}>Remove Word</Text>
-          </Pressable>
+          <View style={newBookStyles.sectionHeader}>
+            <Text style={newBookStyles.sectionLabel}>Word</Text>
+            <View style={newBookStyles.sectionLabelLine} />
+          </View>
+
           <View style={newBookStyles.wordInputContainer}>
-            <AbcIcon />
+            <AbcIcon style={{ color: "rgba(48,50,72,0.5)" }} />
             <TextInput
-              placeholder="Add Word"
+              placeholder="Word"
               value={newWord}
               onChangeText={setNewWord}
               style={newBookStyles.input}
             />
           </View>
           <View style={newBookStyles.wordInputContainer}>
-            <TranslateIcon />
+            <TranslateIcon style={{ color: "rgba(48,50,72,0.5)" }} />
             <TextInput
-              placeholder="Add Translation"
+              placeholder="Translation"
               value={newTranslation}
               onChangeText={setNewTranslation}
               style={newBookStyles.input}
             />
           </View>
-
           <View style={newBookStyles.wordInputContainer}>
-            <LanguageIcon />
+            <LanguageIcon style={{ color: "rgba(48,50,72,0.5)" }} />
             <TextInput
-              placeholder="Add Language"
+              placeholder="Language"
               value={newLanguage}
               onChangeText={setNewLanguage}
               style={newBookStyles.input}
             />
           </View>
-
           <View style={newBookStyles.wordInputContainer}>
-            <PsychologyIcon />
+            <PsychologyIcon style={{ color: "rgba(48,50,72,0.5)" }} />
             <TextInput
-              placeholder="Add Part of Speech"
+              placeholder="Part of Speech"
               value={newPartOfSpeech}
               onChangeText={setNewPartOfSpeech}
               style={newBookStyles.input}
             />
           </View>
+
+          <Pressable
+            onPress={() => removeWord()}
+            style={newBookStyles.removeWordBtn}
+          >
+            <Text style={newBookStyles.removeWordTxt}>Remove Word</Text>
+          </Pressable>
         </View>
       )}
+
       <ButtonShown />
     </SafeAreaView>
   );

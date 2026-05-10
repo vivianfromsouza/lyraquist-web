@@ -47,36 +47,49 @@ export default function LyricsToScreen({ currentTrack }) {
 
   async function getTranslation(lyricsResponse) {
     console.log("prefLang", prefLang);
-    await TranslationService.getTranslationAllLyrics(lyricsResponse, prefLang).then(
-      (response) => {
-        setTranslation(response.data[0].translations[0].text);
-        setFromLang(response.data[0].detectedLanguage.language);
-      },
-    );
+    await TranslationService.getTranslationAllLyrics(
+      lyricsResponse,
+      prefLang,
+    ).then((response) => {
+      setTranslation(response.data[0].translations[0].text);
+      setFromLang(response.data[0].detectedLanguage.language);
+    });
   }
 
   useEffect(() => {
     getUserPrefLang();
 
     getLyrics();
-
   }, [currentTrack, prefLang]);
 
   return (
     <View style={lyricsStyles.container}>
-      <LyricsPanel
-        lyrics={lyrics}
-        songLang={fromLang}
-        currentTrack={currentTrack}
-      />
-      <Text>TRANSLATION</Text>
-      <TranslationPanel
-        translation={translation}
-        prefLang={prefLang}
-        songLang={fromLang}
-        currentTrack={currentTrack}
-      />
-      <Text>{"\n\n"}</Text>
+      <View style={lyricsStyles.columnsRow}>
+        <View style={lyricsStyles.column}>
+          <View style={lyricsStyles.sectionLabelContainer}>
+            <Text style={lyricsStyles.sectionLabel}>Lyrics</Text>
+            <View style={lyricsStyles.sectionLabelLine} />
+          </View>
+          <LyricsPanel
+            lyrics={lyrics}
+            songLang={fromLang}
+            currentTrack={currentTrack}
+          />
+        </View>
+        <View style={lyricsStyles.columnDivider} />
+        <View style={lyricsStyles.column}>
+          <View style={lyricsStyles.sectionLabelContainer}>
+            <Text style={lyricsStyles.sectionLabel}>Translation</Text>
+            <View style={lyricsStyles.sectionLabelLine} />
+          </View>
+          <TranslationPanel
+            translation={translation}
+            prefLang={prefLang}
+            songLang={fromLang}
+            currentTrack={currentTrack}
+          />
+        </View>
+      </View>
     </View>
   );
 }

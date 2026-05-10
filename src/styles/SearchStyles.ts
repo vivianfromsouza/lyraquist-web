@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, PixelRatio } from "react-native";
+const fontScale = PixelRatio.getFontScale();
+const getFontSize = (size: number) => size / fontScale;
 
 const searchStyles = StyleSheet.create({
   container: {
@@ -8,90 +10,109 @@ const searchStyles = StyleSheet.create({
   },
   blueSection: {
     backgroundColor: "#303248",
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    paddingTop: 50,
+    paddingHorizontal: 16,
+    paddingTop: 20,
+    paddingBottom: 20,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   backButton: {
-    marginRight: 10,
+    marginRight: 12,
+    padding: 4,
   },
   searchBar: {
     flex: 1,
-    backgroundColor: "#e8e1db",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 20,
-    paddingHorizontal: 15,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.08)",
   },
   searchInput: {
     flex: 1,
-    color: "#000",
-    paddingHorizontal: 10,
-  },
-  searchResultItem: {
-    flex: 1,
-    margin: 5,
-    alignItems: "center",
-  },
-  albumContainer: {
-    alignItems: "center",
-  },
-  coverImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 10,
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 14,
-    color: "black",
-    textAlign: "center",
-    marginTop: 5,
-  },
-  artist: {
-    color: "#989898",
-    textAlign: "center",
-  },
-  flatListContainer: {
-    paddingHorizontal: 5,
-  },
-  languageButton: {
-    marginHorizontal: 10,
-    marginBottom: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#000",
-    borderRadius: 5,
-    paddingVertical: 10,
-  },
-  buttonText: {
-    fontWeight: "bold",
-  },
-  space: {
-    height: 20,
+    color: "#e8e1db",
+    paddingHorizontal: 8,
+    fontSize: getFontSize(15),
   },
   noteAndButtonContainer: {
-    marginHorizontal: 10,
-    marginBottom: 10,
+    marginHorizontal: 20,
+    marginTop: 16,
+    marginBottom: 4,
+    flexDirection: "row",
+    alignItems: "center",
   },
-  noteText: {
-    marginBottom: 10,
-    marginLeft: 10,
+  languageButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1.5,
+    borderColor: "#edc526",
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 18,
   },
-  placeholderTxt: { paddingLeft: 20 },
-  noSearchTxt: { flex: 1, height: 100, backgroundColor: "#e8e1db" },
-  languagesTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
+  buttonText: {
+    fontWeight: "700",
+    color: "#edc526",
+    fontSize: getFontSize(13),
+    letterSpacing: 0.5,
+  },
+  sectionHeader: {
+    paddingHorizontal: 24,
+    paddingTop: 16,
+    paddingBottom: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  sectionLabel: {
+    fontSize: getFontSize(13),
+    fontWeight: "700",
+    color: "#edc526",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+  sectionLabelLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.15)",
+    marginLeft: 12,
+  },
+  flatListContainer: {
+    paddingHorizontal: 12,
+    paddingBottom: 20,
+  },
+  placeholderTxt: {
+    paddingHorizontal: 24,
+    paddingTop: 8,
+    color: "rgba(48, 50, 72, 0.45)",
+    fontSize: getFontSize(14),
+    fontStyle: "italic",
+  },
+  emptyState: {
+    alignItems: "center",
+    paddingTop: 60,
+    paddingHorizontal: 40,
+  },
+  emptyStateText: {
+    fontSize: getFontSize(15),
+    color: "rgba(48, 50, 72, 0.4)",
     textAlign: "center",
-    textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
+    marginTop: 12,
+  },
+  // Language screen
+  languagesTitle: {
+    fontSize: getFontSize(13),
+    fontWeight: "700",
+    color: "#edc526",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+    marginTop: 20,
+    marginBottom: 16,
+    paddingHorizontal: 24,
   },
   languagesContainer: {
     flexDirection: "row",
@@ -101,15 +122,26 @@ const searchStyles = StyleSheet.create({
   },
   languageItem: {
     alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 16,
+    padding: 12,
+    marginBottom: 16,
+    shadowColor: "#303248",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
   },
   playlistImage: {
     width: 150,
-    height: 150,
-    borderRadius: 20,
-    marginBottom: 5,
+    height: 100,
+    borderRadius: 10,
+    marginBottom: 8,
   },
   languageText: {
-    fontWeight: "bold",
+    fontWeight: "700",
+    fontSize: getFontSize(14),
+    color: "#303248",
   },
   loading: {
     flex: 1,
@@ -117,6 +149,15 @@ const searchStyles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#e8e1db",
   },
+  // Kept for compatibility
+  space: { height: 0 },
+  noSearchTxt: { flex: 1, backgroundColor: "#e8e1db" },
+  searchResultItem: { flex: 1, margin: 5, alignItems: "center" },
+  albumContainer: { alignItems: "center" },
+  coverImage: { width: 120, height: 120, borderRadius: 10 },
+  title: { fontWeight: "bold", fontSize: 14, color: "black", textAlign: "center", marginTop: 5 },
+  artist: { color: "#989898", textAlign: "center" },
+  noteText: { marginBottom: 10, marginLeft: 10 },
 });
 
 export default searchStyles;

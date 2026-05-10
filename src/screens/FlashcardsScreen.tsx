@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import Flashcard from "../components/Flashcard";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowBackOutline } from "react-ionicons";
@@ -34,7 +34,9 @@ function FlashcardScreen() {
   const location = useLocation();
   const bookItem = location.state;
   const [flashcardList, setFlashcardList] = useState<any[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const bookUID = bookItem.book_id;
+  const bookName = bookItem.name;
 
   useEffect(() => {
     const handleWorkbookInserts = () => {
@@ -60,23 +62,33 @@ function FlashcardScreen() {
 
   return (
     <View style={flashcardStyles.container}>
-      <TouchableOpacity
-        onPress={() => navigate(-1)}
-      >
-        <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-      </TouchableOpacity>
+      {/* Header */}
+      <View style={flashcardStyles.header}>
+        <View style={flashcardStyles.headerRow}>
+          <TouchableOpacity onPress={() => navigate(-1)}>
+            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+          </TouchableOpacity>
+          <Text style={flashcardStyles.headerTitle}>{bookName}</Text>
+          {flashcardList.length > 0 && (
+            <Text style={flashcardStyles.headerCount}>
+              {currentIndex + 1} / {flashcardList.length}
+            </Text>
+          )}
+        </View>
+      </View>
 
       <Carousel
         swipeable={false}
         draggable={false}
-        showDots={false}
+        showDots={true}
         responsive={responsive}
         ssr={true}
         infinite={false}
         keyBoardControl={true}
+        afterChange={(_, state) => setCurrentIndex(state.currentSlide)}
       >
         {flashcardList!.map((flashcard) => {
-          return <Flashcard wordItem={flashcard}></Flashcard>;
+          return <Flashcard key={flashcard.word_id} wordItem={flashcard} />;
         })}
       </Carousel>
     </View>

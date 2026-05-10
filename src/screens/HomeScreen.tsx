@@ -365,7 +365,7 @@ const HomeScreen: React.FC = () => {
               </View>
             )}
           </View>
-          <Text>{"\n\n\n\n"}</Text>
+          <View style={{ height: 32 }} />
         </ScrollView>
       </>
     );

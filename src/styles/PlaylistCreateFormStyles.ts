@@ -1,37 +1,58 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, PixelRatio } from "react-native";
+
+const fontScale = PixelRatio.getFontScale();
+const getFontSize = (size: number) => size / fontScale;
 
 const createPlaylistStyles = StyleSheet.create({
   formContainer: {
+    marginTop: 4,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 8,
+  },
+  sectionLabel: {
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: "#edc526",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+  sectionLabelLine: {
     flex: 1,
-    backgroundColor: "#e8e1db",
-    height: "80vh",
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.12)",
+    marginLeft: 12,
   },
-  newPlaylistName: {
-    fontSize: 30,
-    color: "#303248",
-    margin: 10,
-    fontWeight: "bold",
-  },
-  label: {
-    fontSize: 20,
-    color: "gray",
-    marginLeft: 10,
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(48, 50, 72, 0.12)",
+    paddingVertical: 12,
+    marginBottom: 4,
+    marginHorizontal: 20,
   },
   input: {
-    fontSize: 20,
-    color: "gray",
-    borderWidth: 0.5,
-    padding: 6,
-    paddingLeft: 8,
-    borderRadius: 5,
-    borderColor: "gray",
-    marginTop: 15,
-    marginBottom: 20,
-    marginHorizontal: 10,
+    fontSize: getFontSize(16),
+    flex: 1,
+    color: "#303248",
   },
-  imageInput: {
-    marginLeft: 10,
-    marginBottom: 10,
+  imageInputRow: {
+    marginHorizontal: 20,
+    marginTop: 16,
+    marginBottom: 4,
+  },
+  imageLabel: {
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: "rgba(48,50,72,0.45)",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    marginBottom: 8,
   },
 });
 
