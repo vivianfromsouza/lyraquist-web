@@ -129,7 +129,7 @@ export default function LanguageScreen({ albumId, language }) {
               value={searchTerm}
               onChangeText={handleSearch}
             />
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
+            <SearchOutline color={"#00000"} height="30px" width="30px"/>
           </View>
         </View>
         <View style={langStyles.loading}>

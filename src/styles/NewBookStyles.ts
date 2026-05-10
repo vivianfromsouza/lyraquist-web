@@ -148,6 +148,14 @@ const newBookStyles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
+  headerSubtitle: {
+    fontSize: getFontSize(12),
+    color: "rgba(232, 225, 219, 0.55)",
+    paddingLeft: 20,
+    paddingBottom: 8,
+    letterSpacing: 0.3,
+  },
+
   // Kept for NewWordScreen compatibility
   bookIcon: { fontSize: 70, marginRight: 30 },
   pencilIcon: { fontSize: 20, marginRight: 4, color: "rgba(48,50,72,0.5)" },
