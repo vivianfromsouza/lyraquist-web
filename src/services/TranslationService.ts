@@ -97,7 +97,7 @@ const TranslationService = {
     return translationResponse;
   },
 
-  async lexicalaTranslation(word, fromLang, pos): Promise<any> {
+  async lexicalaDefinition(word, fromLang): Promise<any> {
 
     if (word == undefined || word === "") {
       return "";

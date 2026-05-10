@@ -1,10 +1,9 @@
 import { Text, View, Modal, TextInput } from "react-native";
 import { Pressable } from "react-native-web";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import TranslationService from "../services/TranslationService";
-import UserReaderWriter from "../services/UserReaderWriter";
 import { toast, ToastContainer } from "react-toastify";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
@@ -22,17 +21,16 @@ const WordModal = ({
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
-  const [pronunciation, setPronunciation] = useState("");
+  // const [pronunciation, setPronunciation] = useState("");
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
-  const audioRef = useRef<HTMLAudioElement>(null);
+  // const audioRef = useRef<HTMLAudioElement>(null);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [workbooks, setWorkbooks] = useState<any>([]);
 
   console.log(workbookName);
-  console.log(setPronunciation);
 
   async function getEntryDetails() {
     console.log(
@@ -44,14 +42,6 @@ const WordModal = ({
     console.log("toLang:", toLang);
 
     try {
-      const prefLang = await UserReaderWriter.getPreferredLanguage();
-      const targetLang = await toLang.value;
-
-      //ex, if prefLang is English and song in English, then we translate to Spanish
-      // if (prefLang === fromLang) {
-      //   prefLang = await UserReaderWriter.getTargetLanguage();
-      // }
-
       await TranslationService.getIndividualTranslation(
         word,
         fromLang,
@@ -62,50 +52,57 @@ const WordModal = ({
           //   response[0]?.translations?.[targetLang]?.text ||
           //   "Translation not available for this word.";
           // setTranslation(translationText);
-          const resolvedPos = (response.data[0].translations[0].posTag == "OTHER") ? "verb" : response.data[0].translations[0].posTag || "";
+          const resolvedPos =
+            response.data[0].translations[0].posTag == "OTHER"
+              ? "verb"
+              : response.data[0].translations[0].posTag || "";
           setPos(resolvedPos);
           // console.log("response:", response.data[0].translations[0].posTag);
           //setDefinition(response[0]?.translations[0]?.transliteration?.text || "Definition not available");
           //setPronunciation(response[0]?.translations[0]?.audio?.[0]?.url || "");
-          const lexicalaResponse = await TranslationService.lexicalaTranslation(word, fromLang, resolvedPos);
-              if (
-                lexicalaResponse &&
-                typeof lexicalaResponse === "object" &&
-                lexicalaResponse.results &&
-                lexicalaResponse.results.length > 0
-              ) {
-                const toLangKey = toLang?.value ?? toLang;
-                const getTargetTranslation = (result) => {
-                  const senseWithTranslation = result.senses?.find(
-                    (sense) => sense.translations?.[toLangKey],
-                  );
-                  if (!senseWithTranslation) return null;
-                  const val = senseWithTranslation.translations[toLangKey];
-                  if (Array.isArray(val)) return val.map((item) => item.text).join(", ");
-                  return val?.text || null;
-                };
+          const lexicalaResponse = await TranslationService.lexicalaDefinition(
+            word,
+            fromLang,
+          );
+          if (
+            lexicalaResponse &&
+            typeof lexicalaResponse === "object" &&
+            lexicalaResponse.results &&
+            lexicalaResponse.results.length > 0
+          ) {
+            const toLangKey = toLang?.value ?? toLang;
+            const getTargetTranslation = (result) => {
+              const senseWithTranslation = result.senses?.find(
+                (sense) => sense.translations?.[toLangKey],
+              );
+              if (!senseWithTranslation) return null;
+              const val = senseWithTranslation.translations[toLangKey];
+              if (Array.isArray(val))
+                return val.map((item) => item.text).join(", ");
+              return val?.text || null;
+            };
 
-                const topResults = lexicalaResponse.results.slice(0, 3);
+            const topResults = lexicalaResponse.results.slice(0, 3);
 
-                const definitions = topResults
-                  .map((r) => r.senses?.[0]?.definition)
-                  .filter(Boolean);
-                setDefinition(
-                  definitions.length > 1
-                    ? definitions.map((d, i) => `${i + 1}. ${d}`).join("\n")
-                    : definitions[0] ?? "Definition not available"
-                );
+            const definitions = topResults
+              .map((r) => r.senses?.[0]?.definition)
+              .filter(Boolean);
+            setDefinition(
+              definitions.length > 1
+                ? definitions.map((d, i) => `${i + 1}. ${d}`).join("\n")
+                : (definitions[0] ?? "Definition not available"),
+            );
 
-                const translations = topResults
-                  .map((r) => getTargetTranslation(r))
-                  .filter(Boolean);
-                console.log("target translations:", translations);
-                setTranslation(translations.join(" / ") || "");
-              } else {
-                setPos("");
-                setDefinition("Definition not available");
-                setTranslation("");
-              }
+            const translations = topResults
+              .map((r) => getTargetTranslation(r))
+              .filter(Boolean);
+            console.log("target translations:", translations);
+            setTranslation(translations.join(" / ") || "");
+          } else {
+            setPos("");
+            setDefinition("Definition not available");
+            setTranslation("");
+          }
         } else {
           setPos("");
           setTranslation("Translation not available for this word.");

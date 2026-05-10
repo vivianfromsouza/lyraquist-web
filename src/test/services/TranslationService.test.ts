@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 import axios from "axios";
 import TranslationService from "../../services/TranslationService";
 
@@ -8,9 +8,10 @@ vi.mock("axios", () => ({
 }));
 
 const mockedAxios = axios as unknown as {
-  mockResolvedValueOnce: vi.Mock;
-  mockRejectedValueOnce: vi.Mock;
-  mockClear: vi.Mock;
+  mockResolvedValueOnce: Mock;
+  mockRejectedValueOnce: Mock;
+  mockClear: Mock;
+  mock: { calls: any[][] };
 };
 
 describe("TranslationService", () => {
@@ -73,7 +74,7 @@ describe("TranslationService", () => {
     const mockData = { entry: "translated" };
     mockedAxios.mockResolvedValueOnce({ data: mockData });
 
-    const result = await TranslationService.lexicalaTranslation(
+    const result = await TranslationService.lexicalaDefinition(
       "Hello",
       "en",
     );
@@ -91,7 +92,7 @@ describe("TranslationService", () => {
   it("returns a fallback string when lexicalaTranslation fails", async () => {
     mockedAxios.mockRejectedValueOnce(new Error("API error"));
 
-    const result = await TranslationService.lexicalaTranslation(
+    const result = await TranslationService.lexicalaDefinition(
       "hello",
       "fr",
     );

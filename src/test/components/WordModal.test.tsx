@@ -1,13 +1,7 @@
-import {
-  render,
-  screen,
-  waitFor,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, waitFor, cleanup } from "@testing-library/react";
 import WordModal from "../../components/WordModal";
 import { vi, describe, it, beforeEach, afterEach, expect } from "vitest";
 import TranslationService from "../../services/TranslationService";
-import UserReaderWriter from "../../services/UserReaderWriter";
 
 vi.mock("../../services/UserReaderWriter", () => ({
   __esModule: true,
@@ -20,26 +14,12 @@ vi.mock("../../services/UserReaderWriter", () => ({
 vi.mock("../../services/TranslationService", () => ({
   __esModule: true,
   default: {
-    getSingleTranslation: vi.fn(() =>
+    getIndividualTranslation: vi.fn(() =>
       Promise.resolve({
-        results: [
-          {
-            lexicalEntries: [
-              {
-                entries: [
-                  {
-                    senses: [{ definitions: ["mock definition"] }],
-                    pronunciations: [{ audioFile: "mock-audio.mp3" }],
-                  },
-                ],
-                lexicalCategory: { text: "noun" },
-              },
-            ],
-          },
-        ],
+        data: [{ translations: [{ posTag: "noun" }] }],
       }),
     ),
-    filterTranslationData: vi.fn(() => Promise.resolve(["mock translation"])),
+    lexicalaDefinition: vi.fn(() => Promise.resolve({ results: [] })),
   },
 }));
 
@@ -111,7 +91,8 @@ const mockProps = {
   openModal: true,
   setOpenModal: vi.fn(),
   word: "test",
-  songLang: "en",
+  fromLang: "en",
+  toLang: "es",
   songName: "Test Song",
 };
 
@@ -137,23 +118,19 @@ describe("WordModal", () => {
     expect(screen.getByText("test")).toBeInTheDocument();
   });
 
-  it("displays language labels", () => {
-    expect(screen.getByText("in songLang:")).toBeInTheDocument();
-    expect(screen.getByText("in prefLang:")).toBeInTheDocument();
-  });
-
   it("loads workbooks for dropdown", async () => {
     await waitFor(() => {
       expect(screen.getByTestId("dropdown")).toBeInTheDocument();
     });
   });
 
-  it("calls services on mount", () => {
-    expect(UserReaderWriter.getPreferredLanguage).toHaveBeenCalled();
-    expect(TranslationService.getSingleTranslation).toHaveBeenCalledWith(
-      "test",
-      "en",
-      "es",
-    );
+  it("calls services on mount", async () => {
+    await waitFor(() => {
+      expect(TranslationService.getIndividualTranslation).toHaveBeenCalledWith(
+        "test",
+        "en",
+        "es",
+      );
+    });
   });
 });

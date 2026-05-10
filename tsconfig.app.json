@@ -23,6 +23,6 @@
     "noUncheckedSideEffectImports": true,
     "noImplicitAny": false
   },
-  "types": ["node", "jest", "@testing-library/jest-dom"],
+  "types": ["node", "jest", "@testing-library/jest-dom", "vitest"],
   "include": ["src", "jest.config.js"]
 }
