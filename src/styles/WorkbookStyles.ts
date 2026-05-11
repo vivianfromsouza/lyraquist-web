@@ -45,7 +45,7 @@ const workbookStyles = StyleSheet.create({
   },
   closeLocation: { flexDirection: "row", alignItems: "center" },
   closeBtn: {},
-  arrowBtn: { marginLeft: 16 },
+  arrowBtn: { marginLeft: 20, marginTop: 12 },
   title: {
     textAlign: "left",
     fontSize: getFontSize(26),
@@ -88,7 +88,7 @@ const workbookStyles = StyleSheet.create({
     paddingBottom: 6,
   },
   sectionLabel: {
-    fontSize: getFontSize(12),
+    fontSize: getFontSize(14),
     fontWeight: "700",
     color: "#5bc8a6",
     letterSpacing: 1.5,
@@ -193,7 +193,7 @@ const workbookStyles = StyleSheet.create({
   deleteIcon: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 5,
+    marginRight: 30,
   },
   divider: {
     borderBottomColor: "rgba(48, 50, 72, 0.08)",
@@ -242,9 +242,20 @@ const workbookStyles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: "auto",
     marginRight: "auto",
-    width: "80%",
+    width: "97.5%",
     marginBottom: 20,
   },
+
+  // flexDirection: "row",
+  //   marginHorizontal: 20,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   borderWidth: 1.5,
+  //   borderColor: "#5bc8a6",
+  //   borderRadius: 20,
+  //   paddingVertical: 12,
+  //   marginTop: 16,
+  //   marginBottom: 8,
   buttonText: {
     fontWeight: "700",
     textAlign: "center",

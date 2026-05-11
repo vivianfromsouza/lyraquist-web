@@ -17,7 +17,7 @@ const newBookStyles = StyleSheet.create({
     borderBottomRightRadius: 24,
   },
   titleLocation: { flexDirection: "row", alignItems: "center", marginTop: 10 },
-  arrowLocation: { marginLeft: 16 },
+  arrowLocation: { marginLeft: 20, marginTop: 12 },
   title: {
     fontSize: getFontSize(26),
     fontWeight: "800",
@@ -37,7 +37,7 @@ const newBookStyles = StyleSheet.create({
     paddingBottom: 8,
   },
   sectionLabel: {
-    fontSize: getFontSize(12),
+    fontSize: getFontSize(16),
     fontWeight: "700",
     color: "#5bc8a6",
     letterSpacing: 1.5,
@@ -98,7 +98,7 @@ const newBookStyles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: "auto",
     marginRight: "auto",
-    width: "80%",
+    width: "97.5%",
     marginBottom: 20,
   },
   buttonText: {
@@ -155,10 +155,11 @@ const newBookStyles = StyleSheet.create({
   },
 
   headerSubtitle: {
-    fontSize: getFontSize(12),
+    fontSize: getFontSize(14),
     color: "rgba(232, 225, 219, 0.55)",
-    paddingLeft: 20,
+    paddingLeft: 60,
     paddingBottom: 8,
+    paddingTop: 8,
     letterSpacing: 0.3,
     fontFamily: "Karla",
   },
