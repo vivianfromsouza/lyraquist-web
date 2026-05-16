@@ -5,7 +5,8 @@ const getFontSize = (size: number) => size / fontScale;
 const songStyles = StyleSheet.create({
   card: {
     margin: 8,
-    backgroundColor: "#f5f0eb",
+    // backgroundColor: "#f5f0eb",
+    backgroundColor: "#303248",
     borderRadius: 12,
     padding: 10,
     shadowColor: "#303248",
@@ -23,14 +24,16 @@ const songStyles = StyleSheet.create({
   name: {
     fontSize: getFontSize(13),
     fontWeight: "600",
-    color: "#303248",
+    // color: "#303248",
+    color: "#e8e1db",
     marginTop: 8,
     fontFamily: "Karla",
   },
   artist: {
     fontSize: getFontSize(12),
     fontWeight: "400",
-    color: "rgba(48, 50, 72, 0.5)",
+    color: "#e8e1db",
+    // color: "rgba(48, 50, 72, 0.5)",
     marginTop: 2,
     fontFamily: "Karla",
   },
@@ -39,6 +42,7 @@ const songStyles = StyleSheet.create({
     marginLeft: "auto",
     alignItems: "center",
     paddingTop: 10,
+    color: "#e8e1db",
   },
 });
 
