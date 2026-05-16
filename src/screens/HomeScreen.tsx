@@ -29,15 +29,11 @@ import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import getHomeStyles from "../styles/HomeStyles";
-import { useTheme } from "../context/ThemeContext";
+import homeStyles from "../styles/HomeStyles";
 
 let counter = 0;
 
 const HomeScreen: React.FC = () => {
-  const { colors, isDark, toggleTheme } = useTheme();
-  const homeStyles = getHomeStyles(colors);
-
   const [username, setUsername] = useState<string>("");
   // const [loading, isLoading] = useState(true);
   const [starredLanguages, setStarredLanguages] = useState<any[] | null>([]);

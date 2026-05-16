@@ -31,7 +31,6 @@ import ReauthCredentialsScreen from "./screens/ReauthCredentialsScreen";
 import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
-import { ThemeProvider } from "./context/ThemeContext";
 import LyricsPanel from "./components/LyricsToScreen";
 import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
 import LanguageScreen from "./screens/LanguageScreen";
@@ -69,7 +68,6 @@ const App: React.FC = () => {
 
   return (
     <FirebaseProvider>
-      <ThemeProvider>
       <PlayerProvider isAuthenticated={user !== null}>
         <BrowserRouter>
           <Routes>
@@ -173,7 +171,6 @@ const App: React.FC = () => {
           </Routes>
         </BrowserRouter>
       </PlayerProvider>
-      </ThemeProvider>
     </FirebaseProvider>
   );
 };
