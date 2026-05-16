@@ -65,39 +65,40 @@ const TranslationService = {
     return translationResponse;
   },
 
-  async getPOS(word, fromLang, toLanguage): Promise<any> {
+  async lexicalaDefinition(word, fromLang, pos?: string): Promise<any> {
+
     if (word == undefined || word === "") {
       return "";
     }
 
-    const wordToSend = [{ Text: word }];
-    const translationAPI =
-      "https://api.cognitive.microsofttranslator.com/dictionary/lookup?api-version=3.0" + "&from=" + toLanguage + "&to=" +
-      fromLang;
+    if (pos) {
+      pos = "&pos=" + pos;
+    } else {
+      pos = "";
+    }
 
-    const translationResponse: Promise<any> = axios({
-      url: translationAPI,
-      method: "POST",
+    return axios({
+      url:
+        "https://lexicala1.p.rapidapi.com/search?text=" +
+        word.toLowerCase() +
+        "&language=" +
+        fromLang +
+        "&analyzed=true&morph=true&source=global" + pos,
       headers: {
-        Accept: "*/*",
-        "Content-type": "application/json",
-        "Ocp-Apim-Subscription-Key": import.meta.env.VITE_TRANSLATE_KEY,
-        "Ocp-Apim-Subscription-Region": import.meta.env.VITE_TRANSLATE_REGION,
+        "x-rapidapi-host": import.meta.env.VITE_LEXICALA_HOST,
+        "x-rapidapi-key": import.meta.env.VITE_LEXICALA_APP_KEY,
       },
-      data: wordToSend,
     })
-      .then(async (response) => {
-        return response;
+      .then((response) => {
+        return response.data;
       })
-      .catch((err) => {
-        console.log("ERROR WITH TRANSLATION:", err);
-        return "Translation not available for this word.";
+      .catch((error) => {
+        console.error("Frontend failed to fetch from local API:", error);
+        return "Translation unavailable.";
       });
-
-    return translationResponse;
   },
 
-  async lexicalaDefinition(word, fromLang): Promise<any> {
+  async lemmatize(word, fromLang): Promise<any> {
 
     if (word == undefined || word === "") {
       return "";
@@ -105,11 +106,11 @@ const TranslationService = {
 
     return axios({
       url:
-        "https://lexicala1.p.rapidapi.com/search-entries?text=" +
+        "https://lexicala1.p.rapidapi.com/lemmatize?word=" +
         word.toLowerCase() +
         "&language=" +
         fromLang +
-        "&analyzed=true&morph=true&source=global",
+        "&source=global",
       headers: {
         "x-rapidapi-host": import.meta.env.VITE_LEXICALA_HOST,
         "x-rapidapi-key": import.meta.env.VITE_LEXICALA_APP_KEY,
