@@ -47,19 +47,26 @@ export default function AboutUsScreen() {
 
       {QA_ITEMS.map(({ question, answer }) => (
         <View style={aboutStyles.qaCard} key={question}>
-          <View style={aboutStyles.qaAccent} />
           <Text style={aboutStyles.qaQuestion}>{question}</Text>
+          <View style={aboutStyles.qaAccent} />
           <Text style={aboutStyles.qaAnswer}>{answer}</Text>
         </View>
       ))}
 
       <View style={aboutStyles.contributorsCard}>
         <Text style={aboutStyles.contributorsTitle}>The Contributors</Text>
-        <Text style={aboutStyles.contributorsLabel}>Lyraquist 2.0 — Website</Text>
-        <Text style={aboutStyles.contributorsText}>Vivian D'Souza · Mahi Patel</Text>
-        <Text style={aboutStyles.contributorsLabel}>Lyraquist 1.0 — Original App</Text>
+        <Text style={aboutStyles.contributorsLabel}>
+          Lyraquist 2.0 — Website
+        </Text>
         <Text style={aboutStyles.contributorsText}>
-          Siri Avula · Vivian D'Souza · Ashley Bickham · Mahi Patel · Tanvi Singh
+          Vivian D'Souza · Mahi Patel
+        </Text>
+        <Text style={aboutStyles.contributorsLabel}>
+          Lyraquist 1.0 — Original App
+        </Text>
+        <Text style={aboutStyles.contributorsText}>
+          Siri Avula · Vivian D'Souza · Ashley Bickham · Mahi Patel · Tanvi
+          Singh
         </Text>
       </View>
 

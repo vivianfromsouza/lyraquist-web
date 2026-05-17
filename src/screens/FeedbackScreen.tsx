@@ -27,7 +27,6 @@ export default function FeedbackScreen() {
           We're so glad you're using Lyraquist!
         </Text>
         <View style={aboutStyles.qaAccent} />
-
         <Text style={aboutStyles.qaAnswer}>
           To help us improve the app, share any feedback you have below. Our
           team will review your suggestions and see what we can do.

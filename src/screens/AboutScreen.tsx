@@ -1,10 +1,12 @@
 // Worked on by: Siri Avula
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import blueLogo from "../assets/blue_small.png";
 import { useNavigate } from "react-router-dom";
 import aboutStyles from "../styles/AboutStyles";
 import LyraquistHeader from "../components/LyraquistHeader";
+
+const windowHeight = Dimensions.get("window").height;
 
 const MENU_ITEMS = [
   { label: "About Us", route: "/about/welcome" },
@@ -18,7 +20,7 @@ export default function AboutScreen() {
   const navigate = useNavigate();
 
   return (
-    <ScrollView style={aboutStyles.container}>
+    <ScrollView style={[aboutStyles.container, { minHeight: windowHeight *0.90 }]}>
       <LyraquistHeader title="About Lyraquist" logo={blueLogo} />
 
       <View style={aboutStyles.menuCard}>

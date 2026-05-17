@@ -18,15 +18,16 @@ export default function AboutPrivacyScreen() {
       <LyraquistHeader title="Privacy Policy" logo={blueLogo} />
 
       <View style={aboutStyles.qaCard}>
-        <View style={aboutStyles.qaAccent} />
         <Text style={aboutStyles.qaQuestion}>Data Collected from Spotify</Text>
+        <View style={aboutStyles.qaAccent} />
         <Text style={aboutStyles.qaAnswer}>
           Upon using this application, users are requested to sign into their
           Spotify account. We will have access to the following user data:
         </Text>
         {SPOTIFY_DATA.map((item) => (
           <Text key={item} style={[aboutStyles.qaAnswer, { marginTop: 4 }]}>
-            {"  •  "}{item}
+            {"  •  "}
+            {item}
           </Text>
         ))}
         <Text style={[aboutStyles.qaAnswer, { marginTop: 12 }]}>
@@ -38,8 +39,9 @@ export default function AboutPrivacyScreen() {
       </View>
 
       <View style={aboutStyles.qaCard}>
-        <View style={aboutStyles.qaAccent} />
         <Text style={aboutStyles.qaQuestion}>Spotify Policy Compliance</Text>
+        <View style={aboutStyles.qaAccent} />
+
         <Text style={aboutStyles.qaAnswer}>
           Our app upholds Spotify's established policies, ensuring that user
           data is handled in strict accordance with Spotify Web API guidelines.
@@ -51,8 +53,9 @@ export default function AboutPrivacyScreen() {
       </View>
 
       <View style={aboutStyles.qaCard}>
-        <View style={aboutStyles.qaAccent} />
         <Text style={aboutStyles.qaQuestion}>User Interactions</Text>
+        <View style={aboutStyles.qaAccent} />
+
         <Text style={aboutStyles.qaAnswer}>
           Within our app, users will be unable to access other users' accounts
           or engage in direct communication, eliminating the potential for harm.

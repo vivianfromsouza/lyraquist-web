@@ -87,7 +87,7 @@ const aboutStyles = StyleSheet.create({
   // ── Q&A cards ──────────────────────────────────────────────────────────────
   qaCard: {
     marginHorizontal: 20,
-    marginTop: 16,
+    marginTop: 36,
     paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: "rgba(48, 50, 72, 0.1)",
