@@ -46,7 +46,7 @@ function PlaylistInfoScreen() {
         .on(
           "postgres_changes",
           { event: "*", schema: "public", table: "records" },
-          handleRecordInserts
+          handleRecordInserts,
         )
         .subscribe();
     } catch (err) {
@@ -73,7 +73,7 @@ function PlaylistInfoScreen() {
   const deletePlaylistAlert = () => {
     toast(
       "Are you Sure? Deleting this playlist will remove its data. It will not be retrievable once deleted.",
-      { closeButton: deleteAlertButton }
+      { closeButton: deleteAlertButton },
     );
   };
 
@@ -113,7 +113,7 @@ function PlaylistInfoScreen() {
     ? renSongList.filter(
         (song) =>
           song.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          song.artist.toLowerCase().includes(searchTerm.toLowerCase())
+          song.artist.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : [];
 
@@ -124,13 +124,13 @@ function PlaylistInfoScreen() {
 
         {/* Header */}
         <View style={playlistStyles.header}>
-          <Pressable
-            onPress={() => navigate(-1)}
-            style={playlistStyles.arrowLocation}
-          >
-            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
-          </Pressable>
           <View style={playlistStyles.controlsLocation}>
+            <Pressable
+              onPress={() => navigate(-1)}
+              style={playlistStyles.arrowLocation}
+            >
+              <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+            </Pressable>
             <Text
               style={playlistStyles.title}
               accessibilityLabel="workbookTitle"
@@ -146,7 +146,11 @@ function PlaylistInfoScreen() {
                 <PlayCircleFilled style={{ fontSize: 28, color: "#edc526" }} />
               </Pressable>
               <Pressable onPress={deletePlaylistAlert}>
-                <FeatherIcon icon="x-circle" size={22} color="rgba(232,225,219,0.6)" />
+                <FeatherIcon
+                  icon="x-circle"
+                  size={22}
+                  color="rgba(232,225,219,0.6)"
+                />
               </Pressable>
             </View>
           </View>
@@ -163,7 +167,11 @@ function PlaylistInfoScreen() {
             accessibilityLabel="playlistSearch"
             accessible={true}
           />
-          <SearchOutline color={"rgba(48,50,72,0.4)"} height="20px" width="20px" />
+          <SearchOutline
+            color={"rgba(48,50,72,0.4)"}
+            height="20px"
+            width="20px"
+          />
         </View>
 
         {/* Description */}

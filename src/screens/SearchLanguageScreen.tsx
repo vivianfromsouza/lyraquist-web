@@ -2,14 +2,13 @@ import { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
   ScrollView,
 } from "react-native";
-import { ArrowBackOutline, SearchOutline } from "react-ionicons";
 import { useNavigate } from "react-router-dom";
 import searchStyles from "../styles/SearchStyles";
+import SearchBar from "../components/SearchBar";
 
 type RouteName = "Spanish" | "German" | "French";
 
@@ -67,35 +66,10 @@ export default function SearchLanguage() {
   return (
     <>
       <ScrollView style={searchStyles.container}>
-        <View style={searchStyles.blueSection}>
-          <TouchableOpacity
-            onPress={() => navigate(-1)}
-            style={searchStyles.backButton}
-          >
-            <ArrowBackOutline
-              color={"#edc526"}
-              height="25px"
-              width="25px"
-              style={searchStyles.backButton}
-            />
-          </TouchableOpacity>
-
-          <View style={searchStyles.searchBar}>
-            <TextInput
-              style={searchStyles.searchInput}
-              placeholder="Search Languages"
-              value={searchTerm}
-              onChangeText={(text) => setSearchTerm(text)}
-            />
-            <SearchOutline
-              color={"#edc526"}
-              height="25px"
-              width="25px"
-              style={searchStyles.backButton}
-            />
-          </View>
-        </View>
-
+        <SearchBar
+          searchTerm={searchTerm}
+          handleSearch={(text) => setSearchTerm(text)}
+        />
         <Text style={searchStyles.languagesTitle}>Languages</Text>
         <View style={searchStyles.languagesContainer}>
           {filteredLanguages.map((language) => renderLanguageItem(language))}

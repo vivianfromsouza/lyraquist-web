@@ -6,26 +6,27 @@ import {
 } from "react-native";
 import { ArrowBackOutline, SearchOutline } from "react-ionicons";
 import langStyles from "../styles/LanguageStyles";
+import searchStyles from "../styles/SearchStyles";
 
 const SearchBar = ({ searchTerm, handleSearch }) => {
   const navigate = useNavigate();
 
   return (
-    <View style={langStyles.blueSection}>
+    <View style={searchStyles.blueSection}>
       <TouchableOpacity
         onPress={() => navigate(-1)}
-        style={langStyles.backButton}
+        style={searchStyles.backButton}
       >
-        <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+        <ArrowBackOutline color={"#edc526"} height="25px" width="25px" />
       </TouchableOpacity>
-      <View style={langStyles.searchBar}>
+      <View style={searchStyles.searchBar}>
         <TextInput
-          style={langStyles.searchInput}
+          style={searchStyles.searchInput}
           placeholder={"Search"}
           value={searchTerm}
           onChangeText={handleSearch}
         />
-        <SearchOutline color={"#00000"} height="30px" width="30px" />
+        <SearchOutline color={"#edc526"} height="25px" width="25px" />
       </View>
     </View>
   );
