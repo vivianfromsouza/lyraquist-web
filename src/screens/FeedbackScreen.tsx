@@ -12,8 +12,8 @@ export default function FeedbackScreen() {
   async function submitFeedback() {
     await FeedbackReaderWriter.writeUserFeedback(feedback.trim()).then(() =>
       toast(
-        "Feedback successfully submitted! Thank you for helping to make Lyraquist better!"
-      )
+        "Feedback successfully submitted! Thank you for helping to make Lyraquist better!",
+      ),
     );
     setFeedback("");
   }
@@ -23,10 +23,11 @@ export default function FeedbackScreen() {
       <LyraquistHeader title="Feedback" logo={blueLogo} />
 
       <View style={aboutStyles.qaCard}>
-        <View style={aboutStyles.qaAccent} />
         <Text style={aboutStyles.feedbackHeading}>
           We're so glad you're using Lyraquist!
         </Text>
+        <View style={aboutStyles.qaAccent} />
+
         <Text style={aboutStyles.qaAnswer}>
           To help us improve the app, share any feedback you have below. Our
           team will review your suggestions and see what we can do.

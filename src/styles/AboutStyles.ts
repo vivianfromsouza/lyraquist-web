@@ -7,6 +7,7 @@ const aboutStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    paddingBottom: 20,
   },
   introSect: {
     width: windowWidth,
@@ -167,7 +168,7 @@ const aboutStyles = StyleSheet.create({
     fontSize: getFontSize(18),
     fontWeight: "700",
     color: "#303248",
-    textAlign: "center",
+    // textAlign: "center",
     lineHeight: 26,
     marginBottom: 8,
   },
