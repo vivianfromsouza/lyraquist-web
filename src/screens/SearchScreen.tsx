@@ -41,7 +41,7 @@ export default function SearchScreen() {
         }));
 
         const filteredData = formattedData.filter(
-          (item) => item.explicit == false
+          (item) => item.explicit == false,
         );
 
         setSearchResults(filteredData);
@@ -78,7 +78,7 @@ export default function SearchScreen() {
             onPress={() => navigate(-1)}
             style={searchStyles.backButton}
           >
-            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+            <ArrowBackOutline color={"#edc526"} height="25px" width="25px" />
           </TouchableOpacity>
           <View style={searchStyles.searchBar}>
             <TextInput
@@ -90,7 +90,7 @@ export default function SearchScreen() {
               accessibilityLabel="searchInput"
               accessible={true}
             />
-            <SearchOutline color={"rgba(232,225,219,0.6)"} height="22px" width="22px" />
+            <SearchOutline color={"#edc526"} height="22px" width="22px" />
           </View>
         </View>
 
@@ -127,7 +127,11 @@ export default function SearchScreen() {
 
         {searchTerm.trim() === "" && (
           <View style={searchStyles.emptyState}>
-            <SearchOutline color={"rgba(48,50,72,0.2)"} height="48px" width="48px" />
+            <SearchOutline
+              color={"rgba(48,50,72,0.2)"}
+              height="48px"
+              width="48px"
+            />
             <Text style={searchStyles.emptyStateText}>
               Search for a song or artist to get started
             </Text>

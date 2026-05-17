@@ -4,23 +4,19 @@ import {
   ScrollView,
   View,
   Text,
-  TextInput,
   FlatList,
-  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { ArrowBackOutline, SearchOutline } from "react-ionicons";
-import { useNavigate } from "react-router-dom";
 import DisplayPlaylistService from "../services/DisplayPlaylist";
 import SongCard from "../components/Song";
 import LikeButton from "../components/LikeButton";
 import langStyles from "../styles/LanguageStyles";
+import SearchBar from "../components/SearchBar";
 
 export default function LanguageScreen({ albumId, language }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<any[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   const handleSearch = async (text) => {
     try {
@@ -33,7 +29,7 @@ export default function LanguageScreen({ albumId, language }) {
             item.track.name.toLowerCase().includes(text.toLowerCase()) ||
             item.track.artists[0].name
               .toLowerCase()
-              .includes(text.toLowerCase())
+              .includes(text.toLowerCase()),
         )
         .map((item: any) => ({
           artist: item.track.artists[0].name,
@@ -65,24 +61,10 @@ export default function LanguageScreen({ albumId, language }) {
     return (
       <>
         <View style={langStyles.container}>
-          <View style={langStyles.blueSection}>
-            <TouchableOpacity
-              onPress={() => navigate(-1)}
-              style={langStyles.backButton}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" style={langStyles.backButton} />
-            </TouchableOpacity>
-
-            <View style={langStyles.searchBar}>
-              <TextInput
-                style={langStyles.searchInput}
-                placeholder={"Search " + language}
-                value={searchTerm}
-                onChangeText={handleSearch}
-              />
-              <SearchOutline color={"#00000"} height="30px" width="30px" />
-            </View>
-          </View>
+          <SearchBar
+            searchTerm={searchTerm}
+            handleSearch={handleSearch}
+          />
 
           <Text style={langStyles.text}>
             These are Lyraquist's recommended Spanish songs. If you are looking
@@ -115,23 +97,10 @@ export default function LanguageScreen({ albumId, language }) {
   } else {
     return (
       <ScrollView style={langStyles.container}>
-        <View style={langStyles.blueSection}>
-          <TouchableOpacity
-            onPress={() => navigate(-1)}
-            style={langStyles.backButton}
-          >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-          </TouchableOpacity>
-          <View style={langStyles.searchBar}>
-            <TextInput
-              style={langStyles.searchInput}
-              placeholder={"Search " + language}
-              value={searchTerm}
-              onChangeText={handleSearch}
-            />
-            <SearchOutline color={"#00000"} height="30px" width="30px"/>
-          </View>
-        </View>
+        <SearchBar
+          searchTerm={searchTerm}
+          handleSearch={handleSearch}
+        />
         <View style={langStyles.loading}>
           <ActivityIndicator size="large" color="#8A2BE2" />
         </View>

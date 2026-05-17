@@ -19,7 +19,6 @@ const searchStyles = StyleSheet.create({
     borderBottomRightRadius: 24,
   },
   backButton: {
-    color: "#e8e1db",
     marginRight: 12,
     padding: 4,
   },
@@ -52,14 +51,14 @@ const searchStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1.5,
-    borderColor: "#edc526",
+    borderColor: "#303248",
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 18,
   },
   buttonText: {
     fontWeight: "700",
-    color: "#edc526",
+    color: "#303248",
     fontSize: getFontSize(13),
     letterSpacing: 0.5,
     fontFamily: "Karla",
@@ -113,7 +112,7 @@ const searchStyles = StyleSheet.create({
   languagesTitle: {
     fontSize: getFontSize(13),
     fontWeight: "700",
-    color: "#edc526",
+    color: "#303248",
     letterSpacing: 1.5,
     textTransform: "uppercase",
     marginTop: 20,

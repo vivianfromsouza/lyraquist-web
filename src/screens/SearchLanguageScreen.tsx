@@ -61,7 +61,7 @@ export default function SearchLanguage() {
   };
 
   const filteredLanguages = languages.filter((language) =>
-    language.name.toLowerCase().includes(searchTerm.toLowerCase())
+    language.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -72,7 +72,12 @@ export default function SearchLanguage() {
             onPress={() => navigate(-1)}
             style={searchStyles.backButton}
           >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" style={searchStyles.backButton} />
+            <ArrowBackOutline
+              color={"#edc526"}
+              height="25px"
+              width="25px"
+              style={searchStyles.backButton}
+            />
           </TouchableOpacity>
 
           <View style={searchStyles.searchBar}>
@@ -82,7 +87,12 @@ export default function SearchLanguage() {
               value={searchTerm}
               onChangeText={(text) => setSearchTerm(text)}
             />
-            <SearchOutline color={"#00000"} height="30px" width="30px" />
+            <SearchOutline
+              color={"#edc526"}
+              height="25px"
+              width="25px"
+              style={searchStyles.backButton}
+            />
           </View>
         </View>
 
