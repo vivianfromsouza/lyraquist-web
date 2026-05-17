@@ -84,7 +84,7 @@ const playlistStyles = StyleSheet.create({
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
   },
-  arrowLocation: { marginLeft: 16, paddingVertical: 4 },
+  arrowLocation: { marginLeft: 20, marginTop: 10, paddingVertical: 4 },
   title: {
     textAlign: "left",
     fontSize: getFontSize(26),

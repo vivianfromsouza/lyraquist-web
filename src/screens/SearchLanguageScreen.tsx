@@ -72,7 +72,7 @@ export default function SearchLanguage() {
             onPress={() => navigate(-1)}
             style={searchStyles.backButton}
           >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+            <ArrowBackOutline color={"#00000"} height="25px" width="25px" style={searchStyles.backButton} />
           </TouchableOpacity>
 
           <View style={searchStyles.searchBar}>

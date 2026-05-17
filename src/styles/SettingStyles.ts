@@ -132,7 +132,7 @@ const settingStyles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
-  backArrow: { alignSelf: "center", flex: 1 },
+  backArrow: { alignSelf: "center", flex: 1, color: "#e8e1db", marginTop: 10 },
   logo: {
     height: 60,
     alignSelf: "center",

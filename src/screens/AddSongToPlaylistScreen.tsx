@@ -55,9 +55,17 @@ function AddSongToPlaylistScreen() {
       <View style={playlistStyles.addToPlaylistHeader}>
         <View style={playlistStyles.addToPlaylistHeaderRow}>
           <Pressable onPress={() => navigate(-1)}>
-            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+            <ArrowBackOutline
+              color={"#e8e1db"}
+              height="25px"
+              width="25px"
+              style={playlistStyles.arrowLocation}
+            />
           </Pressable>
-          <Text testID="add-song-title" style={playlistStyles.addToPlaylistTitle}>
+          <Text
+            testID="add-song-title"
+            style={playlistStyles.addToPlaylistTitle}
+          >
             Add to Playlist
           </Text>
         </View>

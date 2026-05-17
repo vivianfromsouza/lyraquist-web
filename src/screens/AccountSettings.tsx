@@ -124,7 +124,7 @@ export default function AccountSettings() {
         <View style={settingStyles.accountHeader}>
           <View style={settingStyles.accountHeaderRow}>
             <TouchableOpacity onPress={() => navigate(-1)}>
-              <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+              <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" style={settingStyles.backArrow} />
             </TouchableOpacity>
             <Text style={settingStyles.accountHeaderTitle}>
               Account Settings

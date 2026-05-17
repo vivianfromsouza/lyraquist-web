@@ -19,6 +19,7 @@ const searchStyles = StyleSheet.create({
     borderBottomRightRadius: 24,
   },
   backButton: {
+    color: "#e8e1db",
     marginRight: 12,
     padding: 4,
   },

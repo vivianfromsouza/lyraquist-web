@@ -16,7 +16,8 @@ const langStyles = StyleSheet.create({
     justifyContent: "space-between",
   },
   backButton: {
-    marginRight: 10,
+    color: "#e8e1db",
+    marginRight: 5,
   },
   searchBar: {
     flex: 1,

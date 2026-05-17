@@ -70,7 +70,7 @@ export default function LanguageScreen({ albumId, language }) {
               onPress={() => navigate(-1)}
               style={langStyles.backButton}
             >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
+              <ArrowBackOutline color={"#00000"} height="25px" width="25px" style={langStyles.backButton} />
             </TouchableOpacity>
 
             <View style={langStyles.searchBar}>

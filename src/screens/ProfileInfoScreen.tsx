@@ -1,6 +1,13 @@
 // Worked on by: Vivian D'Souza
 import { useState, useEffect } from "react";
-import { View, Text, ScrollView, Pressable, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  TextInput,
+  Dimensions,
+} from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import redLogo from "../assets/red_small.png";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +23,7 @@ export default function ProfileInfoScreen() {
   const [email, setEmail] = useState<string>();
   const [newEmail, setNewEmail] = useState<string>("");
   const { handleSignOut } = useFirebase();
+  const windowHeight = Dimensions.get("window").height;
 
   async function changeUsername() {
     if (newName !== undefined && newName.trim() !== "") {
@@ -32,7 +40,7 @@ export default function ProfileInfoScreen() {
       await UserReaderWriter.writeUserEmail(newEmail.trim())
         .then(() => {
           toast(
-            "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again."
+            "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again.",
           );
           setTimeout(() => {
             handleSignOut();
@@ -44,7 +52,7 @@ export default function ProfileInfoScreen() {
         });
     } else {
       toast(
-        "Invalid email address. Please check the email field and try again."
+        "Invalid email address. Please check the email field and try again.",
       );
     }
   }
@@ -71,7 +79,7 @@ export default function ProfileInfoScreen() {
   }
 
   return (
-    <ScrollView style={profileStyles.full}>
+    <ScrollView style={[profileStyles.full, { minHeight: windowHeight * 0.90 }]}>
       <LyraquistHeader title="Profile Information" logo={redLogo} />
 
       <View style={profileStyles.sectionHeader}>
