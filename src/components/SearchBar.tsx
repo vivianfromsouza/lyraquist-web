@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ArrowBackOutline, SearchOutline } from "react-ionicons";
-import langStyles from "../styles/LanguageStyles";
 import searchStyles from "../styles/SearchStyles";
 
 const SearchBar = ({ searchTerm, handleSearch }) => {

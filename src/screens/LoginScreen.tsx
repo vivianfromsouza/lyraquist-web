@@ -39,7 +39,10 @@ const LoginScreen: React.FC = () => {
           console.log(errorMessage);
           if (error.message.toString().includes("invalid")) {
             toast(
-              "Could not sign-in. Incorrect credentials. Please re-check your email address and/or password and try again."
+              "Could not sign-in. Incorrect credentials. Please re-check your email address and/or password and try again.",
+              {
+                className: "toast-custom",
+              },
             );
           }
         });

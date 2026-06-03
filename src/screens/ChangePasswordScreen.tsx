@@ -31,13 +31,19 @@ export default function ChangePasswordScreen() {
   async function changePassword() {
     if (password!.trim().length < 6) {
       toast(
-        "Password is too short. Password must be at least 6 characters long."
+        "Password is too short. Password must be at least 6 characters long.",
+        {
+          className: "toast-custom",
+        },
       );
     } else if (password == confirmPassword) {
       updatePassword(auth.currentUser!, password)
         .then(() => {
           toast(
-            "Password changed successfully! You will now need to sign-in again with your new password."
+            "Password changed successfully! You will now need to sign-in again with your new password.",
+            {
+              className: "toast-custom",
+            },
           );
           setTimeout(() => {
             handleSignOut();
@@ -46,12 +52,17 @@ export default function ChangePasswordScreen() {
         })
         .catch((error) => {
           toast(
-            "Could not change password. Need recent login. Please log out, sign in, and try again."
+            "Could not change password. Need recent login. Please log out, sign in, and try again.",
+            {
+              className: "toast-custom",
+            },
           );
           console.log("Error changing password: ", error);
         });
     } else {
-      toast("Passwords don't match. Please try again.");
+      toast("Passwords don't match. Please try again.", {
+        className: "toast-custom",
+      });
     }
   }
 

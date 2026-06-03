@@ -73,7 +73,7 @@ function PlaylistInfoScreen() {
   const deletePlaylistAlert = () => {
     toast(
       "Are you Sure? Deleting this playlist will remove its data. It will not be retrievable once deleted.",
-      { closeButton: deleteAlertButton },
+      { closeButton: deleteAlertButton, className: "toast-custom" },
     );
   };
 

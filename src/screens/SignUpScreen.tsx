@@ -40,7 +40,7 @@ export default function SignUpScreen() {
   const [confirmEmail, setConfirmEmail] = useState<string | undefined>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string | undefined>(
-    ""
+    "",
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -71,21 +71,35 @@ export default function SignUpScreen() {
       targetLanguage.trim() == ""
     ) {
       toast(
-        "Error: Name, email, password,preferred language, and target language fields are required. Please check these fields and try again"
+        "Error: Name, email, password,preferred language, and target language fields are required. Please check these fields and try again",
+        {
+          className: "toast-custom",
+        },
       );
     } else if (isTermsChecked != true) {
-      toast("Error: Please agree to Terms and Conditions.");
+      toast("Error: Please agree to Terms and Conditions.", {
+        className: "toast-custom",
+      });
     } else if (email != confirmEmail) {
       toast(
-        "Couldn't create account. Email and confirm email field don't match. Please try again."
+        "Couldn't create account. Email and confirm email field don't match. Please try again.",
+        {
+          className: "toast-custom",
+        },
       );
     } else if (password != confirmPassword) {
       toast(
-        "Couldn't create account. Passwords don't match. Please try again."
+        "Couldn't create account. Passwords don't match. Please try again.",
+        {
+          className: "toast-custom",
+        },
       );
     } else if (targetLanguage === preferredLanguage) {
       toast(
-        "Preferred and target language cannot be the same. Please try again."
+        "Preferred and target language cannot be the same. Please try again.",
+        {
+          className: "toast-custom",
+        },
       );
     } else createProfile();
   }
@@ -102,11 +116,14 @@ export default function SignUpScreen() {
               name!.trim(),
               email!.trim(),
               preferredLanguage!,
-              targetLanguage!
+              targetLanguage!,
             );
 
             toast(
-              "Account successfully created! Login and continue to connct your Spotify account."
+              "Account successfully created! Login and continue to connct your Spotify account.",
+              {
+                className: "toast-custom",
+              },
             );
             navigate("/Login", {});
           }
@@ -118,20 +135,29 @@ export default function SignUpScreen() {
           console.log(errorMessage);
           if (errorMessage.toString().includes("invalid-email")) {
             toast(
-              "Could not make account. Please re-check your email address and try again."
+              "Could not make account. Please re-check your email address and try again.",
+              {
+                className: "toast-custom",
+              },
             );
           }
 
           if (errorMessage.toString().includes("weak-password")) {
             console.log("pswd too short");
             toast(
-              "Invalid Password. Make sure your password is 6+ characters long."
+              "Invalid Password. Make sure your password is 6+ characters long.",
+              {
+                className: "toast-custom",
+              },
             );
           }
 
           if (errorMessage.toString().includes("email-already-in-use")) {
             toast(
-              "User profile already exists. Please log-in with your existing account."
+              "User profile already exists. Please log-in with your existing account.",
+              {
+                className: "toast-custom",
+              },
             );
           }
         });

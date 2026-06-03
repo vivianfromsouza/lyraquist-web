@@ -65,18 +65,22 @@ export default function AccountSettings() {
       const langName = languages.find((l) => l.code === newPrefLang)?.language;
       await UserReaderWriter.setPreferredLanguage(newPrefLang);
       setPrefLang(langName);
-      toast("Success! Preferred Language changed to: " + newPrefLang);
+      toast("Success! Preferred Language changed to: " + langName, {
+        className: "toast-custom",
+      });
     }
   }
 
   async function changeTargetLanguage() {
     if (newTargetLang != undefined && newTargetLang != targetLang) {
       const langName = languages.find(
-        (l) => l.code === newTargetLang
+        (l) => l.code === newTargetLang,
       )?.language;
       await UserReaderWriter.setTargetLanguage(newTargetLang);
       setPrefLang(langName);
-      toast("Success! Target Language changed to: " + newTargetLang);
+      toast("Success! Target Language changed to: " + langName, {
+        className: "toast-custom",
+      });
     }
   }
 
@@ -109,7 +113,7 @@ export default function AccountSettings() {
     toast(
       name +
         ", Are you Sure? Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
-      { closeButton: deleteAlertButton }
+      { closeButton: deleteAlertButton, className: "toast-custom" },
     );
   };
 
@@ -117,14 +121,24 @@ export default function AccountSettings() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center" // top-left, top-center, top-right, bottom-left, bottom-center, bottom-right
+        autoClose={3000} // ms before auto-dismiss (false to disable)
+        hideProgressBar={true}
+        closeOnClick
+        pauseOnHover
+      />
       <ScrollView style={settingStyles.container}>
-
         {/* Header */}
         <View style={settingStyles.accountHeader}>
           <View style={settingStyles.accountHeaderRow}>
             <TouchableOpacity onPress={() => navigate(-1)}>
-              <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" style={settingStyles.backArrow} />
+              <ArrowBackOutline
+                color={"#e8e1db"}
+                height="25px"
+                width="25px"
+                style={settingStyles.backArrow}
+              />
             </TouchableOpacity>
             <Text style={settingStyles.accountHeaderTitle}>
               Account Settings

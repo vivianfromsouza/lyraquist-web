@@ -26,7 +26,7 @@ const PlaylistItem = ({ item, playlistURL }) => {
   const deleteSongAlert = (recordID: string | undefined) => {
     toast(
       "Are you Sure? This song will be removed from this playlist if deleted.",
-      { closeButton: deleteSongAlertButton(recordID) }
+      { closeButton: deleteSongAlertButton(recordID), className: "toast-custom", }
     );
   };
 

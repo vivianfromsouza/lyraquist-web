@@ -30,7 +30,9 @@ export default function ProfileInfoScreen() {
       await UserReaderWriter.writeUserName(newName.trim()).then(() => {
         setName(newName.trim());
         setNewName("");
-        toast("Username changed successfully!");
+        toast("Username changed successfully!", {
+          className: "toast-custom",
+        });
       });
     }
   }
@@ -41,6 +43,9 @@ export default function ProfileInfoScreen() {
         .then(() => {
           toast(
             "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again.",
+            {
+              className: "toast-custom",
+            },
           );
           setTimeout(() => {
             handleSignOut();
@@ -53,6 +58,9 @@ export default function ProfileInfoScreen() {
     } else {
       toast(
         "Invalid email address. Please check the email field and try again.",
+        {
+          className: "toast-custom",
+        },
       );
     }
   }
@@ -79,7 +87,7 @@ export default function ProfileInfoScreen() {
   }
 
   return (
-    <ScrollView style={[profileStyles.full, { minHeight: windowHeight * 0.90 }]}>
+    <ScrollView style={[profileStyles.full, { minHeight: windowHeight * 0.9 }]}>
       <LyraquistHeader title="Profile Information" logo={redLogo} />
 
       <View style={profileStyles.sectionHeader}>

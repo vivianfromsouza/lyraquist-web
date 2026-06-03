@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.toast-custom {
+  background: #e8e1db;
+  color: #303248;
+  border-radius: 8px;
+  font-family: Karla;
+}

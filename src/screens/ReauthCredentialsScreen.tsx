@@ -35,7 +35,10 @@ export default function ReauthCredentialsScreen() {
           console.log(errorMessage);
           if (error.message.toString().includes("invalid")) {
             toast(
-              "Could not authenticte. Incorrect credentials. Please re-check your email address and/or password and try again."
+              "Could not authenticate. Incorrect credentials. Please re-check your email address and/or password and try again.",
+              {
+                className: "toast-custom",
+              },
             );
           }
         });

@@ -13,6 +13,9 @@ export default function FeedbackScreen() {
     await FeedbackReaderWriter.writeUserFeedback(feedback.trim()).then(() =>
       toast(
         "Feedback successfully submitted! Thank you for helping to make Lyraquist better!",
+        {
+          className: "toast-custom",
+        },
       ),
     );
     setFeedback("");
