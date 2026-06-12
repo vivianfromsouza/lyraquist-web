@@ -9,3 +9,15 @@
   border-radius: 8px;
   font-family: Karla;
 }
+
+.range-slider {
+  background: #e8e1db !important;
+}
+
+.range-slider .range-slider__range {
+  background: #edc526 !important;
+}
+
+.range-slider .range-slider__thumb {
+  display: none !important;
+}

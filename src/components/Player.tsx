@@ -426,7 +426,7 @@ const Player = () => {
                   step={1}
                   value={[0, seekPosition]}
                   onInput={handleSeek}
-                  thumbsDisabled={[true, false]}
+                  thumbsDisabled={[true, true]}
                   rangeSlideDisabled={true}
                 />
                 <View style={playerStyles.controls}>

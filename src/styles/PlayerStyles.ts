@@ -11,6 +11,7 @@ const playerStyles = StyleSheet.create({
     backgroundColor: "#303248",
     borderTopWidth: 1,
     borderTopColor: "rgba(255,255,255,0.07)",
+    paddingTop: 15,
   },
   wrapper: {
     flexDirection: "row",
@@ -33,11 +34,12 @@ const playerStyles = StyleSheet.create({
   },
   trackInfo: {
     marginLeft: 12,
+    marginBottom: 6,
     flexShrink: 1,
   },
   trackText: {
     fontWeight: "700",
-    fontSize: 14,
+    fontSize: 20,
     color: "#e8e1db",
     letterSpacing: 0.2,
     fontFamily: "Karla",
@@ -60,6 +62,7 @@ const playerStyles = StyleSheet.create({
   },
   timeText: {
     fontSize: 11,
+    paddingBottom: 10,
     color: "rgba(232, 225, 219, 0.5)",
     fontFamily: "Karla",
   },
@@ -94,6 +97,9 @@ const playerStyles = StyleSheet.create({
     backgroundColor: "#edc526",
     borderRadius: 20,
     fontSize: 13,
+    marginTop: 15, 
+    marginBottom: 15,
+    marginLeft: 30,
     paddingTop: 7,
     paddingBottom: 7,
     paddingLeft: 18,
