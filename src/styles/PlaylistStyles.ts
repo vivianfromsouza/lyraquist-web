@@ -76,7 +76,7 @@ const playlistStyles = StyleSheet.create({
   },
 
   // ── PlaylistInfoScreen ────────────────────────────────────────────────────
-  background: { backgroundColor: "#e8e1db", flex: 1, height: "80vh" },
+  background: { backgroundColor: "#e8e1db", flex: 1, height: "90vh" },
   header: {
     paddingTop: 20,
     backgroundColor: "#303248",
