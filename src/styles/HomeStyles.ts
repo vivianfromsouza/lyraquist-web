@@ -26,6 +26,7 @@ const homeStyles = StyleSheet.create({
   starredLanguagesSect: {
     flex: 1,
     paddingTop: 8,
+    paddingBottom: 16
   },
 
   historySect: {
@@ -48,7 +49,7 @@ const homeStyles = StyleSheet.create({
     shadowColor: "#303248",
     borderRadius: 20,
     marginHorizontal: 16,
-    marginBottom: 12,
+    marginBottom: 32,
     paddingBottom: 16,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
@@ -171,7 +172,7 @@ const homeStyles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingBottom: 12,
     marginBottom: 12,
-     borderWidth: 1,
+    borderWidth: 1,
     borderColor: "#303248",
     shadowColor: "#320829",
   },

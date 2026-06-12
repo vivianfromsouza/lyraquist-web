@@ -86,7 +86,6 @@ export default function LanguageScreen({ albumId, language }) {
             </View>
           )}
 
-          {/* <View style={langStyles.langTitleView}> */}
             <FlatList
               key={numColumns}
               data={searchResults}
@@ -97,7 +96,6 @@ export default function LanguageScreen({ albumId, language }) {
               contentContainerStyle={langStyles.resultsGridContainer}
               columnWrapperStyle={numColumns > 1 ? { justifyContent: "center" } : undefined}
             />
-          {/* </View> */}
         </View>
       </>
     );
