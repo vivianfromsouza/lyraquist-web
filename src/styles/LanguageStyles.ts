@@ -85,7 +85,9 @@ const langStyles = StyleSheet.create({
     marginLeft: 30,
     fontFamily: "Karla",
   },
-  resultsGrid: { marginRight: 30, marginLeft: 30, marginBottom: 10 },
+  resultsGrid: { marginBottom: 10 },
+  resultsGridContainer: { alignItems: "center", marginBottom: 10 },
+
 });
 
 export default langStyles;

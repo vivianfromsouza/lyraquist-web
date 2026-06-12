@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
+  useWindowDimensions,
 } from "react-native";
 import DisplayPlaylistService from "../services/DisplayPlaylist";
 import SongCard from "../components/Song";
@@ -13,7 +14,16 @@ import LikeButton from "../components/LikeButton";
 import langStyles from "../styles/LanguageStyles";
 import SearchBar from "../components/SearchBar";
 
+const CARD_WIDTH = 166; // 130px content + 16px margin + 20px padding
+const CONTAINER_HORIZONTAL_MARGIN = 60; // marginLeft: 30 + marginRight: 30
+
 export default function LanguageScreen({ albumId, language }) {
+  const { width } = useWindowDimensions();
+  const numColumns = Math.max(
+    1,
+    Math.floor((width - CONTAINER_HORIZONTAL_MARGIN) / CARD_WIDTH),
+  );
+
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<any[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,15 +71,7 @@ export default function LanguageScreen({ albumId, language }) {
     return (
       <>
         <View style={langStyles.container}>
-          <SearchBar
-            searchTerm={searchTerm}
-            handleSearch={handleSearch}
-          />
-
-          <Text style={langStyles.text}>
-            These are Lyraquist's recommended Spanish songs. If you are looking
-            for a song not on this page, use the general search tab.
-          </Text>
+          <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
 
           <View style={langStyles.langTitleView}>
             <Text style={langStyles.langTitle}>{language}</Text>
@@ -84,23 +86,25 @@ export default function LanguageScreen({ albumId, language }) {
             </View>
           )}
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item) => item.spotifyURL}
-            renderItem={renderSearchResultItem}
-            numColumns={7}
-            style={langStyles.resultsGrid}
-          />
+          {/* <View style={langStyles.langTitleView}> */}
+            <FlatList
+              key={numColumns}
+              data={searchResults}
+              keyExtractor={(item) => item.spotifyURL}
+              renderItem={renderSearchResultItem}
+              numColumns={numColumns}
+              style={langStyles.resultsGrid}
+              contentContainerStyle={langStyles.resultsGridContainer}
+              columnWrapperStyle={numColumns > 1 ? { justifyContent: "center" } : undefined}
+            />
+          {/* </View> */}
         </View>
       </>
     );
   } else {
     return (
       <ScrollView style={langStyles.container}>
-        <SearchBar
-          searchTerm={searchTerm}
-          handleSearch={handleSearch}
-        />
+        <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
         <View style={langStyles.loading}>
           <ActivityIndicator size="large" color="#8A2BE2" />
         </View>
