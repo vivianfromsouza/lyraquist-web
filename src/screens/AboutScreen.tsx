@@ -20,7 +20,7 @@ export default function AboutScreen() {
   const navigate = useNavigate();
 
   return (
-    <ScrollView style={[aboutStyles.container, { minHeight: windowHeight *0.90 }]}>
+    <ScrollView style={[aboutStyles.container, { minHeight: windowHeight *0.85 }]}>
       <LyraquistHeader title="About Lyraquist" logo={blueLogo} />
 
       <View style={aboutStyles.menuCard}>

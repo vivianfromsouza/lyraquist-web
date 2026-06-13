@@ -8,6 +8,7 @@ const settingStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e8e1db",
     height: "91vh",
+    width: "100%",
   },
   title: {
     textAlign: "center",
@@ -20,7 +21,7 @@ const settingStyles = StyleSheet.create({
     fontFamily: "Karla",
   },
   introSect: {
-    width: windowWidth,
+    width: "100%",
     backgroundColor: "#303248",
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,

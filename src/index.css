@@ -12,6 +12,7 @@
 
 .range-slider {
   background: #e8e1db !important;
+  overflow: hidden !important;
 }
 
 .range-slider .range-slider__range {

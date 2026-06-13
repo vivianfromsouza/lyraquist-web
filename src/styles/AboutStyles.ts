@@ -8,9 +8,10 @@ const aboutStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e8e1db",
     paddingBottom: 20,
+    width: "100%",
   },
   introSect: {
-    width: windowWidth,
+    width: "100%",
     backgroundColor: "#edc526",
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
