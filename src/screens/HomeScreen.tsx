@@ -365,7 +365,7 @@ const HomeScreen: React.FC = () => {
               </View>
             )}
           </View>
-          <View style={{ height: 32 }} />
+          <View style={{ height: 180 }} />
         </ScrollView>
       </>
     );

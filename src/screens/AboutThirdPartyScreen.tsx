@@ -1,13 +1,17 @@
 // Worked on by: Siri Avula
-import { Text, ScrollView, Linking } from "react-native";
+import { Text, ScrollView, Linking, Dimensions } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import LyraquistHeader from "../components/LyraquistHeader";
 import aboutStyles from "../styles/AboutStyles";
 
+const windowHeight = Dimensions.get("window").height;
+
 export default function AboutThirdPartyScreen() {
   return (
     <>
-      <ScrollView style={aboutStyles.container}>
+      <ScrollView
+        style={[aboutStyles.container, { minHeight: windowHeight * 0.85 }]}
+      >
         <LyraquistHeader title="Third Party" logo={blueLogo} />
         <Text style={aboutStyles.paragraph}>
           We used the following application programming interfaces (APIs):
@@ -38,7 +42,7 @@ export default function AboutThirdPartyScreen() {
           style={aboutStyles.link}
           onPress={() =>
             Linking.openURL(
-              "https://azure.microsoft.com/en-us/products/ai-services/ai-translator"
+              "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
             )
           }
         >

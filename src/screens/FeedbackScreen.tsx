@@ -1,4 +1,4 @@
-import { Text, View, Pressable, TextInput, ScrollView } from "react-native";
+import { Text, View, Pressable, TextInput, ScrollView, Dimensions } from "react-native";
 import { useState } from "react";
 import FeedbackReaderWriter from "../services/FeedbackReaderWriter";
 import blueLogo from "../assets/blue_small.png";
@@ -8,7 +8,8 @@ import aboutStyles from "../styles/AboutStyles";
 
 export default function FeedbackScreen() {
   const [feedback, setFeedback] = useState<string>("");
-
+  const windowHeight = Dimensions.get("window").height;
+  
   async function submitFeedback() {
     await FeedbackReaderWriter.writeUserFeedback(feedback.trim()).then(() =>
       toast(
@@ -22,7 +23,9 @@ export default function FeedbackScreen() {
   }
 
   return (
-    <ScrollView style={aboutStyles.container}>
+    <ScrollView
+      style={[aboutStyles.container, { minHeight: windowHeight * 0.85 }]}
+    >
       <LyraquistHeader title="Feedback" logo={blueLogo} />
 
       <View style={aboutStyles.qaCard}>

@@ -1,13 +1,13 @@
-import { Dimensions, PixelRatio, StyleSheet } from "react-native";
+import { PixelRatio, StyleSheet } from "react-native";
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const lyricsStyles = StyleSheet.create({
   container: {
     backgroundColor: "#303248",
     paddingTop: 16,
-    height: SCREEN_HEIGHT - 50,
+    paddingLeft: 16,
+    flex: 1,
   },
   sectionLabelContainer: {
     paddingHorizontal: 24,
@@ -32,7 +32,6 @@ const lyricsStyles = StyleSheet.create({
   },
   columnsRow: {
     flexDirection: "row",
-    flex: 1,
   },
   column: {
     flex: 1,

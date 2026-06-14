@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Worked on by: Ashley Bickham and Siri Avula
 import { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";
 import LyricsService from "../services/LyricsService";
 import TranslationService from "../services/TranslationService";
@@ -64,32 +64,34 @@ export default function LyricsToScreen({ currentTrack }) {
 
   return (
     <View style={lyricsStyles.container}>
-      <View style={lyricsStyles.columnsRow}>
-        <View style={lyricsStyles.column}>
-          <View style={lyricsStyles.sectionLabelContainer}>
-            <Text style={lyricsStyles.sectionLabel}>Lyrics</Text>
-            <View style={lyricsStyles.sectionLabelLine} />
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+        <View style={lyricsStyles.columnsRow}>
+          <View style={lyricsStyles.column}>
+            <View style={lyricsStyles.sectionLabelContainer}>
+              <Text style={lyricsStyles.sectionLabel}>Lyrics</Text>
+              <View style={lyricsStyles.sectionLabelLine} />
+            </View>
+            <LyricsPanel
+              lyrics={lyrics}
+              songLang={fromLang}
+              currentTrack={currentTrack}
+            />
           </View>
-          <LyricsPanel
-            lyrics={lyrics}
-            songLang={fromLang}
-            currentTrack={currentTrack}
-          />
-        </View>
-        <View style={lyricsStyles.columnDivider} />
-        <View style={lyricsStyles.column}>
-          <View style={lyricsStyles.sectionLabelContainer}>
-            <Text style={lyricsStyles.sectionLabel}>Translation</Text>
-            <View style={lyricsStyles.sectionLabelLine} />
+          <View style={lyricsStyles.columnDivider} />
+          <View style={lyricsStyles.column}>
+            <View style={lyricsStyles.sectionLabelContainer}>
+              <Text style={lyricsStyles.sectionLabel}>Translation</Text>
+              <View style={lyricsStyles.sectionLabelLine} />
+            </View>
+            <TranslationPanel
+              translation={translation}
+              prefLang={prefLang}
+              songLang={fromLang}
+              currentTrack={currentTrack}
+            />
           </View>
-          <TranslationPanel
-            translation={translation}
-            prefLang={prefLang}
-            songLang={fromLang}
-            currentTrack={currentTrack}
-          />
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }

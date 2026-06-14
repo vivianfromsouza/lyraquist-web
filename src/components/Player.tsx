@@ -28,6 +28,7 @@ import {
   PlusOutlined,
   MinusOutlined,
   SoundOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 
 const Player = () => {
@@ -243,7 +244,7 @@ const Player = () => {
                   async (refreshToken) => {
                     console.log("Refreshing access token...");
                     await refresh(refreshToken);
-                  }
+                  },
                 );
                 TokenReaderWriter.getAccessToken().then((token) => {
                   accessToken = token;
@@ -317,8 +318,8 @@ const Player = () => {
 
           setTotalTime(
             calculateDurationInSecs(
-              state.track_window.current_track.duration_ms
-            )
+              state.track_window.current_track.duration_ms,
+            ),
           );
 
           setSeekDuration(state.track_window.current_track.duration_ms);
@@ -377,7 +378,7 @@ const Player = () => {
     };
     const playBtn: React.CSSProperties = {
       ...iconBtn,
-      fontSize: 28,
+      fontSize: 20,
       color: "#e8e1db",
     };
     const shuffleBtn: React.CSSProperties = {
@@ -393,6 +394,48 @@ const Player = () => {
 
     return (
       <>
+        {isLyricsOpen && (
+          <div style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "#252639",
+            zIndex: 99,
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+          }}>
+            <div style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              padding: "12px 20px",
+              borderBottom: "1px solid rgba(255,255,255,0.07)",
+              flexShrink: 0,
+            }}>
+              <button
+                onClick={handleLyricsClose}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "#e8e1db",
+                  fontSize: 20,
+                  display: "flex",
+                  alignItems: "center",
+                  padding: 4,
+                }}
+              >
+                <CloseOutlined />
+              </button>
+            </div>
+            <div style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column", paddingBottom: 20 }}>
+              <LyricsPanel currentTrack={current_track} />
+            </div>
+          </div>
+        )}
         <div className="container" style={playerStyles.container}>
           <div className="main-wrapper">
             <View style={playerStyles.wrapper}>
@@ -405,49 +448,69 @@ const Player = () => {
                   style={playerStyles.albumCover}
                 />
                 <View style={playerStyles.trackInfo}>
-                  <div style={playerStyles.trackText}>
-                    {current_track.name}
-                  </div>
+                  <div style={playerStyles.trackText}>{current_track.name}</div>
                   <div style={playerStyles.artistText}>
                     {current_track.artists[0].name}
                   </div>
                 </View>
               </View>
 
-              {/* Center: seekbar + controls */}
-              <View style={playerStyles.seekbar}>
-                <View style={playerStyles.seekbarControls}>
-                  <div style={playerStyles.timeText}>{currentTime}</div>
-                  <div style={playerStyles.timeText}>{totalTime}</div>
+              {/* Center: seekbar + controls + lyrics button */}
+              <View style={playerStyles.centerGroup}>
+                <View style={playerStyles.lyricsButtonSpacer} />
+                <View style={playerStyles.seekbar}>
+                  <RangeSlider
+                    min={0}
+                    max={seekDuration}
+                    step={1}
+                    value={[0, seekPosition]}
+                    onInput={handleSeek}
+                    thumbsDisabled={[true, true]}
+                    rangeSlideDisabled={true}
+                  />
+                  <View style={playerStyles.seekbarControls}>
+                    <div style={playerStyles.timeText}>{currentTime}</div>
+                    <div style={playerStyles.timeText}>{totalTime}</div>
+                  </View>
+                  <View style={playerStyles.controls}>
+                    <button style={shuffleBtn} onClick={toggleShuffle}>
+                      <RetweetOutlined />
+                    </button>
+                    <button
+                      style={iconBtn}
+                      onClick={() => player.previousTrack()}
+                    >
+                      <StepBackwardOutlined />
+                    </button>
+                    <button style={playBtn} onClick={() => player.togglePlay()}>
+                      {is_paused ? (
+                        <PlayCircleOutlined />
+                      ) : (
+                        <PauseCircleOutlined />
+                      )}
+                    </button>
+                    <button style={iconBtn} onClick={() => player.nextTrack()}>
+                      <StepForwardOutlined />
+                    </button>
+                  </View>
                 </View>
-                <RangeSlider
-                  min={0}
-                  max={seekDuration}
-                  step={1}
-                  value={[0, seekPosition]}
-                  onInput={handleSeek}
-                  thumbsDisabled={[true, true]}
-                  rangeSlideDisabled={true}
-                />
-                <View style={playerStyles.controls}>
-                  <button style={shuffleBtn} onClick={toggleShuffle}>
-                    <RetweetOutlined />
-                  </button>
-                  <button style={iconBtn} onClick={() => player.previousTrack()}>
-                    <StepBackwardOutlined />
-                  </button>
-                  <button style={playBtn} onClick={() => player.togglePlay()}>
-                    {is_paused ? <PlayCircleOutlined /> : <PauseCircleOutlined />}
-                  </button>
-                  <button style={iconBtn} onClick={() => player.nextTrack()}>
-                    <StepForwardOutlined />
-                  </button>
-                </View>
+              </View>
+
+              <View style={playerStyles.lyricsSection}>
+                <button onClick={openLyrics} style={playerStyles.lyricsButton}>
+                  Open Lyrics
+                </button>
               </View>
 
               {/* Right: volume */}
               <View style={playerStyles.volume}>
-                <SoundOutlined style={{ color: "rgba(232,225,219,0.5)", fontSize: 14, marginRight: 6 }} />
+                <SoundOutlined
+                  style={{
+                    color: "rgba(232,225,219,0.5)",
+                    fontSize: 14,
+                    marginRight: 6,
+                  }}
+                />
                 <button style={volBtn} onClick={volumeDown}>
                   <MinusOutlined />
                 </button>
@@ -456,20 +519,6 @@ const Player = () => {
                   <PlusOutlined />
                 </button>
               </View>
-            </View>
-
-            <View style={playerStyles.lyrics}>
-              <button
-                onClick={openLyrics}
-                style={playerStyles.lyricsButton}
-              >
-                Open Lyrics
-              </button>
-            </View>
-            <View style={playerStyles.lyricsScroll}>
-              {isLyricsOpen && (
-                <LyricsPanel currentTrack={current_track}></LyricsPanel>
-              )}
             </View>
           </div>
         </div>

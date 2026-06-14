@@ -31,7 +31,7 @@ const Workbook = ({ item }) => {
       style={{ margin: 10 }}
     >
       <View testID="workbook-icon" style={workbookStyles.icon}>
-        <FontAwesomeIcon icon={faBook}/>
+        <FontAwesomeIcon icon={faBook} height={50} width={50}/>
       </View>
       <View>
         <Text
