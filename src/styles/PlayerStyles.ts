@@ -54,7 +54,8 @@ const playerStyles = StyleSheet.create({
     fontFamily: "Karla",
   },
   centerGroup: {
-    flex: 2,
+    flex: 3,
+    paddingLeft: 110,
     flexDirection: "row",
     alignItems: "center",
     gap: 2,

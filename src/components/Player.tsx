@@ -395,26 +395,30 @@ const Player = () => {
     return (
       <>
         {isLyricsOpen && (
-          <div style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "#252639",
-            zIndex: 99,
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-          }}>
-            <div style={{
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "#252639",
+              zIndex: 99,
               display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderBottom: "1px solid rgba(255,255,255,0.07)",
-              flexShrink: 0,
-            }}>
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                padding: "12px 20px",
+                borderBottom: "1px solid rgba(255,255,255,0.07)",
+                flexShrink: 0,
+              }}
+            >
               <button
                 onClick={handleLyricsClose}
                 style={{
@@ -431,7 +435,14 @@ const Player = () => {
                 <CloseOutlined />
               </button>
             </div>
-            <div style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column", paddingBottom: 20 }}>
+            <div
+              style={{
+                flex: 1,
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <LyricsPanel currentTrack={current_track} />
             </div>
           </div>
@@ -494,12 +505,14 @@ const Player = () => {
                     </button>
                   </View>
                 </View>
-              </View>
-
-              <View style={playerStyles.lyricsSection}>
-                <button onClick={openLyrics} style={playerStyles.lyricsButton}>
-                  Open Lyrics
-                </button>
+                <View style={playerStyles.lyricsSection}>
+                  <button
+                    onClick={openLyrics}
+                    style={playerStyles.lyricsButton}
+                  >
+                    Open Lyrics
+                  </button>
+                </View>
               </View>
 
               {/* Right: volume */}
