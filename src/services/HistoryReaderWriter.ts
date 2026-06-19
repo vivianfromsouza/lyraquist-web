@@ -16,7 +16,13 @@ const HistoryReaderWriter = {
         },
       });
 
-      return response.data.items;
+      const seen = new Set<string>();
+      return response.data.items.filter((item: any) => {
+        const uri = item.track.uri;
+        if (seen.has(uri)) return false;
+        seen.add(uri);
+        return true;
+      });
     } catch (err) {
       console.error("Error fetching user history:", err);
       throw err;
