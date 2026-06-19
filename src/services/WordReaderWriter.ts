@@ -1,8 +1,6 @@
-// Worked on by: Vivian D'Souza
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
 
-// WordReaderWriter: Service that reads and writes word data from Firebase
 const WordReaderWriter = {
   async addWord(
     newWord: string,

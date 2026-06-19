@@ -1,4 +1,3 @@
-// Worked on by: Tanvi Singh, Vivian D'Souza
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import UserReaderWriter from "./UserReaderWriter";

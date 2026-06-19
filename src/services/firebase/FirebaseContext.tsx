@@ -20,7 +20,6 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<string>();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useLocalStorage("isLoggedIn", "false");
-  // console.log(value);
 
   function handleSignOut() {
     signOut(auth)

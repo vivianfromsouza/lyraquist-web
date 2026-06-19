@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// Worked on by: Vivian D'Souza
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
 
 const currentUser = localStorage.getItem("current_user");
 
-// This service handles CRUD operations to Firebase for a user's playlists
 const PlaylistReaderWriter = {
   async getMyPlaylists() {
     const { data } = await LocalSupabaseClient.from("playlists")
