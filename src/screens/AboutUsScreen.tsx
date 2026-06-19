@@ -1,4 +1,3 @@
-// Worked on by: Siri Avula
 import { View, Text, ScrollView, Image } from "react-native";
 import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";

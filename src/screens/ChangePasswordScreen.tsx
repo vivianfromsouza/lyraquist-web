@@ -1,11 +1,8 @@
-// Worked on by: Vivian D'Souza
 import { useState } from "react";
 import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
-  Dimensions,
   Pressable,
   TextInput,
   Image,
@@ -18,8 +15,8 @@ import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
+import passwordStyles from "../styles/ChangePassword";
 
-const windowWidth = Dimensions.get("window").width; //screen flexibility on devices
 export default function ChangePasswordScreen() {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>();
@@ -68,8 +65,8 @@ export default function ChangePasswordScreen() {
 
   return (
     <>
-      <ScrollView style={styles.full}>
-        <View style={styles.introSect}>
+      <ScrollView style={passwordStyles.full}>
+        <View style={passwordStyles.introSect}>
           <View
             style={{
               flexDirection: "row",
@@ -97,7 +94,7 @@ export default function ChangePasswordScreen() {
             />
             <View style={{ flex: 1 }}></View>
           </View>
-          <Text style={styles.title}>Change Password</Text>
+          <Text style={passwordStyles.title}>Change Password</Text>
         </View>
 
         <View>
@@ -112,8 +109,8 @@ export default function ChangePasswordScreen() {
           >
             Password
           </Text>
-          <View style={styles.border}>
-            <View style={styles.rows}>
+          <View style={passwordStyles.border}>
+            <View style={passwordStyles.rows}>
               <Text
                 style={{
                   fontSize: 20,
@@ -131,9 +128,9 @@ export default function ChangePasswordScreen() {
                 style={{ fontSize: 20, color: "gray" }}
               />
             </View>
-            <View style={styles.divider} />
+            <View style={passwordStyles.divider} />
 
-            <View style={styles.rows}>
+            <View style={passwordStyles.rows}>
               <Text
                 style={{
                   fontSize: 20,
@@ -184,82 +181,3 @@ export default function ChangePasswordScreen() {
     </>
   );
 }
-const styles = StyleSheet.create({
-  full: {
-    flex: 1,
-    backgroundColor: "#e8e1db",
-    height: "93vh",
-  },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginBottom: 20,
-  },
-  circle: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    borderColor: "#303248",
-    borderWidth: 2,
-    marginTop: -15,
-  },
-  rows: {
-    flexDirection: "row",
-    marginHorizontal: 10,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  border: {
-    borderRadius: 10,
-    borderWidth: 2,
-    marginHorizontal: 10,
-    borderColor: "gray",
-    paddingVertical: 10,
-  },
-  divider: {
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-    paddingTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  deleteAccount: {
-    marginVertical: 10,
-    textAlign: "center",
-    backgroundColor: "#ff4a2a",
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#e8e1db",
-    marginHorizontal: 30,
-    borderRadius: 20,
-  },
-  dropdown: {
-    marginRight: 4,
-  },
-
-  placeholderStyle: {
-    fontSize: 16,
-    color: "gray",
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
-});

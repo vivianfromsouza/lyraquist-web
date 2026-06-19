@@ -1,4 +1,3 @@
-// Worked on by: Siri Avula
 import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import blueLogo from "../assets/blue_small.png";

@@ -1,4 +1,3 @@
-// Worked on by: Vivian D'Souza, Ashley Bickham
 import { useState } from "react";
 import {
   SafeAreaView,

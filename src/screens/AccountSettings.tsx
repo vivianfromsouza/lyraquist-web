@@ -1,4 +1,3 @@
-// Worked on by: Vivian D'Souza
 import { useEffect, useState } from "react";
 import {
   View,

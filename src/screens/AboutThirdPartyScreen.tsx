@@ -1,4 +1,3 @@
-// Worked on by: Siri Avula
 import { Text, ScrollView, Linking, Dimensions } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import LyraquistHeader from "../components/LyraquistHeader";

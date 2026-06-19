@@ -1,6 +1,5 @@
-import { StyleSheet, Dimensions, PixelRatio } from "react-native";
+import { StyleSheet, PixelRatio } from "react-native";
 
-const windowWidth = Dimensions.get("window").width;
 const getFontSize = (size: number) => size / PixelRatio.getFontScale();
 
 const aboutStyles = StyleSheet.create({

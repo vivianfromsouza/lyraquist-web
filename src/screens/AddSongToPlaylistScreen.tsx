@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
-// Worked on by: Vivian D'Souza, Ashley Bickham
 import { View, Text, Pressable, Image } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
