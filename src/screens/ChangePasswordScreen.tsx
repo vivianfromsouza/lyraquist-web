@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   full: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height: "91vh",
+    height: "93vh",
   },
   introSect: {
     flex: 1,

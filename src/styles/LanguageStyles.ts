@@ -3,7 +3,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const langStyles = StyleSheet.create({
   container: {
-    height: "91vh",
+    height: "93vh",
     backgroundColor: "#e8e1db",
   },
   blueSection: {

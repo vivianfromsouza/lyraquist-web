@@ -249,7 +249,7 @@ const playlistStyles = StyleSheet.create({
   addToPlaylistContainer: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height: "91vh",
+    height: "93vh",
   },
   addToPlaylistHeaderRow: {
     flexDirection: "row",

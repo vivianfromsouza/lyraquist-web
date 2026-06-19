@@ -27,7 +27,7 @@ const workbookStyles = StyleSheet.create({
   },
 
   // ── WorkbookInfoScreen ────────────────────────────────────────────────────
-  background: { backgroundColor: "#e8e1db", flex: 1, height: "91vh" },
+  background: { backgroundColor: "#e8e1db", flex: 1, height: "93vh" },
   header: {
     paddingTop: 20,
     backgroundColor: "#303248",

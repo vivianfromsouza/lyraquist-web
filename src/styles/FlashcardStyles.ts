@@ -7,7 +7,7 @@ const flashcardStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height: "91vh",
+    height: "93vh",
   },
 
   // Header

@@ -9,6 +9,7 @@ const aboutStyles = StyleSheet.create({
     backgroundColor: "#e8e1db",
     paddingBottom: 20,
     width: "100%",
+    height: "93vh",
   },
   introSect: {
     width: "100%",

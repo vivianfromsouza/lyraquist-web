@@ -6,6 +6,7 @@ const profileStyles = StyleSheet.create({
   full: {
     flex: 1,
     backgroundColor: "#e8e1db",
+    height: "93vh",
   },
   sectionHeader: {
     flexDirection: "row",

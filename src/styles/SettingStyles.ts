@@ -1,5 +1,4 @@
-import { StyleSheet, Dimensions, PixelRatio } from "react-native";
-const windowWidth = Dimensions.get("window").width;
+import { StyleSheet, PixelRatio } from "react-native";
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size: number) => size / fontScale;
 
@@ -7,7 +6,7 @@ const settingStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height: "91vh",
+    height: "93vh",
     width: "100%",
   },
   title: {
