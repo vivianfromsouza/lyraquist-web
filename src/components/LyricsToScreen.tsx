@@ -1,6 +1,5 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Worked on by: Ashley Bickham and Siri Avula
 import { useState, useEffect } from "react";
 import { Text, View, ScrollView } from "react-native";
 import UserReaderWriter from "../services/UserReaderWriter";

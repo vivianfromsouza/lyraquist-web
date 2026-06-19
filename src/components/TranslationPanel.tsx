@@ -3,12 +3,12 @@ import { Text, TouchableHighlight, View } from "react-native";
 import WordModal from "./WordModal";
 import lyricsStyles from "../styles/LyricsStyles";
 
-export default function TranslationPanel({
+const TranslationPanel = ({
   translation,
   prefLang,
   songLang,
   currentTrack,
-}) {
+}) => {
   const [openModal, setOpenModal] = useState(false);
   const [clickedWord, setClickedWord] = useState("");
 
@@ -53,3 +53,5 @@ export default function TranslationPanel({
     </>
   );
 }
+
+export default TranslationPanel;
