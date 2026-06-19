@@ -7,7 +7,8 @@ const workbookStyles = StyleSheet.create({
   // ── Shared (Workbook.tsx card) ────────────────────────────────────────────
   icon: {
     elevation: 4,
-    fontSize: 32,
+    fontSize: 52,
+    paddingBottom:5,
   },
   name: {
     fontSize: getFontSize(13),
