@@ -1,4 +1,3 @@
-// Worked on by: Tanvi Singh
 // TODO: REWORK THIS WITH NEW SPOTIFY AUTH
 import axios from "axios";
 import { refresh, checkRefreshNeeded } from "../services/spotifyAuth";

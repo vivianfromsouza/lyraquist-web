@@ -32,7 +32,7 @@ import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import AddSongToPlaylistScreen from "./screens/AddSongToPlaylistScreen";
 import { PlayerProvider } from "./context/PlayerContext";
 import LyricsPanel from "./components/LyricsToScreen";
-import CreateNewPlaylistForm from "./components/CreateNewPlaylistForm";
+import CreateNewPlaylistScreen from "./screens/CreateNewPlaylistScreen";
 import LanguageScreen from "./screens/LanguageScreen";
 import LocalFirebaseClient from "./services/firebase/LocalFirebaseClient";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
@@ -153,7 +153,7 @@ const App: React.FC = () => {
               />
               <Route
                 path="/playlist/create"
-                element={<CreateNewPlaylistForm songItem={""} />}
+                element={<CreateNewPlaylistScreen songItem={""} />}
               />
 
               <Route

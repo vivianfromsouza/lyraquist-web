@@ -1,4 +1,3 @@
-// Worked on by: Vivian D'Souza, Ashley Bickham
 import { useState } from "react";
 import {
   SafeAreaView,
@@ -13,12 +12,9 @@ import PsychologyIcon from "@mui/icons-material/Psychology";
 import LanguageIcon from "@mui/icons-material/Language";
 import TranslateIcon from "@mui/icons-material/Translate";
 import AbcIcon from "@mui/icons-material/Abc";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ArrowBackOutline } from "react-ionicons";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { useLocation, useNavigate } from "react-router-dom";
-import wordStyles from "../styles/WordStyles";
 import newBookStyles from "../styles/NewBookStyles";
 
 function NewWordScreen() {
@@ -57,77 +53,81 @@ function NewWordScreen() {
   }
 
   return (
-    <SafeAreaView style={wordStyles.container}>
-      <View style={wordStyles.header}>
-        <TouchableOpacity onPress={() => navigate(-1)}>
-          <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-        </TouchableOpacity>
-        <Text style={wordStyles.title}>New Word</Text>
+    <SafeAreaView style={newBookStyles.container}>
+      {/* Header */}
+      <View style={newBookStyles.header}>
+        <View style={newBookStyles.titleLocation}>
+          <TouchableOpacity
+            onPress={() => navigate(-1)}
+            style={newBookStyles.arrowLocation}
+          >
+            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+          </TouchableOpacity>
+          <Text style={newBookStyles.title}>New Word</Text>
+        </View>
+        <Text style={newBookStyles.headerSubtitle}>Workbook: {name}</Text>
       </View>
-      <View style={wordStyles.bookNameLocation}>
-        <Text style={wordStyles.bookNameTitle}>Workbook: </Text>
-        <Text style={wordStyles.bookNameTxt}>{name}</Text>
+
+      {/* Section: Word Details */}
+      <View style={newBookStyles.sectionHeader}>
+        <Text style={newBookStyles.sectionLabel}>Word Details</Text>
+        <View style={newBookStyles.sectionLabelLine} />
       </View>
 
-      <View style={wordStyles.inputContainer}>
-        <FontAwesomeIcon icon={faBook} style={newBookStyles.bookIcon} />
-
-        <View style={wordStyles.inputWrapper}>
-          <View style={wordStyles.inputRow}>
-            <AbcIcon />
-            <TextInput
-              placeholder="New Word"
-              value={newWord}
-              onChangeText={(newtext) => setNewWord(newtext)}
-              style={wordStyles.input}
-              accessibilityLabel="newWord"
-              accessible={true}
-            />
-          </View>
-          <View style={wordStyles.inputRow}>
-            <TranslateIcon />
-            <TextInput
-              placeholder="New Word Translation"
-              value={translation}
-              onChangeText={setTranslation}
-              style={wordStyles.input}
-              accessibilityLabel="newTranslation"
-              accessible={true}
-            />
-          </View>
-
-          <View style={wordStyles.inputRow}>
-            <LanguageIcon />
-            <TextInput
-              placeholder="Language"
-              value={language}
-              onChangeText={setLanguage}
-              style={wordStyles.input}
-              accessibilityLabel="newLanguage"
-              accessible={true}
-            />
-          </View>
-
-          <View style={wordStyles.inputRow}>
-            <PsychologyIcon />
-            <TextInput
-              placeholder="Part of Speech"
-              value={partOfSpeech}
-              onChangeText={setPartOfSpeech}
-              style={wordStyles.input}
-              accessibilityLabel="newPartOfSpeech"
-              accessible={true}
-            />
-          </View>
+      <View style={newBookStyles.inputContainer}>
+        <View style={newBookStyles.inputRow}>
+          <AbcIcon style={{ color: "rgba(48,50,72,0.5)" }} />
+          <TextInput
+            placeholder="New Word"
+            value={newWord}
+            onChangeText={(newtext) => setNewWord(newtext)}
+            style={newBookStyles.input}
+            accessibilityLabel="newWord"
+            accessible={true}
+          />
+        </View>
+        <View style={newBookStyles.inputRow}>
+          <TranslateIcon style={{ color: "rgba(48,50,72,0.5)" }} />
+          <TextInput
+            placeholder="Translation"
+            value={translation}
+            onChangeText={setTranslation}
+            style={newBookStyles.input}
+            accessibilityLabel="newTranslation"
+            accessible={true}
+          />
+        </View>
+        <View style={newBookStyles.inputRow}>
+          <LanguageIcon style={{ color: "rgba(48,50,72,0.5)" }} />
+          <TextInput
+            placeholder="Language"
+            value={language}
+            onChangeText={setLanguage}
+            style={newBookStyles.input}
+            accessibilityLabel="newLanguage"
+            accessible={true}
+          />
+        </View>
+        <View style={newBookStyles.inputRow}>
+          <PsychologyIcon style={{ color: "rgba(48,50,72,0.5)" }} />
+          <TextInput
+            placeholder="Part of Speech"
+            value={partOfSpeech}
+            onChangeText={setPartOfSpeech}
+            style={newBookStyles.input}
+            accessibilityLabel="newPartOfSpeech"
+            accessible={true}
+          />
         </View>
       </View>
+
       <Pressable
         onPress={addWord}
-        style={wordStyles.button}
+        style={newBookStyles.button}
         accessibilityLabel="addconfirm"
         accessible={true}
       >
-        <Text style={wordStyles.buttonText}>Add Word</Text>
+        <Text style={newBookStyles.buttonText}>Add Word</Text>
       </Pressable>
     </SafeAreaView>
   );

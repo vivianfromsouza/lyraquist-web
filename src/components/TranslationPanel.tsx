@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { Text, TouchableHighlight, View, ScrollView } from "react-native";
+import { Text, TouchableHighlight, View } from "react-native";
 import WordModal from "./WordModal";
 import lyricsStyles from "../styles/LyricsStyles";
 
-export default function TranslationPanel({
+const TranslationPanel = ({
   translation,
   prefLang,
   songLang,
   currentTrack,
-}) {
+}) => {
   const [openModal, setOpenModal] = useState(false);
   const [clickedWord, setClickedWord] = useState("");
 
   return (
     <>
-      <ScrollView>
+      <View>
         {translation.split("\n").map((line, lineIdx) => (
           <View key={lineIdx} style={lyricsStyles.lineFormat}>
             {line.split(" ").map((word, wordIdx) => (
@@ -37,7 +37,7 @@ export default function TranslationPanel({
             ))}
           </View>
         ))}
-      </ScrollView>
+      </View>
       <View style={lyricsStyles.saveWordModal}>
         {openModal && (
           <WordModal
@@ -53,3 +53,5 @@ export default function TranslationPanel({
     </>
   );
 }
+
+export default TranslationPanel;

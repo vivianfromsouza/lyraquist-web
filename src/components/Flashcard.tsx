@@ -1,38 +1,34 @@
-// Worked on by Vivian D'Souza
 // Built based on this link: https://nabendu82.medium.com/build-a-flashcard-quiz-with-react-c1cb96e3a1e8
 import { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { Text } from "react-native";
 import flashcardStyles from "../styles/FlashcardStyles";
+import "../styles/Flashcard.css";
 
 const Flashcard = ({ wordItem }) => {
   const [flip, setFlip] = useState(false);
   return (
-    <Pressable
-      onPress={() => {
-        setFlip(!flip);
-      }}
-    >
-      <View style={flip ? flashcardStyles.frontCard : flashcardStyles.backCard}>
-        <Text style={flashcardStyles.word}>
-          {flip ? (
-            <Text>{wordItem.translation}</Text>
-          ) : (
-            <>
-              <Text>{wordItem.word}</Text>
-              {wordItem.language ? (
-                <Text style={flashcardStyles.wordContext}>{wordItem.language}</Text>
-              ) : null}
-              {wordItem.part_of_speech ? (
-                <Text style={flashcardStyles.wordContext}>{wordItem.part_of_speech}</Text>
-              ) : null}
-            </>
+    <div className="flashcard-scene" onClick={() => setFlip(!flip)}>
+      <div className={`flashcard-card${flip ? " is-flipped" : ""}`}>
+        <div className="flashcard-face flashcard-face--front">
+          <Text style={flashcardStyles.word}>{wordItem.word}</Text>
+          {(wordItem.language || wordItem.part_of_speech) && (
+            <div className="flashcard-badges">
+              {wordItem.language && (
+                <span className="flashcard-badge">{wordItem.language}</span>
+              )}
+              {wordItem.part_of_speech && (
+                <span className="flashcard-badge">{wordItem.part_of_speech}</span>
+              )}
+            </div>
           )}
-        </Text>
-        <Text style={flashcardStyles.tapHint}>
-          {flip ? "tap to flip back" : "tap to reveal"}
-        </Text>
-      </View>
-    </Pressable>
+          <span className="flashcard-hint">tap to reveal</span>
+        </div>
+        <div className="flashcard-face flashcard-face--back">
+          <Text style={flashcardStyles.word}>{wordItem.translation}</Text>
+          <span className="flashcard-hint">tap to flip back</span>
+        </div>
+      </div>
+    </div>
   );
 };
 

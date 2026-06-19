@@ -31,12 +31,14 @@ const startStyles = StyleSheet.create({
     fontSize: getFontSize(30),
     fontWeight: "900",
     color: "#303248",
+    fontFamily: "Karla",
   },
   warning: {
     marginTop: 10,
     fontSize: getFontSize(15),
     color: "#ff4a2a",
     justifyContent: "center",
+    fontFamily: "Karla",
   },
   signUp: {
     backgroundColor: "#ff4a2a",
@@ -55,6 +57,7 @@ const startStyles = StyleSheet.create({
     fontWeight: "400",
     marginHorizontal: 70,
     color: "#e8e1db",
+    fontFamily: "Karla",
   },
   loginTxt: {
     margin: 10,
@@ -62,6 +65,7 @@ const startStyles = StyleSheet.create({
     fontWeight: "400",
     marginHorizontal: 77,
     color: "#e8e1db",
+    fontFamily: "Karla",
   },
 });
 

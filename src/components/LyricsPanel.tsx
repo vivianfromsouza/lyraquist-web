@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, TouchableHighlight, View, ScrollView } from "react-native";
+import { Text, TouchableHighlight, View } from "react-native";
 import WordModal from "./WordModal";
 import lyricsStyles from "../styles/LyricsStyles";
 import UserReaderWriter from "../services/UserReaderWriter";
@@ -18,7 +18,7 @@ export default function LyricsPanel({ lyrics, songLang, currentTrack }) {
 
   return (
     <>
-      <ScrollView>
+      <View>
         {lyrics.split("\n").map((line, lineIdx) => (
           <View key={lineIdx} style={lyricsStyles.lineFormat}>
             {line.split(" ").map((word, wordIdx) => (
@@ -41,7 +41,7 @@ export default function LyricsPanel({ lyrics, songLang, currentTrack }) {
             ))}
           </View>
         ))}
-      </ScrollView>
+      </View>
       <View style={lyricsStyles.saveWordModal}>
         {openModal && (
           <WordModal

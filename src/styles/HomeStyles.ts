@@ -26,16 +26,18 @@ const homeStyles = StyleSheet.create({
   starredLanguagesSect: {
     flex: 1,
     paddingTop: 8,
+    paddingBottom: 16
   },
+
   historySect: {
     flex: 1,
-    backgroundColor: "#ffffff",
     borderRadius: 20,
     marginHorizontal: 16,
-    marginTop: 8,
-    marginBottom: 12,
+    marginBottom: 32,
     paddingBottom: 16,
-    shadowColor: "#303248",
+    borderWidth: 1,
+    borderColor: "#303248",
+    shadowColor: "#320829",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
@@ -43,12 +45,12 @@ const homeStyles = StyleSheet.create({
   },
   savedSect: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#303248",
     borderRadius: 20,
     marginHorizontal: 16,
-    marginBottom: 12,
+    marginBottom: 32,
     paddingBottom: 16,
-    shadowColor: "#303248",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
@@ -56,12 +58,13 @@ const homeStyles = StyleSheet.create({
   },
   workbookSect: {
     flex: 1,
-    backgroundColor: "#ffffff",
     borderRadius: 20,
     marginHorizontal: 16,
-    marginBottom: 28,
+    marginBottom: 32,
     paddingBottom: 16,
-    shadowColor: "#303248",
+    borderWidth: 1,
+    borderColor: "#303248",
+    shadowColor: "#320829",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
@@ -74,6 +77,7 @@ const homeStyles = StyleSheet.create({
     fontWeight: "bold",
     color: "#303248",
     marginBottom: 10,
+    fontFamily: "Karla",
   },
   loading: {
     flex: 1,
@@ -89,6 +93,7 @@ const homeStyles = StyleSheet.create({
     textAlign: "left",
     marginBottom: 12,
     marginTop: 2,
+    fontFamily: "Karla",
   },
   settingsLocation: {
     marginRight: 22,
@@ -119,6 +124,7 @@ const homeStyles = StyleSheet.create({
     fontWeight: "800",
     color: "#e8e1db",
     letterSpacing: 0.3,
+    fontFamily: "Karla",
   },
   nameText: {
     paddingLeft: 8,
@@ -127,6 +133,7 @@ const homeStyles = StyleSheet.create({
     fontWeight: "800",
     color: "#edc526",
     letterSpacing: 0.3,
+    fontFamily: "Karla",
   },
   subTitleText: {
     paddingLeft: 24,
@@ -134,6 +141,7 @@ const homeStyles = StyleSheet.create({
     color: "rgba(232, 225, 219, 0.6)",
     marginTop: 6,
     letterSpacing: 0.2,
+    fontFamily: "Karla",
   },
   iconDivider: {
     justifyContent: "flex-end",
@@ -145,19 +153,18 @@ const homeStyles = StyleSheet.create({
     marginBottom: 8,
   },
   starredLangText: {
-    paddingLeft: 24,
+    paddingLeft: 20,
     paddingTop: 24,
     fontSize: getFontSize(22),
     fontWeight: "700",
     color: "#303248",
     letterSpacing: 0.2,
+    fontFamily: "Karla",
   },
   langList: {
     marginHorizontal: 16,
     marginTop: 10,
     borderRadius: 16,
-    backgroundColor: "#ffffff",
-    shadowColor: "#303248",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
@@ -165,6 +172,9 @@ const homeStyles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingBottom: 12,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#303248",
+    shadowColor: "#320829",
   },
   moreLangBtn: {
     flexDirection: "row",
@@ -182,6 +192,7 @@ const homeStyles = StyleSheet.create({
     fontWeight: "600",
     marginRight: 8,
     color: "#303248",
+    fontFamily: "Karla",
   },
   hzScroll: {
     marginRight: 16,
@@ -197,6 +208,7 @@ const homeStyles = StyleSheet.create({
     color: "#b0adb8",
     paddingVertical: 20,
     fontStyle: "italic",
+    fontFamily: "Karla",
   },
   addToBtn: {
     flexDirection: "row",
@@ -212,6 +224,7 @@ const homeStyles = StyleSheet.create({
     color: "#303248",
     marginBottom: 4,
     letterSpacing: 0.2,
+    fontFamily: "Karla",
   },
   addBtn: {
     flexDirection: "row",
@@ -228,6 +241,7 @@ const homeStyles = StyleSheet.create({
     fontSize: getFontSize(13),
     color: "#303248",
     fontWeight: "600",
+    fontFamily: "Karla",
   },
 });
 

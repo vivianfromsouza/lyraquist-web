@@ -1,13 +1,14 @@
-// Worked on by: Siri Avula
-import { Text, ScrollView } from "react-native";
+import { Text, ScrollView, Dimensions } from "react-native";
 import blueLogo from "../assets/blue_small.png";
 import LyraquistHeader from "../components/LyraquistHeader";
 import aboutStyles from "../styles/AboutStyles";
 
+const windowHeight = Dimensions.get("window").height;
+
 export default function AboutTermsConditionsScreen() {
   return (
     <>
-      <ScrollView style={aboutStyles.container}>
+      <ScrollView style={[aboutStyles.container, { minHeight: windowHeight }]}>
         <LyraquistHeader title="Terms & Conditions" logo={blueLogo} />
         <Text style={aboutStyles.paragraph}>
           You will need access to a Spotify Premium account to be able to access

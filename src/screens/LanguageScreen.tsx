@@ -4,23 +4,29 @@ import {
   ScrollView,
   View,
   Text,
-  TextInput,
   FlatList,
-  TouchableOpacity,
   ActivityIndicator,
+  useWindowDimensions,
 } from "react-native";
-import { ArrowBackOutline, SearchOutline } from "react-ionicons";
-import { useNavigate } from "react-router-dom";
 import DisplayPlaylistService from "../services/DisplayPlaylist";
 import SongCard from "../components/Song";
 import LikeButton from "../components/LikeButton";
 import langStyles from "../styles/LanguageStyles";
+import SearchBar from "../components/SearchBar";
+
+const CARD_WIDTH = 166; // 130px content + 16px margin + 20px padding
+const CONTAINER_HORIZONTAL_MARGIN = 60; // marginLeft: 30 + marginRight: 30
 
 export default function LanguageScreen({ albumId, language }) {
+  const { width } = useWindowDimensions();
+  const numColumns = Math.max(
+    1,
+    Math.floor((width - CONTAINER_HORIZONTAL_MARGIN) / CARD_WIDTH),
+  );
+
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<any[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   const handleSearch = async (text) => {
     try {
@@ -33,7 +39,7 @@ export default function LanguageScreen({ albumId, language }) {
             item.track.name.toLowerCase().includes(text.toLowerCase()) ||
             item.track.artists[0].name
               .toLowerCase()
-              .includes(text.toLowerCase())
+              .includes(text.toLowerCase()),
         )
         .map((item: any) => ({
           artist: item.track.artists[0].name,
@@ -65,29 +71,7 @@ export default function LanguageScreen({ albumId, language }) {
     return (
       <>
         <View style={langStyles.container}>
-          <View style={langStyles.blueSection}>
-            <TouchableOpacity
-              onPress={() => navigate(-1)}
-              style={langStyles.backButton}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </TouchableOpacity>
-
-            <View style={langStyles.searchBar}>
-              <TextInput
-                style={langStyles.searchInput}
-                placeholder={"Search " + language}
-                value={searchTerm}
-                onChangeText={handleSearch}
-              />
-              <SearchOutline color={"#00000"} height="30px" width="30px" />
-            </View>
-          </View>
-
-          <Text style={langStyles.text}>
-            These are Lyraquist's recommended Spanish songs. If you are looking
-            for a song not on this page, use the general search tab.
-          </Text>
+          <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
 
           <View style={langStyles.langTitleView}>
             <Text style={langStyles.langTitle}>{language}</Text>
@@ -102,36 +86,23 @@ export default function LanguageScreen({ albumId, language }) {
             </View>
           )}
 
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item) => item.spotifyURL}
-            renderItem={renderSearchResultItem}
-            numColumns={7}
-            style={langStyles.resultsGrid}
-          />
+            <FlatList
+              key={numColumns}
+              data={searchResults}
+              keyExtractor={(item) => item.spotifyURL}
+              renderItem={renderSearchResultItem}
+              numColumns={numColumns}
+              style={langStyles.resultsGrid}
+              contentContainerStyle={langStyles.resultsGridContainer}
+              columnWrapperStyle={numColumns > 1 ? { justifyContent: "center" } : undefined}
+            />
         </View>
       </>
     );
   } else {
     return (
       <ScrollView style={langStyles.container}>
-        <View style={langStyles.blueSection}>
-          <TouchableOpacity
-            onPress={() => navigate(-1)}
-            style={langStyles.backButton}
-          >
-            <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-          </TouchableOpacity>
-          <View style={langStyles.searchBar}>
-            <TextInput
-              style={langStyles.searchInput}
-              placeholder={"Search " + language}
-              value={searchTerm}
-              onChangeText={handleSearch}
-            />
-            <SearchOutline color={"#00000"} height="250px" width="250px" />
-          </View>
-        </View>
+        <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
         <View style={langStyles.loading}>
           <ActivityIndicator size="large" color="#8A2BE2" />
         </View>

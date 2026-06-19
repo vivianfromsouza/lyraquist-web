@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_DOMAIN,
@@ -16,7 +15,6 @@ const firebaseConfig = {
 const LocalFirebaseClient = initializeApp(firebaseConfig);
 
 const auth = getAuth(LocalFirebaseClient);
-// const userCredential = auth.currentUser;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {

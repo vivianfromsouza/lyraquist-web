@@ -41,6 +41,7 @@ const loginStyles = StyleSheet.create({
     fontWeight: "bold",
     color: "#303248",
     fontSize: 20,
+    fontFamily: "Karla",
   },
   inputOutline: {
     marginTop: 5,
@@ -61,6 +62,7 @@ const loginStyles = StyleSheet.create({
     marginHorizontal: 10,
     fontSize: 17,
     width: "100%",
+    fontFamily: "Karla",
   },
   loginLocation: {
     marginHorizontal: 590,
@@ -72,6 +74,7 @@ const loginStyles = StyleSheet.create({
     backgroundColor: "#303248",
     color: "#e8e1db",
     padding: 10,
+    fontFamily: "Karla",
   },
   icon: {
     color: "#303248",

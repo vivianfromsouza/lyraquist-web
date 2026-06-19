@@ -15,6 +15,7 @@ const privacyStyles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 15,
     color: "#303248",
+    fontFamily: "Karla",
   },
   introSect: {
     flex: 1,
@@ -44,8 +45,8 @@ const privacyStyles = StyleSheet.create({
     resizeMode: "contain",
     marginBottom: 7,
   },
-  firstPara: { fontSize: 15, margin: 13, marginTop: 20 },
-  para: { fontSize: 15, margin: 13 },
+  firstPara: { fontSize: 15, margin: 13, marginTop: 20, fontFamily: "Karla" },
+  para: { fontSize: 15, margin: 13, fontFamily: "Karla" },
 });
 
 export default privacyStyles;

@@ -1,4 +1,3 @@
-// Worked on by: Vivian D'Souza
 import { useState } from "react";
 import {
   SafeAreaView,
@@ -123,7 +122,6 @@ function NewWorkbookScreen() {
 
   return (
     <SafeAreaView style={newBookStyles.container}>
-      {/* Header */}
       <View style={newBookStyles.header}>
         <View style={newBookStyles.titleLocation}>
           <TouchableOpacity
@@ -138,7 +136,6 @@ function NewWorkbookScreen() {
         </View>
       </View>
 
-      {/* Section: Workbook Details */}
       <View style={newBookStyles.sectionHeader}>
         <Text style={newBookStyles.sectionLabel}>Workbook Details</Text>
         <View style={newBookStyles.sectionLabelLine} />
@@ -169,7 +166,6 @@ function NewWorkbookScreen() {
         </View>
       </View>
 
-      {/* Add Word toggle */}
       {!addWord && (
         <Pressable
           onPress={() => setAddWord(true)}
@@ -180,7 +176,6 @@ function NewWorkbookScreen() {
         </Pressable>
       )}
 
-      {/* Word fields */}
       {addWord && (
         <View>
           <View style={newBookStyles.sectionHeader}>

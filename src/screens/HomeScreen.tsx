@@ -354,7 +354,7 @@ const HomeScreen: React.FC = () => {
             <ScrollView horizontal style={homeStyles.hzScroll}>
               {workbooksList!.length != 0 &&
                 workbooksList!.map((item, index) => (
-                  <Workbook item={item} key={index} />
+                  <Workbook item={item} key={index} index={index} />
                 ))}
             </ScrollView>
             {workbooksList!.length == 0 && (
@@ -365,7 +365,7 @@ const HomeScreen: React.FC = () => {
               </View>
             )}
           </View>
-          <View style={{ height: 32 }} />
+          <View style={{ height: 180 }} />
         </ScrollView>
       </>
     );

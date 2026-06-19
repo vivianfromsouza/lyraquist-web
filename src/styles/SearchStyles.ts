@@ -6,7 +6,7 @@ const searchStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height: "91vh",
+    height: "93vh",
   },
   blueSection: {
     backgroundColor: "#303248",
@@ -38,6 +38,7 @@ const searchStyles = StyleSheet.create({
     color: "#e8e1db",
     paddingHorizontal: 8,
     fontSize: getFontSize(15),
+    fontFamily: "Karla",
   },
   noteAndButtonContainer: {
     marginHorizontal: 20,
@@ -50,16 +51,17 @@ const searchStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1.5,
-    borderColor: "#edc526",
+    borderColor: "#303248",
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 18,
   },
   buttonText: {
     fontWeight: "700",
-    color: "#edc526",
+    color: "#303248",
     fontSize: getFontSize(13),
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
   sectionHeader: {
     paddingHorizontal: 24,
@@ -74,6 +76,7 @@ const searchStyles = StyleSheet.create({
     color: "#edc526",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -91,6 +94,7 @@ const searchStyles = StyleSheet.create({
     color: "rgba(48, 50, 72, 0.45)",
     fontSize: getFontSize(14),
     fontStyle: "italic",
+    fontFamily: "Karla",
   },
   emptyState: {
     alignItems: "center",
@@ -102,17 +106,19 @@ const searchStyles = StyleSheet.create({
     color: "rgba(48, 50, 72, 0.4)",
     textAlign: "center",
     marginTop: 12,
+    fontFamily: "Karla",
   },
   // Language screen
   languagesTitle: {
     fontSize: getFontSize(13),
     fontWeight: "700",
-    color: "#edc526",
+    color: "#303248",
     letterSpacing: 1.5,
     textTransform: "uppercase",
     marginTop: 20,
     marginBottom: 16,
     paddingHorizontal: 24,
+    fontFamily: "Karla",
   },
   languagesContainer: {
     flexDirection: "row",
@@ -142,6 +148,7 @@ const searchStyles = StyleSheet.create({
     fontWeight: "700",
     fontSize: getFontSize(14),
     color: "#303248",
+    fontFamily: "Karla",
   },
   loading: {
     flex: 1,
@@ -155,9 +162,9 @@ const searchStyles = StyleSheet.create({
   searchResultItem: { flex: 1, margin: 5, alignItems: "center" },
   albumContainer: { alignItems: "center" },
   coverImage: { width: 120, height: 120, borderRadius: 10 },
-  title: { fontWeight: "bold", fontSize: 14, color: "black", textAlign: "center", marginTop: 5 },
-  artist: { color: "#989898", textAlign: "center" },
-  noteText: { marginBottom: 10, marginLeft: 10 },
+  title: { fontWeight: "bold", fontSize: 14, color: "black", textAlign: "center", marginTop: 5, fontFamily: "Karla" },
+  artist: { color: "#989898", textAlign: "center", fontFamily: "Karla" },
+  noteText: { marginBottom: 10, marginLeft: 10, fontFamily: "Karla" },
 });
 
 export default searchStyles;

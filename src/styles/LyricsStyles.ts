@@ -1,13 +1,13 @@
-import { Dimensions, PixelRatio, StyleSheet } from "react-native";
+import { PixelRatio, StyleSheet } from "react-native";
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const lyricsStyles = StyleSheet.create({
   container: {
     backgroundColor: "#303248",
     paddingTop: 16,
-    height: SCREEN_HEIGHT - 50,
+    paddingLeft: 16,
+    flex: 1,
   },
   sectionLabelContainer: {
     paddingHorizontal: 24,
@@ -22,6 +22,7 @@ const lyricsStyles = StyleSheet.create({
     color: "#edc526",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -31,7 +32,6 @@ const lyricsStyles = StyleSheet.create({
   },
   columnsRow: {
     flexDirection: "row",
-    flex: 1,
   },
   column: {
     flex: 1,
@@ -46,6 +46,7 @@ const lyricsStyles = StyleSheet.create({
     fontWeight: "700",
     color: "#edc526",
     letterSpacing: 1.5,
+    fontFamily: "Karla",
   },
   noteText: {
     fontSize: getFontSize(13),
@@ -53,6 +54,7 @@ const lyricsStyles = StyleSheet.create({
     textAlign: "left",
     paddingHorizontal: 24,
     paddingBottom: 8,
+    fontFamily: "Karla",
   },
   lyricBlock: {
     padding: 24,
@@ -65,6 +67,7 @@ const lyricsStyles = StyleSheet.create({
   lyricsText: {
     fontSize: getFontSize(20),
     color: "#e8e1db",
+    fontFamily: "Karla",
   },
   lineFormat: {
     marginBottom: 6,
@@ -87,6 +90,7 @@ const lyricsStyles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 20,
+    fontFamily: "Karla",
   },
   modalbg: {
     flex: 1,
@@ -107,6 +111,7 @@ const lyricsStyles = StyleSheet.create({
     fontSize: getFontSize(20),
     flexDirection: "row",
     alignItems: "baseline",
+    fontFamily: "Karla",
   },
   closeModal: {},
   saveWordModal: {
@@ -118,14 +123,17 @@ const lyricsStyles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     marginHorizontal: 5,
+    fontFamily: "Karla",
   },
   placeholderStyle: {
     fontSize: getFontSize(16),
     color: "white",
+    fontFamily: "Karla",
   },
   selectedTextStyle: {
     fontSize: getFontSize(16),
     color: "white",
+    fontFamily: "Karla",
   },
   iconStyle: {
     width: 20,

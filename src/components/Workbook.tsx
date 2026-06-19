@@ -4,22 +4,11 @@ import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import workbookStyles from "../styles/WorkbookStyles";
 
-const Workbook = ({ item }) => {
-  // const colors = ["#5bc8a6", "#edc526", "#ff4a2a", "#303248"];
-  // const [colorNum, setColorNum] = useState(0);
-  // const [workbookColor, setWorkbookColor] = useState("");
-  const navigate = useNavigate();
+const WORKBOOK_COLORS = ["#5bc8a6", "#edc526", "#ff4a2a", "#303248"];
 
-  // TODO: TRY TO VARY COLOR??
-  // function genNextColor(): string {
-  //   if (colorNum > 3) {
-  //     setColorNum(0);
-  //   } else {
-  //     setWorkbookColor(colors[colorNum]);
-  //     setColorNum(colorNum + 1);
-  //   }
-  //   return colors[colorNum];
-  // }
+const Workbook = ({ item, index = 0 }) => {
+  const navigate = useNavigate();
+  const color = WORKBOOK_COLORS[index % WORKBOOK_COLORS.length];
 
   return (
     <Pressable
@@ -30,8 +19,8 @@ const Workbook = ({ item }) => {
       }
       style={{ margin: 10 }}
     >
-      <View testID="workbook-icon" style={workbookStyles.icon}>
-        <FontAwesomeIcon icon={faBook}/>
+      <View testID="workbook-icon" style={[workbookStyles.icon]}>
+        <FontAwesomeIcon icon={faBook} height={50} width={50} color={color}/>
       </View>
       <View>
         <Text

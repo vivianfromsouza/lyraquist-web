@@ -7,7 +7,8 @@ const workbookStyles = StyleSheet.create({
   // ── Shared (Workbook.tsx card) ────────────────────────────────────────────
   icon: {
     elevation: 4,
-    fontSize: 32,
+    fontSize: 52,
+    paddingBottom:5,
   },
   name: {
     fontSize: getFontSize(13),
@@ -15,6 +16,7 @@ const workbookStyles = StyleSheet.create({
     color: "#303248",
     marginTop: 8,
     width: 80,
+    fontFamily: "Karla",
   },
   introSect: {
     flex: 1,
@@ -26,7 +28,7 @@ const workbookStyles = StyleSheet.create({
   },
 
   // ── WorkbookInfoScreen ────────────────────────────────────────────────────
-  background: { backgroundColor: "#e8e1db", flex: 1, height: "91vh" },
+  background: { backgroundColor: "#e8e1db", flex: 1, height: "93vh" },
   header: {
     paddingTop: 20,
     backgroundColor: "#303248",
@@ -44,7 +46,7 @@ const workbookStyles = StyleSheet.create({
   },
   closeLocation: { flexDirection: "row", alignItems: "center" },
   closeBtn: {},
-  arrowBtn: { marginLeft: 16 },
+  arrowBtn: { marginLeft: 20, marginTop: 12 },
   title: {
     textAlign: "left",
     fontSize: getFontSize(26),
@@ -53,6 +55,7 @@ const workbookStyles = StyleSheet.create({
     paddingTop: 8,
     color: "#e8e1db",
     flex: 1,
+    fontFamily: "Karla",
   },
   searchBar: {
     flexDirection: "row",
@@ -74,6 +77,7 @@ const workbookStyles = StyleSheet.create({
     color: "#303248",
     paddingHorizontal: 8,
     fontSize: getFontSize(14),
+    fontFamily: "Karla",
   },
 
   // ── Section label pattern ─────────────────────────────────────────────────
@@ -85,11 +89,12 @@ const workbookStyles = StyleSheet.create({
     paddingBottom: 6,
   },
   sectionLabel: {
-    fontSize: getFontSize(12),
+    fontSize: getFontSize(14),
     fontWeight: "700",
     color: "#5bc8a6",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -105,6 +110,7 @@ const workbookStyles = StyleSheet.create({
     paddingBottom: 5,
     color: "rgba(48, 50, 72, 0.5)",
     paddingHorizontal: 20,
+    fontFamily: "Karla",
   },
   descText: {
     fontSize: getFontSize(14),
@@ -112,6 +118,7 @@ const workbookStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 8,
     lineHeight: 20,
+    fontFamily: "Karla",
   },
   descTxt: {
     marginVertical: 10,
@@ -119,6 +126,7 @@ const workbookStyles = StyleSheet.create({
     marginRight: 20,
     marginLeft: 8,
     color: "rgba(48, 50, 72, 0.65)",
+    fontFamily: "Karla",
   },
   descIcon: {
     borderRadius: 10,
@@ -141,6 +149,7 @@ const workbookStyles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   starredCol: {
     flexDirection: "row",
@@ -155,6 +164,7 @@ const workbookStyles = StyleSheet.create({
     letterSpacing: 0.5,
     textTransform: "uppercase",
     marginRight: 10,
+    fontFamily: "Karla",
   },
   deleteColTxt: {
     color: "rgba(48, 50, 72, 0.4)",
@@ -162,6 +172,7 @@ const workbookStyles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
 
   // ── Word list rows ────────────────────────────────────────────────────────
@@ -183,7 +194,7 @@ const workbookStyles = StyleSheet.create({
   deleteIcon: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 5,
+    marginRight: 30,
   },
   divider: {
     borderBottomColor: "rgba(48, 50, 72, 0.08)",
@@ -199,6 +210,7 @@ const workbookStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     fontWeight: "600",
     paddingHorizontal: 30,
+    fontFamily: "Karla",
   },
 
   // ── Bottom buttons ────────────────────────────────────────────────────────
@@ -221,6 +233,7 @@ const workbookStyles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.5,
     marginLeft: 6,
+    fontFamily: "Karla",
   },
   button: {
     backgroundColor: "#303248",
@@ -230,15 +243,27 @@ const workbookStyles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: "auto",
     marginRight: "auto",
-    width: "80%",
+    width: "97.5%",
     marginBottom: 20,
   },
+
+  // flexDirection: "row",
+  //   marginHorizontal: 20,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   borderWidth: 1.5,
+  //   borderColor: "#5bc8a6",
+  //   borderRadius: 20,
+  //   paddingVertical: 12,
+  //   marginTop: 16,
+  //   marginBottom: 8,
   buttonText: {
     fontWeight: "700",
     textAlign: "center",
     fontSize: getFontSize(15),
     color: "#5bc8a6",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
   loading: {
     marginTop: 50,

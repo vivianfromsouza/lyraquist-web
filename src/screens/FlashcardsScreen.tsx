@@ -10,6 +10,7 @@ import "react-multi-carousel/lib/styles.css";
 import WordReaderWriter from "../services/WordReaderWriter";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import flashcardStyles from "../styles/FlashcardStyles";
+import "../styles/Flashcard.css";
 
 function FlashcardScreen() {
   const responsive = {
@@ -77,10 +78,18 @@ function FlashcardScreen() {
         </View>
       </View>
 
+      {flashcardList.length > 0 && (
+        <div className="flashcard-progress">
+          <div
+            className="flashcard-progress-fill"
+            style={{ width: `${((currentIndex + 1) / flashcardList.length) * 100}%` }}
+          />
+        </div>
+      )}
+
       <Carousel
         swipeable={false}
         draggable={false}
-        showDots={true}
         responsive={responsive}
         ssr={true}
         infinite={false}

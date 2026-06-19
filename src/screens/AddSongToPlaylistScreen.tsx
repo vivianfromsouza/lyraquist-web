@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
-// Worked on by: Vivian D'Souza, Ashley Bickham
 import { View, Text, Pressable, Image } from "react-native";
 import { ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,7 +8,7 @@ import { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
-import CreateNewPlaylistForm from "../components/CreateNewPlaylistForm";
+import CreateNewPlaylistScreen from "./CreateNewPlaylistScreen";
 import { ScrollView } from "react-native-web";
 import playlistStyles from "../styles/PlaylistStyles";
 
@@ -28,6 +27,7 @@ function AddSongToPlaylistScreen() {
       await SongReaderWriter.addSongToDBFromSongCard(songItem);
     }
     await RecordReaderWriter.addSongToRecords(songURL, selectedPlaylist);
+    // should we just put a toast here instead of navigating back immediately?
     navigate(-1);
   }
 
@@ -55,9 +55,17 @@ function AddSongToPlaylistScreen() {
       <View style={playlistStyles.addToPlaylistHeader}>
         <View style={playlistStyles.addToPlaylistHeaderRow}>
           <Pressable onPress={() => navigate(-1)}>
-            <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+            <ArrowBackOutline
+              color={"#e8e1db"}
+              height="25px"
+              width="25px"
+              style={playlistStyles.arrowLocation}
+            />
           </Pressable>
-          <Text testID="add-song-title" style={playlistStyles.addToPlaylistTitle}>
+          <Text
+            testID="add-song-title"
+            style={playlistStyles.addToPlaylistTitle}
+          >
             Add to Playlist
           </Text>
         </View>
@@ -107,7 +115,7 @@ function AddSongToPlaylistScreen() {
       </View>
 
       {selectedPlaylist === "0" ? (
-        <CreateNewPlaylistForm songItem={songItem} />
+        <CreateNewPlaylistScreen songItem={songItem} />
       ) : (
         <Pressable
           onPress={addSong}

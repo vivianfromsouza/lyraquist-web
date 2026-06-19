@@ -7,7 +7,7 @@ const newBookStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e8e1db",
-    height: "91vh",
+    height: "93vh",
   },
   header: {
     paddingTop: 20,
@@ -17,7 +17,7 @@ const newBookStyles = StyleSheet.create({
     borderBottomRightRadius: 24,
   },
   titleLocation: { flexDirection: "row", alignItems: "center", marginTop: 10 },
-  arrowLocation: { marginLeft: 16 },
+  arrowLocation: { marginLeft: 20, marginTop: 12 },
   title: {
     fontSize: getFontSize(26),
     fontWeight: "800",
@@ -25,9 +25,8 @@ const newBookStyles = StyleSheet.create({
     marginLeft: 16,
     paddingTop: 8,
     flex: 1,
+    fontFamily: "Karla",
   },
-
-  // Section label pattern
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -36,11 +35,12 @@ const newBookStyles = StyleSheet.create({
     paddingBottom: 8,
   },
   sectionLabel: {
-    fontSize: getFontSize(12),
+    fontSize: getFontSize(16),
     fontWeight: "700",
     color: "#5bc8a6",
     letterSpacing: 1.5,
     textTransform: "uppercase",
+    fontFamily: "Karla",
   },
   sectionLabelLine: {
     flex: 1,
@@ -48,8 +48,6 @@ const newBookStyles = StyleSheet.create({
     backgroundColor: "rgba(48, 50, 72, 0.12)",
     marginLeft: 12,
   },
-
-  // Input fields
   inputContainer: {
     marginHorizontal: 20,
     marginTop: 4,
@@ -72,7 +70,8 @@ const newBookStyles = StyleSheet.create({
     fontSize: getFontSize(16),
     flex: 1,
     marginLeft: 10,
-    color: "#303248",
+    color:  "rgba(48,50,72,0.5)",
+    fontFamily: "Karla",
   },
 
   // Word section inputs
@@ -95,7 +94,7 @@ const newBookStyles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: "auto",
     marginRight: "auto",
-    width: "80%",
+    width: "97.5%",
     marginBottom: 20,
   },
   buttonText: {
@@ -104,6 +103,7 @@ const newBookStyles = StyleSheet.create({
     fontSize: getFontSize(15),
     color: "#5bc8a6",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
   },
 
   // Add word outlined pill button
@@ -126,6 +126,7 @@ const newBookStyles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.5,
     marginLeft: 6,
+    fontFamily: "Karla",
   },
 
   // Remove word outlined pill button
@@ -146,6 +147,17 @@ const newBookStyles = StyleSheet.create({
     color: "rgba(48, 50, 72, 0.5)",
     fontWeight: "700",
     letterSpacing: 0.5,
+    fontFamily: "Karla",
+  },
+
+  headerSubtitle: {
+    fontSize: getFontSize(14),
+    color: "rgba(232, 225, 219, 0.55)",
+    paddingLeft: 60,
+    paddingBottom: 8,
+    paddingTop: 8,
+    letterSpacing: 0.3,
+    fontFamily: "Karla",
   },
 
   // Kept for NewWordScreen compatibility

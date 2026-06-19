@@ -1,4 +1,3 @@
-// Worked on by: Vivian D'Souza
 import axios from "axios";
 import {
   clientId,

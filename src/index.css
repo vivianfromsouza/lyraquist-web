@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.toast-custom {
+  background: #e8e1db;
+  color: #303248;
+  border-radius: 8px;
+  font-family: Karla;
+}
+
+.range-slider {
+  background: #e8e1db !important;
+  overflow: hidden !important;
+}
+
+.range-slider .range-slider__range {
+  background: #edc526 !important;
+}
+
+.range-slider .range-slider__thumb {
+  display: none !important;
+}

@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Worked on by: Vivian D'Souza
 import axios from "axios";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
 
-// This service handles CRUD operations to Firebase for any song a user adds to their playlists
 const SongReaderWriter = {
   async getSongDetails(track_id: string): Promise<object> {
     const getSong = function () {
@@ -64,7 +62,7 @@ const SongReaderWriter = {
   async addSongToDBFromSongCard(newSong) {
     const { data, error } = await LocalSupabaseClient.from("songs").insert({
       name: newSong.name,
-      artist:  newSong.artist,
+      artist: newSong.artist,
       image_url: newSong.imageURL,
       duration: newSong.duration,
       album: newSong.album,
@@ -106,9 +104,8 @@ const SongReaderWriter = {
     if (count! > 0) {
       return true;
     }
-
-    return false;
     console.log(error);
+    return false;
   },
 };
 

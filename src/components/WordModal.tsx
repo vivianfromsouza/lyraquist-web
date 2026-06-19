@@ -174,7 +174,9 @@ const WordModal = ({
 
   async function addWordToWorkbook() {
     if (bookUID == "" || bookUID === undefined) {
-      toast("Please choose a workbook to add the word to!");
+      toast("Please choose a workbook to add the word to!", {
+        className: "toast-custom",
+      });
     } else if (bookUID === "0") {
       const workbookExists = workbooks.some(
         (workbook) => workbook.label === newWorkbookName,
@@ -182,6 +184,9 @@ const WordModal = ({
       if (workbookExists) {
         toast(
           "Workbook with this name already exists. Please choose a different name.",
+          {
+            className: "toast-custom",
+          },
         );
       } else {
         const newBookUID = await WorkbookReaderWriter.createWorkbook(
@@ -205,6 +210,9 @@ const WordModal = ({
             "added to " +
             newWorkbookName +
             " workbook.",
+          {
+            className: "toast-custom",
+          },
         );
       }
     } else {
@@ -227,6 +235,9 @@ const WordModal = ({
           "added to " +
           newWorkbookName +
           " workbook.",
+        {
+          className: "toast-custom",
+        },
       );
     }
   }

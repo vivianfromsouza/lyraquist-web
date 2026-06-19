@@ -1,0 +1,101 @@
+.flashcard-scene {
+  perspective: 2400px;
+  cursor: pointer;
+  margin: 24px 24px 0;
+  user-select: none;
+}
+
+.flashcard-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.75s ease-in-out;
+  height: 55vh;
+  min-height: 300px;
+}
+
+.flashcard-card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.flashcard-face--front {
+  background: #303248;
+  box-shadow: 0 12px 40px rgba(48, 50, 72, 0.22);
+}
+
+.flashcard-face--back {
+  background: linear-gradient(145deg, #5bc8a6 0%, #3aac8a 100%);
+  box-shadow: 0 12px 40px rgba(91, 200, 166, 0.3);
+  transform: rotateY(180deg);
+}
+
+.flashcard-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.flashcard-badge {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: Karla, sans-serif;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.3px;
+}
+
+.flashcard-hint {
+  position: absolute;
+  bottom: 20px;
+  font-size: 11px;
+  font-family: Karla, sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* Progress bar */
+.flashcard-progress {
+  height: 3px;
+  background: rgba(48, 50, 72, 0.1);
+  border-radius: 99px;
+  margin: 14px 24px 0;
+  overflow: hidden;
+}
+
+.flashcard-progress-fill {
+  height: 100%;
+  background: #303248;
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+/* Carousel dot styling */
+.react-multi-carousel-dot button {
+  border-color: rgba(48, 50, 72, 0.25) !important;
+  background: transparent !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.react-multi-carousel-dot--active button {
+  background: #303248 !important;
+  border-color: #303248 !important;
+}
