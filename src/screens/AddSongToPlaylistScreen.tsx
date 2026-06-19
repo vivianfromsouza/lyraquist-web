@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import SongReaderWriter from "../services/SongReaderWriter";
-import CreateNewPlaylistForm from "../components/CreateNewPlaylistForm";
+import CreateNewPlaylistScreen from "./CreateNewPlaylistScreen";
 import { ScrollView } from "react-native-web";
 import playlistStyles from "../styles/PlaylistStyles";
 
@@ -28,6 +28,7 @@ function AddSongToPlaylistScreen() {
       await SongReaderWriter.addSongToDBFromSongCard(songItem);
     }
     await RecordReaderWriter.addSongToRecords(songURL, selectedPlaylist);
+    // should we just put a toast here instead of navigating back immediately?
     navigate(-1);
   }
 
@@ -115,7 +116,7 @@ function AddSongToPlaylistScreen() {
       </View>
 
       {selectedPlaylist === "0" ? (
-        <CreateNewPlaylistForm songItem={songItem} />
+        <CreateNewPlaylistScreen songItem={songItem} />
       ) : (
         <Pressable
           onPress={addSong}

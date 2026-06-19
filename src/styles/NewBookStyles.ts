@@ -27,8 +27,6 @@ const newBookStyles = StyleSheet.create({
     flex: 1,
     fontFamily: "Karla",
   },
-
-  // Section label pattern
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -50,8 +48,6 @@ const newBookStyles = StyleSheet.create({
     backgroundColor: "rgba(48, 50, 72, 0.12)",
     marginLeft: 12,
   },
-
-  // Input fields
   inputContainer: {
     marginHorizontal: 20,
     marginTop: 4,
@@ -74,7 +70,7 @@ const newBookStyles = StyleSheet.create({
     fontSize: getFontSize(16),
     flex: 1,
     marginLeft: 10,
-    color: "#303248",
+    color:  "rgba(48,50,72,0.5)",
     fontFamily: "Karla",
   },
 

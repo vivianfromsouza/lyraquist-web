@@ -10,7 +10,7 @@ import "react-multi-carousel/lib/styles.css";
 import WordReaderWriter from "../services/WordReaderWriter";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import flashcardStyles from "../styles/FlashcardStyles";
-import "../components/Flashcard.css";
+import "../styles/Flashcard.css";
 
 function FlashcardScreen() {
   const responsive = {

@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";
-import CreateNewPlaylistForm from "../../components/CreateNewPlaylistForm";
+import CreateNewPlaylistScreen from "../../screens/CreateNewPlaylistScreen";
 import { mockSong } from "../Test.consts";
 import PlaylistReaderWriter from "../../services/PlaylistReaderWriter";
 import SongReaderWriter from "../../services/SongReaderWriter";
@@ -95,7 +95,7 @@ describe("CreateNewPlaylistForm", () => {
   });
 
   it("renders CreateNewPlaylistForm", async () => {
-    render(<CreateNewPlaylistForm songItem={mockSong} />);
+    render(<CreateNewPlaylistScreen songItem={mockSong} />);
 
     await screen.getByTestId("playlist-name-label");
     await screen.getByTestId("description-label");
@@ -104,7 +104,7 @@ describe("CreateNewPlaylistForm", () => {
 
   it("creates a new playlist", async () => {
     localStorage.setItem("current_user", "mockUserId");
-    render(<CreateNewPlaylistForm songItem={mockSong} />);
+    render(<CreateNewPlaylistScreen songItem={mockSong} />);
 
     const playlistNameInput = screen.getByTestId("playlist-name-input");
     await userEvent.type(playlistNameInput, "My Playlist");
@@ -132,7 +132,7 @@ describe("CreateNewPlaylistForm", () => {
       type: "img/png",
     });
 
-    render(<CreateNewPlaylistForm songItem={mockSong} />);
+    render(<CreateNewPlaylistScreen songItem={mockSong} />);
 
     const playlistNameInput = screen.getByTestId("playlist-name-input");
     await userEvent.type(playlistNameInput, "My Playlist");
