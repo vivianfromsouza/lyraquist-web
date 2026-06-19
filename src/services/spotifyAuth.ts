@@ -1,3 +1,4 @@
+import React from "react";
 import axios from "axios";
 import {
   clientId,
@@ -33,7 +34,7 @@ export const redirectToSpotifyAuthorize = async () => {
   // Redirect to Spotify authorization page
   window.location.href = authUrl.toString();
   console.log(
-    "Redirecting to Spotify authorization page...:" + authUrl.toString()
+    "Redirecting to Spotify authorization page...:" + authUrl.toString(),
   );
 };
 
@@ -147,6 +148,7 @@ export const refresh = async (refreshToken: string) => {
     .then((res) => {
       TokenReaderWriter.writeAccessToken(res.data.access_token);
       TokenReaderWriter.writeRefreshToken(res.data.refresh_token);
+      TokenReaderWriter.writeTimeRefreshTaken(new Date().toISOString());
       TokenReaderWriter.writeTimeTokenTaken(new Date().toISOString());
     })
 
@@ -154,7 +156,26 @@ export const refresh = async (refreshToken: string) => {
     .catch((err) => {
       if (err.response.status == 503) {
         toast(
-          "There was a server side issue. \nSpotify services may be down or the server cannot handle the request load. Please refrain from pressing buttons repeatedly in quick sucession."
+          "There was a server side issue. \nSpotify services may be down or the server cannot handle the request load. Please refrain from pressing buttons repeatedly in quick sucession.",
+        );
+      } else if (err.response.error.error == "invalid_grant") {
+        // need to reauthorize
+        toast(
+          React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "span",
+              null,
+              "Your Spotify authorization has expired. Refresh tokens expire after 6 months and must be renewed.",
+            ),
+            React.createElement(
+              "button",
+              { onClick: redirectToSpotifyAuthorize, style: { marginTop: "8px", display: "block" } },
+              "Re-authenticate with Spotify",
+            ),
+          ),
+          { autoClose: false },
         );
       } else {
         toast("Error! refresh did not work" + err.message);

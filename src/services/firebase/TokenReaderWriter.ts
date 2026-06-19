@@ -116,6 +116,34 @@ const TokenReaderWriter = {
             return null;
           }
     },
+     async writeTimeRefreshTaken(timeTokenTaken: string) {
+        const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
+        await update(nodeRef, {
+            timeRefreshTaken: timeTokenTaken,
+        })
+        .then(() => {
+            console.log("Data written successfully!");
+        })
+        .catch((error) => {
+            console.error("Error writing data:", error);
+        });
+    },
+    async getTimeRefreshTaken() {
+        const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
+        try {
+            const snapshot = await get(nodeRef);
+            if (snapshot.exists()) {
+              console.log("Time Refresh Taken:", snapshot.val().timeRefreshTaken);
+              return snapshot.val().timeRefreshTaken; // Return the value of the node
+            } else {
+              console.log("No data available at this node.");
+              return null;
+            }
+          } catch (error) {
+            console.error("Error retrieving data:", error);
+            return null;
+          }
+    },
 };
 
 export default TokenReaderWriter;
