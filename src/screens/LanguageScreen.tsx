@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import DisplayPlaylistService from "../services/DisplayPlaylist";
 import SongCard from "../components/Song";
-import LikeButton from "../components/LikeButton";
+import StarButton from "../components/StarButton";
 import langStyles from "../styles/LanguageStyles";
 import SearchBar from "../components/SearchBar";
 
@@ -75,7 +75,7 @@ export default function LanguageScreen({ albumId, language }) {
 
           <View style={langStyles.langTitleView}>
             <Text style={langStyles.langTitle}>{language}</Text>
-            <LikeButton language={language} />
+            <StarButton language={language} />
           </View>
 
           {searchResults!.length == 0 && (

@@ -3,6 +3,7 @@ import { usePlayer } from "../context/PlayerContext";
 import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined";
 import { useNavigate } from "react-router-dom";
 import songStyles from "../styles/SongStyles";
+import LikeButton from "./LikeButton";
 
 const SongCard = ({ item }) => {
   const { playSong } = usePlayer();
@@ -13,7 +14,7 @@ const SongCard = ({ item }) => {
       <Pressable
         testID="play-song"
         onPress={() => playSong(item.spotifyURL)}
-        style={{ }}
+        style={{}}
       >
         <View>
           <Image
@@ -40,6 +41,9 @@ const SongCard = ({ item }) => {
         >
           <PlusCircleOutlined />
         </Pressable>
+
+        <LikeButton spotifyURL={item.spotifyURL} songDetails={item} />
+
       </Pressable>
     </View>
   );

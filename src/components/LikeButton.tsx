@@ -1,52 +1,45 @@
 import { Pressable } from "react-native-web";
-import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import LanguageReaderWriter from "../services/LanguageReaderWriter";
+import RecordReaderWriter from "../services/RecordReaderWriter";
 
-const LikeButton = ({language}) => {
-  const [starred, setStarred] = useState(false);
-  const [saved, setSaved] = useState(false);
+const LikeButton = ({spotifyURL, songDetails}) => {
+  const [liked, setLiked] = useState(false);
 
-  async function checkStar() {
-    if (await LanguageReaderWriter.isLanguageStarred(language)) {
-      setStarred(true);
-      setSaved(true);
+  console.log("song details in like button", songDetails);
+
+  async function checkLike() {
+    if (await RecordReaderWriter.getLike(spotifyURL)) {
+      setLiked(true);
     }
   }
 
   const handleLike = async () => {
-    if (!starred) {
-      if (!saved) {
-        LanguageReaderWriter.addLanguages(language);
-      } else {
-        console.log("language is already starred");
-      }
-      setStarred((isStarred) => !isStarred);
+    if (!liked) {
+        RecordReaderWriter.likeSongByURL(spotifyURL, songDetails);
+        setLiked((isLiked) => !isLiked);
     } else {
-      LanguageReaderWriter.deleteLangauge(language);
-      setSaved(false);
-      setStarred((isStarred) => !isStarred);
+      RecordReaderWriter.unlikeSongByURL(spotifyURL);
+      setLiked((isLiked) => !isLiked);
     }
   };
 
   useEffect(() => {
-    checkStar();
+    checkLike();
   }, []);
 
   return (
     <Pressable
       onPress={handleLike}
       style={{
-        fontSize: 30,
-        color: "#edc526",
-        marginBottom: 7,
-        marginLeft: 25,
+        fontSize: 20,
+        color: "#b32071",
       }}
     >
-      {starred ? (
-        <StarFilled size={30} color={"#edc526"} />
+      {liked ? (
+        <HeartFilled size={30} color={"#b32071"} />
       ) : (
-        <StarOutlined size={30} />
+        <HeartOutlined size={30} />
       )}
     </Pressable>
   );
