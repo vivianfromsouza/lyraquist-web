@@ -1,7 +1,5 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { usePlayer } from "../context/PlayerContext";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import FeatherIcon from "feather-icons-react";
 import { toast } from "react-toastify";

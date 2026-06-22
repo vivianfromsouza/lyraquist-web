@@ -3,7 +3,7 @@ import PlaylistItem from "../../components/PlaylistItem";
 import { vi, describe, expect, it, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";
 import { PlayerProvider } from "../../context/PlayerContext";
-import RecordReaderWriter from "../../services/RecordReaderWriter";
+import LikesReaderWriter from "../../services/LikesReaderWriter";
 
 const mockPlaySong = vi.fn();
 const mockPlayPlaylist = vi.fn();
@@ -65,7 +65,6 @@ vi.mock("../../services/RecordReaderWriter", () => {
   return {
     default: {
       likeSongByURL: vi.fn(),
-      unlikeSongByURL: vi.fn(),
       deleteSongFromPlaylist: vi.fn(),
     },
   };
@@ -126,7 +125,7 @@ describe("PlaylistItem", () => {
     );
     const unlikedButton = screen.getAllByTestId("unliked-icon")[0];
     (await unlikedButton).click();
-    expect(RecordReaderWriter.likeSongByURL).toHaveBeenCalledWith(
+    expect(LikesReaderWriter.likeSong).toHaveBeenCalledWith(
       "spotify:track:12345",
       mockPlaylistItem
     );
@@ -156,7 +155,7 @@ describe("PlaylistItem", () => {
     );
     const likedButton = await screen.findByTestId("liked-icon");
     await userEvent.click(likedButton);
-    expect(RecordReaderWriter.unlikeSongByURL).toHaveBeenCalledWith(
+    expect(LikesReaderWriter.unlikeSong).toHaveBeenCalledWith(
       "spotify:track:12345"
     );
   });
