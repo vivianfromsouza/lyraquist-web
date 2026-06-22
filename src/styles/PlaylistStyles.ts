@@ -228,16 +228,17 @@ const playlistStyles = StyleSheet.create({
     marginTop: 2,
     fontFamily: "Karla",
   },
-  playlistItemLike: {
+  playlistLikeIcon: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "30%",
     alignItems: "center",
+    marginRight: 10,
   },
-  playlistLikeIcon: {
+  playlistDeleteIcon: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 5,
+    marginRight: 20,
   },
   playlistItemBorder: {
     borderBottomColor: "rgba(48, 50, 72, 0.08)",

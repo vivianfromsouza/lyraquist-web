@@ -6,17 +6,10 @@ import RecordReaderWriter from "../services/RecordReaderWriter";
 import FeatherIcon from "feather-icons-react";
 import { toast } from "react-toastify";
 import playlistStyles from "../styles/PlaylistStyles";
+import LikeButton from "./LikeButton";
 
 const PlaylistItem = ({ item, playlistURL }) => {
   const { playPlaylist } = usePlayer();
-
-  function likedToNot(spotifyURL) {
-    RecordReaderWriter.unlikeSongByURL(spotifyURL);
-  }
-
-  function notToLiked(spotifyURL, track) {
-    RecordReaderWriter.likeSongByURL(spotifyURL, track);
-  }
 
   function deleteSongFromPlaylist(recordID) {
     console.log("Deleting song with record ID:", recordID);
@@ -26,7 +19,10 @@ const PlaylistItem = ({ item, playlistURL }) => {
   const deleteSongAlert = (recordID: string | undefined) => {
     toast(
       "Are you Sure? This song will be removed from this playlist if deleted.",
-      { closeButton: deleteSongAlertButton(recordID), className: "toast-custom", }
+      {
+        closeButton: deleteSongAlertButton(recordID),
+        className: "toast-custom",
+      },
     );
   };
 
@@ -82,27 +78,17 @@ const PlaylistItem = ({ item, playlistURL }) => {
             </View>
           </View>
 
-          <View style={playlistStyles.playlistItemLike}>
-            {item.isLiked ? (
-              <Pressable
-                testID="liked-icon"
-                onPress={() => likedToNot(item.spotifyURL)}
-              >
-                <FavoriteIcon />
-              </Pressable>
-            ) : (
-              <Pressable
-                testID="unliked-icon"
-                onPress={() => notToLiked(item.spotifyURL, item)}
-              >
-                <FavoriteBorderIcon />
-              </Pressable>
-            )}
+          <View style={playlistStyles.playlistLikeIcon}>
+            <LikeButton
+              spotifyURL={item.spotifyURL}
+              songDetails={item}
+              initialLiked={item.isLiked ?? false}
+            />
 
             <Pressable
               testID="delete-icon"
               onPress={() => deleteSongAlert(item.recordID)}
-              style={playlistStyles.playlistLikeIcon}
+              style={playlistStyles.playlistDeleteIcon}
             >
               <FeatherIcon icon="x-circle" />
             </Pressable>
