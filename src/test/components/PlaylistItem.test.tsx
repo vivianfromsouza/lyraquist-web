@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import PlaylistItem from "../../components/PlaylistItem";
 import { vi, describe, expect, it, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";
@@ -64,8 +64,16 @@ vi.mock("react-router-dom", async () => {
 vi.mock("../../services/RecordReaderWriter", () => {
   return {
     default: {
-      likeSongByURL: vi.fn(),
       deleteSongFromPlaylist: vi.fn(),
+    },
+  };
+});
+
+vi.mock("../../services/LikesReaderWriter", () => {
+  return {
+    default: {
+      likeSong: vi.fn(),
+      unlikeSong: vi.fn(),
     },
   };
 });
@@ -95,6 +103,7 @@ console.log(mockPlaylistURL)
 
 describe("PlaylistItem", () => {
   afterEach(() => {
+    cleanup();
     vi.clearAllMocks();
   });
 
@@ -126,7 +135,7 @@ describe("PlaylistItem", () => {
     const unlikedButton = screen.getAllByTestId("unliked-icon")[0];
     (await unlikedButton).click();
     expect(LikesReaderWriter.likeSong).toHaveBeenCalledWith(
-      "spotify:track:12345",
+      "12345",
       mockPlaylistItem
     );
   });
@@ -156,7 +165,7 @@ describe("PlaylistItem", () => {
     const likedButton = await screen.findByTestId("liked-icon");
     await userEvent.click(likedButton);
     expect(LikesReaderWriter.unlikeSong).toHaveBeenCalledWith(
-      "spotify:track:12345"
+      "12345"
     );
   });
 });

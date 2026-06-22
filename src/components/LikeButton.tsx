@@ -33,6 +33,7 @@ const LikeButton = ({spotifyURL, songDetails, initialLiked = false}) => {
   return (
     <Pressable
       onPress={handleLike}
+      testID={liked ? "liked-icon" : "unliked-icon"}
       style={{
         fontSize: 20,
         color: "#b32071",
