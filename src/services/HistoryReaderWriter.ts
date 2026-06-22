@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import TokenReaderWriter from "./firebase/TokenReaderWriter";
+import LocalSupabaseClient from "./LocalSupabaseClient";
 
 const HistoryReaderWriter = {
   async getUserHistory() {
@@ -17,12 +19,27 @@ const HistoryReaderWriter = {
       });
 
       const seen = new Set<string>();
-      return response.data.items.filter((item: any) => {
+      const items = response.data.items.filter((item: any) => {
         const uri = item.track.uri;
         if (seen.has(uri)) return false;
         seen.add(uri);
         return true;
       });
+
+      const currentUser = localStorage.getItem("current_user");
+      const trackIds = items.map((item: any) => item.track.uri.split(":")[2]);
+
+      const { data: likedData } = await LocalSupabaseClient.from("likes")
+        .select("spotify_url")
+        .eq("user_id", currentUser)
+        .in("spotify_url", trackIds);
+
+      const likedSet = new Set((likedData ?? []).map((row: any) => row.spotify_url));
+
+      return items.map((item: any) => ({
+        ...item,
+        isLiked: likedSet.has(item.track.uri.split(":")[2]),
+      }));
     } catch (err) {
       console.error("Error fetching user history:", err);
       throw err;

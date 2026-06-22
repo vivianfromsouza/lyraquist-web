@@ -42,7 +42,7 @@ const SongCard = ({ item }) => {
           <PlusCircleOutlined />
         </Pressable>
 
-        <LikeButton spotifyURL={item.spotifyURL} songDetails={item} />
+        <LikeButton spotifyURL={item.spotifyURL} songDetails={item} initialLiked={item.isLiked ?? false} />
 
       </Pressable>
     </View>

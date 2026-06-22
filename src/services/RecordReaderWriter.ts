@@ -6,20 +6,21 @@ import SongReaderWriter from "./SongReaderWriter";
 const currentUser = localStorage.getItem("current_user");
 
 const RecordReaderWriter = {
-  async getMySongs() {
-    const { data } = await LocalSupabaseClient.from("records")
-      .select(
-        `
-        record_id,
-        is_liked,
-        songs (spotify_url, name, artist, album, image_url, duration)
-        `
-      )
-      .eq("user_id", currentUser)
-      .eq("is_liked", true)
-      .throwOnError();
-    return data;
-  },
+  // async getMySongs() {
+  //   const { data } = await LocalSupabaseClient.from("records")
+  //     .select(
+  //       `
+  //       record_id,
+  //       // is_liked,
+  //       songs (spotify_url, name, artist, album, image_url, duration)
+  //       liked (spotify_url, user_id)
+  //       `
+  //     )
+  //     .eq("user_id", currentUser)
+  //     .eq("is_liked", true)
+  //     .throwOnError();
+  //   return data;
+  // },
 
   async addSongToRecords(spotifyURL: string, playID: string) {
     const { error } = await LocalSupabaseClient.from("records").insert({

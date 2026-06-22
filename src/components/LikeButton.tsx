@@ -1,25 +1,27 @@
 import { Pressable } from "react-native-web";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import RecordReaderWriter from "../services/RecordReaderWriter";
+import LikesReaderWriter from "../services/LikesReaderWriter";
 
-const LikeButton = ({spotifyURL, songDetails}) => {
-  const [liked, setLiked] = useState(false);
-
-  console.log("song details in like button", songDetails);
+const LikeButton = ({spotifyURL, songDetails, initialLiked = false}) => {
+  const [liked, setLiked] = useState(initialLiked);
+  console.log("spotify url in like button", songDetails);
 
   async function checkLike() {
-    if (await RecordReaderWriter.getLike(spotifyURL)) {
+    if (await LikesReaderWriter.isLiked(spotifyURL.split(":")[2])) {
+      console.log("liked")
       setLiked(true);
+    } else {
+      console.log("not liked")
     }
   }
 
   const handleLike = async () => {
     if (!liked) {
-        RecordReaderWriter.likeSongByURL(spotifyURL, songDetails);
-        setLiked((isLiked) => !isLiked);
+      await LikesReaderWriter.likeSong(spotifyURL.split(":")[2], songDetails);
+      setLiked((isLiked) => !isLiked);
     } else {
-      RecordReaderWriter.unlikeSongByURL(spotifyURL);
+      await LikesReaderWriter.unlikeSong(spotifyURL.split(":")[2]);
       setLiked((isLiked) => !isLiked);
     }
   };
