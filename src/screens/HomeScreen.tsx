@@ -24,12 +24,12 @@ import HistoryReaderWriter from "../services/HistoryReaderWriter";
 import { PlayItem } from "../models/Types";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import PlaylistCard from "../components/Playlist";
-import RecordReaderWriter from "../services/RecordReaderWriter";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import homeStyles from "../styles/HomeStyles";
+import LikesReaderWriter from "../services/LikesReaderWriter";
 
 let counter = 0;
 
@@ -65,6 +65,8 @@ const HomeScreen: React.FC = () => {
         imageURL: song.track.album.images[0]["url"],
         name: song.track.name,
         duration: song.track.duration_ms,
+        album: song.track.album,
+        isLiked: song.isLiked,
       }));
       setHistory(historySongs);
     });
@@ -80,15 +82,15 @@ const HomeScreen: React.FC = () => {
   }
 
   async function getSongs() {
-    await RecordReaderWriter.getMySongs().then((songs) => {
+    await LikesReaderWriter.getMySongs().then((songs) => {
       const savedSongs: PlayItem[] = songs.map((song) => ({
         artist: song.songs["artist"],
         spotifyURL: "spotify:track:" + song.songs["spotify_url"],
         imageURL: song.songs["image_url"],
         name: song.songs["name"],
         duration: song.songs["duration"],
-        isLiked: song["is_liked"],
-        recordID: song["record_id"],
+        album: song.songs["album"],
+        isLiked: true,
       }));
       setLikedSongs(savedSongs);
     });
