@@ -98,8 +98,6 @@ const mockPlaylistItemLiked = {
   recordID: "1",
 };
 
-const mockPlaylistURL = "spotify:playlist:12345";
-console.log(mockPlaylistURL)
 
 describe("PlaylistItem", () => {
   afterEach(() => {

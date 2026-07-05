@@ -97,8 +97,8 @@ describe("CreateNewPlaylistForm", () => {
   it("renders CreateNewPlaylistForm", async () => {
     render(<CreateNewPlaylistScreen songItem={mockSong} />);
 
-    await screen.getByTestId("playlist-name-label");
-    await screen.getByTestId("description-label");
+    await screen.getByTestId("playlist-name-input");
+    await screen.getByTestId("description-input");
     await screen.getByTestId("add-song");
   });
 
@@ -128,6 +128,8 @@ describe("CreateNewPlaylistForm", () => {
 
   it("creates a new playlist with custom image", async () => {
     localStorage.setItem("current_user", "mockUserId");
+    const mockBlobUrl = "blob:mock-image-url";
+    vi.stubGlobal("URL", { createObjectURL: vi.fn(() => mockBlobUrl) });
     const file = new File(["file content"], "example.png", {
       type: "img/png",
     });
@@ -150,7 +152,7 @@ describe("CreateNewPlaylistForm", () => {
     expect(PlaylistReaderWriter.createPlaylist).toHaveBeenCalledWith(
       "My Playlist",
       "My Description",
-      "example.png"
+      mockBlobUrl
     );
     expect(SongReaderWriter.addSongToDBFromSongCard).toHaveBeenCalledWith(
       mockSong

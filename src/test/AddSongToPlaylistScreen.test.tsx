@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
 import { userEvent } from "@vitest/browser/context";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
@@ -44,7 +44,7 @@ vi.mock("../services/RecordReaderWriter", () => {
 vi.mock("../services/PlaylistReaderWriter", () => {
   return {
     default: {
-      getMyPlaylists: vi.fn(() => mockPlaylists),
+      getMyPlaylists: vi.fn(() => Promise.resolve(mockPlaylists)),
       createPlaylist: vi.fn(),
     },
   };
@@ -81,7 +81,7 @@ describe("AddSongToPlaylistScreen", () => {
 
     expect(PlaylistReaderWriter.getMyPlaylists).toHaveBeenCalled();
 
-    const playlistDropdown = screen.getByRole("option");
+    const playlistDropdown = screen.getByTestId("playlist-dropdown");
     playlistDropdown.click();
     const playlistOption = await screen.findByText("My Playlist");
     playlistOption.click();

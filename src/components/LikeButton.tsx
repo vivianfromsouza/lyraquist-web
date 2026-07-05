@@ -5,15 +5,11 @@ import LikesReaderWriter from "../services/LikesReaderWriter";
 
 const LikeButton = ({spotifyURL, songDetails, initialLiked = false}) => {
   const [liked, setLiked] = useState(initialLiked);
-  console.log("spotify url in like button", songDetails);
 
   async function checkLike() {
     if (await LikesReaderWriter.isLiked(spotifyURL.split(":")[2])) {
-      console.log("liked")
       setLiked(true);
-    } else {
-      console.log("not liked")
-    }
+    } 
   }
 
   const handleLike = async () => {
