@@ -114,6 +114,7 @@ const HomeScreen: React.FC = () => {
       console.log(localStorage.getItem("code_verifier"));
       setLoadingScreen(true);
       try {
+        // user updates
         const handleUserInserts = (payload) => {
           getUsername();
           console.log(payload);
@@ -129,21 +130,10 @@ const HomeScreen: React.FC = () => {
           )
           .subscribe();
 
-        const handleHistoryInserts = (payload) => {
-          console.log(payload);
-          getHistory();
-        };
-
+        // get history
         getHistory();
 
-        LocalSupabaseClient.channel("history")
-          .on(
-            "postgres_changes",
-            { event: "*", schema: "public", table: "history" },
-            handleHistoryInserts
-          )
-          .subscribe((status) => console.log("H:" + status));
-
+        // language updates
         const handleLanguageInserts = (payload) => {
           console.log(payload);
           getLanguages();
@@ -159,15 +149,22 @@ const HomeScreen: React.FC = () => {
           )
           .subscribe((status) => console.log("L:" + status));
 
+        // workbook updates
+        const handleWorkbookInserts = (payload) => {
+          console.log(payload);
+          getWorkbooks();
+        };
+
         getWorkbooks();
 
-        // LocalSupabaseClient.channel("workbooks")
-        //   .on(
-        //     "postgres_changes",
-        //     { event: "*", schema: "public", table: "workbooks" },
-        //     handleWorkbookInserts
-        //   )
-        //   .subscribe();
+        LocalSupabaseClient.channel("workbooks")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "workbooks" },
+            handleWorkbookInserts
+          )
+          .subscribe();
+
 
         // const handlePlaylistInserts = (payload) => {
         //   getPlaylists();
