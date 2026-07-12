@@ -1,5 +1,4 @@
-import { Dimensions, PixelRatio, StyleSheet } from "react-native";
-const windowWidth = Dimensions.get("window").width;
+import { PixelRatio, StyleSheet } from "react-native";
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
@@ -8,173 +7,149 @@ const signupStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e8e1db",
   },
-  introSect: {
-    flex: 1,
-    width: windowWidth,
-    backgroundColor: "#303248",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: getFontSize(30),
-    fontWeight: "bold",
-    color: "#303248",
-    marginBottom: 10,
-    fontFamily: "Karla",
-  },
-  dropdown: {
-    textAlign: "center",
-    paddingLeft: 10,
-    height: 35,
-    borderColor: "rgba(183, 193, 189, 0.9)",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    marginBottom: 20,
-  },
-  placeholderStyle: {
-    fontSize: getFontSize(16),
-    color: "gray",
-    fontFamily: "Karla",
-  },
-  selectedTextStyle: {
-    fontSize: getFontSize(16),
-    fontFamily: "Karla",
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: getFontSize(16),
-    fontFamily: "Karla",
-  },
-  noteText: {
-    paddingLeft: 5,
-    fontSize: getFontSize(12),
-    color: "gray",
-    textAlign: "left",
-    marginBottom: 7,
-    fontFamily: "Karla",
-  },
-  header: {
-    backgroundColor: "#edc526",
-    width: windowWidth,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  logo: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 30,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  arrowLocation: { alignSelf: "center", flex: 1 },
-  logoImage: {
-    height: 60,
-    alignSelf: "center",
-    flex: 1,
-    resizeMode: "contain",
-    marginBottom: 7,
-  },
-  flexView: {
-    flex: 1,
-  },
   sectionTitle: {
     marginHorizontal: 20,
     fontSize: getFontSize(25),
     fontWeight: "bold",
-    marginTop: 10,
+    marginTop: 24,
     marginBottom: 5,
+    color: "#303248",
     fontFamily: "Karla",
   },
   sectionTxt: {
     marginHorizontal: 20,
     fontSize: getFontSize(15),
-    marginBottom: 30,
+    marginBottom: 20,
+    color: "rgba(48, 50, 72, 0.75)",
     fontFamily: "Karla",
   },
-  userLocation: {
-    marginTop: 5,
-    marginVertical: 3,
-    borderWidth: 0.5,
-    alignItems: "center",
-    borderColor: "#AAAAAA",
-    borderRadius: 10,
-    alignSelf: "center",
-    marginRight: "auto",
-    marginLeft: "auto",
-    width: "90%",
+
+  // ── Section labels ─────────────────────────────────────────────────────────
+  sectionHeader: {
     flexDirection: "row",
-    paddingEnd: 60,
-    bottom: 15,
-    gap: 10,
-    paddingVertical: 3,
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 8,
   },
-  userIcon: {
-    marginLeft: 5,
-  },
-  inputFlex: { flex: 1 },
-  inputText: {
-    fontSize: getFontSize(17),
+  sectionLabel: {
+    fontSize: getFontSize(12),
+    fontWeight: "700",
+    color: "#5bc8a6",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
     fontFamily: "Karla",
   },
+  sectionLabelLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.12)",
+    marginLeft: 12,
+  },
+
+  // ── White cards ────────────────────────────────────────────────────────────
+  card: {
+    backgroundColor: "white",
+    borderRadius: 16,
+    marginHorizontal: 20,
+    shadowColor: "#303248",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+    overflow: "hidden",
+  },
+  cardInputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+  },
+  cardDivider: {
+    height: 1,
+    backgroundColor: "rgba(48, 50, 72, 0.08)",
+    marginHorizontal: 16,
+  },
+  rowIcon: {
+    color: "#303248",
+  },
+  rowInput: {
+    flex: 1,
+    fontSize: getFontSize(16),
+    color: "#303248",
+    fontFamily: "Karla",
+  },
+  fieldColumn: {
+    flex: 1,
+  },
+  fieldInput: {
+    fontSize: getFontSize(16),
+    color: "#303248",
+    fontFamily: "Karla",
+  },
+  fieldError: {
+    marginTop: 4,
+    fontSize: getFontSize(11),
+    color: "#ff4a2a",
+    fontFamily: "Karla",
+  },
+
   alertTxt: {
-    marginHorizontal: 70,
+    marginHorizontal: 20,
+    marginBottom: 8,
     fontSize: getFontSize(12),
     color: "#ff4a2a",
     fontFamily: "Karla",
   },
-  passwordLocation: {
-    marginTop: 5,
-    marginVertical: 3,
-    borderWidth: 0.5,
-    alignItems: "center",
-    borderColor: "#AAAAAA",
-    borderRadius: 10,
-    alignSelf: "center",
-    marginRight: "auto",
-    marginLeft: "auto",
-    width: "90%",
-    flexDirection: "row",
-    paddingEnd: 60,
-    gap: 10,
-    paddingVertical: 3,
-    justifyContent: "space-between",
-  },
-  passwordIcon: {
-    flexDirection: "row",
-    gap: 10,
-  },
-  passwordTxt: {
-    fontSize: getFontSize(17),
-    width: "90%",
-    paddingRight: 13,
+
+  noteText: {
+    marginHorizontal: 20,
+    fontSize: getFontSize(12),
+    color: "rgba(48, 50, 72, 0.55)",
+    textAlign: "left",
+    marginBottom: 12,
     fontFamily: "Karla",
   },
-  langHeader: {
-    fontSize: getFontSize(17),
-    color: "black",
-    fontWeight: "bold",
-    fontFamily: "Karla",
+
+  dropdownWrapper: {
+    marginHorizontal: 20,
+    marginBottom: 8,
   },
-  prefLangVisibility: { marginHorizontal: 20, zIndex: 10001 },
-  targetLangVisibility: { marginHorizontal: 20, zIndex: 10000 },
+
   checkboxLocation: {
     marginHorizontal: 20,
+    marginTop: 12,
     flexDirection: "row",
     alignItems: "center",
   },
-  checkboxTxt: { fontSize: getFontSize(12), color: "gray", zIndex: -40, fontFamily: "Karla" },
-  signupBtn: {
-    fontSize: 20,
-    borderRadius: 5,
-    backgroundColor: "#303248",
-    color: "#e8e1db",
-    fontWeight: "bold",
+  checkboxTxt: {
+    flex: 1,
+    fontSize: getFontSize(12),
+    color: "rgba(48, 50, 72, 0.6)",
     fontFamily: "Karla",
+  },
+
+  // ── Submit button ──────────────────────────────────────────────────────────
+  signupBtn: {
+    backgroundColor: "#303248",
+    borderRadius: 20,
+    marginHorizontal: 20,
+    marginTop: 24,
+    paddingVertical: 14,
+    alignItems: "center",
+    shadowColor: "#1a1c2e",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  signupBtnText: {
+    fontFamily: "Karla",
+    fontSize: getFontSize(15),
+    fontWeight: "700",
+    color: "#edc526",
+    letterSpacing: 0.5,
   },
 });
 
