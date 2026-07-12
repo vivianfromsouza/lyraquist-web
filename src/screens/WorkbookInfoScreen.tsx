@@ -19,6 +19,7 @@ import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { SearchOutline, ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
 import workbookStyles from "../styles/WorkbookStyles";
+import { toast, ToastContainer } from "react-toastify";
 
 function WorkbookInfoScreen() {
   const navigate = useNavigate();
@@ -69,23 +70,38 @@ function WorkbookInfoScreen() {
     WordReaderWriter.starWord(wordUID);
   }
 
-  const deleteWorkbookAlert = () =>
-    Alert.alert(
-      "Are you Sure?",
-      "Deleting this workbook will remove its data. It will not be retrievable once deleted.",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          onPress: () => deleteWorkbook(),
-        },
-      ]
-    );
+  const deleteWorkbookAlert = () => {
+      toast(
+        "Are you Sure? Deleting this workbook will remove its data. It will not be retrievable once deleted.",
+        { closeButton: deleteAlertButton, className: "toast-custom" },
+      );
+    }
 
+  const deleteAlertButton = () => {
+    return (
+      <>
+        <button
+          onClick={() => console.log("Cancel Pressed")}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+          style={{
+            width: 200,
+            marginRight: 5,
+            marginLeft: 10,
+            borderRadius: 5,
+          }}
+        >
+          Cancel
+        </button>
+        <button
+          onClick={deleteWorkbook}
+          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
+          style={{ width: 190, marginLeft: 10, borderRadius: 5 }}
+        >
+          Delete
+        </button>
+      </>
+    );
+  };
   // const deleteWordAlert = (word) =>
   //   Alert.alert(
   //     "Are you Sure?",
@@ -126,6 +142,7 @@ function WorkbookInfoScreen() {
     return (
       <>
         <View style={workbookStyles.background}>
+          <ToastContainer />
 
           {/* Header */}
           <View style={workbookStyles.header}>
