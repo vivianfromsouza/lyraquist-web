@@ -1,4 +1,4 @@
-import { ScrollView, Pressable, Text, TextInput, View } from "react-native";
+import { ScrollView, Pressable, Text, TextInput, View, Dimensions } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
@@ -22,6 +22,7 @@ import signupStyles from "../styles/SignupStyles";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 6;
+const windowHeight = Dimensions.get("window").height;
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
@@ -169,7 +170,7 @@ export default function SignUpScreen() {
   };
 
   return (
-    <ScrollView style={signupStyles.container}>
+    <ScrollView style={[signupStyles.container, { minHeight: windowHeight }]}>
       <LyraquistHeader title="Sign Up" logo={blueLogo} />
 
       <Text style={signupStyles.sectionTitle}>Set up your profile</Text>
@@ -334,6 +335,9 @@ export default function SignUpScreen() {
       </Text>
       <View style={[signupStyles.dropdownWrapper, { zIndex: 10001 }]}>
         <DropDownPicker
+          style={signupStyles.dropdownContainer}
+          textStyle={signupStyles.dropdownText}
+          dropDownContainerStyle={signupStyles.dropdownContainer}
           open={open}
           value={preferredLanguage}
           items={dropdownLanguages}
@@ -352,11 +356,14 @@ export default function SignUpScreen() {
       </View>
       <Text style={signupStyles.noteText}>
         This is the language you are trying to learn at the moment. When you
-        listen to music in your preferred language, lyrics and definitions
-        will be provided in your target language.
+        listen to music in your preferred language, lyrics and definitions will
+        be provided in your target language.
       </Text>
       <View style={[signupStyles.dropdownWrapper, { zIndex: 10000 }]}>
         <DropDownPicker
+          style={signupStyles.dropdownContainer}
+          textStyle={signupStyles.dropdownText}
+          dropDownContainerStyle={signupStyles.dropdownContainer}
           open={openTarget}
           value={targetLanguage}
           items={dropdownLanguages}
@@ -394,7 +401,7 @@ export default function SignUpScreen() {
       </Pressable>
 
       <ToastContainer />
-      <View style={{ height: 40 }} />
+      {/* <View style={{ height: 40 }} /> */}
     </ScrollView>
   );
 }
