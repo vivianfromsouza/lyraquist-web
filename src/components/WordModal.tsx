@@ -305,6 +305,7 @@ const WordModal = ({
               <TextInput
                 placeholder="Enter new workbook name"
                 placeholderTextColor={"white"}
+                style={{ color: "white" }}
                 editable
                 value={newWorkbookName}
                 onChangeText={(text) => setNewWorkbookName(text)}
