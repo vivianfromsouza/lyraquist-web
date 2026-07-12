@@ -11,7 +11,7 @@ const LyraquistHeader = ({ title, logo }) => {
     <View style={logo.includes("red_small.png") ? settingStyles.introSect: aboutStyles.introSect}>
       <View style={aboutStyles.centerDisplay}>
         <Pressable style={aboutStyles.backArrow} onPress={() => navigate(-1)}>
-          <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" />
+          <ArrowBackOutline color={ logo.includes("red_small.png") ? "#e8e1db" : "#303248"} height="25px" width="25px" />
         </Pressable>
         <Image source={logo} style={aboutStyles.logo} />
         <View style={{ flex: 1 }}></View>

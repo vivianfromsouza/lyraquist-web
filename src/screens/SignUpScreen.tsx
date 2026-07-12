@@ -1,24 +1,13 @@
-import {
-  ScrollView,
-  Pressable,
-  Text,
-  TextInput,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { ScrollView, Pressable, Text, TextInput, View, Dimensions } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
-import { ArrowBackOutline } from "react-ionicons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { ImageSourcePropType } from "react-native";
 import blueLogo from "../assets/blue_small.png";
-import divider from "../assets/divider.png";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
@@ -28,7 +17,12 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { dropdownLanguages } from "../constants/ProjectConstants";
 import "react-datepicker/dist/react-datepicker.css";
+import LyraquistHeader from "../components/LyraquistHeader";
 import signupStyles from "../styles/SignupStyles";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MIN_PASSWORD_LENGTH = 6;
+const windowHeight = Dimensions.get("window").height;
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
@@ -47,6 +41,16 @@ export default function SignUpScreen() {
   const [targetLanguage, setTargetLanguage] = useState<any>();
 
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
+
+  const isEmailInvalid = email.length > 0 && !EMAIL_REGEX.test(email);
+  const isConfirmEmailMismatch =
+    !!confirmEmail && confirmEmail.length > 0 && confirmEmail !== email;
+  const isPasswordTooShort =
+    password.length > 0 && password.length < MIN_PASSWORD_LENGTH;
+  const isConfirmPasswordMismatch =
+    !!confirmPassword &&
+    confirmPassword.length > 0 &&
+    confirmPassword !== password;
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -166,59 +170,39 @@ export default function SignUpScreen() {
   };
 
   return (
-    <>
-      <ScrollView style={signupStyles.container}>
-        <View style={signupStyles.header}>
-          <View style={signupStyles.logo}>
-            <Pressable
-              style={signupStyles.arrowLocation}
-              onPress={() => navigate(-1)}
-            >
-              <ArrowBackOutline color={"#00000"} height="25px" width="25px" />
-            </Pressable>
-            <Image
-              source={blueLogo as ImageSourcePropType}
-              style={signupStyles.logoImage}
-            />
-            <View style={signupStyles.flexView}></View>
-          </View>
-          <Text style={signupStyles.title}>Sign Up</Text>
-        </View>
-        <Text style={signupStyles.sectionTitle}>Set up your profile</Text>
-        <Text style={signupStyles.sectionTxt}>
-          Create an account so you can start your language learning journey
-          through music
-        </Text>
-        <View style={signupStyles.userLocation}>
-          <FontAwesomeIcon icon={faUserCircle} style={signupStyles.userIcon} />
+    <ScrollView style={[signupStyles.container, { minHeight: windowHeight }]}>
+      <LyraquistHeader title="Sign Up" logo={blueLogo} />
 
-          <Image source={divider as ImageSourcePropType} />
-          <TouchableOpacity
-            onPress={() => setName(name)}
-            style={signupStyles.inputFlex}
-          >
-            <TextInput
-              placeholder="Full Name"
-              placeholderTextColor="gray"
-              value={name}
-              onChangeText={setName}
-              autoCapitalize="none"
-              inputMode="text"
-              style={signupStyles.inputText}
-              accessibilityLabel="nameInput"
-              accessible={true}
-            />
-          </TouchableOpacity>
-        </View>
+      <Text style={signupStyles.sectionTitle}>Set up your profile</Text>
+      <Text style={signupStyles.sectionTxt}>
+        Create an account so you can start your language learning journey
+        through music
+      </Text>
 
-        {/* EMAIL */}
-        <View style={signupStyles.userLocation}>
-          <EmailOutlinedIcon style={signupStyles.userIcon} />
-          <Image source={divider as ImageSourcePropType} />
-          <TouchableOpacity
-            onPress={() => setEmail(email)}
-            style={signupStyles.inputFlex}
-          >
+      {/* Profile Details */}
+      <View style={signupStyles.sectionHeader}>
+        <Text style={signupStyles.sectionLabel}>Profile Details</Text>
+        <View style={signupStyles.sectionLabelLine} />
+      </View>
+      <View style={signupStyles.card}>
+        <View style={signupStyles.cardInputRow}>
+          <FontAwesomeIcon icon={faUserCircle} style={signupStyles.rowIcon} />
+          <TextInput
+            placeholder="Full Name"
+            placeholderTextColor="gray"
+            value={name}
+            onChangeText={setName}
+            autoCapitalize="none"
+            inputMode="text"
+            style={signupStyles.rowInput}
+            accessibilityLabel="nameInput"
+            accessible={true}
+          />
+        </View>
+        <View style={signupStyles.cardDivider} />
+        <View style={signupStyles.cardInputRow}>
+          <EmailOutlinedIcon style={signupStyles.rowIcon} />
+          <View style={signupStyles.fieldColumn}>
             <TextInput
               placeholder="Email"
               placeholderTextColor="gray"
@@ -226,19 +210,24 @@ export default function SignUpScreen() {
               onChangeText={setEmail}
               autoCapitalize="none"
               inputMode="email"
-              style={signupStyles.inputText}
+              style={signupStyles.fieldInput}
               accessibilityLabel="emailInput"
               accessible={true}
             />
-          </TouchableOpacity>
+            {isEmailInvalid && (
+              <Text
+                style={signupStyles.fieldError}
+                accessibilityLabel="emailError"
+              >
+                Please enter a valid email address
+              </Text>
+            )}
+          </View>
         </View>
-        <View style={signupStyles.userLocation}>
-          <MarkEmailReadOutlinedIcon style={signupStyles.userIcon} />
-          <Image source={divider as ImageSourcePropType} />
-          <TouchableOpacity
-            onPress={() => setConfirmEmail(confirmEmail)}
-            style={signupStyles.inputFlex}
-          >
+        <View style={signupStyles.cardDivider} />
+        <View style={signupStyles.cardInputRow}>
+          <MarkEmailReadOutlinedIcon style={signupStyles.rowIcon} />
+          <View style={signupStyles.fieldColumn}>
             <TextInput
               placeholder="Confirm Email"
               placeholderTextColor="gray"
@@ -246,141 +235,173 @@ export default function SignUpScreen() {
               onChangeText={setConfirmEmail}
               autoCapitalize="none"
               inputMode="email"
-              style={signupStyles.inputText}
+              style={signupStyles.fieldInput}
               accessibilityLabel="confirmEmailInput"
               accessible={true}
             />
-          </TouchableOpacity>
+            {isConfirmEmailMismatch && (
+              <Text
+                style={signupStyles.fieldError}
+                accessibilityLabel="confirmEmailError"
+              >
+                Emails do not match
+              </Text>
+            )}
+          </View>
         </View>
+      </View>
 
-        <Text style={signupStyles.alertTxt}>
-          *Password must be 6 characters long
+      {/* Password */}
+      <View style={signupStyles.sectionHeader}>
+        <Text style={signupStyles.sectionLabel}>Password</Text>
+        <View style={signupStyles.sectionLabelLine} />
+      </View>
+      <Text style={signupStyles.alertTxt}>
+        *Password must be 6 characters long
+      </Text>
+      <View style={signupStyles.card}>
+        <View style={signupStyles.cardInputRow}>
+          <LockOutlinedIcon style={signupStyles.rowIcon} />
+          <View style={signupStyles.fieldColumn}>
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="gray"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+              style={signupStyles.fieldInput}
+              accessibilityLabel="passInput"
+              accessible={true}
+            />
+            {isPasswordTooShort && (
+              <Text
+                style={signupStyles.fieldError}
+                accessibilityLabel="passwordError"
+              >
+                Password must be at least {MIN_PASSWORD_LENGTH} characters
+              </Text>
+            )}
+          </View>
+          <Pressable onPress={toggleShowPassword}>
+            {showPassword ? (
+              <VisibilityOffOutlinedIcon />
+            ) : (
+              <VisibilityOutlinedIcon />
+            )}
+          </Pressable>
+        </View>
+        <View style={signupStyles.cardDivider} />
+        <View style={signupStyles.cardInputRow}>
+          <LockPersonOutlinedIcon style={signupStyles.rowIcon} />
+          <View style={signupStyles.fieldColumn}>
+            <TextInput
+              placeholder="Confirm Password"
+              placeholderTextColor="gray"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry={!showConfirmPassword}
+              style={signupStyles.fieldInput}
+              accessibilityLabel="confirmPassInput"
+              accessible={true}
+            />
+            {isConfirmPasswordMismatch && (
+              <Text
+                style={signupStyles.fieldError}
+                accessibilityLabel="confirmPasswordError"
+              >
+                Passwords do not match
+              </Text>
+            )}
+          </View>
+          <Pressable onPress={toggleShowConfirmPassword}>
+            {showConfirmPassword ? (
+              <VisibilityOffOutlinedIcon />
+            ) : (
+              <VisibilityOutlinedIcon />
+            )}
+          </Pressable>
+        </View>
+      </View>
+
+      {/* Preferred Language */}
+      <View style={[signupStyles.sectionHeader, { zIndex: 10001 }]}>
+        <Text style={signupStyles.sectionLabel}>Preferred Language</Text>
+        <View style={signupStyles.sectionLabelLine} />
+      </View>
+      <Text style={signupStyles.noteText}>
+        This is the language you are most familiar with. Songs will be
+        translated into this language and word definitions pulled for this
+        language
+      </Text>
+      <View style={[signupStyles.dropdownWrapper, { zIndex: 10001 }]}>
+        <DropDownPicker
+          style={signupStyles.dropdownContainer}
+          textStyle={signupStyles.dropdownText}
+          dropDownContainerStyle={signupStyles.dropdownContainer}
+          open={open}
+          value={preferredLanguage}
+          items={dropdownLanguages}
+          setOpen={setOpen}
+          setValue={setPreferredLanguage}
+          placeholder="Select a language"
+          zIndex={10001}
+          zIndexInverse={1000}
+        />
+      </View>
+
+      {/* Target Language */}
+      <View style={[signupStyles.sectionHeader, { zIndex: 10000 }]}>
+        <Text style={signupStyles.sectionLabel}>Target Language</Text>
+        <View style={signupStyles.sectionLabelLine} />
+      </View>
+      <Text style={signupStyles.noteText}>
+        This is the language you are trying to learn at the moment. When you
+        listen to music in your preferred language, lyrics and definitions will
+        be provided in your target language.
+      </Text>
+      <View style={[signupStyles.dropdownWrapper, { zIndex: 10000 }]}>
+        <DropDownPicker
+          style={signupStyles.dropdownContainer}
+          textStyle={signupStyles.dropdownText}
+          dropDownContainerStyle={signupStyles.dropdownContainer}
+          open={openTarget}
+          value={targetLanguage}
+          items={dropdownLanguages}
+          setOpen={setOpenTarget}
+          setValue={setTargetLanguage}
+          placeholder="Select a language"
+          zIndex={10000}
+          zIndexInverse={2000}
+        />
+      </View>
+
+      <View style={signupStyles.checkboxLocation}>
+        <Checkbox
+          value="checkedA"
+          inputProps={{
+            "aria-label": "Checkbox A",
+          }}
+          onChange={() => {
+            setIsTermsChecked(true);
+          }}
+        />
+
+        <Text style={signupStyles.checkboxTxt}>
+          I have read and agree to the terms and conditions.{" "}
         </Text>
-        <View style={signupStyles.passwordLocation}>
-          <View style={signupStyles.passwordIcon}>
-            <LockOutlinedIcon />
-            <Image source={divider as ImageSourcePropType} />
-            <TouchableOpacity
-              onPress={() => setPassword(password)}
-              style={signupStyles.inputFlex}
-            >
-              <TextInput
-                placeholder="Password"
-                placeholderTextColor="gray"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                style={signupStyles.passwordTxt}
-                accessibilityLabel="passInput"
-                accessible={true}
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Pressable onPress={toggleShowPassword}>
-              {showPassword ? (
-                <VisibilityOffOutlinedIcon />
-              ) : (
-                <VisibilityOutlinedIcon />
-              )}
-            </Pressable>
-          </View>
-        </View>
-        <View style={signupStyles.passwordLocation}>
-          <View style={signupStyles.passwordIcon}>
-            <LockPersonOutlinedIcon />
-            <Image source={divider as ImageSourcePropType} />
-            <TouchableOpacity
-              onPress={() => setName(name)}
-              style={signupStyles.inputFlex}
-            >
-              <TextInput
-                placeholder="Confirm Password"
-                placeholderTextColor="gray"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry={!showConfirmPassword}
-                style={signupStyles.passwordTxt}
-                accessibilityLabel="confirmPassInput"
-                accessible={true}
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Pressable onPress={toggleShowConfirmPassword}>
-              {showPassword ? (
-                <VisibilityOffOutlinedIcon />
-              ) : (
-                <VisibilityOutlinedIcon />
-              )}
-            </Pressable>
-          </View>
-        </View>
+      </View>
 
-        <View style={signupStyles.prefLangVisibility}>
-          <Text style={signupStyles.langHeader}>Preferred Language</Text>
-          <Text style={signupStyles.noteText}>
-            This is the language you are most familiar with. Songs will be
-            translated into this language and word definitions pulled for this
-            language
-          </Text>
+      <Pressable
+        style={signupStyles.signupBtn}
+        onPress={signUp}
+        accessibilityLabel="signUpButton"
+        accessible={true}
+      >
+        <Text style={signupStyles.signupBtnText}>Sign Up</Text>
+      </Pressable>
 
-          <DropDownPicker
-            open={open}
-            value={preferredLanguage}
-            items={dropdownLanguages}
-            setOpen={setOpen}
-            setValue={setPreferredLanguage}
-            placeholder="Select a language"
-          />
-        </View>
-
-        <View style={signupStyles.targetLangVisibility}>
-          <Text style={signupStyles.langHeader}>Target Language</Text>
-          <Text style={signupStyles.noteText}>
-            This is the language you are trying to learn at the moment. When you
-            listen to music in your preferred language, lyrics and definitions
-            will be provided in your target language.
-          </Text>
-
-          <DropDownPicker
-            open={openTarget}
-            value={targetLanguage}
-            items={dropdownLanguages}
-            setOpen={setOpenTarget}
-            setValue={setTargetLanguage}
-            placeholder="Select a language"
-          />
-        </View>
-
-        <View style={signupStyles.checkboxLocation}>
-          <Checkbox
-            value="checkedA"
-            inputProps={{
-              "aria-label": "Checkbox A",
-            }}
-            onChange={() => {
-              setIsTermsChecked(true);
-            }}
-          />
-
-          <Text style={signupStyles.checkboxTxt}>
-            I have read and agree to the terms and conditions.{" "}
-          </Text>
-        </View>
-
-        <View style={{ marginHorizontal: 450, marginBottom: 30 }}>
-          <button
-            type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            onClick={signUp}
-            style={signupStyles.signupBtn}
-          >
-            <ToastContainer />
-            Sign Up
-          </button>
-        </View>
-      </ScrollView>
-    </>
+      <ToastContainer />
+      {/* <View style={{ height: 40 }} /> */}
+    </ScrollView>
   );
 }

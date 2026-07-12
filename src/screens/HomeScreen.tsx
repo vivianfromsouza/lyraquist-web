@@ -208,45 +208,41 @@ const HomeScreen: React.FC = () => {
       <>
         <ScrollView style={homeStyles.container}>
           <View style={homeStyles.introSect}>
-            <View style={homeStyles.settingsLocation}>
-              <Pressable
-                onPress={() => {
-                  navigate("/settings", { state: "isLoggedIn" });
-                }}
-                accessibilityLabel="settings"
-              >
-                <SettingOutlined style={homeStyles.settingIcon} size={100} />
-              </Pressable>
-            </View>
             <View style={homeStyles.searchLocation}>
-              <View>
-                <View style={homeStyles.titleLocation}>
-                  <Text
-                    style={homeStyles.titleText}
-                    accessibilityLabel="welcome"
-                  >
-                    Hello,
-                  </Text>
-                  <Text
-                    style={homeStyles.nameText}
-                    accessibilityLabel="username"
-                  >
-                    {username}!
-                  </Text>
-                </View>
-                <Text style={homeStyles.subTitleText}>
-                  Let's start learning!
+              <View style={homeStyles.titleLocation}>
+                <Text
+                  style={homeStyles.titleText}
+                  accessibilityLabel="welcome"
+                >
+                  Hello,
+                </Text>
+                <Text
+                  style={homeStyles.nameText}
+                  accessibilityLabel="username"
+                >
+                  {username}!
                 </Text>
               </View>
-              <View style={homeStyles.iconDivider}>
+              <View style={homeStyles.settingsLocation}>
                 <Pressable
                   onPress={() => navigate("/Search", {})}
                   accessibilityLabel="search"
                 >
                   <SearchOutlined style={homeStyles.searchIcon} size={100} />
                 </Pressable>
+                <Pressable
+                  onPress={() => {
+                    navigate("/settings", { state: "isLoggedIn" });
+                  }}
+                  accessibilityLabel="settings"
+                >
+                  <SettingOutlined style={homeStyles.settingIcon} size={100} />
+                </Pressable>
               </View>
             </View>
+            <Text style={homeStyles.subTitleText}>
+              Let's start learning!
+            </Text>
           </View>
           <View style={homeStyles.starredLanguagesSect}>
             <Text style={homeStyles.starredLangText}>Starred Languages</Text>

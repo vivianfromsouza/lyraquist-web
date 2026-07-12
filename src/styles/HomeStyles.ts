@@ -96,11 +96,9 @@ const homeStyles = StyleSheet.create({
     fontFamily: "Karla",
   },
   settingsLocation: {
-    marginRight: 22,
-    marginTop: 20,
-    marginBottom: -20,
     flexDirection: "row",
-    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: 16,
   },
   settingIcon: {
     color: "rgba(232, 225, 219, 0.65)",
@@ -143,14 +141,9 @@ const homeStyles = StyleSheet.create({
     letterSpacing: 0.2,
     fontFamily: "Karla",
   },
-  iconDivider: {
-    justifyContent: "flex-end",
-    paddingBottom: 6,
-  },
   searchIcon: {
     color: "#edc526",
-    fontSize: 28,
-    marginBottom: 8,
+    fontSize: 24,
   },
   starredLangText: {
     paddingLeft: 20,
