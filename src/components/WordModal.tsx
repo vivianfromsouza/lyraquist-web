@@ -22,9 +22,9 @@ const WordModal = ({
   const [definition, setDefinition] = useState("");
   const [pos, setPos] = useState("");
 
-  const [translation2, setTranslation2] = useState("");
+  // const [translation2, setTranslation2] = useState("");
   const [definition2, setDefinition2] = useState("");
-  const [pos2, setPos2] = useState("");
+  // const [pos2, setPos2] = useState("");
 
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
