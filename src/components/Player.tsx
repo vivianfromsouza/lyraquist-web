@@ -210,15 +210,7 @@ const Player = () => {
       });
     }
   }
-
-  // async function likeSong(spotifyURL: string) {
-  //   RecordReaderWriter.likeSongByURL(spotifyURL, current_track);
-  // }
-
-  // async function unlikeSong(spotifyURL: string) {
-  //   RecordReaderWriter.unlikeSongByURL(spotifyURL);
-  // }
-
+  
   useEffect(() => {
     getAuthCode();
     getAccessCode();

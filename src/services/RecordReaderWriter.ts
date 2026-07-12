@@ -1,26 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import { v4 as uuidv4 } from "uuid";
-import SongReaderWriter from "./SongReaderWriter";
 
 const currentUser = localStorage.getItem("current_user");
 
 const RecordReaderWriter = {
-  async getMySongs() {
-    const { data } = await LocalSupabaseClient.from("records")
-      .select(
-        `
-        record_id,
-        is_liked,
-        songs (spotify_url, name, artist, album, image_url, duration)
-        `
-      )
-      .eq("user_id", currentUser)
-      .eq("is_liked", true)
-      .throwOnError();
-    return data;
-  },
-
   async addSongToRecords(spotifyURL: string, playID: string) {
     const { error } = await LocalSupabaseClient.from("records").insert({
       record_id: uuidv4(),
@@ -54,51 +38,10 @@ const RecordReaderWriter = {
     return data;
   },
 
-  async deleteSongFromRecords(spotifyURL: string) {
-    const { error } = await LocalSupabaseClient.from("records")
-      .delete()
-      .eq("spotify_url", spotifyURL)
-      .eq("user_id", currentUser);
-    return error;
-  },
-
   async deleteSongFromPlaylist(recordID) {
     const { error } = await LocalSupabaseClient.from("records")
       .delete()
       .eq("record_id", recordID);
-    return error;
-  },
-
-
-  async likeSongByURL(spotifyURL: string, songDetails) {
-    if (!(await SongReaderWriter.isSongInDB(spotifyURL))) {
-      console.log("NOT IN DB")
-      SongReaderWriter.addSongToDBFromSpotifyTrack(songDetails);
-    }
-
-    if (await this.isSongInRecords(spotifyURL)) {
-      const { error } = await LocalSupabaseClient.from("records")
-        .update({ is_liked: true })
-        .eq("spotify_url", spotifyURL)
-        .eq("user_id", currentUser);
-      return error;
-    } else {
-      const { error } = await LocalSupabaseClient.from("records").insert({
-        record_id: uuidv4(),
-        user_id: currentUser,
-        playlist_id: null,
-        spotify_url: spotifyURL,
-        is_liked: true,
-      });
-      console.log(error)
-    }
-  },
-
-  async unlikeSongByURL(spotifyURL: string) {
-    const { error } = await LocalSupabaseClient.from("records")
-      .update({ is_liked: false })
-      .eq("spotify_url", spotifyURL)
-      .eq("user_id", currentUser);
     return error;
   },
 
@@ -115,32 +58,6 @@ const RecordReaderWriter = {
       return true;
     }
     return false;
-  },
-
-  async isSongInRecords(spotifyURL: string) {
-    const { count, status, error } = await LocalSupabaseClient.from("records")
-      .select("*", { count: "exact", head: true })
-      .eq("spotify_url", spotifyURL)
-      .eq("user_id", currentUser);
-
-    console.log(error);
-    console.log(status);
-
-    if (count! > 0) {
-      return true;
-    }
-    return false;
-  },
-
-  async getLike(spotifyURL: string) {
-    const { data, error } = await LocalSupabaseClient.from("records")
-      .select("is_liked")
-      .eq("spotify_url", spotifyURL)
-      .eq("user_id", currentUser)
-      .limit(1)
-      .single();
-    console.log(error);
-    return data;
   },
 };
 

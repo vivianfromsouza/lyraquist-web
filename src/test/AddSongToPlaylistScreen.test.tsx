@@ -44,7 +44,7 @@ vi.mock("../services/RecordReaderWriter", () => {
 vi.mock("../services/PlaylistReaderWriter", () => {
   return {
     default: {
-      getMyPlaylists: vi.fn(() => mockPlaylists),
+      getMyPlaylists: vi.fn(() => Promise.resolve(mockPlaylists)),
       createPlaylist: vi.fn(),
     },
   };
@@ -81,7 +81,7 @@ describe("AddSongToPlaylistScreen", () => {
 
     expect(PlaylistReaderWriter.getMyPlaylists).toHaveBeenCalled();
 
-    const playlistDropdown = screen.getByRole("option");
+    const playlistDropdown = screen.getByTestId("playlist-dropdown");
     playlistDropdown.click();
     const playlistOption = await screen.findByText("My Playlist");
     playlistOption.click();

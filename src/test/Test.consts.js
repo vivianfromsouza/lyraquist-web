@@ -8,5 +8,5 @@ export const mockSong = {
 };
 
 export const mockPlaylists = [
-  { playlist_id: "01177775-a605-45e6-b247-32e2211833fa", name: "My Playlist"}
+  { name: "My Playlist", playlist_id: "123" }
 ]

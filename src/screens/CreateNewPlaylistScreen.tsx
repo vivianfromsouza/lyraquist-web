@@ -100,7 +100,7 @@ const CreateNewPlaylistScreen = ({ songItem }) => {
         <View>
           <Text style={createPlaylistStyles.imageLabel}>Cover Image</Text>
           <input
-            test-id="image-input"
+            data-testid="image-input"
             type="file"
             accept="image/*"
             onChange={(e) =>

@@ -100,7 +100,7 @@ describe("LyricsToScreen", () => {
   });
 
   it("renders the translation header", () => {
-    expect(screen.getByText("TRANSLATION")).toBeInTheDocument();
+    expect(screen.getByText("Translation")).toBeInTheDocument();
   });
 
   it("calls getLyrics on mount", () => {
