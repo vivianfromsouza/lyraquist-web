@@ -48,11 +48,10 @@ const SongReaderWriter = {
       artist: newSong.artist,
       image_url: newSong.imageURL,
       duration: newSong.duration,
-      album: newSong.album,
+      album: newSong.album.name,
       spotify_url: newSong.spotifyURL.split(":")[2],
     });
     console.log(error);
-
     return data;
   },
 

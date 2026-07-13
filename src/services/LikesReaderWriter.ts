@@ -17,7 +17,7 @@ const LikesReaderWriter = {
 
   async likeSong(spotifyURL: string, songDetails: any): Promise<void> {
     if (!(await SongReaderWriter.isSongInDB(spotifyURL))) {
-      SongReaderWriter.addSongToDBFromSongCard(songDetails);
+      await SongReaderWriter.addSongToDBFromSongCard(songDetails);
     }
 
     await LocalSupabaseClient.from("likes").upsert({
