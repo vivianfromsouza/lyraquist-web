@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
 import wordStyles from "../styles/WordStyles";
+import dropdownStyles from "../styles/DropdownStyles";
 
 const WordModal = ({
   openModal,
@@ -281,13 +282,18 @@ const WordModal = ({
           </View>
           <View style={{ padding: 10 }}>
             <Text style={wordStyles.definition}>{definition}</Text>
-            <Text style={wordStyles.definition}><b>Second Definition</b></Text>
+            <Text style={wordStyles.definition}>
+              <b>Second Definition</b>
+            </Text>
             <Text style={wordStyles.definition}>{definition2}</Text>
 
             <Text style={wordStyles.pos}>{pos}</Text>
           </View>
 
           <DropDownPicker
+            style={dropdownStyles.dropdownContainer}
+            textStyle={dropdownStyles.dropdownText}
+            dropDownContainerStyle={dropdownStyles.dropdownContainer}
             open={open}
             value={value}
             items={workbooks}
