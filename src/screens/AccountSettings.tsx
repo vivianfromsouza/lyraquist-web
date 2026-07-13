@@ -15,6 +15,7 @@ import { useFirebase } from "../services/firebase/FirebaseContext";
 import { dropdownLanguages, languages } from "../constants/ProjectConstants";
 import settingStyles from "../styles/SettingStyles";
 import { ArrowBackOutline } from "react-ionicons";
+import dropdownStyles from "../styles/DropdownStyles";
 
 export default function AccountSettings() {
   const [openPref, setOpenPref] = useState(false);
@@ -200,6 +201,9 @@ export default function AccountSettings() {
         </View>
         <View style={[settingStyles.dropdownWrapper, { zIndex: 11000 }]}>
           <DropDownPicker
+            style={dropdownStyles.dropdownContainer}
+            textStyle={dropdownStyles.dropdownText}
+            dropDownContainerStyle={dropdownStyles.dropdownContainer}
             open={openPref}
             value={newPrefLang}
             items={dropdownLanguages}
@@ -236,6 +240,9 @@ export default function AccountSettings() {
         </View>
         <View style={[settingStyles.dropdownWrapper, { zIndex: 10000 }]}>
           <DropDownPicker
+            style={dropdownStyles.dropdownContainer}
+            textStyle={dropdownStyles.dropdownText}
+            dropDownContainerStyle={dropdownStyles.dropdownContainer}
             open={openTarget}
             value={newTargetLang}
             items={dropdownLanguages}

@@ -11,6 +11,7 @@ import SongReaderWriter from "../services/SongReaderWriter";
 import CreateNewPlaylistScreen from "./CreateNewPlaylistScreen";
 import { ScrollView } from "react-native-web";
 import playlistStyles from "../styles/PlaylistStyles";
+import dropdownStyles from "../styles/DropdownStyles";
 
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();
@@ -102,6 +103,9 @@ function AddSongToPlaylistScreen() {
         style={playlistStyles.addToPlaylistDropdown}
       >
         <DropDownPicker
+          style={dropdownStyles.dropdownContainer}
+          textStyle={dropdownStyles.dropdownText}
+          dropDownContainerStyle={dropdownStyles.dropdownContainer}
           open={open}
           value={selectedPlaylist}
           setValue={setSelectedPlaylist}

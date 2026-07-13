@@ -19,6 +19,7 @@ import { dropdownLanguages } from "../constants/ProjectConstants";
 import "react-datepicker/dist/react-datepicker.css";
 import LyraquistHeader from "../components/LyraquistHeader";
 import signupStyles from "../styles/SignupStyles";
+import dropdownStyles from "../styles/DropdownStyles";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 6;
@@ -333,11 +334,11 @@ export default function SignUpScreen() {
         translated into this language and word definitions pulled for this
         language
       </Text>
-      <View style={[signupStyles.dropdownWrapper, { zIndex: 10001 }]}>
+      <View style={[dropdownStyles.dropdownWrapper, { zIndex: 10001 }]}>
         <DropDownPicker
-          style={signupStyles.dropdownContainer}
-          textStyle={signupStyles.dropdownText}
-          dropDownContainerStyle={signupStyles.dropdownContainer}
+          style={dropdownStyles.dropdownContainer}
+          textStyle={dropdownStyles.dropdownText}
+          dropDownContainerStyle={dropdownStyles.dropdownContainer}
           open={open}
           value={preferredLanguage}
           items={dropdownLanguages}
@@ -359,11 +360,11 @@ export default function SignUpScreen() {
         listen to music in your preferred language, lyrics and definitions will
         be provided in your target language.
       </Text>
-      <View style={[signupStyles.dropdownWrapper, { zIndex: 10000 }]}>
+      <View style={[dropdownStyles.dropdownWrapper, { zIndex: 10000 }]}>
         <DropDownPicker
-          style={signupStyles.dropdownContainer}
-          textStyle={signupStyles.dropdownText}
-          dropDownContainerStyle={signupStyles.dropdownContainer}
+          style={dropdownStyles.dropdownContainer}
+          textStyle={dropdownStyles.dropdownText}
+          dropDownContainerStyle={dropdownStyles.dropdownContainer}
           open={openTarget}
           value={targetLanguage}
           items={dropdownLanguages}
@@ -401,7 +402,6 @@ export default function SignUpScreen() {
       </Pressable>
 
       <ToastContainer />
-      {/* <View style={{ height: 40 }} /> */}
     </ScrollView>
   );
 }

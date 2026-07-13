@@ -111,31 +111,6 @@ const signupStyles = StyleSheet.create({
     marginBottom: 12,
     fontFamily: "Karla",
   },
-
-  dropdownWrapper: {
-    fontFamily: "Karla",
-    marginHorizontal: 20,
-    marginBottom: 8,
-  },
-
-  dropdownText: {
-    fontSize: getFontSize(16),
-    color: "#303248",
-    fontFamily: "Karla",
-  },
-
-  dropdownContainer: {
-    borderColor: "rgba(48, 50, 72, 0.12)",
-    borderRadius: 8,
-    backgroundColor: "white",
-    shadowColor: "#303248",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
-    
-  },
-
   checkboxLocation: {
     marginHorizontal: 10,
     marginTop: 12,
