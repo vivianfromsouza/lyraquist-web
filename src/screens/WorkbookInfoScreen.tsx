@@ -11,15 +11,20 @@ import {
 } from "react-native";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import WordItem from "../components/WordItem";
-import { StarFilled, StarOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+  StarFilled,
+  StarOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 import FeatherIcon from "feather-icons-react";
 
 import WordReaderWriter from "../services/WordReaderWriter";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import { SearchOutline, ArrowBackOutline } from "react-ionicons";
+import { SearchOutline, ArrowBackOutline, Close } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
 import workbookStyles from "../styles/WorkbookStyles";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer, ToastContentProps } from "react-toastify";
+import DeleteNotification from "../components/DeleteNotification";
 
 function WorkbookInfoScreen() {
   const navigate = useNavigate();
@@ -46,7 +51,7 @@ function WorkbookInfoScreen() {
         .on(
           "postgres_changes",
           { event: "*", schema: "public", table: "words" },
-          handleWordInserts
+          handleWordInserts,
         )
         .subscribe();
 
@@ -71,53 +76,16 @@ function WorkbookInfoScreen() {
   }
 
   const deleteWorkbookAlert = () => {
-      toast(
-        "Are you Sure? Deleting this workbook will remove its data. It will not be retrievable once deleted.",
-        { closeButton: deleteAlertButton, className: "toast-custom" },
-      );
-    }
-
-  const deleteAlertButton = () => {
-    return (
-      <>
-        <button
-          onClick={() => console.log("Cancel Pressed")}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-          style={{
-            width: 200,
-            marginRight: 5,
-            marginLeft: 10,
-            borderRadius: 5,
-          }}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={deleteWorkbook}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-          style={{ width: 190, marginLeft: 10, borderRadius: 5 }}
-        >
-          Delete
-        </button>
-      </>
-    );
+    toast(deleteWorkbookNotification, {
+      autoClose: 5000,
+    });
   };
-  // const deleteWordAlert = (word) =>
-  //   Alert.alert(
-  //     "Are you Sure?",
-  //     "This word will be removed from this workbook if deleted.",
-  //     [
-  //       {
-  //         text: "Cancel",
-  //         onPress: () => console.log("Cancel Pressed"),
-  //         style: "cancel",
-  //       },
-  //       {
-  //         text: "Delete",
-  //         onPress: () => deleteWord(word["word_id"]),
-  //       },
-  //     ]
-  //   );
+
+  function deleteWorkbookNotification({ closeToast }: ToastContentProps) {
+    return (
+      <DeleteNotification closeToast={closeToast} deleteFunction={deleteWorkbook} />
+    );
+  }
 
   function deleteWorkbook() {
     WorkbookReaderWriter.deleteWorkbook(bookUID);
@@ -126,7 +94,7 @@ function WorkbookInfoScreen() {
   }
 
   async function deleteWord(word) {
-    console.log("deleting word")
+    console.log("deleting word");
     await WordReaderWriter.deleteWord(word["word_id"]);
   }
 
@@ -134,7 +102,7 @@ function WorkbookInfoScreen() {
     ? renWordList.filter(
         (word) =>
           word["word"].toLowerCase().includes(searchTerm.toLowerCase()) ||
-          word["translation"].toLowerCase().includes(searchTerm.toLowerCase())
+          word["translation"].toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : [];
 
@@ -168,7 +136,11 @@ function WorkbookInfoScreen() {
                 onPress={deleteWorkbookAlert}
                 style={workbookStyles.closeBtn}
               >
-                <FeatherIcon icon="x-circle" size={22} color="rgba(232,225,219,0.6)" />
+                <FeatherIcon
+                  icon="x-circle"
+                  size={22}
+                  color="rgba(232,225,219,0.6)"
+                />
               </Pressable>
             </View>
           </View>
@@ -184,7 +156,11 @@ function WorkbookInfoScreen() {
               accessibilityLabel="wordSearch"
               accessible={true}
             />
-            <SearchOutline color={"rgba(48,50,72,0.4)"} height="20px" width="20px" />
+            <SearchOutline
+              color={"rgba(48,50,72,0.4)"}
+              height="20px"
+              width="20px"
+            />
           </View>
 
           {/* Description */}
@@ -232,18 +208,29 @@ function WorkbookInfoScreen() {
                     <View style={workbookStyles.iconCols}>
                       {item.is_starred ? (
                         <Pressable onPress={() => starredToNot(item.word_id)}>
-                          <StarFilled style={{ fontSize: 18, color: "#5bc8a6" }} />
+                          <StarFilled
+                            style={{ fontSize: 18, color: "#5bc8a6" }}
+                          />
                         </Pressable>
                       ) : (
                         <Pressable onPress={() => notToStarred(item.word_id)}>
-                          <StarOutlined style={{ fontSize: 18, color: "rgba(48,50,72,0.35)" }} />
+                          <StarOutlined
+                            style={{
+                              fontSize: 18,
+                              color: "rgba(48,50,72,0.35)",
+                            }}
+                          />
                         </Pressable>
                       )}
                       <Pressable
                         onPress={() => deleteWord(item)}
                         style={workbookStyles.deleteIcon}
                       >
-                        <FeatherIcon icon="x-circle" size={18} color="rgba(48,50,72,0.35)" />
+                        <FeatherIcon
+                          icon="x-circle"
+                          size={18}
+                          color="rgba(48,50,72,0.35)"
+                        />
                       </Pressable>
                     </View>
                   </View>
@@ -298,12 +285,24 @@ function WorkbookInfoScreen() {
           <View style={workbookStyles.close}>
             <View style={workbookStyles.closeLocation}>
               <Pressable onPress={() => navigate(-1)}>
-                <ArrowBackOutline color={"#e8e1db"} height="25px" width="25px" style={workbookStyles.arrowBtn} />
+                <ArrowBackOutline
+                  color={"#e8e1db"}
+                  height="25px"
+                  width="25px"
+                  style={workbookStyles.arrowBtn}
+                />
               </Pressable>
               <Text style={workbookStyles.title}>{name}</Text>
             </View>
-            <Pressable onPress={deleteWorkbookAlert} style={workbookStyles.closeBtn}>
-              <FeatherIcon icon="x-circle" size={22} color="rgba(232,225,219,0.6)" />
+            <Pressable
+              onPress={deleteWorkbookAlert}
+              style={workbookStyles.closeBtn}
+            >
+              <FeatherIcon
+                icon="x-circle"
+                size={22}
+                color="rgba(232,225,219,0.6)"
+              />
             </Pressable>
           </View>
         </View>
@@ -316,7 +315,11 @@ function WorkbookInfoScreen() {
             value={searchTerm}
             onChangeText={setSearchTerm}
           />
-          <SearchOutline color={"rgba(48,50,72,0.4)"} height="20px" width="20px" />
+          <SearchOutline
+            color={"rgba(48,50,72,0.4)"}
+            height="20px"
+            width="20px"
+          />
         </View>
 
         <View style={workbookStyles.loading}>
