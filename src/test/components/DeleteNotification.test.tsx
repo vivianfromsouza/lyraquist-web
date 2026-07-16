@@ -11,18 +11,18 @@ describe("DeleteNotification", () => {
 
   it("renders the confirmation message", () => {
     render(
-      <DeleteNotification closeToast={vi.fn()} deleteFunction={vi.fn()} />
+      <DeleteNotification name="playlist" closeToast={vi.fn()} deleteFunction={vi.fn()} />
     );
     expect(
       screen.getByText(
-        "Are you Sure? Workbooks are not retrievable once deleted."
+        "Are you Sure? Playlists are not retrievable once deleted."
       )
     ).toBeInTheDocument();
   });
 
   it("renders Cancel and Delete buttons", () => {
     render(
-      <DeleteNotification closeToast={vi.fn()} deleteFunction={vi.fn()} />
+      <DeleteNotification name="playlist" closeToast={vi.fn()} deleteFunction={vi.fn()} />
     );
     expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Delete" })).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("DeleteNotification", () => {
   it("calls closeToast when Cancel is clicked", async () => {
     const closeToast = vi.fn();
     render(
-      <DeleteNotification closeToast={closeToast} deleteFunction={vi.fn()} />
+      <DeleteNotification name="playlist" closeToast={closeToast} deleteFunction={vi.fn()} />
     );
     await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
     expect(closeToast).toHaveBeenCalledTimes(1);
@@ -40,7 +40,7 @@ describe("DeleteNotification", () => {
   it("calls deleteFunction when Delete is clicked", async () => {
     const deleteFunction = vi.fn();
     render(
-      <DeleteNotification closeToast={vi.fn()} deleteFunction={deleteFunction} />
+      <DeleteNotification name="playlist" closeToast={vi.fn()} deleteFunction={deleteFunction} />
     );
     await userEvent.click(screen.getByRole("button", { name: "Delete" }));
     expect(deleteFunction).toHaveBeenCalledTimes(1);

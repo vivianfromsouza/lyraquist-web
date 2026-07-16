@@ -1,10 +1,10 @@
 import notificationStyles from "../styles/NotificationStyles";
 
-const DeleteNotification = ({ closeToast, deleteFunction }) => {
+const DeleteNotification = ({ closeToast, name, deleteFunction }) => {
   return (
     <div className="flex flex-row items-center p-4 gap-4 w-full">
       <div className="flex-1 text-left" style={notificationStyles.text}>
-        Are you Sure? Workbooks are not retrievable once deleted.
+        Are you Sure? {name.charAt(0).toUpperCase() + name.slice(1)}s are not retrievable once deleted.
       </div>
       <div className="flex flex-col shrink-0">
         <button

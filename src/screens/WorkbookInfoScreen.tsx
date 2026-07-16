@@ -83,7 +83,7 @@ function WorkbookInfoScreen() {
 
   function deleteWorkbookNotification({ closeToast }: ToastContentProps) {
     return (
-      <DeleteNotification closeToast={closeToast} deleteFunction={deleteWorkbook} />
+      <DeleteNotification name="workbook" closeToast={closeToast} deleteFunction={deleteWorkbook} />
     );
   }
 
