@@ -10,12 +10,14 @@ import {
 import UserReaderWriter from "../services/UserReaderWriter";
 import { useNavigate } from "react-router-dom";
 import DropDownPicker from "react-native-dropdown-picker";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer, ToastContentProps } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import { dropdownLanguages, languages } from "../constants/ProjectConstants";
 import settingStyles from "../styles/SettingStyles";
 import { ArrowBackOutline } from "react-ionicons";
 import dropdownStyles from "../styles/DropdownStyles";
+import ChangeNotification from "../components/ChangeNotification";
+import DeleteNotification from "../components/DeleteNotification";
 
 export default function AccountSettings() {
   const [openPref, setOpenPref] = useState(false);
@@ -60,13 +62,33 @@ export default function AccountSettings() {
     navigate("/settings/reauth");
   }
 
+  function changePreferredLanguageNotification(langName: string) {
+    const text = "Success! Preferred Language changed to: " + langName;
+    return <ChangeNotification text={text} />;
+  }
+
+  function changeTargetLanguageNotification(langName: string) {
+    const text = "Success! Target Language changed to: " + langName;
+    return <ChangeNotification text={text} />;
+  }
+
+  function deleteAccountNotification({ closeToast }: ToastContentProps) {
+    return (
+      <DeleteNotification
+        name={"account"}
+        closeToast={closeToast}
+        deleteFunction={deleteAccount}
+      />
+    );
+  }
+
   async function changePreferredLanguage() {
     if (newPrefLang != undefined && newPrefLang != prefLang) {
       const langName = languages.find((l) => l.code === newPrefLang)?.language;
       await UserReaderWriter.setPreferredLanguage(newPrefLang);
       setPrefLang(langName);
-      toast("Success! Preferred Language changed to: " + langName, {
-        className: "toast-custom",
+      toast(changePreferredLanguageNotification(langName!), {
+        autoClose: 5000,
       });
     }
   }
@@ -78,8 +100,8 @@ export default function AccountSettings() {
       )?.language;
       await UserReaderWriter.setTargetLanguage(newTargetLang);
       setPrefLang(langName);
-      toast("Success! Target Language changed to: " + langName, {
-        className: "toast-custom",
+      toast(changeTargetLanguageNotification(langName!), {
+        autoClose: 5000,
       });
     }
   }
@@ -90,31 +112,10 @@ export default function AccountSettings() {
     });
   }
 
-  const deleteAlertButton = () => {
-    return (
-      <>
-        <button
-          onClick={() => console.log("Cancel Pressed")}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={deleteAccount}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-        >
-          Delete
-        </button>
-      </>
-    );
-  };
-
   const deleteAlert = () => {
-    toast(
-      name +
-        ", Are you Sure? Deleting your account will remove all your data from the app. This data will not be retrievable once deleted.",
-      { closeButton: deleteAlertButton, className: "toast-custom" },
-    );
+    toast(deleteAccountNotification, {
+      autoClose: 5000,
+    });
   };
 
   setCurrUserValues();
@@ -122,8 +123,7 @@ export default function AccountSettings() {
   return (
     <>
       <ToastContainer
-        position="top-center" // top-left, top-center, top-right, bottom-left, bottom-center, bottom-right
-        autoClose={3000} // ms before auto-dismiss (false to disable)
+        // position="top-center"
         hideProgressBar={true}
         closeOnClick
         pauseOnHover
