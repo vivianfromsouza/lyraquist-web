@@ -1,6 +1,4 @@
 import { PixelRatio, StyleSheet } from "react-native";
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / fontScale;
 
 const notificationStyles = StyleSheet.create({
   text: {
