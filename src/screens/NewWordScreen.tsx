@@ -5,7 +5,6 @@ import {
   Text,
   Pressable,
   TextInput,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 import PsychologyIcon from "@mui/icons-material/Psychology";
@@ -16,6 +15,8 @@ import { ArrowBackOutline } from "react-ionicons";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { useLocation, useNavigate } from "react-router-dom";
 import newBookStyles from "../styles/NewBookStyles";
+import ChangeNotification from "../components/ChangeNotification";
+import { toast, ToastContainer } from "react-toastify";
 
 function NewWordScreen() {
   const navigate = useNavigate();
@@ -29,11 +30,30 @@ function NewWordScreen() {
   const [language, setLanguage] = useState<string>("");
   const [partOfSpeech, setPartOfSpeech] = useState<string>("");
 
+  function pleaseChooseWordNotification() {
+    const text = "Choose a word to add to the workbook!";
+    return <ChangeNotification text={text} />;
+  }
+
+  function pleaseAddTranslationNotification() {
+    const text = "Please add a translation for the word!";
+    return <ChangeNotification text={text} />;
+  }
+
+  function wordAddedNotification() {
+    const text = "The word " + newWord.trim() + " was added!";
+    return <ChangeNotification text={text} />;
+  }
+
   async function addWord() {
     if (newWord === undefined || newWord.trim() == "") {
-      Alert.alert("Choose a word to add to the workbook!");
+      toast(pleaseChooseWordNotification(), {
+        autoClose: 5000,
+      });
     } else if (translation === undefined || translation.trim() == "") {
-      Alert.alert("You must add a translation");
+      toast(pleaseAddTranslationNotification(), {
+        autoClose: 5000,
+      });
     } else {
       WordReaderWriter.addWord(
         newWord.trim(),
@@ -42,19 +62,18 @@ function NewWordScreen() {
         language.trim(),
         partOfSpeech.trim(),
         "Added by User",
-        false
+        false,
       );
+      toast(wordAddedNotification(), {
+        autoClose: 5000,
+      });
       navigate(-1);
-      Alert.alert(
-        "The word " + newWord.trim() + " was added!",
-        "translation: " + translation.trim()
-      );
     }
   }
 
   return (
     <SafeAreaView style={newBookStyles.container}>
-      {/* Header */}
+      <ToastContainer />
       <View style={newBookStyles.header}>
         <View style={newBookStyles.titleLocation}>
           <TouchableOpacity
@@ -68,7 +87,6 @@ function NewWordScreen() {
         <Text style={newBookStyles.headerSubtitle}>Workbook: {name}</Text>
       </View>
 
-      {/* Section: Word Details */}
       <View style={newBookStyles.sectionHeader}>
         <Text style={newBookStyles.sectionLabel}>Word Details</Text>
         <View style={newBookStyles.sectionLabelLine} />

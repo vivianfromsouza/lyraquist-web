@@ -47,15 +47,6 @@ export default function SettingsScreen() {
   useEffect(() => {
     setCurrUserName();
     setCurrUserEmail();
-
-    // LocalSupabaseClient
-    //   .channel("users")
-    //   .on(
-    //     "postgres_changes",
-    //     { event: "*", schema: "public", table: "users" },
-    //     handleUserInserts
-    //   )
-    //   .subscribe();
   });
 
   return (
@@ -64,7 +55,6 @@ export default function SettingsScreen() {
         <View>
           <LyraquistHeader title="Settings" logo={redLogo} />
 
-          {/* Profile Card */}
           <Pressable
             onPress={() =>
               navigate("/settings/profile", { state: "isLoggedIn" })
@@ -98,7 +88,6 @@ export default function SettingsScreen() {
             <KeyboardArrowRightIcon />
           </Pressable>
 
-          {/* Menu Card */}
           <View style={settingStyles.menuCard}>
             <Pressable
               onPress={() => navigate("/account", { state: "isLoggedIn" })}
@@ -119,7 +108,6 @@ export default function SettingsScreen() {
             </Pressable>
           </View>
 
-          {/* Log Out */}
           <View style={settingStyles.logOutContainer}>
             <Pressable onPress={logout}>
               <Text

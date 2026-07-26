@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 
+:root {
+  --toastify-color-progress-light: none;
+}
 .toast-custom {
   background: #e8e1db;
   color: #303248;

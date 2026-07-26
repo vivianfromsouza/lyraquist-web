@@ -10,10 +10,11 @@ import {
 import UserReaderWriter from "../services/UserReaderWriter";
 import redLogo from "../assets/red_small.png";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import LyraquistHeader from "../components/LyraquistHeader";
 import profileStyles from "../styles/ProfileStyles";
+import ChangeNotification from "../components/ChangeNotification";
 
 export default function ProfileInfoScreen() {
   const navigate = useNavigate();
@@ -24,14 +25,29 @@ export default function ProfileInfoScreen() {
   const { handleSignOut } = useFirebase();
   const windowHeight = Dimensions.get("window").height;
 
+  function changeUsernameNotification() {
+    return <ChangeNotification text="Username changed successfully!" />;
+  }
+
+  function changeEmailNotification() {
+    return <ChangeNotification text="Email changed successfully!" />;
+  }
+
+  function invalidEmailNotification() {
+    return (
+      <ChangeNotification text="Invalid email address. Please check the email field and try again." />
+    );
+  }
+
   async function changeUsername() {
     if (newName !== undefined && newName.trim() !== "") {
       await UserReaderWriter.writeUserName(newName.trim()).then(() => {
         setName(newName.trim());
         setNewName("");
-        toast("Username changed successfully!", {
-          className: "toast-custom",
-        });
+      });
+
+      toast(changeUsernameNotification, {
+        autoClose: 5000,
       });
     }
   }
@@ -40,12 +56,10 @@ export default function ProfileInfoScreen() {
     if (newEmail.includes("@")) {
       await UserReaderWriter.writeUserEmail(newEmail.trim())
         .then(() => {
-          toast(
-            "Email changed successfully! A verification link will be sent to your email before changes can take effect. Please verify and sign-in again.",
-            {
-              className: "toast-custom",
-            },
-          );
+          toast(changeEmailNotification, {
+            autoClose: 5000,
+          });
+
           setTimeout(() => {
             handleSignOut();
             navigate("/login");
@@ -55,12 +69,9 @@ export default function ProfileInfoScreen() {
           console.log(error);
         });
     } else {
-      toast(
-        "Invalid email address. Please check the email field and try again.",
-        {
-          className: "toast-custom",
-        },
-      );
+      toast(invalidEmailNotification, {
+        autoClose: 5000,
+      });
     }
   }
 
@@ -87,6 +98,8 @@ export default function ProfileInfoScreen() {
 
   return (
     <ScrollView style={[profileStyles.full, { minHeight: windowHeight * 0.9 }]}>
+      <ToastContainer />
+
       <LyraquistHeader title="Profile Information" logo={redLogo} />
 
       <View style={profileStyles.sectionHeader}>

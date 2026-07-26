@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import passwordStyles from "../styles/ChangePassword";
+import ChangeNotification from "../components/ChangeNotification";
 
 export default function ChangePasswordScreen() {
   const [password, setPassword] = useState<string>("");
@@ -25,23 +26,43 @@ export default function ChangePasswordScreen() {
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
 
+  function passwordNotValidNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Password is too short. Password must be at least 6 characters long."
+        }
+      />
+    );
+  }
+
+  function passwordChangedNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Password changed successfully! You will now need to sign-in again with your new password."
+        }
+      />
+    );
+  }
+
+  function passwordDoesntMatchNotification() {
+    return (
+      <ChangeNotification text={"Passwords don't match. Please try again."} />
+    );
+  }
+
   async function changePassword() {
     if (password!.trim().length < 6) {
-      toast(
-        "Password is too short. Password must be at least 6 characters long.",
-        {
-          className: "toast-custom",
-        },
-      );
+      toast(passwordNotValidNotification, {
+        autoClose: 5000,
+      });
     } else if (password == confirmPassword) {
       updatePassword(auth.currentUser!, password)
         .then(() => {
-          toast(
-            "Password changed successfully! You will now need to sign-in again with your new password.",
-            {
-              className: "toast-custom",
-            },
-          );
+          toast(passwordChangedNotification, {
+            autoClose: 5000,
+          });
           setTimeout(() => {
             handleSignOut();
             navigate("/login");
@@ -57,8 +78,8 @@ export default function ChangePasswordScreen() {
           console.log("Error changing password: ", error);
         });
     } else {
-      toast("Passwords don't match. Please try again.", {
-        className: "toast-custom",
+      toast(passwordDoesntMatchNotification, {
+        autoClose: 5000,
       });
     }
   }
@@ -66,6 +87,8 @@ export default function ChangePasswordScreen() {
   return (
     <>
       <ScrollView style={passwordStyles.full}>
+        <ToastContainer />
+
         <View style={passwordStyles.introSect}>
           <View
             style={{
@@ -160,8 +183,6 @@ export default function ChangePasswordScreen() {
               }}
               onPress={changePassword}
             >
-              <ToastContainer />
-
               <Text
                 style={{
                   fontSize: 20,

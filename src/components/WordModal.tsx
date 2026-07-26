@@ -9,6 +9,7 @@ import WordReaderWriter from "../services/WordReaderWriter";
 import { languages } from "../constants/ProjectConstants";
 import wordStyles from "../styles/WordStyles";
 import dropdownStyles from "../styles/DropdownStyles";
+import ChangeNotification from "./ChangeNotification";
 
 const WordModal = ({
   openModal,
@@ -36,6 +37,27 @@ const WordModal = ({
   const [workbooks, setWorkbooks] = useState<any>([]);
 
   console.log(workbookName);
+
+  function pleaseSelectBookNotification() {
+    const text = "Please select a workbook to add the word to!";
+    return <ChangeNotification text={text} />;
+  }
+
+  function workbookAlreadyExistsNotification() {
+    const text =
+      "Workbook with this name already exists. Please choose a different name.";
+    return <ChangeNotification text={text} />;
+  }
+
+  function addedWordNotification(word: string) {
+    const text =
+      "New word added!. '" +
+      word +
+      "' added to " +
+      newWorkbookName +
+      " workbook.";
+    return <ChangeNotification text={text} />;
+  }
 
   async function getEntryDetails() {
     console.log(
@@ -175,20 +197,17 @@ const WordModal = ({
 
   async function addWordToWorkbook() {
     if (bookUID == "" || bookUID === undefined) {
-      toast("Please choose a workbook to add the word to!", {
-        className: "toast-custom",
+      toast(pleaseSelectBookNotification(), {
+        autoClose: 5000,
       });
     } else if (bookUID === "0") {
       const workbookExists = workbooks.some(
         (workbook) => workbook.label === newWorkbookName,
       );
       if (workbookExists) {
-        toast(
-          "Workbook with this name already exists. Please choose a different name.",
-          {
-            className: "toast-custom",
-          },
-        );
+        toast(workbookAlreadyExistsNotification(), {
+          autoClose: 5000,
+        });
       } else {
         const newBookUID = await WorkbookReaderWriter.createWorkbook(
           newWorkbookName.trim(),
@@ -203,18 +222,9 @@ const WordModal = ({
           songName,
           false,
         );
-        toast(
-          "New word added!." +
-            '"' +
-            word +
-            '" ' +
-            "added to " +
-            newWorkbookName +
-            " workbook.",
-          {
-            className: "toast-custom",
-          },
-        );
+        toast(addedWordNotification(word), {
+          autoClose: 5000,
+        });
       }
     } else {
       const language = languages.find((l) => l.code === fromLang)?.language;
@@ -228,18 +238,9 @@ const WordModal = ({
         songName,
         false,
       );
-      toast(
-        "New word added!." +
-          '"' +
-          word +
-          '" ' +
-          "added to " +
-          newWorkbookName +
-          " workbook.",
-        {
-          className: "toast-custom",
-        },
-      );
+      toast(addedWordNotification(word), {
+        autoClose: 5000,
+      });
     }
   }
 

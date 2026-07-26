@@ -3,7 +3,6 @@ import {
   View,
   Text,
   FlatList,
-  Alert,
   Pressable,
   TextInput,
 } from "react-native";
@@ -16,10 +15,11 @@ import { PlayItem } from "../models/Types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PlayCircleFilled } from "@ant-design/icons";
 import { usePlayer } from "../context/PlayerContext";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer, ToastContentProps } from "react-toastify";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import PlaylistItem from "../components/PlaylistItem";
 import playlistStyles from "../styles/PlaylistStyles";
+import DeleteNotification from "../components/DeleteNotification";
 
 function PlaylistInfoScreen() {
   const navigate = useNavigate();
@@ -71,41 +71,23 @@ function PlaylistInfoScreen() {
   }
 
   const deletePlaylistAlert = () => {
-    toast(
-      "Are you Sure? Deleting this playlist will remove its data. It will not be retrievable once deleted.",
-      { closeButton: deleteAlertButton, className: "toast-custom" },
-    );
+    toast(deletePlaylistNotification, {
+      autoClose: 5000,
+    });
   };
 
-  const deleteAlertButton = () => {
+  function deletePlaylistNotification({ closeToast }: ToastContentProps) {
     return (
-      <>
-        <button
-          onClick={() => console.log("Cancel Pressed")}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-          style={{
-            width: 200,
-            marginRight: 5,
-            marginLeft: 10,
-            borderRadius: 5,
-          }}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={deletePlaylist}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-          style={{ width: 190, marginLeft: 10, borderRadius: 5 }}
-        >
-          Delete
-        </button>
-      </>
+      <DeleteNotification
+        name={"playlist"}
+        closeToast={closeToast}
+        deleteFunction={deletePlaylist}
+      />
     );
-  };
+  }
 
   function deletePlaylist() {
     PlaylistReaderWriter.deletePlaylist(playUID);
-    Alert.alert("Playlist deleted!");
     navigate("/home");
   }
 
@@ -122,7 +104,6 @@ function PlaylistInfoScreen() {
       <View style={playlistStyles.background}>
         <ToastContainer />
 
-        {/* Header */}
         <View style={playlistStyles.header}>
           <View style={playlistStyles.controlsLocation}>
             <Pressable
@@ -156,7 +137,6 @@ function PlaylistInfoScreen() {
           </View>
         </View>
 
-        {/* Search */}
         <View style={playlistStyles.searchBar}>
           <TextInput
             style={playlistStyles.searchInput}
@@ -174,7 +154,6 @@ function PlaylistInfoScreen() {
           />
         </View>
 
-        {/* Description */}
         {description ? (
           <View style={playlistStyles.descLocation}>
             <View style={playlistStyles.sectionHeader}>
@@ -191,7 +170,6 @@ function PlaylistInfoScreen() {
           </View>
         ) : null}
 
-        {/* Songs section */}
         <View style={playlistStyles.sectionHeader}>
           <Text style={playlistStyles.sectionLabel}>Songs</Text>
           <View style={playlistStyles.sectionLabelLine} />
@@ -227,7 +205,6 @@ function PlaylistInfoScreen() {
           </Text>
         )}
 
-        {/* Add Song */}
         <Pressable
           onPress={() => navigate("/Search")}
           style={playlistStyles.addSongBtn}

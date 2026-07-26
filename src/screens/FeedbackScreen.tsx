@@ -1,23 +1,34 @@
-import { Text, View, Pressable, TextInput, ScrollView, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  Pressable,
+  TextInput,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { useState } from "react";
 import FeedbackReaderWriter from "../services/FeedbackReaderWriter";
 import blueLogo from "../assets/blue_small.png";
 import { toast, ToastContainer } from "react-toastify";
 import LyraquistHeader from "../components/LyraquistHeader";
 import aboutStyles from "../styles/AboutStyles";
+import ChangeNotification from "../components/ChangeNotification";
 
 export default function FeedbackScreen() {
   const [feedback, setFeedback] = useState<string>("");
   const windowHeight = Dimensions.get("window").height;
-  
+
+  function feedbackSubmittedNotification() {
+    const text =
+      "Feedback successfully submitted! Thank you for helping to make Lyraquist better!";
+    return <ChangeNotification text={text} />;
+  }
+
   async function submitFeedback() {
     await FeedbackReaderWriter.writeUserFeedback(feedback.trim()).then(() =>
-      toast(
-        "Feedback successfully submitted! Thank you for helping to make Lyraquist better!",
-        {
-          className: "toast-custom",
-        },
-      ),
+      toast(feedbackSubmittedNotification(), {
+        autoClose: 5000,
+      }),
     );
     setFeedback("");
   }

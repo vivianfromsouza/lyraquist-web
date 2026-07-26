@@ -54,7 +54,6 @@ export const constructAccessUrl = async () => {
   // Generate code verifier and challenge
   const codeVerifier = localStorage.getItem("code_verifier");
   const authCode = await TokenReaderWriter.getAuthToken();
-  //const authCode = localStorage.getItem("auth_code");
   const accessUrl = new URL(tokenEndpoint);
 
   if (authCode != null && codeVerifier != null) {
@@ -144,7 +143,6 @@ export const refresh = async (refreshToken: string) => {
     },
     data: {},
   })
-    // Handle the response from backend here
     .then((res) => {
       TokenReaderWriter.writeAccessToken(res.data.access_token);
       TokenReaderWriter.writeRefreshToken(res.data.refresh_token);
@@ -152,11 +150,13 @@ export const refresh = async (refreshToken: string) => {
       TokenReaderWriter.writeTimeTokenTaken(new Date().toISOString());
     })
 
-    // Catch errors if any
     .catch((err) => {
       if (err.response.status == 503) {
         toast(
           "There was a server side issue. \nSpotify services may be down or the server cannot handle the request load. Please refrain from pressing buttons repeatedly in quick sucession.",
+          {
+            className: "toast-custom",
+          },
         );
       } else if (err.response.error.error == "invalid_grant") {
         // need to reauthorize
@@ -171,14 +171,19 @@ export const refresh = async (refreshToken: string) => {
             ),
             React.createElement(
               "button",
-              { onClick: redirectToSpotifyAuthorize, style: { marginTop: "8px", display: "block" } },
+              {
+                onClick: redirectToSpotifyAuthorize,
+                style: { marginTop: "8px", display: "block" },
+              },
               "Re-authenticate with Spotify",
             ),
           ),
-          { autoClose: false },
+          { autoClose: false, className: "toast-custom" },
         );
       } else {
-        toast("Error! refresh did not work" + err.message);
+        toast("Error! refresh did not work" + err.message, {
+          className: "toast-custom",
+        });
       }
       console.log(err.status);
     });
@@ -195,13 +200,6 @@ export const getRefreshURL = (refreshToken): string => {
 
   refreshURL.search = new URLSearchParams(params).toString();
   return refreshURL.toString();
-
-  // return (
-  //   "https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=" +
-  //   refreshToken +
-  //   "&client_id=" +
-  //   clientId
-  // );
 };
 
 export const checkRefreshNeeded = async (currTime: Date): Promise<string> => {
