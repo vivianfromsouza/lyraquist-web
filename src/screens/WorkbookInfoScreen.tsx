@@ -4,7 +4,6 @@ import {
   View,
   Text,
   FlatList,
-  Alert,
   Pressable,
   TextInput,
   ActivityIndicator,

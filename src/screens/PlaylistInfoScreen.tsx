@@ -3,7 +3,6 @@ import {
   View,
   Text,
   FlatList,
-  Alert,
   Pressable,
   TextInput,
 } from "react-native";

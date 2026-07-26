@@ -13,7 +13,7 @@ import { ImageSourcePropType } from "react-native";
 import redLogo from "../assets/red_small.png";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer, ToastContentProps } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import passwordStyles from "../styles/ChangePassword";
 import ChangeNotification from "../components/ChangeNotification";

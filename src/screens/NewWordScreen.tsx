@@ -5,7 +5,6 @@ import {
   Text,
   Pressable,
   TextInput,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 import PsychologyIcon from "@mui/icons-material/Psychology";

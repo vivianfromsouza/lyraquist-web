@@ -32,6 +32,7 @@ export default function AccountSettings() {
 
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
+  console.log(name);
 
   useEffect(() => {
     try {

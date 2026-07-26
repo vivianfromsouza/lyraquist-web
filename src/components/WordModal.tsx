@@ -213,6 +213,15 @@ const WordModal = ({
           newWorkbookName.trim(),
           "",
         );
+        WordReaderWriter.addWord(
+          word,
+          translation,
+          newBookUID,
+          fromLang,
+          pos,
+          songName,
+          false,
+        );
         toast(addedWordNotification(word), {
           autoClose: 5000,
         });
