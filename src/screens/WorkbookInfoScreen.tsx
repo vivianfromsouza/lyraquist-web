@@ -111,7 +111,6 @@ function WorkbookInfoScreen() {
         <View style={workbookStyles.background}>
           <ToastContainer />
 
-          {/* Header */}
           <View style={workbookStyles.header}>
             <View style={workbookStyles.close}>
               <View style={workbookStyles.closeLocation}>
@@ -144,7 +143,6 @@ function WorkbookInfoScreen() {
             </View>
           </View>
 
-          {/* Search */}
           <View style={workbookStyles.searchBar}>
             <TextInput
               style={workbookStyles.searchInput}
@@ -162,7 +160,6 @@ function WorkbookInfoScreen() {
             />
           </View>
 
-          {/* Description */}
           {description ? (
             <View style={workbookStyles.descLocation}>
               <View style={workbookStyles.sectionHeader}>
@@ -179,7 +176,6 @@ function WorkbookInfoScreen() {
             </View>
           ) : null}
 
-          {/* Words section */}
           <View style={workbookStyles.sectionHeader}>
             <Text style={workbookStyles.sectionLabel}>Words</Text>
             <View style={workbookStyles.sectionLabelLine} />

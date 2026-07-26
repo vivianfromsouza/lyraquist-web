@@ -106,7 +106,6 @@ function PlaylistInfoScreen() {
       <View style={playlistStyles.background}>
         <ToastContainer />
 
-        {/* Header */}
         <View style={playlistStyles.header}>
           <View style={playlistStyles.controlsLocation}>
             <Pressable
@@ -140,7 +139,6 @@ function PlaylistInfoScreen() {
           </View>
         </View>
 
-        {/* Search */}
         <View style={playlistStyles.searchBar}>
           <TextInput
             style={playlistStyles.searchInput}
@@ -158,7 +156,6 @@ function PlaylistInfoScreen() {
           />
         </View>
 
-        {/* Description */}
         {description ? (
           <View style={playlistStyles.descLocation}>
             <View style={playlistStyles.sectionHeader}>
@@ -175,7 +172,6 @@ function PlaylistInfoScreen() {
           </View>
         ) : null}
 
-        {/* Songs section */}
         <View style={playlistStyles.sectionHeader}>
           <Text style={playlistStyles.sectionLabel}>Songs</Text>
           <View style={playlistStyles.sectionLabelLine} />
@@ -211,7 +207,6 @@ function PlaylistInfoScreen() {
           </Text>
         )}
 
-        {/* Add Song */}
         <Pressable
           onPress={() => navigate("/Search")}
           style={playlistStyles.addSongBtn}

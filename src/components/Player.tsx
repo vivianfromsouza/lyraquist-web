@@ -210,7 +210,7 @@ const Player = () => {
       });
     }
   }
-  
+
   useEffect(() => {
     getAuthCode();
     getAccessCode();
@@ -427,14 +427,7 @@ const Player = () => {
                 <CloseOutlined />
               </button>
             </div>
-            <div
-              style={{
-                flex: 1,
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
+            <div style={playerStyles.panelTrackDisplay}>
               <LyricsPanel currentTrack={current_track} />
             </div>
           </div>

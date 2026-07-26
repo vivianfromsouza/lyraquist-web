@@ -95,7 +95,6 @@ const playerStyles = StyleSheet.create({
     minWidth: 28,
     textAlign: "center",
     fontFamily: "Karla",
-
   },
   lyricsButton: {
     fontWeight: "700",
@@ -126,6 +125,20 @@ const playerStyles = StyleSheet.create({
   lyricsScroll: {
     flexDirection: "row",
     justifyContent: "center",
+  },
+  lyricsClose: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    padding: "12px 20px",
+    borderBottom: "1px solid rgba(255,255,255,0.07)",
+    flexShrink: 0,
+  },
+  panelTrackDisplay: {
+    flex: 1,
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
   },
 });
 

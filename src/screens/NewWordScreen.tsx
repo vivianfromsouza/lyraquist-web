@@ -54,7 +54,6 @@ function NewWordScreen() {
 
   return (
     <SafeAreaView style={newBookStyles.container}>
-      {/* Header */}
       <View style={newBookStyles.header}>
         <View style={newBookStyles.titleLocation}>
           <TouchableOpacity
@@ -68,7 +67,6 @@ function NewWordScreen() {
         <Text style={newBookStyles.headerSubtitle}>Workbook: {name}</Text>
       </View>
 
-      {/* Section: Word Details */}
       <View style={newBookStyles.sectionHeader}>
         <Text style={newBookStyles.sectionLabel}>Word Details</Text>
         <View style={newBookStyles.sectionLabelLine} />

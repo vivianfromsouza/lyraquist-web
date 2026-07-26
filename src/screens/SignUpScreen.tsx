@@ -245,7 +245,6 @@ export default function SignUpScreen() {
         through music
       </Text>
 
-      {/* Profile Details */}
       <View style={signupStyles.sectionHeader}>
         <Text style={signupStyles.sectionLabel}>Profile Details</Text>
         <View style={signupStyles.sectionLabelLine} />
@@ -317,7 +316,6 @@ export default function SignUpScreen() {
         </View>
       </View>
 
-      {/* Password */}
       <View style={signupStyles.sectionHeader}>
         <Text style={signupStyles.sectionLabel}>Password</Text>
         <View style={signupStyles.sectionLabelLine} />
@@ -389,7 +387,6 @@ export default function SignUpScreen() {
         </View>
       </View>
 
-      {/* Preferred Language */}
       <View style={[signupStyles.sectionHeader, { zIndex: 10001 }]}>
         <Text style={signupStyles.sectionLabel}>Preferred Language</Text>
         <View style={signupStyles.sectionLabelLine} />
@@ -415,7 +412,6 @@ export default function SignUpScreen() {
         />
       </View>
 
-      {/* Target Language */}
       <View style={[signupStyles.sectionHeader, { zIndex: 10000 }]}>
         <Text style={signupStyles.sectionLabel}>Target Language</Text>
         <View style={signupStyles.sectionLabelLine} />
