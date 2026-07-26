@@ -15,11 +15,22 @@ import {
   redirectToSpotifyAuthorize,
 } from "../services/spotifyAuth";
 import loginStyles from "../styles/LoginStyles";
+import ChangeNotification from "../components/ChangeNotification";
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+
+  function invalidSigninNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Could not sign-in. Incorrect credentials. Please re-check your email address and/or password and try again."
+        }
+      />
+    );
+  }
 
   const handleLyraquistLogIn = async (event: {
     preventDefault: () => void;
@@ -38,12 +49,9 @@ const LoginScreen: React.FC = () => {
           const errorMessage = error.message;
           console.log(errorMessage);
           if (error.message.toString().includes("invalid")) {
-            toast(
-              "Could not sign-in. Incorrect credentials. Please re-check your email address and/or password and try again.",
-              {
-                className: "toast-custom",
-              },
-            );
+            toast(invalidSigninNotification, {
+              autoClose: 5000,
+            });
           }
         });
     }

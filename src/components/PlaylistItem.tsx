@@ -2,7 +2,6 @@ import { Text, View, Image, Pressable } from "react-native";
 import { usePlayer } from "../context/PlayerContext";
 import RecordReaderWriter from "../services/RecordReaderWriter";
 import FeatherIcon from "feather-icons-react";
-import { toast } from "react-toastify";
 import playlistStyles from "../styles/PlaylistStyles";
 import LikeButton from "./LikeButton";
 
@@ -13,36 +12,6 @@ const PlaylistItem = ({ item, playlistURL }) => {
     console.log("Deleting song with record ID:", recordID);
     RecordReaderWriter.deleteSongFromPlaylist(recordID);
   }
-
-  const deleteSongAlert = (recordID: string | undefined) => {
-    toast(
-      "Are you Sure? This song will be removed from this playlist if deleted.",
-      {
-        closeButton: deleteSongAlertButton(recordID),
-        className: "toast-custom",
-      },
-    );
-  };
-
-  const deleteSongAlertButton = (recordID: string | undefined) => {
-    return (
-      <>
-        <button
-          onClick={() => console.log("Cancel Pressed")}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-        >
-          Cancel
-        </button>
-        <button
-          data-testid="delete-button"
-          onClick={() => deleteSongFromPlaylist(recordID)}
-          className="border border-red-500 rounded-md px-2 py-2 text-red-500 ml-auto"
-        >
-          Delete
-        </button>
-      </>
-    );
-  };
 
   return (
     <>
@@ -85,7 +54,7 @@ const PlaylistItem = ({ item, playlistURL }) => {
 
             <Pressable
               testID="delete-icon"
-              onPress={() => deleteSongAlert(item.recordID)}
+              onPress={() => deleteSongFromPlaylist(item.recordID)}
               style={playlistStyles.playlistDeleteIcon}
             >
               <FeatherIcon icon="x-circle" />

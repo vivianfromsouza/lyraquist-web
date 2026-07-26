@@ -13,6 +13,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { ToastContainer, toast } from "react-toastify";
+import ChangeNotification from "../components/ChangeNotification";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { dropdownLanguages } from "../constants/ProjectConstants";
@@ -61,6 +62,94 @@ export default function SignUpScreen() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  function missingFieldsNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Error: Name, email, password, preferred language, and target language fields are required. Please check these fields and try again"
+        }
+      />
+    );
+  }
+
+  function termsNotAgreedNotification() {
+    return (
+      <ChangeNotification
+        text={"Error: Please agree to Terms and Conditions."}
+      />
+    );
+  }
+
+  function emailMismatchNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Couldn't create account. Email and confirm email field don't match. Please try again."
+        }
+      />
+    );
+  }
+
+  function passwordMismatchNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Couldn't create account. Passwords don't match. Please try again."
+        }
+      />
+    );
+  }
+
+  function sameLanguageNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Preferred and target language cannot be the same. Please try again."
+        }
+      />
+    );
+  }
+
+  function accountCreatedNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Account successfully created! Login and continue to connct your Spotify account."
+        }
+      />
+    );
+  }
+
+  function invalidEmailNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Could not make account. Please re-check your email address and try again."
+        }
+      />
+    );
+  }
+
+  function weakPasswordNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "Invalid Password. Make sure your password is 6+ characters long."
+        }
+      />
+    );
+  }
+
+  function emailAlreadyInUseNotification() {
+    return (
+      <ChangeNotification
+        text={
+          "User profile already exists. Please log-in with your existing account."
+        }
+      />
+    );
+  }
+
   async function signUp() {
     if (
       name == null ||
@@ -74,37 +163,25 @@ export default function SignUpScreen() {
       targetLanguage == null ||
       targetLanguage.trim() == ""
     ) {
-      toast(
-        "Error: Name, email, password,preferred language, and target language fields are required. Please check these fields and try again",
-        {
-          className: "toast-custom",
-        },
-      );
+      toast(missingFieldsNotification, {
+        autoClose: 5000,
+      });
     } else if (isTermsChecked != true) {
-      toast("Error: Please agree to Terms and Conditions.", {
-        className: "toast-custom",
+      toast(termsNotAgreedNotification, {
+        autoClose: 5000,
       });
     } else if (email != confirmEmail) {
-      toast(
-        "Couldn't create account. Email and confirm email field don't match. Please try again.",
-        {
-          className: "toast-custom",
-        },
-      );
+      toast(emailMismatchNotification, {
+        autoClose: 5000,
+      });
     } else if (password != confirmPassword) {
-      toast(
-        "Couldn't create account. Passwords don't match. Please try again.",
-        {
-          className: "toast-custom",
-        },
-      );
+      toast(passwordMismatchNotification, {
+        autoClose: 5000,
+      });
     } else if (targetLanguage === preferredLanguage) {
-      toast(
-        "Preferred and target language cannot be the same. Please try again.",
-        {
-          className: "toast-custom",
-        },
-      );
+      toast(sameLanguageNotification, {
+        autoClose: 5000,
+      });
     } else createProfile();
   }
 
@@ -123,12 +200,9 @@ export default function SignUpScreen() {
               targetLanguage!,
             );
 
-            toast(
-              "Account successfully created! Login and continue to connct your Spotify account.",
-              {
-                className: "toast-custom",
-              },
-            );
+            toast(accountCreatedNotification, {
+              autoClose: 5000,
+            });
             navigate("/Login", {});
           }
         })
@@ -138,31 +212,22 @@ export default function SignUpScreen() {
           console.log(errorCode);
           console.log(errorMessage);
           if (errorMessage.toString().includes("invalid-email")) {
-            toast(
-              "Could not make account. Please re-check your email address and try again.",
-              {
-                className: "toast-custom",
-              },
-            );
+            toast(invalidEmailNotification, {
+              autoClose: 5000,
+            });
           }
 
           if (errorMessage.toString().includes("weak-password")) {
             console.log("pswd too short");
-            toast(
-              "Invalid Password. Make sure your password is 6+ characters long.",
-              {
-                className: "toast-custom",
-              },
-            );
+            toast(weakPasswordNotification, {
+              autoClose: 5000,
+            });
           }
 
           if (errorMessage.toString().includes("email-already-in-use")) {
-            toast(
-              "User profile already exists. Please log-in with your existing account.",
-              {
-                className: "toast-custom",
-              },
-            );
+            toast(emailAlreadyInUseNotification, {
+              autoClose: 5000,
+            });
           }
         });
     } catch (e) {

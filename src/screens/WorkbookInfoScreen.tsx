@@ -94,7 +94,6 @@ function WorkbookInfoScreen() {
   }
 
   async function deleteWord(word) {
-    console.log("deleting word");
     await WordReaderWriter.deleteWord(word["word_id"]);
   }
 
