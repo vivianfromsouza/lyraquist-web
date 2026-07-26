@@ -55,10 +55,7 @@ export default function SettingsScreen() {
         <View>
           <LyraquistHeader title="Settings" logo={redLogo} />
 
-          <Pressable
-            onPress={() =>
-              navigate("/settings/profile", { state: "isLoggedIn" })
-            }
+          <View
             style={settingStyles.profileCard}
             accessibilityLabel="profileInfo"
             accessible={true}
@@ -83,10 +80,9 @@ export default function SettingsScreen() {
               >
                 {email}
               </Text>
-              <Text style={settingStyles.profileLink}>View Profile</Text>
             </View>
             <KeyboardArrowRightIcon />
-          </Pressable>
+          </View>
 
           <View style={settingStyles.menuCard}>
             <Pressable

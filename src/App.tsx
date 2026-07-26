@@ -23,7 +23,6 @@ import AboutPrivacy from "./screens/AboutPrivacyScreen";
 import AboutThirdPartyScreen from "./screens/AboutThirdPartyScreen";
 import AboutTermsConditionsScreen from "./screens/AboutTermsConditionsScreen";
 import AccountSettings from "./screens/AccountSettings";
-import ProfileInfoScreen from "./screens/ProfileInfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StartScreen from "./screens/StartScreen";
 import FlashcardScreen from "./screens/FlashcardsScreen";
@@ -88,7 +87,6 @@ const App: React.FC = () => {
               <Route path="/about/feedback" element={<FeedbackScreen />} />
               <Route path="/account" element={<AccountSettings />} />
               <Route path="/settings" element={<SettingsScreen />} />
-              <Route path="/settings/profile" element={<ProfileInfoScreen />} />
               <Route
                 path="/language/german"
                 element={
