@@ -22,7 +22,10 @@ import DeleteNotification from "../components/DeleteNotification";
 export default function AccountSettings() {
   const [openPref, setOpenPref] = useState(false);
   const [openTarget, setOpenTarget] = useState(false);
-  const [name, setName] = useState<string>();
+  const [name, setName] = useState<string>("");
+  const [newName, setNewName] = useState<string>("");
+  const [email, setEmail] = useState<string>();
+  const [newEmail, setNewEmail] = useState<string>("");
   const [prefLang, setPrefLang] = useState<string>();
   const [targetLang, setTargetLang] = useState<string>();
   const [newPrefLang, setNewPrefLang] = useState<any>();
@@ -32,7 +35,6 @@ export default function AccountSettings() {
 
   const navigate = useNavigate();
   const { handleSignOut } = useFirebase();
-  console.log(name);
 
   useEffect(() => {
     try {
@@ -57,6 +59,57 @@ export default function AccountSettings() {
 
   function setCurrUserValues() {
     UserReaderWriter.getUserName().then((name) => setName(name));
+    UserReaderWriter.getUserEmail().then((email) => setEmail(email));
+  }
+
+  function changeUsernameNotification() {
+    return <ChangeNotification text="Username changed successfully!" />;
+  }
+
+  function changeEmailNotification() {
+    return <ChangeNotification text="Email changed successfully!" />;
+  }
+
+  function invalidEmailNotification() {
+    return (
+      <ChangeNotification text="Invalid email address. Please check the email field and try again." />
+    );
+  }
+
+  async function changeUsername() {
+    if (newName !== undefined && newName.trim() !== "") {
+      await UserReaderWriter.writeUserName(newName.trim()).then(() => {
+        setName(newName.trim());
+        setNewName("");
+      });
+
+      toast(changeUsernameNotification, {
+        autoClose: 5000,
+      });
+    }
+  }
+
+  async function changeEmail() {
+    if (newEmail.includes("@")) {
+      await UserReaderWriter.writeUserEmail(newEmail.trim())
+        .then(() => {
+          toast(changeEmailNotification, {
+            autoClose: 5000,
+          });
+
+          setTimeout(() => {
+            handleSignOut();
+            navigate("/login");
+          }, 4000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      toast(invalidEmailNotification, {
+        autoClose: 5000,
+      });
+    }
   }
 
   async function changePassword() {
@@ -146,6 +199,81 @@ export default function AccountSettings() {
             </Text>
           </View>
         </View>
+
+        {/* Username */}
+        <View style={settingStyles.sectionHeader}>
+          <Text style={settingStyles.sectionLabel}>Username</Text>
+          <View style={settingStyles.sectionLabelLine} />
+        </View>
+        <View style={settingStyles.card}>
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>Current Name</Text>
+            <Text
+              style={settingStyles.cardValue}
+              accessibilityLabel="currentName"
+              accessible={true}
+              numberOfLines={1}
+            >
+              {name}
+            </Text>
+          </View>
+          <View style={settingStyles.cardDivider} />
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>New Name</Text>
+            <TextInput
+              placeholder="Type here"
+              value={newName}
+              onChangeText={setNewName}
+              autoCapitalize="none"
+              inputMode="text"
+              style={settingStyles.cardInput}
+              accessibilityLabel="nameInput"
+              accessible={true}
+            />
+          </View>
+        </View>
+        <Pressable
+          style={settingStyles.actionBtn}
+          onPress={changeUsername}
+          accessibilityLabel="changeName"
+          accessible={true}
+        >
+          <Text style={settingStyles.actionBtnText}>Change Name</Text>
+        </Pressable>
+
+        {/* Email */}
+        <View style={settingStyles.sectionHeader}>
+          <Text style={settingStyles.sectionLabel}>Email</Text>
+          <View style={settingStyles.sectionLabelLine} />
+        </View>
+        <View style={settingStyles.card}>
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>Current Email</Text>
+            <Text
+              numberOfLines={1}
+              style={settingStyles.cardValue}
+              accessibilityLabel="currentEmail"
+              accessible={true}
+            >
+              {email}
+            </Text>
+          </View>
+          <View style={settingStyles.cardDivider} />
+          <View style={settingStyles.cardRow}>
+            <Text style={settingStyles.cardLabel}>New Email</Text>
+            <TextInput
+              placeholder="Type here"
+              value={newEmail}
+              onChangeText={setNewEmail}
+              autoCapitalize="none"
+              inputMode="email"
+              style={settingStyles.cardInput}
+            />
+          </View>
+        </View>
+        <Pressable style={settingStyles.actionBtn} onPress={changeEmail}>
+          <Text style={settingStyles.actionBtnText}>Change Email</Text>
+        </Pressable>
 
         {/* Password */}
         <View style={settingStyles.sectionHeader}>
