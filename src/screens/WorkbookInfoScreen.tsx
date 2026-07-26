@@ -20,7 +20,7 @@ import FeatherIcon from "feather-icons-react";
 
 import WordReaderWriter from "../services/WordReaderWriter";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
-import { SearchOutline, ArrowBackOutline, Close } from "react-ionicons";
+import { SearchOutline, ArrowBackOutline } from "react-ionicons";
 import { useLocation, useNavigate } from "react-router-dom";
 import workbookStyles from "../styles/WorkbookStyles";
 import { toast, ToastContainer, ToastContentProps } from "react-toastify";
