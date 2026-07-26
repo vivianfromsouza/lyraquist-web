@@ -89,7 +89,6 @@ function WorkbookInfoScreen() {
 
   function deleteWorkbook() {
     WorkbookReaderWriter.deleteWorkbook(bookUID);
-    Alert.alert("Workbook deleted!");
     navigate(-1);
   }
 

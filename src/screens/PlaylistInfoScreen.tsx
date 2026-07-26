@@ -89,7 +89,6 @@ function PlaylistInfoScreen() {
 
   function deletePlaylist() {
     PlaylistReaderWriter.deletePlaylist(playUID);
-    Alert.alert("Playlist deleted!");
     navigate("/home");
   }
 

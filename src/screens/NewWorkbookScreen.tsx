@@ -21,6 +21,8 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { useNavigate } from "react-router-dom";
 import newBookStyles from "../styles/NewBookStyles";
+import ChangeNotification from "../components/ChangeNotification";
+import { toast, ToastContainer } from "react-toastify";
 
 function NewWorkbookScreen() {
   const [newWorkbookName, setNewWorkbookName] = useState<string>("");
@@ -32,23 +34,41 @@ function NewWorkbookScreen() {
   const [addWord, setAddWord] = useState(false);
   const navigate = useNavigate();
 
+  function workbookAlreadyExistsNotification() {
+    const text =
+      "A workbook with this name already exists. Please choose a different name.";
+    return <ChangeNotification text={text} />;
+  }
+
+  function workbookAddedNotification() {
+    const text = "Workbook added successfully!";
+    return <ChangeNotification text={text} />;
+  }
+
+  function addTranslationNotfication() {
+    const text = "Please add a translation to add a word to the workbook.";
+    return <ChangeNotification text={text} />;
+  }
+
   async function createWorkbook() {
     const workbooks = await WorkbookReaderWriter.getWorkbooks();
     if (newWorkbookName !== undefined && newWorkbookName.trim() !== "") {
       const workbookExists = workbooks.some(
-        (workbook) => workbook.name === newWorkbookName
+        (workbook) => workbook.name === newWorkbookName,
       );
       if (workbookExists) {
-        Alert.alert(
-          "Workbook with this name already exists. Please choose a different name."
-        );
+        toast(workbookAlreadyExistsNotification(), {
+          autoClose: 5000,
+        });
       } else {
         WorkbookReaderWriter.createWorkbook(
           newWorkbookName.trim(),
-          description
+          description,
         );
-        navigate("/home");
-        Alert.alert("Workbook Added!");
+        toast(workbookAddedNotification(), {
+          autoClose: 5000,
+        });
+        setTimeout(() => navigate("/home"), 1500);
       }
     }
   }
@@ -57,17 +77,17 @@ function NewWorkbookScreen() {
     if (newWorkbookName !== undefined && newWorkbookName.trim() !== "") {
       const workbooks = await WorkbookReaderWriter.getWorkbooks();
       const workbookExists = workbooks.some(
-        (workbook) => workbook.name === newWorkbookName
+        (workbook) => workbook.name === newWorkbookName,
       );
       if (workbookExists) {
-        Alert.alert(
-          "Workbook with this name already exists. Please choose a different name."
-        );
+        toast(workbookAlreadyExistsNotification(), {
+          autoClose: 5000,
+        });
       } else {
         if (newWord != "" && newTranslation != "") {
           WorkbookReaderWriter.createWorkbook(
             newWorkbookName.trim(),
-            description
+            description,
           ).then((bookUID) => {
             WordReaderWriter.addWord(
               newWord,
@@ -76,16 +96,18 @@ function NewWorkbookScreen() {
               newLanguage,
               newPartOfSpeech,
               "Added by User",
-              false
+              false,
             );
           });
 
-          navigate("/home");
-          Alert.alert("Workbook created successfully!");
+          toast(workbookAddedNotification(), {
+            autoClose: 5000,
+          });
+          setTimeout(() => navigate("/home"), 1500);
         } else {
-          Alert.alert(
-            "Please add a translation to add a word to the workbook."
-          );
+          toast(addTranslationNotfication(), {
+            autoClose: 5000,
+          });
         }
       }
     }
@@ -122,6 +144,7 @@ function NewWorkbookScreen() {
 
   return (
     <SafeAreaView style={newBookStyles.container}>
+      <ToastContainer />
       <View style={newBookStyles.header}>
         <View style={newBookStyles.titleLocation}>
           <TouchableOpacity
