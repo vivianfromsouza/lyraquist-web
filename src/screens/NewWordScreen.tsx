@@ -4,18 +4,14 @@ import {
   View,
   Text,
   Pressable,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
-import PsychologyIcon from "@mui/icons-material/Psychology";
-import LanguageIcon from "@mui/icons-material/Language";
-import TranslateIcon from "@mui/icons-material/Translate";
-import AbcIcon from "@mui/icons-material/Abc";
 import { ArrowBackOutline } from "react-ionicons";
 import WordReaderWriter from "../services/WordReaderWriter";
 import { useLocation, useNavigate } from "react-router-dom";
 import newBookStyles from "../styles/NewBookStyles";
 import ChangeNotification from "../components/ChangeNotification";
+import WordFields from "../components/WordFields";
 import { toast, ToastContainer } from "react-toastify";
 
 function NewWordScreen() {
@@ -93,50 +89,17 @@ function NewWordScreen() {
       </View>
 
       <View style={newBookStyles.inputContainer}>
-        <View style={newBookStyles.inputRow}>
-          <AbcIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-          <TextInput
-            placeholder="New Word"
-            value={newWord}
-            onChangeText={(newtext) => setNewWord(newtext)}
-            style={newBookStyles.input}
-            accessibilityLabel="newWord"
-            accessible={true}
-          />
-        </View>
-        <View style={newBookStyles.inputRow}>
-          <TranslateIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-          <TextInput
-            placeholder="Translation"
-            value={translation}
-            onChangeText={setTranslation}
-            style={newBookStyles.input}
-            accessibilityLabel="newTranslation"
-            accessible={true}
-          />
-        </View>
-        <View style={newBookStyles.inputRow}>
-          <LanguageIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-          <TextInput
-            placeholder="Language"
-            value={language}
-            onChangeText={setLanguage}
-            style={newBookStyles.input}
-            accessibilityLabel="newLanguage"
-            accessible={true}
-          />
-        </View>
-        <View style={newBookStyles.inputRow}>
-          <PsychologyIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-          <TextInput
-            placeholder="Part of Speech"
-            value={partOfSpeech}
-            onChangeText={setPartOfSpeech}
-            style={newBookStyles.input}
-            accessibilityLabel="newPartOfSpeech"
-            accessible={true}
-          />
-        </View>
+        <WordFields
+          word={newWord}
+          setWord={setNewWord}
+          translation={translation}
+          setTranslation={setTranslation}
+          language={language}
+          setLanguage={setLanguage}
+          partOfSpeech={partOfSpeech}
+          setPartOfSpeech={setPartOfSpeech}
+          wordPlaceholder="New Word"
+        />
       </View>
 
       <Pressable

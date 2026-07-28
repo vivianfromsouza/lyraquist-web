@@ -10,10 +10,6 @@ import {
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
 import { ArrowBackOutline } from "react-ionicons";
 import DescriptionIcon from "@mui/icons-material/Description";
-import PsychologyIcon from "@mui/icons-material/Psychology";
-import LanguageIcon from "@mui/icons-material/Language";
-import TranslateIcon from "@mui/icons-material/Translate";
-import AbcIcon from "@mui/icons-material/Abc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -21,6 +17,7 @@ import WordReaderWriter from "../services/WordReaderWriter";
 import { useNavigate } from "react-router-dom";
 import newBookStyles from "../styles/NewBookStyles";
 import ChangeNotification from "../components/ChangeNotification";
+import WordFields from "../components/WordFields";
 import { toast, ToastContainer } from "react-toastify";
 
 function NewWorkbookScreen() {
@@ -205,42 +202,16 @@ function NewWorkbookScreen() {
             <View style={newBookStyles.sectionLabelLine} />
           </View>
 
-          <View style={newBookStyles.wordInputContainer}>
-            <AbcIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-            <TextInput
-              placeholder="Word"
-              value={newWord}
-              onChangeText={setNewWord}
-              style={newBookStyles.input}
-            />
-          </View>
-          <View style={newBookStyles.wordInputContainer}>
-            <TranslateIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-            <TextInput
-              placeholder="Translation"
-              value={newTranslation}
-              onChangeText={setNewTranslation}
-              style={newBookStyles.input}
-            />
-          </View>
-          <View style={newBookStyles.wordInputContainer}>
-            <LanguageIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-            <TextInput
-              placeholder="Language"
-              value={newLanguage}
-              onChangeText={setNewLanguage}
-              style={newBookStyles.input}
-            />
-          </View>
-          <View style={newBookStyles.wordInputContainer}>
-            <PsychologyIcon style={{ color: "rgba(48,50,72,0.5)" }} />
-            <TextInput
-              placeholder="Part of Speech"
-              value={newPartOfSpeech}
-              onChangeText={setNewPartOfSpeech}
-              style={newBookStyles.input}
-            />
-          </View>
+          <WordFields
+            word={newWord}
+            setWord={setNewWord}
+            translation={newTranslation}
+            setTranslation={setNewTranslation}
+            language={newLanguage}
+            setLanguage={setNewLanguage}
+            partOfSpeech={newPartOfSpeech}
+            setPartOfSpeech={setNewPartOfSpeech}
+          />
 
           <Pressable
             onPress={() => removeWord()}
