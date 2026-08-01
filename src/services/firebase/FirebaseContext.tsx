@@ -4,6 +4,7 @@ import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "./LocalFirebaseClient";
 import { useLocalStorage } from "usehooks-ts";
 import { clearLocalSession } from "../spotifyAuth";
+import { pausePlayer } from "../../api/spotify";
 
 interface FirebaseContextType {
   currentUser: string | undefined;
@@ -11,7 +12,7 @@ interface FirebaseContextType {
 }
 
 const FirebaseContext = createContext<FirebaseContextType | undefined>(
-  undefined
+  undefined,
 );
 const auth = getAuth(LocalFirebaseClient);
 
@@ -25,6 +26,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({
   function handleSignOut() {
     signOut(auth)
       .then(() => {
+        pausePlayer();
         clearLocalSession();
         setValue("false");
         console.log("SIGNED OUT", value);

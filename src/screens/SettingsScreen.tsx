@@ -4,8 +4,6 @@ import UserReaderWriter from "../services/UserReaderWriter";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useNavigate } from "react-router-dom";
 import redLogo from "../assets/red_small.png";
-import axios from "axios";
-import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 import { useFirebase } from "../services/firebase/FirebaseContext";
 import settingStyles from "../styles/SettingStyles";
 import LyraquistHeader from "../components/LyraquistHeader";
@@ -15,26 +13,6 @@ export default function SettingsScreen() {
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const { handleSignOut } = useFirebase();
-
-  function logout() {
-    handleSignOut();
-
-    TokenReaderWriter.getAccessToken().then((accessCode) => {
-      axios({
-        url: "https://api.spotify.com/v1/me/player/pause",
-        method: "PUT",
-        headers: {
-          authorization: "Bearer " + accessCode,
-        },
-      })
-        .then(async (res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          return err;
-        });
-    });
-  }
 
   function setCurrUserName() {
     UserReaderWriter.getUserName().then((name) => setName(name));
@@ -105,7 +83,7 @@ export default function SettingsScreen() {
           </View>
 
           <View style={settingStyles.logOutContainer}>
-            <Pressable onPress={logout}>
+            <Pressable onPress={() => handleSignOut()}>
               <Text
                 style={settingStyles.logOut}
                 accessibilityLabel="logOut"

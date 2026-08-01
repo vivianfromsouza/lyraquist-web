@@ -1,10 +1,11 @@
 import axios from "axios";
+import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 
 axios.defaults.baseURL = "https://api.spotify.com/v1";
 
 export const searchSpotify = async (
   accessToken: string,
-  searchQuery: string
+  searchQuery: string,
 ) => {
   try {
     const response = await axios.get("/search", {
@@ -55,7 +56,7 @@ export const getAlbum = async (accessToken: string, album_id: string) => {
 export const createPlaylist = async (
   accessToken: string,
   user_id: string,
-  playlistData: { name: string; description: string; public: boolean }
+  playlistData: { name: string; description: string; public: boolean },
 ) => {
   try {
     const response = await axios.post(
@@ -65,7 +66,7 @@ export const createPlaylist = async (
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     return response.data;
@@ -77,7 +78,7 @@ export const createPlaylist = async (
 export const addItemsToPlaylist = async (
   accessToken: string,
   playlist_id: string,
-  itemsData: { uris: string[]; position?: string }
+  itemsData: { uris: string[]; position?: string },
 ) => {
   try {
     const response = await axios.post(
@@ -87,11 +88,29 @@ export const addItemsToPlaylist = async (
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     return response.data;
   } catch (error) {
     console.error("Error adding items to playlist:", error);
   }
+};
+
+export const pausePlayer = async () => {
+  TokenReaderWriter.getAccessToken().then((accessCode) => {
+    axios({
+      url: "https://api.spotify.com/v1/me/player/pause",
+      method: "PUT",
+      headers: {
+        authorization: "Bearer " + accessCode,
+      },
+    })
+      .then(async (res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        return err;
+      });
+  });
 };
