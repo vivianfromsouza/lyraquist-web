@@ -8,6 +8,7 @@ import {
   SearchOutlined,
   ArrowRightOutlined,
   SettingOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { useFirebase } from "../services/firebase/FirebaseContext";
@@ -43,7 +44,7 @@ const HomeScreen: React.FC = () => {
   const [workbooksList, setWorkbooksList] = useState<any[] | null>([]);
   const [loadingScreen, setLoadingScreen] = useState(false); // only one that you set it to false initially
 
-  const { currentUser } = useFirebase();
+  const { currentUser, handleSignOut } = useFirebase();
   const navigate = useNavigate();
 
   function getUsername() {
@@ -237,6 +238,12 @@ const HomeScreen: React.FC = () => {
                   accessibilityLabel="settings"
                 >
                   <SettingOutlined style={homeStyles.settingIcon} size={100} />
+                </Pressable>
+                <Pressable
+                  onPress={() => handleSignOut()}
+                  accessibilityLabel="logOut"
+                >
+                  <LogoutOutlined style={homeStyles.settingIcon} size={100} />
                 </Pressable>
               </View>
             </View>
