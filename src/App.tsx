@@ -49,7 +49,16 @@ const PrivateRoutes = () => {
     return unsubscribe;
   }, []);
 
-  return user ? <Outlet /> : <Navigate to="/login" />;
+  // Player is only mounted once the user has reached an authenticated route
+  // (e.g. after landing on /home), not while still on /login or /signUp -
+  // otherwise it renders its loading spinner before Spotify is connected.
+  return user ? (
+    <PlayerProvider isAuthenticated={true}>
+      <Outlet />
+    </PlayerProvider>
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 const App: React.FC = () => {
@@ -67,108 +76,108 @@ const App: React.FC = () => {
 
   return (
     <FirebaseProvider>
-      <PlayerProvider isAuthenticated={user !== null}>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<PrivateRoutes />}>
-              <Route path="/home" element={<HomeScreen />} />
-              {/* <Route path="/play" element={<PlaybackScreen />} /> */}
-              <Route path="/about" element={<AboutScreen />} />
-              <Route path="/about/welcome" element={<AboutUsScreen />} />
-              <Route path="/about/privacy" element={<AboutPrivacy />} />
-              <Route
-                path="/about/terms"
-                element={<AboutTermsConditionsScreen />}
-              />
-              <Route
-                path="/about/third-party"
-                element={<AboutThirdPartyScreen />}
-              />
-              <Route path="/about/feedback" element={<FeedbackScreen />} />
-              <Route path="/account" element={<AccountSettings />} />
-              <Route path="/settings" element={<SettingsScreen />} />
-              <Route
-                path="/language/german"
-                element={
-                  <LanguageScreen
-                    albumId={"6zLZxgKlwFf3C755i2Phmx"}
-                    language={"German"}
-                  />
-                }
-              />
-
-              <Route
-                path="/language/french"
-                element={
-                  <LanguageScreen
-                    albumId={"66JJFBtXNd77jLE7Cm6rGo"}
-                    language={"French"}
-                  />
-                }
-              />
-
-              <Route
-                path="/language/spanish"
-                element={
-                  <LanguageScreen
-                    albumId={"1aUgRQqdbCliLVgktVY1yG"}
-                    language={"Spanish"}
-                  />
-                }
-              />
-              <Route
-                path="/settings/reauth"
-                element={<ReauthCredentialsScreen />}
-              />
-              <Route
-                path="/settings/change-password"
-                element={<ChangePasswordScreen />}
-              />
-
-              <Route path="/language/french" element={<LanguageScreen albumId={"3eZtF5y5PJX4YpexhHC8dG"} language={"french"}/>} />
-              <Route path="/language/german" element={<LanguageScreen albumId={"6zLZxgKlwFf3C755i2Phmx"} language={"german"}/>} />
-              <Route path="/language/spanish" element={<LanguageScreen albumId={"1aUgRQqdbCliLVgktVY1yG"} language={"spanish"}/>} />
-              <Route
-                path="SearchLanguages"
-                element={<SearchLanguageScreen />}
-              />
-              <Route path="Search" element={<SearchScreen />} />
-              <Route
-                path="/workbook/flashcards"
-                element={<FlashcardScreen />}
-              />
-              <Route
-                path="/workbook/newWorkbook"
-                element={<NewWorkbookScreen />}
-              />
-              <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
-              <Route path="/workbook/newWord" element={<NewWordScreen />} />
-              {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
-              <Route path="/playlist" element={<PlaylistInfoScreen />} />
-              <Route
-                path="/playlist/addSong"
-                element={<AddSongToPlaylistScreen />}
-              />
-              <Route
-                path="/playlist/create"
-                element={<CreateNewPlaylistScreen songItem={""} />}
-              />
-
-              <Route
-                path="/play/lyrics"
-                element={<LyricsPanel currentTrack={""} />}
-              />
-            </Route>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<PrivateRoutes />}>
+            <Route path="/home" element={<HomeScreen />} />
+            {/* <Route path="/play" element={<PlaybackScreen />} /> */}
+            <Route path="/about" element={<AboutScreen />} />
+            <Route path="/about/welcome" element={<AboutUsScreen />} />
+            <Route path="/about/privacy" element={<AboutPrivacy />} />
+            <Route
+              path="/about/terms"
+              element={<AboutTermsConditionsScreen />}
+            />
+            <Route
+              path="/about/third-party"
+              element={<AboutThirdPartyScreen />}
+            />
+            <Route path="/about/feedback" element={<FeedbackScreen />} />
+            <Route path="/account" element={<AccountSettings />} />
+            <Route path="/settings" element={<SettingsScreen />} />
+            <Route
+              path="/language/german"
+              element={
+                <LanguageScreen
+                  albumId={"6zLZxgKlwFf3C755i2Phmx"}
+                  language={"German"}
+                />
+              }
+            />
 
             <Route
-              index
-              element={user !== null ? <HomeScreen /> : <StartScreen />}
+              path="/language/french"
+              element={
+                <LanguageScreen
+                  albumId={"66JJFBtXNd77jLE7Cm6rGo"}
+                  language={"French"}
+                />
+              }
             />
-            <Route path="/signUp" element={<SignUpScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
-          </Routes>
-        </BrowserRouter>
-      </PlayerProvider>
+
+            <Route
+              path="/language/spanish"
+              element={
+                <LanguageScreen
+                  albumId={"1aUgRQqdbCliLVgktVY1yG"}
+                  language={"Spanish"}
+                />
+              }
+            />
+            <Route
+              path="/settings/reauth"
+              element={<ReauthCredentialsScreen />}
+            />
+            <Route
+              path="/settings/change-password"
+              element={<ChangePasswordScreen />}
+            />
+
+            <Route path="/language/french" element={<LanguageScreen albumId={"3eZtF5y5PJX4YpexhHC8dG"} language={"french"}/>} />
+            <Route path="/language/german" element={<LanguageScreen albumId={"6zLZxgKlwFf3C755i2Phmx"} language={"german"}/>} />
+            <Route path="/language/spanish" element={<LanguageScreen albumId={"1aUgRQqdbCliLVgktVY1yG"} language={"spanish"}/>} />
+            <Route
+              path="SearchLanguages"
+              element={<SearchLanguageScreen />}
+            />
+            <Route path="Search" element={<SearchScreen />} />
+            <Route
+              path="/workbook/flashcards"
+              element={<FlashcardScreen />}
+            />
+            <Route
+              path="/workbook/newWorkbook"
+              element={<NewWorkbookScreen />}
+            />
+            <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
+            <Route path="/workbook/newWord" element={<NewWordScreen />} />
+            {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
+            <Route path="/playlist" element={<PlaylistInfoScreen />} />
+            <Route
+              path="/playlist/addSong"
+              element={<AddSongToPlaylistScreen />}
+            />
+            <Route
+              path="/playlist/create"
+              element={<CreateNewPlaylistScreen songItem={""} />}
+            />
+
+            <Route
+              path="/play/lyrics"
+              element={<LyricsPanel currentTrack={""} />}
+            />
+          </Route>
+
+          <Route
+            index
+            element={
+              user !== null ? <Navigate to="/home" /> : <StartScreen />
+            }
+          />
+          <Route path="/signUp" element={<SignUpScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+        </Routes>
+      </BrowserRouter>
     </FirebaseProvider>
   );
 };

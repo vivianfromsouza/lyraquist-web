@@ -1,10 +1,15 @@
 import { getDatabase, ref, get, update} from "firebase/database";
 
 const db = getDatabase();
-const userId = localStorage.getItem("userId");
+// Read fresh on every call instead of caching at module scope - this module
+// stays loaded for the lifetime of the browser tab, so a cached value would
+// keep pointing at whichever account was signed in when the app first loaded,
+// even after a different user signs up or logs in later in the same tab.
+const getUserId = () => localStorage.getItem("userId");
 
 const TokenReaderWriter = {
     async writeAccessToken(accessToken: string) {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         await update(nodeRef, {
             accessToken: accessToken,
@@ -17,6 +22,7 @@ const TokenReaderWriter = {
         });
     },
     async getAccessToken() {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         try {
             const snapshot = await get(nodeRef);
@@ -33,6 +39,7 @@ const TokenReaderWriter = {
           }
     },
     async writeAuthToken(authToken: string) {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         await update(nodeRef, {
             authToken: authToken,
@@ -45,6 +52,7 @@ const TokenReaderWriter = {
         });
     },
     async getAuthToken() {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         try {
             const snapshot = await get(nodeRef);
@@ -61,6 +69,7 @@ const TokenReaderWriter = {
           }
     },
     async writeRefreshToken(refreshToken: string) {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         await update(nodeRef, {
             refreshToken: refreshToken,
@@ -73,6 +82,7 @@ const TokenReaderWriter = {
         });
     },
     async getRefreshToken() {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         try {
             const snapshot = await get(nodeRef);
@@ -89,6 +99,7 @@ const TokenReaderWriter = {
           }
     },
     async writeTimeTokenTaken(timeTokenTaken: string) {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         await update(nodeRef, {
             timeTokenTaken: timeTokenTaken,
@@ -101,6 +112,7 @@ const TokenReaderWriter = {
         });
     },
     async getTimeTokenTaken() {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         try {
             const snapshot = await get(nodeRef);
@@ -117,6 +129,7 @@ const TokenReaderWriter = {
           }
     },
      async writeTimeRefreshTaken(timeTokenTaken: string) {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         await update(nodeRef, {
             timeRefreshTaken: timeTokenTaken,
@@ -129,6 +142,7 @@ const TokenReaderWriter = {
         });
     },
     async getTimeRefreshTaken() {
+        const userId = getUserId();
         const nodeRef = ref(db, "tokens/" + userId); //   Specify the node path
         try {
             const snapshot = await get(nodeRef);

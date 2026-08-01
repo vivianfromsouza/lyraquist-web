@@ -51,7 +51,7 @@ const WordModal = ({
 
   function addedWordNotification(word: string) {
     const text =
-      "New word added!. '" +
+      "New word added! '" +
       word +
       "' added to " +
       newWorkbookName +

@@ -21,6 +21,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import LyraquistHeader from "../components/LyraquistHeader";
 import signupStyles from "../styles/SignupStyles";
 import dropdownStyles from "../styles/DropdownStyles";
+import { clearLocalSession } from "../services/spotifyAuth";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 6;
@@ -187,6 +188,11 @@ export default function SignUpScreen() {
 
   const createProfile = () => {
     try {
+      // Clear any state left behind by a previously signed-in account in
+      // this browser tab before creating the new one, so the new account
+      // doesn't inherit the old account's cached Spotify session.
+      clearLocalSession();
+
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {

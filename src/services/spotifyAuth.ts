@@ -217,4 +217,13 @@ export const checkRefreshNeeded = async (currTime: Date): Promise<string> => {
   return localStorage.getItem("needs_refresh")!;
 };
 
+export const clearLocalSession = () => {
+  localStorage.removeItem("current_user");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("code_verifier");
+  localStorage.removeItem("device_id");
+  localStorage.removeItem("needs_refresh");
+};
+
 export default base64urlencode;
