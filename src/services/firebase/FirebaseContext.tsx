@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import LocalFirebaseClient from "./LocalFirebaseClient";
 import { useLocalStorage } from "usehooks-ts";
+import { clearLocalSession } from "../spotifyAuth";
 
 interface FirebaseContextType {
   currentUser: string | undefined;
@@ -24,9 +25,8 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({
   function handleSignOut() {
     signOut(auth)
       .then(() => {
+        clearLocalSession();
         setValue("false");
-
-        localStorage.setItem("isLoggedIn", "false");
         console.log("SIGNED OUT", value);
       })
       .catch((error) => {

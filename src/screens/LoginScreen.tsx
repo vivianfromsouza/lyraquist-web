@@ -16,6 +16,7 @@ import {
 } from "../services/spotifyAuth";
 import loginStyles from "../styles/LoginStyles";
 import ChangeNotification from "../components/ChangeNotification";
+import { clearLocalSession } from "../services/spotifyAuth";
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -38,6 +39,11 @@ const LoginScreen: React.FC = () => {
     event.preventDefault();
 
     if (email && password) {
+      // Clear any state left behind by a previously signed-in account in
+      // this browser tab before starting a new session, so the Spotify
+      // player never picks up the old account's cached tokens.
+      clearLocalSession();
+
       const auth = getAuth();
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
