@@ -9,7 +9,7 @@ export default function StartScreen() {
   const navigate = useNavigate();
   
   return (
-    <body style={startStyles.container}>
+    // <body style={startStyles.container}>
       <View style={startStyles.container}>
         <View>
           <View style={startStyles.info}>
@@ -61,6 +61,6 @@ export default function StartScreen() {
           />
         </View>
       </View>
-    </body>
+    // </body>
   );
 }
