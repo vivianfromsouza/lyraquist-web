@@ -276,7 +276,7 @@ const HomeScreen: React.FC = () => {
             </View>
           </View>
 
-          <View style={homeStyles.historySect}>
+          <View style={homeStyles.homeSect}>
             <Text style={homeStyles.sectionTitle}>Tune Back In</Text>
             <ScrollView horizontal style={homeStyles.hzScroll}>
               {history!.length != 0 &&
@@ -293,7 +293,7 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <View style={homeStyles.savedSect}>
+          <View style={homeStyles.homeSect}>
             <View style={homeStyles.addToBtn}>
               <Text style={homeStyles.sectionTitle}>My Playlists</Text>
               <Pressable
@@ -322,7 +322,7 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <View style={homeStyles.savedSect}>
+          <View style={homeStyles.homeSect}>
             <Text style={homeStyles.sectionTitle}>Liked Songs</Text>
             <ScrollView horizontal style={homeStyles.hzScroll}>
               {likedSongs!.length != 0 &&

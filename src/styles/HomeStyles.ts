@@ -29,26 +29,13 @@ const homeStyles = StyleSheet.create({
     paddingBottom: 16
   },
 
-  historySect: {
+  homeSect: {
     flex: 1,
     borderRadius: 20,
     marginHorizontal: 16,
     marginBottom: 32,
     paddingBottom: 16,
     borderWidth: 1,
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-  savedSect: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    shadowColor: "#303248",
-    borderRadius: 20,
-    marginHorizontal: 16,
-    marginBottom: 32,
-    paddingBottom: 16,
-    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
     elevation: 3,

@@ -5,7 +5,7 @@ import playlistStyles from "../styles/PlaylistStyles";
 const PlaylistCard = ({ item }) => {
   const navigate = useNavigate();
   return (
-    <View style={{ marginLeft: 4 }}>
+    <View style={playlistStyles.card}>
       <Pressable
         onPress={() => navigate("/playlist", { state: item })}
         style={{ margin: 10 }}

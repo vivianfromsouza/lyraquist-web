@@ -7,8 +7,14 @@ const songStyles = StyleSheet.create({
     margin: 8,
     borderRadius: 20,
     borderWidth: 2,
+    borderColor: "#e8e1db",
+    shadowColor: "#171717",
+    elevation: 100,
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
     padding: 10,
-    elevation: 2,
+    backgroundColor: "#ffffff",
+    shadowOffset: { width: 0, height: 2 }
   },
   art: {
     width: 130,
