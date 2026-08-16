@@ -55,7 +55,7 @@ const HomeScreen: React.FC = () => {
 
   function getLanguages() {
     LanguageReaderWriter.getLanguages().then((languages) =>
-      setStarredLanguages(languages)
+      setStarredLanguages(languages),
     );
     counter += 1;
   }
@@ -102,7 +102,7 @@ const HomeScreen: React.FC = () => {
 
   function getWorkbooks() {
     WorkbookReaderWriter.getWorkbooks().then((workbooks) =>
-      setWorkbooksList(workbooks)
+      setWorkbooksList(workbooks),
     );
   }
 
@@ -131,7 +131,7 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "users" },
-            handleUserInserts
+            handleUserInserts,
           )
           .subscribe();
 
@@ -150,7 +150,7 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "languages" },
-            handleLanguageInserts
+            handleLanguageInserts,
           )
           .subscribe((status) => console.log("L:" + status));
 
@@ -166,10 +166,9 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "workbooks" },
-            handleWorkbookInserts
+            handleWorkbookInserts,
           )
           .subscribe();
-
 
         // const handlePlaylistInserts = (payload) => {
         //   getPlaylists();
@@ -197,7 +196,7 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "records" },
-            handleRecordInserts
+            handleRecordInserts,
           )
           .subscribe((status) => console.log(status));
       } catch (err) {
@@ -210,24 +209,17 @@ const HomeScreen: React.FC = () => {
     return (
       <>
         <ScrollView style={homeStyles.container}>
-        <View style={homeStyles.pageWrapper}>
           <View style={homeStyles.introSect}>
             <View style={homeStyles.searchLocation}>
               <View style={homeStyles.titleLocation}>
                 <Text
-                  style={[
-                    homeStyles.titleText,
-                    isMobile && { fontSize: 26 },
-                  ]}
+                  style={[homeStyles.titleText, isMobile && { fontSize: 26 }]}
                   accessibilityLabel="welcome"
                 >
                   Hello,
                 </Text>
                 <Text
-                  style={[
-                    homeStyles.nameText,
-                    isMobile && { fontSize: 26 },
-                  ]}
+                  style={[homeStyles.nameText, isMobile && { fontSize: 26 }]}
                   accessibilityLabel="username"
                 >
                   {username}!
@@ -256,16 +248,11 @@ const HomeScreen: React.FC = () => {
                 </Pressable>
               </View>
             </View>
-            <Text style={homeStyles.subTitleText}>
-              Let's start learning!
-            </Text>
+            <Text style={homeStyles.subTitleText}>Let's start learning!</Text>
           </View>
           <View style={homeStyles.starredLanguagesSect}>
             <Text
-              style={[
-                homeStyles.starredLangText,
-                isMobile && { fontSize: 18 },
-              ]}
+              style={[homeStyles.starredLangText, isMobile && { fontSize: 18 }]}
             >
               Starred Languages
             </Text>
@@ -293,7 +280,11 @@ const HomeScreen: React.FC = () => {
           </View>
 
           <View style={homeStyles.homeSect}>
-            <Text style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}>Tune Back In</Text>
+            <Text
+              style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+            >
+              Tune Back In
+            </Text>
             <ScrollView horizontal style={homeStyles.hzScroll}>
               {history!.length != 0 &&
                 history!.map((item: any, index: any) => (
@@ -311,7 +302,11 @@ const HomeScreen: React.FC = () => {
 
           <View style={homeStyles.homeSect}>
             <View style={homeStyles.addToBtn}>
-              <Text style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}>My Playlists</Text>
+              <Text
+                style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+              >
+                My Playlists
+              </Text>
               <Pressable
                 onPress={() => navigate("/playlist/create", {})}
                 style={homeStyles.addBtn}
@@ -339,7 +334,11 @@ const HomeScreen: React.FC = () => {
           </View>
 
           <View style={homeStyles.homeSect}>
-            <Text style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}>Liked Songs</Text>
+            <Text
+              style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+            >
+              Liked Songs
+            </Text>
             <ScrollView horizontal style={homeStyles.hzScroll}>
               {likedSongs!.length != 0 &&
                 likedSongs!.map((item, index) => (
@@ -357,7 +356,11 @@ const HomeScreen: React.FC = () => {
 
           <View style={homeStyles.workbookSect}>
             <View style={homeStyles.addToBtn}>
-              <Text style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}>Workbooks</Text>
+              <Text
+                style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+              >
+                Workbooks
+              </Text>
               <Pressable
                 onPress={() => navigate("/workbook/NewWorkbook", {})}
                 style={homeStyles.addBtn}
@@ -384,7 +387,6 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
           <View style={{ height: 180 }} />
-        </View>
         </ScrollView>
       </>
     );
