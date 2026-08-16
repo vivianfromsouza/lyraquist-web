@@ -12,12 +12,15 @@ import SearchSpotify from "../services/SearchSpotify";
 import { useNavigate } from "react-router-dom";
 import SongCard from "../components/Song";
 import searchStyles from "../styles/SearchStyles";
+import useBreakpoint from "../hooks/useBreakpoint";
 
 export default function SearchScreen() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { isMobile, isTablet } = useBreakpoint();
+  const numColumns = isMobile ? 2 : isTablet ? 4 : 7;
 
   const handleSearch = async () => {
     try {
@@ -113,10 +116,11 @@ export default function SearchScreen() {
               <View style={searchStyles.sectionLabelLine} />
             </View>
             <FlatList
+              key={numColumns}
               data={searchResults}
               keyExtractor={(item) => item.spotifyURL}
               renderItem={renderSearchResultItem}
-              numColumns={7}
+              numColumns={numColumns}
               contentContainerStyle={searchStyles.flatListContainer}
               accessibilityLabel="searchResultItem"
               accessible={true}

@@ -263,6 +263,7 @@ export default function SignUpScreen() {
     <ScrollView style={[signupStyles.container, { minHeight: windowHeight }]}>
       <LyraquistHeader title="Sign Up" logo={blueLogo} />
 
+      <View style={signupStyles.formWrapper}>
       <Text style={signupStyles.sectionTitle}>Set up your profile</Text>
       <Text style={signupStyles.sectionTxt}>
         Create an account so you can start your language learning journey
@@ -492,6 +493,7 @@ export default function SignUpScreen() {
       >
         <Text style={signupStyles.signupBtnText}>Sign Up</Text>
       </Pressable>
+      </View>
 
       <ToastContainer />
     </ScrollView>

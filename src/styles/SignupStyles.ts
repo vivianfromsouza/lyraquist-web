@@ -7,6 +7,11 @@ const signupStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e8e1db",
   },
+  formWrapper: {
+    width: "100%",
+    maxWidth: 600,
+    alignSelf: "center",
+  },
   sectionTitle: {
     marginHorizontal: 20,
     fontSize: getFontSize(25),
