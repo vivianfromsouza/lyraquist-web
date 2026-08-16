@@ -17,6 +17,7 @@ import LyricsPanel from "./LyricsToScreen";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import playerStyles from "../styles/PlayerStyles";
+import useBreakpoint from "../hooks/useBreakpoint";
 import { getAuth, User } from "firebase/auth";
 import LocalFirebaseClient from "../services/firebase/LocalFirebaseClient";
 import {
@@ -62,6 +63,8 @@ const Player = () => {
 
   const [seekPosition, setSeekPosition] = useState(0);
   const [seekDuration, setSeekDuration] = useState(0);
+
+  const { isMobile, isTablet } = useBreakpoint();
 
   console.log(accessCode);
   console.log(authCode);
@@ -434,7 +437,12 @@ const Player = () => {
         )}
         <div className="container" style={playerStyles.container}>
           <div className="main-wrapper">
-            <View style={playerStyles.wrapper}>
+            <View
+              style={[
+                playerStyles.wrapper,
+                isMobile && { paddingHorizontal: 8 },
+              ]}
+            >
               {/* Left: album art + track info */}
               <View style={playerStyles.albumText}>
                 <img
@@ -443,17 +451,29 @@ const Player = () => {
                   alt=""
                   style={playerStyles.albumCover}
                 />
-                <View style={playerStyles.trackInfo}>
-                  <div style={playerStyles.trackText}>{current_track.name}</div>
-                  <div style={playerStyles.artistText}>
-                    {current_track.artists[0].name}
-                  </div>
-                </View>
+                {!isMobile && (
+                  <View style={playerStyles.trackInfo}>
+                    <div style={playerStyles.trackText}>
+                      {current_track.name}
+                    </div>
+                    <div style={playerStyles.artistText}>
+                      {current_track.artists[0].name}
+                    </div>
+                  </View>
+                )}
               </View>
 
               {/* Center: seekbar + controls + lyrics button */}
-              <View style={playerStyles.centerGroup}>
-                <View style={playerStyles.lyricsButtonSpacer} />
+              <View
+                style={[
+                  playerStyles.centerGroup,
+                  isMobile && { paddingLeft: 0 },
+                  isTablet && { paddingLeft: 20 },
+                ]}
+              >
+                {!isMobile && !isTablet && (
+                  <View style={playerStyles.lyricsButtonSpacer} />
+                )}
                 <View style={playerStyles.seekbar}>
                   <RangeSlider
                     min={0}
@@ -490,33 +510,44 @@ const Player = () => {
                     </button>
                   </View>
                 </View>
-                <View style={playerStyles.lyricsSection}>
+                <View
+                  style={[
+                    playerStyles.lyricsSection,
+                    (isMobile || isTablet) && { marginLeft: 12 },
+                  ]}
+                >
                   <button
                     onClick={openLyrics}
-                    style={playerStyles.lyricsButton}
+                    style={
+                      isMobile
+                        ? { ...playerStyles.lyricsButton, width: "auto" }
+                        : playerStyles.lyricsButton
+                    }
                   >
-                    Open Lyrics
+                    {isMobile ? "Lyrics" : "Open Lyrics"}
                   </button>
                 </View>
               </View>
 
               {/* Right: volume */}
-              <View style={playerStyles.volume}>
-                <SoundOutlined
-                  style={{
-                    color: "rgba(232,225,219,0.5)",
-                    fontSize: 14,
-                    marginRight: 6,
-                  }}
-                />
-                <button style={volBtn} onClick={volumeDown}>
-                  <MinusOutlined />
-                </button>
-                <div style={playerStyles.volumeNum}>{volume}</div>
-                <button style={volBtn} onClick={volumeUp}>
-                  <PlusOutlined />
-                </button>
-              </View>
+              {!isMobile && (
+                <View style={playerStyles.volume}>
+                  <SoundOutlined
+                    style={{
+                      color: "rgba(232,225,219,0.5)",
+                      fontSize: 14,
+                      marginRight: 6,
+                    }}
+                  />
+                  <button style={volBtn} onClick={volumeDown}>
+                    <MinusOutlined />
+                  </button>
+                  <div style={playerStyles.volumeNum}>{volume}</div>
+                  <button style={volBtn} onClick={volumeUp}>
+                    <PlusOutlined />
+                  </button>
+                </View>
+              )}
             </View>
           </div>
         </div>

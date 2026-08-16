@@ -10,6 +10,19 @@ const playlistStyles = StyleSheet.create({
     backgroundColor: "#e8e1db",
     height: "80vh",
   },
+  card: {
+    margin: 8,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "#e8e1db",
+    shadowColor: "#171717",
+    elevation: 100,
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    padding: 5,
+    backgroundColor: "#ffffff",
+    shadowOffset: { width: 0, height: 2 }
+  },
   button: {
     backgroundColor: "#303248",
     marginVertical: 6,

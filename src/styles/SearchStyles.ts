@@ -86,7 +86,7 @@ const searchStyles = StyleSheet.create({
   },
   flatListContainer: {
     paddingHorizontal: 12,
-    paddingBottom: 20,
+    paddingBottom: 80,
   },
   placeholderTxt: {
     paddingHorizontal: 24,

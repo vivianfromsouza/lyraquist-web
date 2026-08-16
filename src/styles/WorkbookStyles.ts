@@ -244,7 +244,7 @@ const workbookStyles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "97.5%",
-    marginBottom: 20,
+    marginBottom: 60,
   },
 
   // flexDirection: "row",

@@ -10,12 +10,14 @@ const loginStyles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: 24,
   },
   info: {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginHorizontal: 100,
+    width: "100%",
+    maxWidth: 360,
   },
   circle: {
     height: 190,
@@ -38,6 +40,7 @@ const loginStyles = StyleSheet.create({
   },
   title: {
     marginTop: 5,
+    marginBottom: 20,
     fontWeight: "bold",
     color: "#303248",
     fontSize: 20,
@@ -51,12 +54,14 @@ const loginStyles = StyleSheet.create({
     borderColor: "#303248",
     borderRadius: 10,
     alignSelf: "center",
+    width: "100%",
   },
   inputPadding: {
     flexDirection: "row",
     marginVertical: 5,
     alignItems: "center",
     marginLeft: 4,
+    width: "100%",
   },
   inputTxt: {
     marginHorizontal: 10,
@@ -65,8 +70,11 @@ const loginStyles = StyleSheet.create({
     fontFamily: "Karla",
   },
   loginLocation: {
-    marginHorizontal: 590,
+    width: "100%",
+    maxWidth: 360,
+    alignSelf: "center",
     marginBottom: 90,
+    paddingHorizontal: 24,
   },
   loginBtn: {
     fontSize: 18,
@@ -74,6 +82,7 @@ const loginStyles = StyleSheet.create({
     backgroundColor: "#303248",
     color: "#e8e1db",
     padding: 10,
+    width: "100%",
     fontFamily: "Karla",
   },
   icon: {

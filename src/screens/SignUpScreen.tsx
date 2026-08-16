@@ -31,6 +31,24 @@ export default function SignUpScreen() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openTarget, setOpenTarget] = useState(false);
+
+  const handleSetOpen = (value: boolean | ((prev: boolean) => boolean)) => {
+    setOpen((prev) => {
+      const next = typeof value === "function" ? value(prev) : value;
+      if (next) setOpenTarget(false);
+      return next;
+    });
+  };
+
+  const handleSetOpenTarget = (
+    value: boolean | ((prev: boolean) => boolean),
+  ) => {
+    setOpenTarget((prev) => {
+      const next = typeof value === "function" ? value(prev) : value;
+      if (next) setOpen(false);
+      return next;
+    });
+  };
   const [name, setName] = useState<string | undefined>("");
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string | undefined>("");
@@ -245,6 +263,7 @@ export default function SignUpScreen() {
     <ScrollView style={[signupStyles.container, { minHeight: windowHeight }]}>
       <LyraquistHeader title="Sign Up" logo={blueLogo} />
 
+      <View style={signupStyles.formWrapper}>
       <Text style={signupStyles.sectionTitle}>Set up your profile</Text>
       <Text style={signupStyles.sectionTxt}>
         Create an account so you can start your language learning journey
@@ -393,7 +412,7 @@ export default function SignUpScreen() {
         </View>
       </View>
 
-      <View style={[signupStyles.sectionHeader, { zIndex: 10001 }]}>
+      <View style={signupStyles.sectionHeader}>
         <Text style={signupStyles.sectionLabel}>Preferred Language</Text>
         <View style={signupStyles.sectionLabelLine} />
       </View>
@@ -402,7 +421,9 @@ export default function SignUpScreen() {
         translated into this language and word definitions pulled for this
         language
       </Text>
-      <View style={[dropdownStyles.dropdownWrapper, { zIndex: 10001 }]}>
+      <View
+        style={[dropdownStyles.dropdownWrapper, { zIndex: open ? 2000 : 1000 }]}
+      >
         <DropDownPicker
           style={dropdownStyles.dropdownContainer}
           textStyle={dropdownStyles.dropdownText}
@@ -410,15 +431,15 @@ export default function SignUpScreen() {
           open={open}
           value={preferredLanguage}
           items={dropdownLanguages}
-          setOpen={setOpen}
+          setOpen={handleSetOpen}
           setValue={setPreferredLanguage}
           placeholder="Select a language"
-          zIndex={10001}
+          zIndex={1000}
           zIndexInverse={1000}
         />
       </View>
 
-      <View style={[signupStyles.sectionHeader, { zIndex: 10000 }]}>
+      <View style={signupStyles.sectionHeader}>
         <Text style={signupStyles.sectionLabel}>Target Language</Text>
         <View style={signupStyles.sectionLabelLine} />
       </View>
@@ -427,7 +448,12 @@ export default function SignUpScreen() {
         listen to music in your preferred language, lyrics and definitions will
         be provided in your target language.
       </Text>
-      <View style={[dropdownStyles.dropdownWrapper, { zIndex: 10000 }]}>
+      <View
+        style={[
+          dropdownStyles.dropdownWrapper,
+          { zIndex: openTarget ? 2000 : 1000 },
+        ]}
+      >
         <DropDownPicker
           style={dropdownStyles.dropdownContainer}
           textStyle={dropdownStyles.dropdownText}
@@ -435,11 +461,11 @@ export default function SignUpScreen() {
           open={openTarget}
           value={targetLanguage}
           items={dropdownLanguages}
-          setOpen={setOpenTarget}
+          setOpen={handleSetOpenTarget}
           setValue={setTargetLanguage}
           placeholder="Select a language"
-          zIndex={10000}
-          zIndexInverse={2000}
+          zIndex={1000}
+          zIndexInverse={1000}
         />
       </View>
 
@@ -467,6 +493,7 @@ export default function SignUpScreen() {
       >
         <Text style={signupStyles.signupBtnText}>Sign Up</Text>
       </Pressable>
+      </View>
 
       <ToastContainer />
     </ScrollView>

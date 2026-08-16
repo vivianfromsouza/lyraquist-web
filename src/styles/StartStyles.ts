@@ -12,7 +12,6 @@ const startStyles = StyleSheet.create({
   circle: {
     height: 190,
     width: 190,
-    marginBottom: -30,
   },
   bigCircle: {
     height: 250,
@@ -24,10 +23,10 @@ const startStyles = StyleSheet.create({
   info: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
   },
   title: {
-    marginTop: 20,
+    marginTop: 40,
+    marginBottom: 21,
     fontSize: getFontSize(30),
     fontWeight: "900",
     color: "#303248",
@@ -49,6 +48,7 @@ const startStyles = StyleSheet.create({
     backgroundColor: "#303248",
     borderRadius: 10,
     marginTop: 15,
+    marginBottom: 50
   },
   alertTxt: { flexDirection: "row", alignItems: "center" },
   signUpTxt: {

@@ -31,18 +31,20 @@ const SongCard = ({ item }) => {
             {item?.artist}
           </Text>
         </View>
-        <Pressable
-          onPress={() =>
-            navigate("/playlist/addSong", {
-              state: { item },
-            })
-          }
-          style={songStyles.addButton}
-        >
-          <PlusCircleOutlined />
-        </Pressable>
+        <View style={songStyles.iconsRow}>
+          <Pressable
+            onPress={() =>
+              navigate("/playlist/addSong", {
+                state: { item },
+              })
+            }
+            style={songStyles.addButton}
+          >
+            <PlusCircleOutlined />
+          </Pressable>
 
-        <LikeButton spotifyURL={item.spotifyURL} songDetails={item} initialLiked={item.isLiked ?? false} />
+          <LikeButton spotifyURL={item.spotifyURL} songDetails={item} initialLiked={item.isLiked ?? false} />
+        </View>
 
       </Pressable>
     </View>

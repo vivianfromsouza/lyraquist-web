@@ -31,6 +31,7 @@ import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import homeStyles from "../styles/HomeStyles";
 import LikesReaderWriter from "../services/LikesReaderWriter";
+import useBreakpoint from "../hooks/useBreakpoint";
 
 let counter = 0;
 
@@ -46,6 +47,7 @@ const HomeScreen: React.FC = () => {
 
   const { currentUser, handleSignOut } = useFirebase();
   const navigate = useNavigate();
+  const { isMobile } = useBreakpoint();
 
   function getUsername() {
     UserReaderWriter.getUserName().then((name) => setUsername(name));
@@ -53,7 +55,7 @@ const HomeScreen: React.FC = () => {
 
   function getLanguages() {
     LanguageReaderWriter.getLanguages().then((languages) =>
-      setStarredLanguages(languages)
+      setStarredLanguages(languages),
     );
     counter += 1;
   }
@@ -100,7 +102,7 @@ const HomeScreen: React.FC = () => {
 
   function getWorkbooks() {
     WorkbookReaderWriter.getWorkbooks().then((workbooks) =>
-      setWorkbooksList(workbooks)
+      setWorkbooksList(workbooks),
     );
   }
 
@@ -129,7 +131,7 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "users" },
-            handleUserInserts
+            handleUserInserts,
           )
           .subscribe();
 
@@ -148,7 +150,7 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "languages" },
-            handleLanguageInserts
+            handleLanguageInserts,
           )
           .subscribe((status) => console.log("L:" + status));
 
@@ -164,10 +166,9 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "workbooks" },
-            handleWorkbookInserts
+            handleWorkbookInserts,
           )
           .subscribe();
-
 
         // const handlePlaylistInserts = (payload) => {
         //   getPlaylists();
@@ -195,7 +196,7 @@ const HomeScreen: React.FC = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "records" },
-            handleRecordInserts
+            handleRecordInserts,
           )
           .subscribe((status) => console.log(status));
       } catch (err) {
@@ -212,13 +213,13 @@ const HomeScreen: React.FC = () => {
             <View style={homeStyles.searchLocation}>
               <View style={homeStyles.titleLocation}>
                 <Text
-                  style={homeStyles.titleText}
+                  style={[homeStyles.titleText, isMobile && { fontSize: 26 }]}
                   accessibilityLabel="welcome"
                 >
                   Hello,
                 </Text>
                 <Text
-                  style={homeStyles.nameText}
+                  style={[homeStyles.nameText, isMobile && { fontSize: 26 }]}
                   accessibilityLabel="username"
                 >
                   {username}!
@@ -247,12 +248,14 @@ const HomeScreen: React.FC = () => {
                 </Pressable>
               </View>
             </View>
-            <Text style={homeStyles.subTitleText}>
-              Let's start learning!
-            </Text>
+            <Text style={homeStyles.subTitleText}>Let's start learning!</Text>
           </View>
           <View style={homeStyles.starredLanguagesSect}>
-            <Text style={homeStyles.starredLangText}>Starred Languages</Text>
+            <Text
+              style={[homeStyles.starredLangText, isMobile && { fontSize: 18 }]}
+            >
+              Starred Languages
+            </Text>
             <Text style={homeStyles.noteText}>
               Star languages on their specific language pages for quick access
               here!
@@ -276,8 +279,12 @@ const HomeScreen: React.FC = () => {
             </View>
           </View>
 
-          <View style={homeStyles.historySect}>
-            <Text style={homeStyles.sectionTitle}>Tune Back In</Text>
+          <View style={homeStyles.homeSect}>
+            <Text
+              style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+            >
+              Tune Back In
+            </Text>
             <ScrollView horizontal style={homeStyles.hzScroll}>
               {history!.length != 0 &&
                 history!.map((item: any, index: any) => (
@@ -293,9 +300,13 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <View style={homeStyles.savedSect}>
+          <View style={homeStyles.homeSect}>
             <View style={homeStyles.addToBtn}>
-              <Text style={homeStyles.sectionTitle}>My Playlists</Text>
+              <Text
+                style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+              >
+                My Playlists
+              </Text>
               <Pressable
                 onPress={() => navigate("/playlist/create", {})}
                 style={homeStyles.addBtn}
@@ -322,8 +333,12 @@ const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <View style={homeStyles.savedSect}>
-            <Text style={homeStyles.sectionTitle}>Liked Songs</Text>
+          <View style={homeStyles.homeSect}>
+            <Text
+              style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+            >
+              Liked Songs
+            </Text>
             <ScrollView horizontal style={homeStyles.hzScroll}>
               {likedSongs!.length != 0 &&
                 likedSongs!.map((item, index) => (
@@ -341,7 +356,11 @@ const HomeScreen: React.FC = () => {
 
           <View style={homeStyles.workbookSect}>
             <View style={homeStyles.addToBtn}>
-              <Text style={homeStyles.sectionTitle}>Workbooks</Text>
+              <Text
+                style={[homeStyles.sectionTitle, isMobile && { fontSize: 18 }]}
+              >
+                Workbooks
+              </Text>
               <Pressable
                 onPress={() => navigate("/workbook/NewWorkbook", {})}
                 style={homeStyles.addBtn}
