@@ -57,7 +57,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useFirebase = () => {
   const context = useContext(FirebaseContext);
   if (!context) {
-    throw new Error("usePlayer must be used within a PlayerProvider");
+    throw new Error("useFirebase must be used within a FirebaseProvider");
   }
   return context;
 };
