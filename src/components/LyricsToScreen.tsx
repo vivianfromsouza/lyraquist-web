@@ -40,15 +40,13 @@ export default function LyricsToScreen({ currentTrack }) {
   async function getLyrics() {
     await LyricsService.getLyrics(playlistItem).then((lyricsResponse) => {
       setLyrics(lyricsResponse);
-      getTranslation(lyricsResponse);
     });
   }
 
-  async function getTranslation(lyricsResponse) {
-    console.log("prefLang", prefLang);
+  async function getTranslation(lyricsResponse, lang) {
     await TranslationService.getTranslationAllLyrics(
       lyricsResponse,
-      prefLang,
+      lang,
     ).then((response) => {
       setTranslation(response.data[0].translations[0].text);
       setFromLang(response.data[0].detectedLanguage.language);
@@ -57,9 +55,14 @@ export default function LyricsToScreen({ currentTrack }) {
 
   useEffect(() => {
     getUserPrefLang();
-
     getLyrics();
-  }, [currentTrack, prefLang]);
+  }, [currentTrack]);
+
+  useEffect(() => {
+    if (lyrics && prefLang) {
+      getTranslation(lyrics, prefLang);
+    }
+  }, [lyrics, prefLang]);
 
   return (
     <View style={lyricsStyles.container}>
