@@ -119,6 +119,7 @@ const Player = () => {
   }
 
   async function toggleShuffle() {
+    console.log("SHUFFLE", isShuffled);
     TokenReaderWriter.getAccessToken().then((accessCode) => {
       axios({
         url:
@@ -305,7 +306,7 @@ const Player = () => {
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
-          setIsShuffled(state.shuffle_state);
+          setIsShuffled(state.shuffle);
 
           player.getVolume().then((volume) => {
             setVolume(Math.round(volume * 100));

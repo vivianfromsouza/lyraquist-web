@@ -62,9 +62,6 @@ const PrivateRoutes = () => {
 };
 
 const App: React.FC = () => {
-    // const { isAuthenticated, loading } = useFirebaseAuth();
-
-  // const [value] = useLocalStorage("isLoggedIn", isLoggedIn || "false");
   const [user, setUser] = useState<User | null>(auth.currentUser);
 
   useEffect(() => {
@@ -80,7 +77,6 @@ const App: React.FC = () => {
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/home" element={<HomeScreen />} />
-            {/* <Route path="/play" element={<PlaybackScreen />} /> */}
             <Route path="/about" element={<AboutScreen />} />
             <Route path="/about/welcome" element={<AboutUsScreen />} />
             <Route path="/about/privacy" element={<AboutPrivacy />} />
@@ -151,7 +147,6 @@ const App: React.FC = () => {
             />
             <Route path="/workbook/info" element={<WorkbookInfoScreen />} />
             <Route path="/workbook/newWord" element={<NewWordScreen />} />
-            {/* <Route path="Flashcards" element={<FlashcardScreen />} /> */}
             <Route path="/playlist" element={<PlaylistInfoScreen />} />
             <Route
               path="/playlist/addSong"
