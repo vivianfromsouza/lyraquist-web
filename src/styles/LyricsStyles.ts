@@ -4,10 +4,10 @@ const getFontSize = (size) => size / fontScale;
 
 const lyricsStyles = StyleSheet.create({
   container: {
-    backgroundColor: "#303248",
     paddingTop: 16,
     paddingLeft: 16,
     flex: 1,
+    marginBottom: 200
   },
   sectionLabelContainer: {
     paddingHorizontal: 24,
@@ -74,6 +74,9 @@ const lyricsStyles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     paddingHorizontal: 16,
+  },
+  panelEndSpacing: {
+    paddingBottom: 100,
   },
   highlight: {
     marginRight: 3,

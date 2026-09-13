@@ -14,7 +14,7 @@ const TranslationPanel = ({
 
   return (
     <>
-      <View>
+      <View style={lyricsStyles.panelEndSpacing}>
         {translation.split("\n").map((line, lineIdx) => (
           <View key={lineIdx} style={lyricsStyles.lineFormat}>
             {line.split(" ").map((word, wordIdx) => (

@@ -44,13 +44,12 @@ export default function LyricsToScreen({ currentTrack }) {
   }
 
   async function getTranslation(lyricsResponse, lang) {
-    await TranslationService.getTranslationAllLyrics(
-      lyricsResponse,
-      lang,
-    ).then((response) => {
-      setTranslation(response.data[0].translations[0].text);
-      setFromLang(response.data[0].detectedLanguage.language);
-    });
+    await TranslationService.getTranslationAllLyrics(lyricsResponse, lang).then(
+      (response) => {
+        setTranslation(response.data[0].translations[0].text);
+        setFromLang(response.data[0].detectedLanguage.language);
+      },
+    );
   }
 
   useEffect(() => {
@@ -65,35 +64,33 @@ export default function LyricsToScreen({ currentTrack }) {
   }, [lyrics, prefLang]);
 
   return (
-    <View style={lyricsStyles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
-        <View style={lyricsStyles.columnsRow}>
-          <View style={lyricsStyles.column}>
-            <View style={lyricsStyles.sectionLabelContainer}>
-              <Text style={lyricsStyles.sectionLabel}>Lyrics</Text>
-              <View style={lyricsStyles.sectionLabelLine} />
-            </View>
-            <LyricsPanel
-              lyrics={lyrics}
-              songLang={fromLang}
-              currentTrack={currentTrack}
-            />
+    <ScrollView contentContainerStyle={lyricsStyles.container}>
+      <View style={lyricsStyles.columnsRow}>
+        <View style={lyricsStyles.column}>
+          <View style={lyricsStyles.sectionLabelContainer}>
+            <Text style={lyricsStyles.sectionLabel}>Lyrics</Text>
+            <View style={lyricsStyles.sectionLabelLine} />
           </View>
-          <View style={lyricsStyles.columnDivider} />
-          <View style={lyricsStyles.column}>
-            <View style={lyricsStyles.sectionLabelContainer}>
-              <Text style={lyricsStyles.sectionLabel}>Translation</Text>
-              <View style={lyricsStyles.sectionLabelLine} />
-            </View>
-            <TranslationPanel
-              translation={translation}
-              prefLang={prefLang}
-              songLang={fromLang}
-              currentTrack={currentTrack}
-            />
-          </View>
+          <LyricsPanel
+            lyrics={lyrics}
+            songLang={fromLang}
+            currentTrack={currentTrack}
+          />
         </View>
-      </ScrollView>
-    </View>
+        <View style={lyricsStyles.columnDivider} />
+        <View style={lyricsStyles.column}>
+          <View style={lyricsStyles.sectionLabelContainer}>
+            <Text style={lyricsStyles.sectionLabel}>Translation</Text>
+            <View style={lyricsStyles.sectionLabelLine} />
+          </View>
+          <TranslationPanel
+            translation={translation}
+            prefLang={prefLang}
+            songLang={fromLang}
+            currentTrack={currentTrack}
+          />
+        </View>
+      </View>
+    </ScrollView>
   );
 }
