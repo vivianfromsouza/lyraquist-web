@@ -291,6 +291,10 @@ const WordModal = ({
             <Text style={wordStyles.pos}>{pos}</Text>
           </View>
 
+          <View style={{ padding: 10 }}>
+            <Text style={wordStyles.definition}>Add word to workbook: </Text>
+          </View>
+
           <DropDownPicker
             style={dropdownStyles.dropdownContainer}
             textStyle={dropdownStyles.dropdownText}
