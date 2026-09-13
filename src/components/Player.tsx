@@ -322,9 +322,7 @@ const Player = () => {
 
           setSeekDuration(state.track_window.current_track.duration_ms);
 
-          player.getCurrentState().then((state) => {
-            !state ? setActive(false) : setActive(true);
-          });
+          setActive(true);
         });
 
         intervalRef.current = setInterval(async () => {
