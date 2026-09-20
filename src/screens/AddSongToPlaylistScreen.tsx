@@ -133,8 +133,12 @@ function AddSongToPlaylistScreen() {
       ) : (
         <Pressable
           onPress={addSong}
+          disabled={!selectedPlaylist}
           testID="add-song"
-          style={playlistStyles.addToPlaylistBtn}
+          style={[
+            playlistStyles.addToPlaylistBtn,
+            !selectedPlaylist && playlistStyles.addToPlaylistBtnDisabled,
+          ]}
           accessibilityLabel="addconfirm"
           accessible={true}
         >

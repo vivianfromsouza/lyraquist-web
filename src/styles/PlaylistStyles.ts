@@ -324,6 +324,9 @@ const playlistStyles = StyleSheet.create({
     width: "80%",
     marginBottom: 20,
   },
+  addToPlaylistBtnDisabled: {
+    opacity: 0.5,
+  },
   addToPlaylistBtnText: {
     fontWeight: "700",
     textAlign: "center",
