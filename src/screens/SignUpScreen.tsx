@@ -345,9 +345,6 @@ export default function SignUpScreen() {
         <Text style={signupStyles.sectionLabel}>Password</Text>
         <View style={signupStyles.sectionLabelLine} />
       </View>
-      <Text style={signupStyles.alertTxt}>
-        *Password must be 6 characters long
-      </Text>
       <View style={signupStyles.card}>
         <View style={signupStyles.cardInputRow}>
           <LockOutlinedIcon style={signupStyles.rowIcon} />
