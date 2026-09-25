@@ -85,6 +85,13 @@ const lyricsStyles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 4,
   },
+  selectedHighlight: {},
+  selectedLyricsText: {
+    color: "#edc526",
+    textShadowColor: "rgba(237, 197, 38, 0.9)",
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 8,
+  },
   noFlex: {
     flexWrap: "nowrap",
   },

@@ -1,59 +1,20 @@
 import { useEffect, useState } from "react";
-import { Text, TouchableHighlight, View } from "react-native";
-import WordModal from "./WordModal";
-import lyricsStyles from "../styles/LyricsStyles";
+import TappableTextPanel from "./TappableTextPanel";
 import UserReaderWriter from "../services/UserReaderWriter";
 
 export default function LyricsPanel({ lyrics, songLang, currentTrack }) {
-  const [openModal, setOpenModal] = useState(false);
-  const [clickedWord, setClickedWord] = useState("");
   const [prefLang, setPrefLang] = useState("");
 
   useEffect(() => {
-    UserReaderWriter.getPreferredLanguage().then((DBPrefLang) => {
-      setPrefLang(DBPrefLang);
-    });
-    console.log("songLang in LyricsPanel:", prefLang);
-  }, [prefLang]);
+    UserReaderWriter.getPreferredLanguage().then(setPrefLang);
+  }, []);
 
   return (
-    <>
-      <View style={lyricsStyles.panelEndSpacing}>
-        {lyrics.split("\n").map((line, lineIdx) => (
-          <View key={lineIdx} style={lyricsStyles.lineFormat}>
-            {line.split(" ").map((word, wordIdx) => (
-              <TouchableHighlight
-                key={wordIdx}
-                onPress={() => {
-                  setClickedWord(
-                    word.replace(
-                      /^[^a-zA-Z\u00C0-\u017F]+|[^a-zA-Z\u00C0-\u017F]+$/g,
-                      "",
-                    ),
-                  );
-                  setOpenModal(true);
-                }}
-                style={lyricsStyles.highlight}
-                underlayColor="rgba(237, 197, 38, 0.25)"
-              >
-                <Text style={lyricsStyles.lyricsText}>{word}</Text>
-              </TouchableHighlight>
-            ))}
-          </View>
-        ))}
-      </View>
-      <View style={lyricsStyles.saveWordModal}>
-        {openModal && (
-          <WordModal
-            openModal={openModal}
-            setOpenModal={setOpenModal}
-            word={clickedWord}
-            fromLang={songLang}
-            toLang={prefLang}
-            songName={currentTrack.name}
-          ></WordModal>
-        )}
-      </View>
-    </>
+    <TappableTextPanel
+      text={lyrics}
+      fromLang={songLang}
+      toLang={prefLang}
+      songName={currentTrack.name}
+    />
   );
 }
