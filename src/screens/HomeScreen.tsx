@@ -9,6 +9,7 @@ import {
   ArrowRightOutlined,
   SettingOutlined,
   LogoutOutlined,
+  PlusCircleOutlined,
 } from "@ant-design/icons";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { useFirebase } from "../services/firebase/FirebaseContext";
@@ -26,7 +27,6 @@ import { PlayItem } from "../models/Types";
 import PlaylistReaderWriter from "../services/PlaylistReaderWriter";
 import PlaylistCard from "../components/Playlist";
 import WorkbookReaderWriter from "../services/WorkbookReaderWriter";
-import { PlusCircleOutlined } from "@ant-design/icons";
 import Workbook from "../components/Workbook";
 import LocalSupabaseClient from "../services/LocalSupabaseClient";
 import homeStyles from "../styles/HomeStyles";

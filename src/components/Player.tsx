@@ -46,6 +46,7 @@ const Player = () => {
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   const [isShuffled, setIsShuffled] = useState(false);
+  const [hasContext, setHasContext] = useState(false);
 
   const [currentTime, setCurrentTime] = useState("0:00");
   const [totalTime, setTotalTime] = useState("0:00");
@@ -119,6 +120,7 @@ const Player = () => {
   }
 
   async function toggleShuffle() {
+    console.log("SHUFFLE", isShuffled);
     TokenReaderWriter.getAccessToken().then((accessCode) => {
       axios({
         url:
@@ -305,7 +307,8 @@ const Player = () => {
 
           setCurrentTrack(state.track_window.current_track);
           setPaused(state.paused);
-          setIsShuffled(state.shuffle_state);
+          setIsShuffled(state.shuffle);
+          setHasContext(!!state.context?.uri);
 
           player.getVolume().then((volume) => {
             setVolume(Math.round(volume * 100));
@@ -319,9 +322,7 @@ const Player = () => {
 
           setSeekDuration(state.track_window.current_track.duration_ms);
 
-          player.getCurrentState().then((state) => {
-            !state ? setActive(false) : setActive(true);
-          });
+          setActive(true);
         });
 
         intervalRef.current = setInterval(async () => {
@@ -385,6 +386,13 @@ const Player = () => {
       ...iconBtn,
       fontSize: 14,
       color: "rgba(232,225,219,0.7)",
+    };
+    const navBtn: React.CSSProperties = {
+      ...iconBtn,
+      ...(!hasContext && {
+        color: "rgba(232,225,219,0.3)",
+        cursor: "default",
+      }),
     };
 
     return (
@@ -493,7 +501,8 @@ const Player = () => {
                       <RetweetOutlined />
                     </button>
                     <button
-                      style={iconBtn}
+                      style={navBtn}
+                      disabled={!hasContext}
                       onClick={() => player.previousTrack()}
                     >
                       <StepBackwardOutlined />
@@ -505,7 +514,11 @@ const Player = () => {
                         <PauseCircleOutlined />
                       )}
                     </button>
-                    <button style={iconBtn} onClick={() => player.nextTrack()}>
+                    <button
+                      style={navBtn}
+                      disabled={!hasContext}
+                      onClick={() => player.nextTrack()}
+                    >
                       <StepForwardOutlined />
                     </button>
                   </View>

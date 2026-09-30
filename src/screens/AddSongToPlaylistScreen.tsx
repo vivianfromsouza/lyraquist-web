@@ -12,6 +12,8 @@ import CreateNewPlaylistScreen from "./CreateNewPlaylistScreen";
 import { ScrollView } from "react-native-web";
 import playlistStyles from "../styles/PlaylistStyles";
 import dropdownStyles from "../styles/DropdownStyles";
+import { toast, ToastContainer } from "react-toastify";
+import ChangeNotification from "../components/ChangeNotification";
 
 function AddSongToPlaylistScreen() {
   const navigate = useNavigate();
@@ -23,13 +25,20 @@ function AddSongToPlaylistScreen() {
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>("");
   const [playlistItems, setPlaylistItems] = useState<any[]>([]);
 
+  function songAddedNotification() {
+    const text = "Song added to playlist!";
+    return <ChangeNotification text={text} />;
+  }
+
   async function addSong() {
     if (!(await SongReaderWriter.isSongInDB(songURL))) {
       await SongReaderWriter.addSongToDBFromSongCard(songItem);
     }
     await RecordReaderWriter.addSongToRecords(songURL, selectedPlaylist);
-    // should we just put a toast here instead of navigating back immediately?
-    navigate(-1);
+    toast(songAddedNotification(), {
+      autoClose: 5000,
+    });
+    setTimeout(() => navigate(-1), 1500);
   }
 
   async function fetchPlaylists() {
@@ -52,6 +61,7 @@ function AddSongToPlaylistScreen() {
 
   return (
     <ScrollView style={playlistStyles.addToPlaylistContainer}>
+      <ToastContainer />
       {/* Header */}
       <View style={playlistStyles.addToPlaylistHeader}>
         <View style={playlistStyles.addToPlaylistHeaderRow}>
@@ -123,8 +133,12 @@ function AddSongToPlaylistScreen() {
       ) : (
         <Pressable
           onPress={addSong}
+          disabled={!selectedPlaylist}
           testID="add-song"
-          style={playlistStyles.addToPlaylistBtn}
+          style={[
+            playlistStyles.addToPlaylistBtn,
+            !selectedPlaylist && playlistStyles.addToPlaylistBtnDisabled,
+          ]}
           accessibilityLabel="addconfirm"
           accessible={true}
         >
