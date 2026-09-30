@@ -11,6 +11,7 @@ import TokenReaderWriter from "../services/firebase/TokenReaderWriter";
 // import { useLocalStorage } from "usehooks-ts";
 import { PlayerType } from "../models/Types";
 import LyricsPanel from "./LyricsToScreen";
+import LyricsButton from "./LyricsButton";
 // import RecordReaderWriter from "../services/RecordReaderWriter";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -111,6 +112,7 @@ const Player = () => {
   };
 
   async function openLyrics() {
+    console.log("CHANGING LYRICS");
     if (isLyricsOpen) {
       handleLyricsClose();
     } else {
@@ -516,16 +518,11 @@ const Player = () => {
                     (isMobile || isTablet) && { marginLeft: 12 },
                   ]}
                 >
-                  <button
+                  <LyricsButton
+                    isMobile={isMobile}
+                    isLyricsOpen={isLyricsOpen}
                     onClick={openLyrics}
-                    style={
-                      isMobile
-                        ? { ...playerStyles.lyricsButton, width: "auto" }
-                        : playerStyles.lyricsButton
-                    }
-                  >
-                    {isMobile ? "Lyrics" : "Open Lyrics"}
-                  </button>
+                  />
                 </View>
               </View>
 
