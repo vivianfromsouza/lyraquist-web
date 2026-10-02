@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import blueLogo from "../assets/blue_small.png";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { ToastContainer, toast } from "react-toastify";
@@ -61,8 +60,6 @@ export default function SignUpScreen() {
   const [preferredLanguage, setPreferredLanguage] = useState<any>();
   const [targetLanguage, setTargetLanguage] = useState<any>();
 
-  const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
-
   const isEmailInvalid = email.length > 0 && !EMAIL_REGEX.test(email);
   const isConfirmEmailMismatch =
     !!confirmEmail && confirmEmail.length > 0 && confirmEmail !== email;
@@ -87,14 +84,6 @@ export default function SignUpScreen() {
         text={
           "Error: Name, email, password, preferred language, and target language fields are required. Please check these fields and try again"
         }
-      />
-    );
-  }
-
-  function termsNotAgreedNotification() {
-    return (
-      <ChangeNotification
-        text={"Error: Please agree to Terms and Conditions."}
       />
     );
   }
@@ -183,10 +172,6 @@ export default function SignUpScreen() {
       targetLanguage.trim() == ""
     ) {
       toast(missingFieldsNotification, {
-        autoClose: 5000,
-      });
-    } else if (isTermsChecked != true) {
-      toast(termsNotAgreedNotification, {
         autoClose: 5000,
       });
     } else if (email != confirmEmail) {
@@ -467,22 +452,6 @@ export default function SignUpScreen() {
           zIndex={1000}
           zIndexInverse={1000}
         />
-      </View>
-
-      <View style={signupStyles.checkboxLocation}>
-        <Checkbox
-          value="checkedA"
-          inputProps={{
-            "aria-label": "Checkbox A",
-          }}
-          onChange={() => {
-            setIsTermsChecked(true);
-          }}
-        />
-
-        <Text style={signupStyles.checkboxTxt}>
-          I have read and agree to the terms and conditions.{" "}
-        </Text>
       </View>
 
       <Pressable
