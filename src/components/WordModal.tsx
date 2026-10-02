@@ -252,8 +252,15 @@ const WordModal = ({
 
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
-      <View data-testid="word-modal" style={wordStyles.modalbg}>
-        <View style={wordStyles.modalforefront}>
+      <Pressable
+        data-testid="word-modal"
+        style={wordStyles.modalbg}
+        onPress={() => setOpenModal(false)}
+      >
+        <Pressable
+          style={wordStyles.modalforefront}
+          onPress={(e) => e.stopPropagation()}
+        >
           <View style={wordStyles.modalTextBackground}>
             <View>
               <View style={wordStyles.modalText}>
@@ -307,6 +314,22 @@ const WordModal = ({
             }}
           />
 
+          {open && (
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 10,
+              }}
+              onPress={() => setOpen(false)}
+            >
+              {null}
+            </Pressable>
+          )}
+
           {bookUID === "0" && (
             <View style={wordStyles.newWorkbookInput}>
               <TextInput
@@ -342,8 +365,8 @@ const WordModal = ({
               <ToastContainer />
             </Pressable>
           </View>
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 };
