@@ -186,7 +186,7 @@ const WordModal = ({
 
   async function getWorkbooks() {
     await WorkbookReaderWriter.getWorkbooks().then((workbooks) => {
-      const workbooksToDropdown = [{}];
+      const workbooksToDropdown: { label: string; value: string }[] = [];
       workbooks.map((book) => {
         workbooksToDropdown.push({ label: book.name, value: book.book_id });
       });
