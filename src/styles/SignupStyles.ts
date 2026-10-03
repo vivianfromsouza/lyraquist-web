@@ -95,6 +95,7 @@ const signupStyles = StyleSheet.create({
   },
   fieldError: {
     marginTop: 4,
+    paddingBottom: 10,
     fontSize: getFontSize(11),
     color: "#ff4a2a",
     fontFamily: "Karla",

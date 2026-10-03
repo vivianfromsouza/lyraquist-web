@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import blueLogo from "../assets/blue_small.png";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import UserReaderWriter from "../services/UserReaderWriter";
 import { ToastContainer, toast } from "react-toastify";
 import ChangeNotification from "../components/ChangeNotification";
@@ -28,6 +28,7 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function SignUpScreen() {
   const navigate = useNavigate();
+  const scrollRef = useRef<ScrollView>(null);
   const [open, setOpen] = useState(false);
   const [openTarget, setOpenTarget] = useState(false);
 
@@ -50,7 +51,7 @@ export default function SignUpScreen() {
   };
   const [name, setName] = useState<string | undefined>("");
   const [email, setEmail] = useState<string>("");
-  const [confirmEmail, setConfirmEmail] = useState<string | undefined>("");
+  const [confirmEmail, setConfirmEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string | undefined>(
     "",
@@ -62,13 +63,17 @@ export default function SignUpScreen() {
 
   const isEmailInvalid = email.length > 0 && !EMAIL_REGEX.test(email);
   const isConfirmEmailMismatch =
-    !!confirmEmail && confirmEmail.length > 0 && confirmEmail !== email;
+    !!confirmEmail && confirmEmail.length > 0 && confirmEmail.toLowerCase() !== email.toLowerCase();
   const isPasswordTooShort =
     password.length > 0 && password.length < MIN_PASSWORD_LENGTH;
   const isConfirmPasswordMismatch =
     !!confirmPassword &&
     confirmPassword.length > 0 &&
     confirmPassword !== password;
+  const isTargetLanguageMatch =
+    !!targetLanguage &&
+    !!preferredLanguage &&
+    targetLanguage === preferredLanguage;
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -122,7 +127,7 @@ export default function SignUpScreen() {
     return (
       <ChangeNotification
         text={
-          "Account successfully created! Login and continue to connct your Spotify account."
+          "Account successfully created! You will now be directed to the login page. After logging in, you will need to connect your Spotify account."
         }
       />
     );
@@ -159,6 +164,10 @@ export default function SignUpScreen() {
   }
 
   async function signUp() {
+    // Jump to the top so the user sees the resulting toast
+    scrollRef.current?.scrollTo({ y: 0, animated: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     if (
       name == null ||
       name.trim() == "" ||
@@ -174,11 +183,11 @@ export default function SignUpScreen() {
       toast(missingFieldsNotification, {
         autoClose: 5000,
       });
-    } else if (email != confirmEmail) {
+    } else if (isConfirmEmailMismatch) {
       toast(emailMismatchNotification, {
         autoClose: 5000,
       });
-    } else if (password != confirmPassword) {
+    } else if (isConfirmPasswordMismatch) {
       toast(passwordMismatchNotification, {
         autoClose: 5000,
       });
@@ -212,7 +221,9 @@ export default function SignUpScreen() {
             toast(accountCreatedNotification, {
               autoClose: 5000,
             });
-            navigate("/Login", {});
+            setTimeout(() => {
+              navigate("/Login", {});
+            }, 4000);
           }
         })
         .catch((error) => {
@@ -245,7 +256,10 @@ export default function SignUpScreen() {
   };
 
   return (
-    <ScrollView style={[signupStyles.container, { minHeight: windowHeight }]}>
+    <ScrollView
+      ref={scrollRef}
+      style={[signupStyles.container, { minHeight: windowHeight }]}
+    >
       <LyraquistHeader title="Sign Up" logo={blueLogo} />
 
       <View style={signupStyles.formWrapper}>
@@ -439,6 +453,14 @@ export default function SignUpScreen() {
           { zIndex: openTarget ? 2000 : 1000 },
         ]}
       >
+        {isTargetLanguageMatch && (
+              <Text
+                style={signupStyles.fieldError}
+                accessibilityLabel="targetLanguageError"
+              >
+                Target language cannot be the same as preferred language
+              </Text>
+          )}
         <DropDownPicker
           style={dropdownStyles.dropdownContainer}
           textStyle={dropdownStyles.dropdownText}
