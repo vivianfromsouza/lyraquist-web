@@ -112,7 +112,6 @@ const Player = () => {
   };
 
   async function openLyrics() {
-    console.log("CHANGING LYRICS");
     if (isLyricsOpen) {
       handleLyricsClose();
     } else {
