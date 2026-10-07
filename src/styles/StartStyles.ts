@@ -8,10 +8,11 @@ const startStyles = StyleSheet.create({
     backgroundColor: "#edc526",
     alignItems: "center",
     justifyContent: "center",
+    minHeight: "100vh",
   },
   circle: {
-    height: 190,
-    width: 190,
+    height: 260,
+    width: 260,
   },
   bigCircle: {
     height: 250,

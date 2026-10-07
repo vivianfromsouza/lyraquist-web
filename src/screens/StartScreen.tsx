@@ -9,7 +9,6 @@ export default function StartScreen() {
   const navigate = useNavigate();
   
   return (
-    // <body style={startStyles.container}>
       <View style={startStyles.container}>
         <View>
           <View style={startStyles.info}>
@@ -24,11 +23,6 @@ export default function StartScreen() {
             >
               LYRAQUIST
             </Text>
-            <View style={startStyles.alertTxt}>
-              <Text style={startStyles.warning}>
-                Spotify Premium is needed to create an account
-              </Text>
-            </View>
             <Pressable
               onPress={() => navigate("/signUp")}
               style={startStyles.signUp}
@@ -55,12 +49,7 @@ export default function StartScreen() {
               </Text>
             </Pressable>
           </View>
-          <Image
-            style={startStyles.bigCircle}
-            source={fullLogoStart as ImageSourcePropType}
-          />
         </View>
       </View>
-    // </body>
   );
 }
