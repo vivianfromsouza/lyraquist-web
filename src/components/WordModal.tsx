@@ -110,7 +110,7 @@ const WordModal = ({
               .filter(Boolean);
             setDefinition(
               definitions.length > 1
-                ? definitions.map((d, i) => `${i + 1}. ${d}`).join("\n")
+                ? definitions.map((d) => `• ${d}`).join("\n")
                 : (definitions[0] ?? "Definition not available"),
             );
           } else {
@@ -290,10 +290,10 @@ const WordModal = ({
           </View>
           <View style={{ padding: 10 }}>
             <Text style={wordStyles.definition}>{definition}</Text>
-            <Text style={wordStyles.definition}>
+            {/* <Text style={wordStyles.definition}>
               <b>Second Definition</b>
             </Text>
-            <Text style={wordStyles.definition}>{definition2}</Text>
+            <Text style={wordStyles.definition}>{definition2}</Text> */}
 
             <Text style={wordStyles.pos}>{pos}</Text>
           </View>
