@@ -26,7 +26,7 @@ const startStyles = StyleSheet.create({
   },
   title: {
     marginTop: 40,
-    marginBottom: 21,
+    marginBottom: 50,
     fontSize: getFontSize(30),
     fontWeight: "900",
     color: "#303248",
