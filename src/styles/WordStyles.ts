@@ -90,6 +90,14 @@ const wordStyles = StyleSheet.create({
     fontStyle: "italic",
     fontFamily: "Karla",
   },
+  definitionOption: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    marginTop: 6,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
+  },
   closeModal: {},
   saveWordModal: {},
   modalButtons: {

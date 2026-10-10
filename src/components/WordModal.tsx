@@ -11,6 +11,8 @@ import wordStyles from "../styles/WordStyles";
 import dropdownStyles from "../styles/DropdownStyles";
 import ChangeNotification from "./ChangeNotification";
 
+const DEFINITION_NOT_AVAILABLE = [{ pos: "", text: "Definition not available" }];
+
 const WordModal = ({
   openModal,
   setOpenModal,
@@ -21,7 +23,9 @@ const WordModal = ({
 }) => {
   const [bookUID, setbookUID] = useState<any>();
   const [translation, setTranslation] = useState("");
-  const [definition, setDefinition] = useState("");
+  const [definitions, setDefinitions] = useState<
+    { pos: string; text: string }[]
+  >([]);
   const [pos, setPos] = useState("");
 
   // const [translation2, setTranslation2] = useState("");
@@ -105,73 +109,18 @@ const WordModal = ({
 
             const topResults = lexicalaResponse.results.slice(0, 3);
 
-            const definitions = topResults
-              .map((r) => r.senses?.[0]?.definition)
-              .filter(Boolean);
-            setDefinition(
-              definitions.length > 1
-                ? definitions.map((d) => `• ${d}`).join("\n")
-                : (definitions[0] ?? "Definition not available"),
+            const entries = topResults
+              .filter((r) => r.senses?.[0]?.definition)
+              .map((r) => ({
+                pos: r.headword?.pos ?? "",
+                text: r.senses[0].definition,
+              }));
+            setDefinitions(
+              entries.length > 0 ? entries : DEFINITION_NOT_AVAILABLE,
             );
           } else {
             setPos("");
-            setDefinition("Definition not available");
-            setTranslation("");
-          }
-        } else {
-          setPos("");
-          setTranslation("Translation not available for this word.");
-        }
-      });
-      // Method #2: Get translation, definition, and pos all from Lexicala, with lemmatization
-
-      await TranslationService.getIndividualTranslation(
-        word,
-        fromLang,
-        toLang,
-      ).then(async (response) => {
-        if (response && typeof response === "object") {
-          const translationText =
-            response?.data?.[0]?.translations?.[0]?.normalizedTarget ||
-            "Translation not available for this word.";
-
-          setTranslation(translationText);
-
-          const lemmatizeResponse = await TranslationService.lemmatize(
-            word,
-            fromLang,
-          );
-
-          console.log(
-            "Lemmatize response:",
-            lemmatizeResponse.results[0].headwords[0].pos,
-          );
-
-          const lexicalaResponse = await TranslationService.lexicalaDefinition(
-            word,
-            fromLang,
-            lemmatizeResponse.results[0].headwords[0].pos,
-          );
-          if (
-            lexicalaResponse &&
-            typeof lexicalaResponse === "object" &&
-            lexicalaResponse.results &&
-            lexicalaResponse.results.length > 0
-          ) {
-            setPos(lexicalaResponse.results[0].headword.pos);
-
-            const topResults = lexicalaResponse.results.slice(0, 3);
-
-            setDefinition2(
-              topResults
-                .map((r) => r.senses?.[0]?.definition)
-                .filter(Boolean)
-                .slice(0, 3)
-                .join("\n"),
-            );
-          } else {
-            setPos("");
-            setDefinition("Definition not available");
+            setDefinitions(DEFINITION_NOT_AVAILABLE);
             setTranslation("");
           }
         } else {
@@ -289,13 +238,16 @@ const WordModal = ({
             </Pressable> */}
           </View>
           <View style={{ padding: 10 }}>
-            <Text style={wordStyles.definition}>{definition}</Text>
-            {/* <Text style={wordStyles.definition}>
-              <b>Second Definition</b>
-            </Text>
-            <Text style={wordStyles.definition}>{definition2}</Text> */}
-
-            <Text style={wordStyles.pos}>{pos}</Text>
+            {definitions.map((d, i) => (
+              <View key={i} style={wordStyles.definitionOption}>
+                <Text style={wordStyles.definition}>
+                  {d.pos !== "" && (
+                    <Text style={wordStyles.pos}>{d.pos} </Text>
+                  )}
+                  {d.text}
+                </Text>
+              </View>
+            ))}
           </View>
 
           <View style={{ padding: 10 }}>
