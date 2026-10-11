@@ -1,7 +1,6 @@
 import { Pressable, Text, View, Image } from "react-native";
 import { ImageSourcePropType } from "react-native";
 import fullLogo from "../assets/Full_Logo.png";
-import fullLogoStart from "../assets/Full_Logo_Start.png";
 import { useNavigate } from "react-router-dom";
 import startStyles from "../styles/StartStyles";
 

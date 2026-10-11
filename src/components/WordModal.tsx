@@ -27,15 +27,9 @@ const WordModal = ({
     { pos: string; text: string }[]
   >([]);
   const [pos, setPos] = useState("");
-
-  // const [translation2, setTranslation2] = useState("");
-  const [definition2, setDefinition2] = useState("");
-  // const [pos2, setPos2] = useState("");
-
   const [workbookName, setWorkbookName] = useState<string>();
   const [newWorkbookName, setNewWorkbookName] = useState("");
   // const audioRef = useRef<HTMLAudioElement>(null);
-
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [workbooks, setWorkbooks] = useState<any>([]);
