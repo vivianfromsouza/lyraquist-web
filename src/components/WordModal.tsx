@@ -237,12 +237,12 @@ const WordModal = ({
               <audio ref={audioRef} src={pronunciation} />
             </Pressable> */}
           </View>
-          <View style={{ padding: 10 }}>
+          <View style={{ paddingVertical: 10 }}>
             {definitions.map((d, i) => (
               <View key={i} style={wordStyles.definitionOption}>
                 <Text style={wordStyles.definition}>
                   {d.pos !== "" && (
-                    <Text style={wordStyles.pos}>{d.pos} </Text>
+                    <Text style={wordStyles.pos}>{d.pos}  </Text>
                   )}
                   {d.text}
                 </Text>
@@ -250,7 +250,7 @@ const WordModal = ({
             ))}
           </View>
 
-          <View style={{ padding: 10 }}>
+          <View style={{ padding: 5, paddingTop: 15 }}>
             <Text style={wordStyles.definition}>Add word to workbook: </Text>
           </View>
 
