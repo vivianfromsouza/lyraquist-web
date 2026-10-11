@@ -197,7 +197,18 @@ function WorkbookInfoScreen() {
               return (
                 <>
                   <View style={workbookStyles.wordList}>
-                    <WordItem item={item} />
+                    <WordItem
+                      item={item}
+                      onPress={() =>
+                        navigate("/workbook/flashcards", {
+                          state: {
+                            name: name,
+                            book_id: bookUID,
+                            word_id: item.word_id,
+                          },
+                        })
+                      }
+                    />
                     <View style={workbookStyles.iconCols}>
                       {item.is_starred ? (
                         <Pressable onPress={() => starredToNot(item.word_id)}>

@@ -71,7 +71,7 @@ const loginStyles = StyleSheet.create({
   },
   loginLocation: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: 408, // 360 (input max width) + 2 * 24 padding
     alignSelf: "center",
     marginBottom: 90,
     paddingHorizontal: 24,

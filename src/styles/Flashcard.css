@@ -14,7 +14,7 @@
 }
 
 .flashcard-card.is-flipped {
-  transform: rotateY(180deg);
+  transform: rotateX(180deg);
 }
 
 .flashcard-face {
@@ -38,7 +38,7 @@
 .flashcard-face--back {
   background: linear-gradient(145deg, #5bc8a6 0%, #3aac8a 100%);
   box-shadow: 0 12px 40px rgba(91, 200, 166, 0.3);
-  transform: rotateY(180deg);
+  transform: rotateX(180deg);
 }
 
 .flashcard-badges {

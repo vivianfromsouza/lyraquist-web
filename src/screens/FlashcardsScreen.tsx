@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Flashcard from "../components/Flashcard";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -38,6 +38,44 @@ function FlashcardScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const bookUID = bookItem.book_id;
   const bookName = bookItem.name;
+  const startWordUID = bookItem.word_id;
+  const carouselRef = useRef<Carousel>(null);
+  const hasJumpedToStartWord = useRef(false);
+
+  useEffect(() => {
+    if (hasJumpedToStartWord.current || !startWordUID || flashcardList.length === 0) {
+      return;
+    }
+    const startIndex = flashcardList.findIndex(
+      (word) => word.word_id === startWordUID
+    );
+    // Wait a tick so the carousel has mounted and measured its item width
+    const timeout = setTimeout(() => {
+      hasJumpedToStartWord.current = true;
+      if (startIndex > 0) {
+        carouselRef.current?.goToSlide(startIndex, true);
+        setCurrentIndex(startIndex);
+      }
+    });
+    return () => clearTimeout(timeout);
+  }, [flashcardList, startWordUID]);
+
+  // The carousel's built-in keyBoardControl only fires when focus is inside it,
+  // so listen on the window instead
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        carouselRef.current?.next(0);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        carouselRef.current?.previous(0);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const handleWorkbookInserts = () => {
@@ -63,7 +101,6 @@ function FlashcardScreen() {
 
   return (
     <View style={flashcardStyles.container}>
-      {/* Header */}
       <View style={flashcardStyles.header}>
         <View style={flashcardStyles.headerRow}>
           <TouchableOpacity onPress={() => navigate(-1)}>
@@ -87,19 +124,29 @@ function FlashcardScreen() {
         </div>
       )}
 
-      <Carousel
-        swipeable={false}
-        draggable={false}
-        responsive={responsive}
-        ssr={true}
-        infinite={false}
-        keyBoardControl={true}
-        afterChange={(_, state) => setCurrentIndex(state.currentSlide)}
-      >
-        {flashcardList!.map((flashcard) => {
-          return <Flashcard key={flashcard.word_id} wordItem={flashcard} />;
-        })}
-      </Carousel>
+      {/* Only mount once words load, otherwise the carousel resets to slide 0 when its children change */}
+      {flashcardList.length > 0 && (
+        <Carousel
+          ref={carouselRef}
+          swipeable={false}
+          draggable={false}
+          responsive={responsive}
+          ssr={true}
+          infinite={false}
+          keyBoardControl={false}
+          afterChange={(_, state) => setCurrentIndex(state.currentSlide)}
+        >
+          {flashcardList.map((flashcard, index) => {
+            return (
+              <Flashcard
+                key={flashcard.word_id}
+                wordItem={flashcard}
+                isActive={index === currentIndex}
+              />
+            );
+          })}
+        </Carousel>
+      )}
     </View>
   );
 }
