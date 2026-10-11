@@ -60,6 +60,23 @@ function FlashcardScreen() {
     return () => clearTimeout(timeout);
   }, [flashcardList, startWordUID]);
 
+  // The carousel's built-in keyBoardControl only fires when focus is inside it,
+  // so listen on the window instead
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        carouselRef.current?.next(0);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        carouselRef.current?.previous(0);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   useEffect(() => {
     const handleWorkbookInserts = () => {
       getAllWordsFromWorkbook(bookUID);
@@ -116,11 +133,17 @@ function FlashcardScreen() {
           responsive={responsive}
           ssr={true}
           infinite={false}
-          keyBoardControl={true}
+          keyBoardControl={false}
           afterChange={(_, state) => setCurrentIndex(state.currentSlide)}
         >
-          {flashcardList.map((flashcard) => {
-            return <Flashcard key={flashcard.word_id} wordItem={flashcard} />;
+          {flashcardList.map((flashcard, index) => {
+            return (
+              <Flashcard
+                key={flashcard.word_id}
+                wordItem={flashcard}
+                isActive={index === currentIndex}
+              />
+            );
           })}
         </Carousel>
       )}

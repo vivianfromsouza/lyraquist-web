@@ -1,11 +1,24 @@
 // Built based on this link: https://nabendu82.medium.com/build-a-flashcard-quiz-with-react-c1cb96e3a1e8
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "react-native";
 import flashcardStyles from "../styles/FlashcardStyles";
 import "../styles/Flashcard.css";
 
-const Flashcard = ({ wordItem }) => {
+const Flashcard = ({ wordItem, isActive = false }) => {
   const [flip, setFlip] = useState(false);
+
+  // Only the card currently in view responds to the space bar
+  useEffect(() => {
+    if (!isActive) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== " " || e.repeat) return;
+      e.preventDefault();
+      setFlip((prev) => !prev);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isActive]);
+
   return (
     <div className="flashcard-scene" onClick={() => setFlip(!flip)}>
       <div className={`flashcard-card${flip ? " is-flipped" : ""}`}>
