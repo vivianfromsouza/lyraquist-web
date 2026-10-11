@@ -43,7 +43,7 @@ function AddSongToPlaylistScreen() {
 
   async function fetchPlaylists() {
     await PlaylistReaderWriter.getMyPlaylists().then((playlists) => {
-      const playlistsToDropdown = [{}];
+      const playlistsToDropdown: { label: string; value: string }[] = [];
       playlists.map((playlist) => {
         playlistsToDropdown.push({
           label: playlist.name,
