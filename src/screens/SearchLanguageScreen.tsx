@@ -19,7 +19,7 @@ export default function SearchLanguage() {
     {
       id: 1,
       name: "Spanish",
-      imageUrl: "https://flagcdn.com/w550/es.png",
+      imageUrl: "https://flagcdn.com/w550/mx.png",
     },
     {
       id: 2,
