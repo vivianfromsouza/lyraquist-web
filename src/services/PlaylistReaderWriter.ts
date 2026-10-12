@@ -32,6 +32,24 @@ const PlaylistReaderWriter = {
     return playlist_id;
   },
 
+  // Uploads a cover image to Supabase Storage and returns its public URL
+  async uploadPlaylistImage(file: File): Promise<string | null> {
+    const extension = file.name.split(".").pop();
+    const path = `${currentUser}/${uuidv4()}.${extension}`;
+    const { error } = await LocalSupabaseClient.storage
+      .from("playlist-images")
+      .upload(path, file, { contentType: file.type });
+    if (error) {
+      console.log(error);
+      return null;
+    }
+
+    const { data } = LocalSupabaseClient.storage
+      .from("playlist-images")
+      .getPublicUrl(path);
+    return data.publicUrl;
+  },
+
   async createPlaylistFromSpotify(playlist): Promise<string> {
     const playlist_id = uuidv4();
     const { error } = await LocalSupabaseClient.from("playlists").insert({
