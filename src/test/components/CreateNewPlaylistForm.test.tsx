@@ -82,6 +82,7 @@ vi.mock("../../services/PlaylistReaderWriter", () => {
   return {
     default: {
       createPlaylist: vi.fn(),
+      uploadPlaylistImage: vi.fn(),
     },
   };
 });
@@ -128,8 +129,10 @@ describe("CreateNewPlaylistForm", () => {
 
   it("creates a new playlist with custom image", async () => {
     localStorage.setItem("current_user", "mockUserId");
-    const mockBlobUrl = "blob:mock-image-url";
-    vi.stubGlobal("URL", { createObjectURL: vi.fn(() => mockBlobUrl) });
+    const mockImageUrl = "https://example.supabase.co/storage/v1/object/public/playlist-images/mock.png";
+    vi.mocked(PlaylistReaderWriter.uploadPlaylistImage).mockResolvedValue(
+      mockImageUrl
+    );
     const file = new File(["file content"], "example.png", {
       type: "img/png",
     });
@@ -149,10 +152,11 @@ describe("CreateNewPlaylistForm", () => {
 
     const addSongButton = screen.getByTestId("add-song");
     await userEvent.click(addSongButton);
+    expect(PlaylistReaderWriter.uploadPlaylistImage).toHaveBeenCalledWith(file);
     expect(PlaylistReaderWriter.createPlaylist).toHaveBeenCalledWith(
       "My Playlist",
       "My Description",
-      mockBlobUrl
+      mockImageUrl
     );
     expect(SongReaderWriter.addSongToDBFromSongCard).toHaveBeenCalledWith(
       mockSong

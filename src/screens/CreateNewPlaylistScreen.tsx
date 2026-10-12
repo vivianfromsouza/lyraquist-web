@@ -24,12 +24,16 @@ const CreateNewPlaylistScreen = ({ songItem }) => {
   const [newPlaylistName, setNewPlaylistName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const songURL = songItem["spotifyURL"]?.split(":")[2] || "";
-  const [imageURL, setImageURL] = useState<string>();
+  const [imageFile, setImageFile] = useState<File>();
 
-  async function createPlaylist(
-    description = "",
-    imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8ZaSSfYdj9o0Q-S0XPOkSOpTdbQPPpKC2g&s",
-  ) {
+  async function createPlaylist(description = "", imageFile?: File) {
+    let imageURL =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8ZaSSfYdj9o0Q-S0XPOkSOpTdbQPPpKC2g&s";
+    if (imageFile) {
+      imageURL =
+        (await PlaylistReaderWriter.uploadPlaylistImage(imageFile)) ?? imageURL;
+    }
+
     const newPlaylistId = await PlaylistReaderWriter.createPlaylist(
       newPlaylistName,
       description,
@@ -103,15 +107,13 @@ const CreateNewPlaylistScreen = ({ songItem }) => {
             data-testid="image-input"
             type="file"
             accept="image/*"
-            onChange={(e) =>
-              setImageURL(URL.createObjectURL(e.target.files![0]))
-            }
+            onChange={(e) => setImageFile(e.target.files?.[0])}
           />
         </View>
       </View>
 
       <Pressable
-        onPress={() => createPlaylist(description, imageURL)}
+        onPress={() => createPlaylist(description, imageFile)}
         testID="add-song"
         style={playlistStyles.addToPlaylistBtn}
         accessibilityLabel="addconfirm"
